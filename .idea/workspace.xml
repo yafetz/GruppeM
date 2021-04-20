@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="188e12c8-d937-4a16-8ea4-f1cf8068a193" name="Default Changelist" comment="test von nguyen">
-      <change afterPath="$PROJECT_DIR$/Test_zwei.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestSerena.txt" beforeDir="false" afterPath="$PROJECT_DIR$/TestSerena.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +57,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="mein test" />
