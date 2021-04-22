@@ -1,2 +1,2 @@
 # Gruppe M
-Test commit
+Dies ist das Repository für die Gruppe M
