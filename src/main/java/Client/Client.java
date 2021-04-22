@@ -1,33 +1,29 @@
 package Client;
 
-
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import java.io.File;
 
 public class Client extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        stage.setTitle("Hello World!");
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
-            }
-        });
-
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        stage.setScene(new Scene(root, 300, 250));
-        stage.show();
+        try {
+            stage.setTitle("SEP");
+            FXMLLoader loader = new FXMLLoader();
+            File f = new File("src/main/java/Client/login.fxml");
+            loader.setLocation(getClass().getClassLoader().getResource("login.fxml"));
+            AnchorPane root = (AnchorPane) loader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
+        catch(Exception e)    {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args){

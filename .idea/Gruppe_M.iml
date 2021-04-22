@@ -28,5 +28,7 @@
     <orderEntry type="library" name="Maven: org.openjfx:javafx-base:win:16" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:16" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:win:16" level="project" />
+    <orderEntry type="library" name="Maven: com.j256.ormlite:ormlite-core:5.3" level="project" />
+    <orderEntry type="library" name="Maven: mysql:mysql-connector-java:5.1.22" level="project" />
   </component>
 </module>
