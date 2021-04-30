@@ -34,33 +34,37 @@ public class SEP_Server {
                 if(s.equals("/")){
 
                 }else if(s.equals("/login")){
-                    ResultSet user = executeSQL("Select * FROM user");
-                    try {
-                        boolean logedIn = false;
-                        while (user.next()) {
-                            int id = user.getInt("ID");
-                            int serverMatrikelnummer = user.getInt("Matrikelnummer");
-                            String serverPassword = user.getString("Password").trim();
-                            int Matrikelnummer = Integer.valueOf(clientrequest.getParameter("matr"));
-                            String Password = clientrequest.getParameter("password").trim();
-                            if(serverMatrikelnummer == Matrikelnummer && serverPassword.equals(Password)){
-                                response.getWriter().println("true");
-                                logedIn = true;
-                                break;
-                            }
-                        }
-                        if(!logedIn){
-                            response.getWriter().println("false");
-                        }
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
-                    }
+                login(clientrequest,response);
+                }else if(s.equals("/test")){
+                    ResultSet user = executeSQL("INSERT INTO nutzer (ID,Vorname,Nachname,Profilbild,Adresse,Email,Passwort,Rolle_ID) VALUES('','Georg','Orfali','','adresse','@','a','0')");
                 }
                 request.setHandled(true);
             }
         });
     }
-
+    public void login(HttpServletRequest clientrequest,HttpServletResponse response){
+        ResultSet user = executeSQL("Select * FROM user ");
+        try {
+            boolean logedIn = false;
+            while (user.next()) {
+                int id = user.getInt("ID");
+                int serverMatrikelnummer = user.getInt("Matrikelnummer");
+                String serverPassword = user.getString("Password").trim();
+                int Matrikelnummer = Integer.valueOf(clientrequest.getParameter("matr"));
+                String Password = clientrequest.getParameter("password").trim();
+                if(serverMatrikelnummer == Matrikelnummer && serverPassword.equals(Password)){
+                    response.getWriter().println("true");
+                    logedIn = true;
+                    break;
+                }
+            }
+            if(!logedIn){
+                response.getWriter().println("false");
+            }
+        } catch (SQLException | IOException throwables) {
+            throwables.printStackTrace();
+        }
+    }
     public void startServer(){
         try {
             server.start();

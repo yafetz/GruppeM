@@ -1,5 +1,6 @@
 package Client.Controller;
 
+import Client.Model.Student;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
