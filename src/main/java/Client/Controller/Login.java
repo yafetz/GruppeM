@@ -25,6 +25,12 @@ public class Login {
             System.out.println(matrikelnummer.getText());
         }
     }
+
+    @FXML
+    private void hi(ActionEvent event){
+        System.out.println("Hi");
+    }
+
     @FXML
     private void login(ActionEvent event) {
         event.consume();
