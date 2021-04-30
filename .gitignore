@@ -106,5 +106,7 @@ fabric.properties
 .idea/codestream.xml
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij
-
-# /.idea
+/src/.idea
+/.idea
+/.target
+Gruppe_M.iml
