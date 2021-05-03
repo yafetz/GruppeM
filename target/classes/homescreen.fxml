@@ -21,7 +21,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="alleKurse"  alignment="CENTER" layoutX="238.0" mnemonicParsing="false" onAction="#alleKurseAufrufen" prefHeight="75.0" prefWidth="92.0" style="-fx-background-radius: 0 0 0 0; -fx-background-color: #5e8ba8;" text="Alle Kurse" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <Button alignment="CENTER" layoutX="238.0" mnemonicParsing="false" onAction="#alleKurseAufrufen" prefHeight="75.0" prefWidth="92.0" style="-fx-background-radius: 0 0 0 0; -fx-background-color: #5e8ba8;" text="Alle Kurse" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -40,7 +40,7 @@
             </Pane>
             <Pane layoutX="1754.0" layoutY="2.0" prefHeight="48.0" prefWidth="165.0">
                <children>
-                  <Button fx:id="nutzerName" alignment="BOTTOM_RIGHT" blendMode="SRC_ATOP" layoutY="30.0" mnemonicParsing="false" onAction="#eigeneProfilSeiteAufrufen" prefHeight="25.0" prefWidth="155.0" style="-fx-background-color: #d5e5f7;" text="Vorname Nachname" textFill="#3c3c3c" />
+                  <Button alignment="BOTTOM_RIGHT" blendMode="SRC_ATOP" layoutY="30.0" mnemonicParsing="false" onAction="#eigeneProfilSeiteAufrufen" prefHeight="25.0" prefWidth="155.0" style="-fx-background-color: #d5e5f7;" text="Vorname Nachname" textFill="#3c3c3c" />
                   <ImageView blendMode="SRC_ATOP" fitHeight="32.0" fitWidth="41.0" layoutX="123.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
                      <cursor>
                         <Cursor fx:constant="HAND" />

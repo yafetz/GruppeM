@@ -13,6 +13,10 @@ public class Homescreen {
     @FXML
     private Button nutzerName;
 
+    public void initialize() {
+        meineKurse.setText("Meine Kurse");
+    }
+
 
     public void meineKurseAufrufen(ActionEvent event) {
         //TODO

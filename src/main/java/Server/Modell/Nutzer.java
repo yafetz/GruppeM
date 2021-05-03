@@ -8,4 +8,5 @@ public class Nutzer {
 
     @DatabaseField(id = true)
     private int ID;
+
 }
