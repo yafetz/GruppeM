@@ -1,11 +1,8 @@
 package Server.Modell;
 
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.table.DatabaseTable;
+import javax.persistence.Entity;
 
-@DatabaseTable(tableName = "Nutzer")
+@Entity
 public class Nutzer {
 
-    @DatabaseField(id = true)
-    private int ID;
 }
