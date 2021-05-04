@@ -16,6 +16,8 @@ public class Client extends Application {
             loader.setLocation(getClass().getClassLoader().getResource("login.fxml"));
             AnchorPane root = (AnchorPane) loader.load();
             Scene scene = new Scene(root);
+            String logincss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
+            scene.getStylesheets().add(logincss);
             stage.setScene(scene);
             stage.show();
         }
