@@ -112,3 +112,7 @@ fabric.properties
 Gruppe_M.iml
 Server.iml
 /target/
+/Server2/target/
+/Server2/Server2.iml
+/Client/target/
+/Client/Client.iml
