@@ -1,33 +1,23 @@
 package Server.Modell;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "student")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false,name = "vorname")
-    private String Vorname;
-    @Column(nullable = false)
-    private String Nachname;
     @Column(unique = true,nullable = false, length = 7)
-    private int Matrikelnummer;
+    private int matrikelnummer;
     @Column(nullable = false)
-    private String Passwort;
-    @Column(unique = true,nullable = false)
-    private String Profilbild;
-    @Column(nullable = false)
-    private String Strasse;
-    @Column(nullable = false)
-    private int Hausnummer;
-    @Column(nullable = false)
-    private int PLZ;
-    @Column(nullable = false)
-    private String Studienfach;
-    @Column(nullable = false)
-    private int nutzer_id;
+    private String studienfach;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="nutzerId", nullable=true)
+    private Nutzer nutzerId;
 
     public Long getId() {
         return id;
@@ -37,77 +27,27 @@ public class Student {
         this.id = id;
     }
 
-    public String getVorname() {
-        return Vorname;
-    }
-
-    public void setVorname(String vorname) {
-        Vorname = vorname;
-    }
-
-    public String getNachname() {
-        return Nachname;
-    }
-
-    public void setNachname(String nachname) {
-        Nachname = nachname;
-    }
-
-    public String getProfilbild() {
-        return Profilbild;
-    }
-
-    public void setProfilbild(String profilbild) {
-        Profilbild = profilbild;
-    }
-
-    public String getStrasse() {
-        return Strasse;
-    }
-
-    public void setStrasse(String strasse) {
-        Strasse = strasse;
-    }
-
-    public int getHausnummer() {
-        return Hausnummer;
-    }
-
-    public void setHausnummer(int hausnummer) {
-        Hausnummer = hausnummer;
-    }
-
-    public int getPLZ() {
-        return PLZ;
-    }
-
-    public void setPLZ(int PLZ) {
-        this.PLZ = PLZ;
-    }
-
-
     public int getMatrikelnummer() {
-        return Matrikelnummer;
+        return matrikelnummer;
     }
 
     public void setMatrikelnummer(int matrikelnummer) {
-        Matrikelnummer = matrikelnummer;
-    }
-
-    public String getPasswort() {
-        return Passwort;
-    }
-
-    public void setPasswort(String passwort) {
-        Passwort = passwort;
+        matrikelnummer = matrikelnummer;
     }
 
     public String getStudienfach() {
-        return Studienfach;
+        return studienfach;
     }
 
     public void setStudienfach(String studienfach) {
-        Studienfach = studienfach;
+        this.studienfach = studienfach;
     }
 
+    public Nutzer getNutzer_id() {
+        return nutzerId;
+    }
+
+    public void setNutzer_id(Nutzer nutzer_id) {
+        this.nutzerId = nutzer_id;
+    }
 }
