@@ -8,12 +8,10 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
+    @Column(nullable = false,name = "vorname")
     private String Vorname;
     @Column(nullable = false)
     private String Nachname;
-    @Column(unique = true,nullable = false)
-    private String Email;
     @Column(unique = true,nullable = false, length = 7)
     private int Matrikelnummer;
     @Column(nullable = false)
@@ -28,6 +26,8 @@ public class Student {
     private int PLZ;
     @Column(nullable = false)
     private String Studienfach;
+    @Column(nullable = false)
+    private int nutzer_id;
 
     public Long getId() {
         return id;
@@ -85,13 +85,6 @@ public class Student {
         this.PLZ = PLZ;
     }
 
-    public String getEmail() {
-        return Email;
-    }
-
-    public void setEmail(String email) {
-        Email = email;
-    }
 
     public int getMatrikelnummer() {
         return Matrikelnummer;
