@@ -14,9 +14,9 @@ import java.util.List;
 public class LehrveranstaltungController {
 
     @Autowired
-    LehrveranstaltungRepository lvr;
+    LehrveranstaltungRepository lvRepository;
     @GetMapping("/all")
     public List<Lehrveranstaltung> getAllLehrveranstaltungen() {
-        return lvr.findAll();
+        return lvRepository.findAll();
     }
 }

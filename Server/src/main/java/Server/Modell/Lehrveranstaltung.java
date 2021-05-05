@@ -15,7 +15,7 @@ public class Lehrveranstaltung {
     private String titel;
     @Column(nullable = false)
     private String art;
-    @Column(unique = true,nullable = false)
+    @Column(nullable = false)
     private String semester;
 
     public Long getId() {
