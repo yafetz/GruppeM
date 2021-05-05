@@ -5,16 +5,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "student")
+@Table(name = "lehrender")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Student {
+public class Lehrender {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true,nullable = false, length = 7)
-    private int matrikelnummer;
     @Column(nullable = false)
-    private String studienfach;
+    private String lehrstuhl;
+    @Column(nullable = false)
+    private String forschungsgebiet;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="nutzerId", nullable=true)
     private Nutzer nutzerId;
@@ -27,27 +27,27 @@ public class Student {
         this.id = id;
     }
 
-    public int getMatrikelnummer() {
-        return matrikelnummer;
+    public String getLehrstuhl() {
+        return lehrstuhl;
     }
 
-    public void setMatrikelnummer(int matrikelnummer) {
-        matrikelnummer = matrikelnummer;
+    public void setLehrstuhl(String lehrstuhl) {
+        this.lehrstuhl = lehrstuhl;
     }
 
-    public String getStudienfach() {
-        return studienfach;
+    public String getForschungsgebiet() {
+        return forschungsgebiet;
     }
 
-    public void setStudienfach(String studienfach) {
-        this.studienfach = studienfach;
+    public void setForschungsgebiet(String forschungsgebiet) {
+        this.forschungsgebiet = forschungsgebiet;
     }
 
     public Nutzer getNutzerId() {
         return nutzerId;
     }
 
-    public void setNutzerId(Nutzer nutzer_id) {
-        this.nutzerId = nutzer_id;
+    public void setNutzerId(Nutzer nutzerId) {
+        this.nutzerId = nutzerId;
     }
 }

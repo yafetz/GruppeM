@@ -38,7 +38,7 @@ public class Login {
         String pass = password.getText();
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/login?matr="+matr+"&password="+pass)).build();
+                .uri(URI.create("http://localhost:8080/login/"+matr+"&"+pass)).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
