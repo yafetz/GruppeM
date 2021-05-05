@@ -5,4 +5,5 @@ import Server.Modell.Lehrveranstaltung;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface LehrveranstaltungRepository extends JpaRepository<Lehrveranstaltung,Long> {
+
 }

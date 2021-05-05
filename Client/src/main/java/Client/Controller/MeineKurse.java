@@ -1,6 +1,5 @@
 package Client.Controller;
 
-
 import Client.Modell.Lehrveranstaltung;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
@@ -20,10 +20,10 @@ import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class AlleKurse implements Initializable {
+public class MeineKurse implements Initializable {
 
     @FXML
-    private TableView alleLv;
+    private TableView meineLv;
     @FXML
     private TableColumn col_LvTitel;
     @FXML
@@ -37,7 +37,7 @@ public class AlleKurse implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/all")).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/meine")).build();
         HttpResponse<String> response;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -50,7 +50,7 @@ public class AlleKurse implements Initializable {
             col_LvArt.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("Art"));
             // to populate the table alleLv using .setItems() an ObservableList is required, hence next line
             ObservableList<Lehrveranstaltung> obsLv = FXCollections.observableList(lehrveranstaltungen);
-            alleLv.setItems(obsLv);
+            meineLv.setItems(obsLv);
 
         } catch (IOException e) {
             e.printStackTrace();
