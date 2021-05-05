@@ -14,12 +14,12 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane style="-fx-background-color: linear-gradient(to left bottom, #bfe3e5, #7ebed2, #4797c5, #2e6db2, #413e92);" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.AlleKurse">
+<AnchorPane style="-fx-background-color: linear-gradient(to left bottom, #bfe3e5, #7ebed2, #4797c5, #2e6db2, #413e92);" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.MeineKurse">
     <children>
         <AnchorPane layoutX="201.0" layoutY="67.0" opacity="0.35" style="-fx-background-color: #fffaf2;" />
         <HBox layoutX="201.0" prefHeight="67.0" prefWidth="869.0">
             <children>
-                <Button fx:id="meineKurse" alignment="CENTER" mnemonicParsing="false"  prefHeight="67.0" prefWidth="120.0" style="-fx-background-radius: 0 0 0 0; -fx-background-color: #413E92;" text="Meine Kurse" textAlignment="CENTER" textFill="WHITE">
+                <Button fx:id="meineKurse" alignment="CENTER" mnemonicParsing="false" prefHeight="67.0" prefWidth="120.0" style="-fx-background-radius: 0 0 0 0; -fx-background-color: #413E92;" text="Meine Kurse" textAlignment="CENTER" textFill="WHITE">
                     <cursor>
                         <Cursor fx:constant="HAND" />
                     </cursor>
@@ -27,7 +27,7 @@
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Button>
-                <Button fx:id="alleKurse" alignment="CENTER" mnemonicParsing="false"  prefHeight="79.0" prefWidth="120.0" style="-fx-background-radius: 0 0 0 0; -fx-background-color: #413E92;" text="Alle Kurse" textAlignment="CENTER" textFill="WHITE">
+                <Button fx:id="alleKurse" alignment="CENTER" mnemonicParsing="false" prefHeight="79.0" prefWidth="120.0" style="-fx-background-radius: 0 0 0 0; -fx-background-color: #413E92;" text="Alle Kurse" textAlignment="CENTER" textFill="WHITE">
                     <cursor>
                         <Cursor fx:constant="HAND" />
                     </cursor>
@@ -88,20 +88,20 @@
             </font>
         </Text>
         <Pane layoutX="200.0" layoutY="67.0" prefHeight="1009.0" prefWidth="1721.0" style="-fx-background-color: white; -fx-opacity: 0.6;" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="199.66666666666674" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="66.66666666666663">
-         <children>
-            <TableView fx:id="alleLv" layoutX="41.0" layoutY="137.0">
-              <columns>
-                <TableColumn fx:id="col_LvTitel" prefWidth="688.000057220459" text="Titel der Lehrveranstaltung" />
-                <TableColumn fx:id="col_LvSemester" minWidth="0.0" prefWidth="235.33319091796875" text="Semester" />
-                  <TableColumn fx:id="col_LvArt" prefWidth="223.33343505859375" text="Art der Lehrveranstaltung" />
-                  <TableColumn fx:id="col_LvLehrende" prefWidth="491.3333740234375" text="Lehrende" />
-              </columns>
-            </TableView>
-            <Label layoutX="41.0" layoutY="28.0" text="Alle Lehrveranstaltungen">
-               <font>
-                  <Font size="36.0" />
-               </font>
-            </Label>
-         </children></Pane>
+            <children>
+                <TableView fx:id="meineLv" layoutX="41.0" layoutY="137.0">
+                    <columns>
+                        <TableColumn fx:id="col_LvTitel" prefWidth="688.000057220459" text="Titel der Lehrveranstaltung" />
+                        <TableColumn fx:id="col_LvSemester" minWidth="0.0" prefWidth="235.33319091796875" text="Semester" />
+                        <TableColumn fx:id="col_LvArt" prefWidth="223.33343505859375" text="Art der Lehrveranstaltung" />
+                        <TableColumn fx:id="col_LvLehrende" prefWidth="491.3333740234375" text="Lehrende" />
+                    </columns>
+                </TableView>
+                <Label layoutX="41.0" layoutY="28.0" text="Meine Lehrveranstaltungen">
+                    <font>
+                        <Font size="36.0" />
+                    </font>
+                </Label>
+            </children></Pane>
     </children>
 </AnchorPane>
