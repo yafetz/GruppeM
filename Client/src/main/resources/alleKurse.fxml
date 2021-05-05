@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="AlleKurse"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.AlleKurse">
+   <children>
+      <TableView layoutX="185.0" layoutY="125.0" prefHeight="253.0" prefWidth="369.0">
+        <columns>
+          <TableColumn prefWidth="150.0" text="Titel" />
+          <TableColumn prefWidth="75.0" text="Art" />
+          <TableColumn prefWidth="75.0" text="Semester" />
+        </columns>
+      </TableView>
+   </children>
 </AnchorPane>
