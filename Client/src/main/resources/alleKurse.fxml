@@ -19,7 +19,7 @@
         <AnchorPane layoutX="201.0" layoutY="67.0" opacity="0.35" style="-fx-background-color: #fffaf2;" />
         <HBox layoutX="201.0" prefHeight="67.0" prefWidth="869.0">
             <children>
-                <Button fx:id="meineKurse" alignment="CENTER" mnemonicParsing="false" onAction="#meineKurseAufrufen" prefHeight="67.0" prefWidth="120.0" style="-fx-background-radius: 0 0 0 0; -fx-background-color: #413E92;" text="Meine Kurse" textAlignment="CENTER" textFill="WHITE">
+                <Button fx:id="meineKurse" alignment="CENTER" mnemonicParsing="false"  prefHeight="67.0" prefWidth="120.0" style="-fx-background-radius: 0 0 0 0; -fx-background-color: #413E92;" text="Meine Kurse" textAlignment="CENTER" textFill="WHITE">
                     <cursor>
                         <Cursor fx:constant="HAND" />
                     </cursor>
@@ -27,7 +27,7 @@
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Button>
-                <Button fx:id="alleKurse" alignment="CENTER" mnemonicParsing="false" onAction="#alleKurseAufrufen" prefHeight="79.0" prefWidth="120.0" style="-fx-background-radius: 0 0 0 0; -fx-background-color: #413E92;" text="Alle Kurse" textAlignment="CENTER" textFill="WHITE">
+                <Button fx:id="alleKurse" alignment="CENTER" mnemonicParsing="false"  prefHeight="79.0" prefWidth="120.0" style="-fx-background-radius: 0 0 0 0; -fx-background-color: #413E92;" text="Alle Kurse" textAlignment="CENTER" textFill="WHITE">
                     <cursor>
                         <Cursor fx:constant="HAND" />
                     </cursor>
@@ -69,7 +69,7 @@
             <children>
                 <Pane accessibleRole="BUTTON" prefHeight="48.0" prefWidth="165.0">
                     <children>
-                        <Button fx:id="nutzerName" alignment="BOTTOM_RIGHT" blendMode="SRC_ATOP" layoutY="30.0" mnemonicParsing="false" onAction="#eigeneProfilSeiteAufrufen" prefHeight="32.0" prefWidth="165.0" style="-fx-background-color: #d5e5f7;" text="Vorname Nachname" textFill="#3c3c3c" />
+                        <Button fx:id="nutzerName" alignment="BOTTOM_RIGHT" blendMode="SRC_ATOP" layoutY="30.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="165.0" style="-fx-background-color: #d5e5f7;" text="Vorname Nachname" textFill="#3c3c3c" />
                         <ImageView blendMode="SRC_ATOP" fitHeight="48.0" fitWidth="34.0" layoutX="121.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
                             <cursor>
                                 <Cursor fx:constant="HAND" />
