@@ -2,8 +2,12 @@ package Client.Controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URI;
@@ -18,21 +22,34 @@ public class Login {
     private TextField password ;
     @FXML
     private Button login;
-
+    @FXML
+    private Button register;
     // called by the FXML loader after the labels declared above are injected:
     public void initialize() {
-        if(login.isPressed()){
-            System.out.println(matrikelnummer.getText());
+
+    }
+
+    @FXML
+    private void registerPressedButton(ActionEvent event) {
+        Stage stage = (Stage) register.getScene().getWindow();
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("register.fxml"));
+            AnchorPane root = (AnchorPane) loader.load();
+            Scene scene = new Scene(root);
+            String homescreencss = getClass().getClassLoader().getResource("css/register.css").toExternalForm();
+            scene.getStylesheets().add(homescreencss);
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.show();
+        }catch (IOException e){
+            e.printStackTrace();
         }
+
     }
 
     @FXML
-    private void hi(ActionEvent event){
-        System.out.println("Hi");
-    }
-
-    @FXML
-    private void login(ActionEvent event) {
+    private void loginPressedButton(ActionEvent event) {
         event.consume();
         String matr = matrikelnummer.getText();
         String pass = password.getText();

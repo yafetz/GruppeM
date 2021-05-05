@@ -4,3 +4,10 @@
 .login:hover {
     -fx-background-color: linear-gradient(#2A5058, #61a2b1);
 }
+
+.register{
+    -fx-background-color: linear-gradient(#ff0009, #780000);
+}
+.register:hover {
+    -fx-background-color: linear-gradient(#ff0009, #780000);
+}
