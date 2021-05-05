@@ -19,6 +19,7 @@ public class Client extends Application {
             String logincss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
             scene.getStylesheets().add(logincss);
             stage.setScene(scene);
+            stage.setMaximized(true);
             stage.show();
         }
         catch(Exception e)    {
