@@ -35,6 +35,20 @@ public class Login {
 
     @FXML
     private void registerPressedButton(ActionEvent event) {
+        Stage stage = (Stage) register.getScene().getWindow();
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("Registrieren_Student.fxml"));
+            AnchorPane root = (AnchorPane) loader.load();
+            Scene scene = new Scene(root);
+            String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
+            scene.getStylesheets().add(homescreencss);
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.show();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
 
     }
 
