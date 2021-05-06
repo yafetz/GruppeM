@@ -1,5 +1,6 @@
 package Client.Controller;
 
+import Client.Modell.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +9,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URI;
@@ -31,20 +34,6 @@ public class Login {
 
     @FXML
     private void registerPressedButton(ActionEvent event) {
-        Stage stage = (Stage) register.getScene().getWindow();
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getClassLoader().getResource("register.fxml"));
-            AnchorPane root = (AnchorPane) loader.load();
-            Scene scene = new Scene(root);
-            String homescreencss = getClass().getClassLoader().getResource("css/register.css").toExternalForm();
-            scene.getStylesheets().add(homescreencss);
-            stage.setScene(scene);
-            stage.setMaximized(true);
-            stage.show();
-        }catch (IOException e){
-            e.printStackTrace();
-        }
 
     }
 
@@ -59,11 +48,44 @@ public class Login {
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            String antwort = response.body().trim();
-            if(antwort.equalsIgnoreCase("true")){
-                System.out.println("Eingeloggt!");
-            }else{
-                System.out.println("Sie konnten nicht eingeloggt werden!");
+            String Serverantwort = response.body();
+            try {
+                JSONObject jsonObject = new JSONObject(Serverantwort);
+                if(jsonObject.has("matrikelnummer")){
+                    Student student = new Student();
+                    student.setId(jsonObject.getInt("id"));
+                    student.setMatrikelnummer(jsonObject.getInt("matrikelnummer"));
+                    student.setStudienfach(jsonObject.getString("studienfach"));
+                    Nutzer nutzer = new Nutzer();
+                    JSONObject jsonNutzer = (JSONObject) jsonObject.get("nutzerId");
+                    nutzer.setId(jsonNutzer.getInt("id"));
+                    nutzer.setVorname(jsonNutzer.getString("vorname"));
+                    nutzer.setNachname(jsonNutzer.getString("nachname"));
+                    nutzer.setEmail(jsonNutzer.getString("email"));
+                    nutzer.setPasswort(jsonNutzer.getString("passwort"));
+                    nutzer.setProfilbild("null");
+                    nutzer.setStrasse(jsonNutzer.getString("strasse"));
+                    nutzer.setHausnummer(jsonNutzer.getInt("hausnummer"));
+                    nutzer.setPlz(jsonNutzer.getInt("plz"));
+                    student.setNutzer(nutzer);
+                    Stage stage = (Stage) register.getScene().getWindow();
+                    try {
+                        FXMLLoader loader = new FXMLLoader();
+                        loader.setLocation(getClass().getClassLoader().getResource("userprofile.fxml"));
+                        AnchorPane root = (AnchorPane) loader.load();
+                        Userprofil userprofil = loader.getController();
+                        Scene scene = new Scene(root);
+                        String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
+                        scene.getStylesheets().add(homescreencss);
+                        stage.setScene(scene);
+                        stage.setMaximized(true);
+                        stage.show();
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+                }
+            }catch (JSONException err){
+                err.printStackTrace();
             }
         } catch (IOException e) {
             e.printStackTrace();
