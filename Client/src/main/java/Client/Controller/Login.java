@@ -53,27 +53,33 @@ public class Login {
                 JSONObject jsonObject = new JSONObject(Serverantwort);
                 if(jsonObject.has("matrikelnummer")){
                     Student student = new Student();
-                    student.setId(jsonObject.getInt("id"));
-                    student.setMatrikelnummer(jsonObject.getInt("matrikelnummer"));
-                    student.setStudienfach(jsonObject.getString("studienfach"));
-                    Nutzer nutzer = new Nutzer();
-                    JSONObject jsonNutzer = (JSONObject) jsonObject.get("nutzerId");
-                    nutzer.setId(jsonNutzer.getInt("id"));
-                    nutzer.setVorname(jsonNutzer.getString("vorname"));
-                    nutzer.setNachname(jsonNutzer.getString("nachname"));
-                    nutzer.setEmail(jsonNutzer.getString("email"));
-                    nutzer.setPasswort(jsonNutzer.getString("passwort"));
-                    nutzer.setProfilbild("null");
-                    nutzer.setStrasse(jsonNutzer.getString("strasse"));
-                    nutzer.setHausnummer(jsonNutzer.getInt("hausnummer"));
-                    nutzer.setPlz(jsonNutzer.getInt("plz"));
-                    student.setNutzer(nutzer);
+                    student.addDataFromJson(jsonObject);
                     Stage stage = (Stage) register.getScene().getWindow();
                     try {
                         FXMLLoader loader = new FXMLLoader();
                         loader.setLocation(getClass().getClassLoader().getResource("userprofile.fxml"));
                         AnchorPane root = (AnchorPane) loader.load();
                         Userprofil userprofil = loader.getController();
+                        userprofil.setStudent(student);
+                        Scene scene = new Scene(root);
+                        String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
+                        scene.getStylesheets().add(homescreencss);
+                        stage.setScene(scene);
+                        stage.setMaximized(true);
+                        stage.show();
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+                }else if(jsonObject.has("lehrstuhl")){
+                    Lehrender lehrender = new Lehrender();
+                    lehrender.addDataFromJson(jsonObject);
+                    Stage stage = (Stage) register.getScene().getWindow();
+                    try {
+                        FXMLLoader loader = new FXMLLoader();
+                        loader.setLocation(getClass().getClassLoader().getResource("userprofile.fxml"));
+                        AnchorPane root = (AnchorPane) loader.load();
+                        Userprofil userprofil = loader.getController();
+                        userprofil.setLehrender(lehrender);
                         Scene scene = new Scene(root);
                         String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
                         scene.getStylesheets().add(homescreencss);
@@ -84,6 +90,7 @@ public class Login {
                         e.printStackTrace();
                     }
                 }
+
             }catch (JSONException err){
                 err.printStackTrace();
             }

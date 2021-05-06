@@ -7,6 +7,10 @@ import javafx.scene.control.Label;
 public class Userprofil {
     @FXML
     private Label username;
+    @FXML
+    private Label mailadresse;
+    @FXML
+    private Label matr;
 
     private Student student;
     private Lehrender lehrender;
@@ -14,12 +18,20 @@ public class Userprofil {
 
 
     public void initialize() {
-        if (student != null) {
-            username.setText(student.getVorname() + " " + student.getVorname());
-        }
-        else if (lehrender != null) {
+    }
+     public void setStudent(Student student) {
+        this.student = student;
+         username.setText(student.getNutzer().getVorname() + " " + student.getNutzer().getNachname());
+         mailadresse.setText(student.getNutzer().getEmail());
+         matr.setText(String.valueOf(student.getMatrikelnummer()));
 
-        }
+     }
+    public void setLehrender(Lehrender lehrender) {
+        this.lehrender = lehrender;
+        username.setText(lehrender.getNutzer().getVorname() + " " + lehrender.getNutzer().getNachname());
+        mailadresse.setText(lehrender.getNutzer().getEmail());
+        matr.setVisible(false);
+
     }
 
 
