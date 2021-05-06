@@ -10,7 +10,7 @@ public class Lehrmaterial {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name= "lehrveranstaltungsId", nullable = false)
+    @JoinColumn(name= "lehrveranstaltungs_Id", nullable = false)
     private Lehrveranstaltung lehrveranstaltung;
     @Column(unique = true, nullable = false)
     private String pfad;

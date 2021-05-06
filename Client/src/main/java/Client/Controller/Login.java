@@ -99,7 +99,7 @@ public class Login {
                         String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
                         scene.getStylesheets().add(homescreencss);
                         stage.setScene(scene);
-                        stage.setMaximized(true);
+                        stage.setMaximized(false);
                         stage.show();
                     }catch (IOException e){
                         e.printStackTrace();

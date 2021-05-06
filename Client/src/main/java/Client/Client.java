@@ -13,13 +13,13 @@ public class Client extends Application {
         try {
             stage.setTitle("SEP");
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getClassLoader().getResource("login.fxml"));
+            loader.setLocation(getClass().getClassLoader().getResource("homescreen.fxml"));
             AnchorPane root = (AnchorPane) loader.load();
             Scene scene = new Scene(root);
             String logincss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
             scene.getStylesheets().add(logincss);
             stage.setScene(scene);
-            stage.setMaximized(true);
+            stage.setMaximized(false);
             stage.show();
         }
         catch(Exception e)    {
