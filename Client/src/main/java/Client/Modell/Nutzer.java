@@ -1,15 +1,29 @@
 package Client.Modell;
 
+import org.json.JSONObject;
+
 public class Nutzer {
-    protected int id;
-    protected String vorname;
-    protected String nachname;
-    protected String email;
-    protected String passwort;
-    protected String profilbild;
-    protected String strasse;
-    protected int hausnummer;
-    protected int plz;
+    private int id;
+    private String vorname;
+    private String nachname;
+    private String email;
+    private String passwort;
+    private String profilbild;
+    private String strasse;
+    private int hausnummer;
+    private int plz;
+
+    public void addDataFromJson(JSONObject jsonObject) {
+        setId(jsonObject.getInt("id"));
+        setVorname(jsonObject.getString("vorname"));
+        setNachname(jsonObject.getString("nachname"));
+        setEmail(jsonObject.getString("email"));
+        setPasswort(jsonObject.getString("passwort"));
+        setProfilbild("null");
+        setStrasse(jsonObject.getString("strasse"));
+        setHausnummer(jsonObject.getInt("hausnummer"));
+        setPlz(jsonObject.getInt("plz"));
+    }
 
     public int getId() {
         return id;
@@ -82,4 +96,5 @@ public class Nutzer {
     public void setPlz(int plz) {
         this.plz = plz;
     }
+
 }

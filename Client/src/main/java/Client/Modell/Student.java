@@ -1,10 +1,23 @@
 package Client.Modell;
 
-public class Student extends Nutzer {
+import org.json.JSONObject;
 
+public class Student {
+
+    private int id;
     private int matrikelnummer;
     private String studienfach;
     private Nutzer nutzer;
+
+    public void addDataFromJson(JSONObject jsonObject){
+        setId(jsonObject.getInt("id"));
+        setMatrikelnummer(jsonObject.getInt("matrikelnummer"));
+        setStudienfach(jsonObject.getString("studienfach"));
+        Nutzer nutzer = new Nutzer();
+        JSONObject jsonNutzer = (JSONObject) jsonObject.get("nutzerId");
+        nutzer.addDataFromJson(jsonNutzer);
+        setNutzer(nutzer);
+    }
 
     public int getId() {
         return id;
@@ -12,70 +25,6 @@ public class Student extends Nutzer {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getVorname() {
-        return vorname;
-    }
-
-    public void setVorname(String vorname) {
-        this.vorname = vorname;
-    }
-
-    public String getNachname() {
-        return nachname;
-    }
-
-    public void setNachname(String nachname) {
-        this.nachname = nachname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPasswort() {
-        return passwort;
-    }
-
-    public void setPasswort(String passwort) {
-        this.passwort = passwort;
-    }
-
-    public String getProfilbild() {
-        return profilbild;
-    }
-
-    public void setProfilbild(String profilbild) {
-        this.profilbild = profilbild;
-    }
-
-    public String getStrasse() {
-        return strasse;
-    }
-
-    public void setStrasse(String strasse) {
-        this.strasse = strasse;
-    }
-
-    public int getHausnummer() {
-        return hausnummer;
-    }
-
-    public void setHausnummer(int hausnummer) {
-        this.hausnummer = hausnummer;
-    }
-
-    public int getPlz() {
-        return plz;
-    }
-
-    public void setPlz(int plz) {
-        this.plz = plz;
     }
 
     public int getMatrikelnummer() {
