@@ -41,14 +41,14 @@ public class AlleKurse implements Initializable {
         HttpResponse<String> response;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            //mapping data in response.body() to JSON
+            //mapping data in response.body() to list of lehrveranstaltung-objects
             ObjectMapper mapper = new ObjectMapper();
             List<Lehrveranstaltung> lehrveranstaltungen = mapper.readValue(response.body(), new TypeReference<List<Lehrveranstaltung>>() {});
 
             col_LvTitel.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("Titel"));
             col_LvSemester.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("Semester"));
             col_LvArt.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("Art"));
-            // to populate the table alleLv using .setItems() an ObservableList is required, hence next line
+            // ObservableList is required to populate the table alleLv using .setItems() :
             ObservableList<Lehrveranstaltung> obsLv = FXCollections.observableList(lehrveranstaltungen);
             alleLv.setItems(obsLv);
 

@@ -16,8 +16,19 @@ public class Lehrmaterial {
     private String pfad;
     @Column(unique = true, nullable = false)
     private String name;
+    @Column(nullable = false)
+    private String dateiTyp;
 
     private byte[] inhalt;
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Lehrveranstaltung getLehrveranstaltung() {
         return lehrveranstaltung;
@@ -41,6 +52,14 @@ public class Lehrmaterial {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDateiTyp() {
+        return dateiTyp;
+    }
+
+    public void setDateiTyp(String dateiTyp) {
+        this.dateiTyp = dateiTyp;
     }
 
     public byte[] getInhalt() {
