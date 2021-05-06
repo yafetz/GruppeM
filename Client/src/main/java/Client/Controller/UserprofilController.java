@@ -4,7 +4,7 @@ import Client.Modell.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class Userprofil {
+public class UserprofilController {
     @FXML
     private Label username;
     @FXML
