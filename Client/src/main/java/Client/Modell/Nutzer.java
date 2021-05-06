@@ -1,15 +1,15 @@
 package Client.Modell;
 
 public class Nutzer {
-    private int id;
-    private String vorname;
-    private String nachname;
-    private String email;
-    private String passwort;
-    private String profilbild;
-    private String strasse;
-    private int hausnummer;
-    private int plz;
+    protected int id;
+    protected String vorname;
+    protected String nachname;
+    protected String email;
+    protected String passwort;
+    protected String profilbild;
+    protected String strasse;
+    protected int hausnummer;
+    protected int plz;
 
     public int getId() {
         return id;

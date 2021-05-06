@@ -3,6 +3,7 @@ package Server.Modell;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name ="lehrveranstaltung")
@@ -17,6 +18,8 @@ public class Lehrveranstaltung {
     private String art;
     @Column(nullable = false)
     private String semester;
+    @OneToMany(mappedBy = "lehrveranstaltung", fetch = FetchType.LAZY)
+    private Set<Lehrmaterial> lehrmaterial;
 
     public Long getId() {
         return id;
