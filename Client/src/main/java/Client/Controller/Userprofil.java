@@ -4,7 +4,7 @@ import Client.Modell.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class userprofil {
+public class Userprofil {
     @FXML
     private Label username;
 
@@ -15,7 +15,7 @@ public class userprofil {
 
     public void initialize() {
         if (student != null) {
-            username.setText(student.getVorname() + " " + student.getNachname());
+            username.setText(student.getVorname() + " " + student.getVorname());
         }
         else if (lehrender != null) {
 
