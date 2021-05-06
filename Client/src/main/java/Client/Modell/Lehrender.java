@@ -2,14 +2,6 @@ package Client.Modell;
 
 public class Lehrender extends Nutzer{
 
-    private String vorname;
-    private String nachname;
-    private String email;
-    private String passwort;
-    private String strasse;
-    private int hausnummer;
-    private int plz;
-    private String profilbild;
     private String lehrstuhl;
     private String forschungsgebiet;
 
