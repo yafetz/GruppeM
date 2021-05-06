@@ -27,6 +27,7 @@ public class Login {
     private Button login;
     @FXML
     private Button register;
+
     // called by the FXML loader after the labels declared above are injected:
     public void initialize() {
 
