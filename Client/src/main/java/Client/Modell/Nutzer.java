@@ -12,6 +12,7 @@ public class Nutzer {
     private String strasse;
     private int hausnummer;
     private int plz;
+    private String stadt;
 
     public void addDataFromJson(JSONObject jsonObject) {
         setId(jsonObject.getInt("id"));
@@ -23,6 +24,7 @@ public class Nutzer {
         setStrasse(jsonObject.getString("strasse"));
         setHausnummer(jsonObject.getInt("hausnummer"));
         setPlz(jsonObject.getInt("plz"));
+        setStadt(jsonObject.getString("stadt"));
     }
 
     public int getId() {
@@ -97,4 +99,11 @@ public class Nutzer {
         this.plz = plz;
     }
 
+    public String getStadt() {
+        return stadt;
+    }
+
+    public void setStadt(String stadt) {
+        this.stadt = stadt;
+    }
 }

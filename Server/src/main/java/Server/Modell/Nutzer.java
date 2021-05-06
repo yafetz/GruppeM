@@ -28,6 +28,8 @@ public class Nutzer {
     private int hausnummer;
     @Column(nullable = false)
     private int plz;
+    @Column(nullable = false)
+    private int stadt;
 
     public Long getId() {
         return id;
@@ -93,11 +95,19 @@ public class Nutzer {
         hausnummer = hausnummer;
     }
 
-    public int getPLZ() {
+    public int getPlz() {
         return plz;
     }
 
-    public void setPLZ(int PLZ) {
+    public void setPlz(int plz) {
         this.plz = plz;
+    }
+
+    public int getStadt() {
+        return stadt;
+    }
+
+    public void setStadt(int stadt) {
+        this.stadt = stadt;
     }
 }
