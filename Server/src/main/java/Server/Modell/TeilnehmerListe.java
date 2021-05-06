@@ -1,21 +1,22 @@
 package Server.Modell;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name="lehrmaterial")
-public class Lehrmaterial {
-
+@Table(name = "teilnehmerliste")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class TeilnehmerListe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name= "lehrveranstaltungsId", nullable = false)
     private Lehrveranstaltung lehrveranstaltung;
-    @Column(unique = true, nullable = false)
-    private String pfad;
-    @Column(nullable = false)
-    private String titel;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="studentId", nullable=true)
+    private Student studentId;
 
     public Long getId() {
         return id;
@@ -33,19 +34,11 @@ public class Lehrmaterial {
         this.lehrveranstaltung = lehrveranstaltung;
     }
 
-    public String getPfad() {
-        return pfad;
+    public Student getStudentId() {
+        return studentId;
     }
 
-    public void setPfad(String pfad) {
-        this.pfad = pfad;
-    }
-
-    public String getTitel() {
-        return titel;
-    }
-
-    public void setTitel(String titel) {
-        this.titel = titel;
+    public void setStudentId(Student studentId) {
+        this.studentId = studentId;
     }
 }
