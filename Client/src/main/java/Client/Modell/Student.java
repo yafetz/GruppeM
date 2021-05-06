@@ -1,6 +1,6 @@
 package Client.Modell;
 
-public class Student extends Nutzer {
+public class Student  {
 
     private String vorname;
     private String nachname;

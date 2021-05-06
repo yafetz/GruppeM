@@ -34,10 +34,10 @@ public class Login {
         Stage stage = (Stage) register.getScene().getWindow();
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getClassLoader().getResource("register.fxml"));
+            loader.setLocation(getClass().getClassLoader().getResource("userprofile.fxml"));
             AnchorPane root = (AnchorPane) loader.load();
             Scene scene = new Scene(root);
-            String homescreencss = getClass().getClassLoader().getResource("css/register.css").toExternalForm();
+            String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
             scene.getStylesheets().add(homescreencss);
             stage.setScene(scene);
             stage.setMaximized(true);
