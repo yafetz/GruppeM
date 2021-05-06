@@ -16,7 +16,7 @@
 
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.geometry.Insets?>
-<AnchorPane style="-fx-background-color: linear-gradient(to left bottom, #bfe3e5, #7ebed2, #4797c5, #2e6db2, #413e92);" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.MeineKurse">
+<AnchorPane style="-fx-background-color: linear-gradient(to left bottom, #bfe3e5, #7ebed2, #4797c5, #2e6db2, #413e92);" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.MeineKurseController">
     <children>
         <HBox layoutX="201.0" prefHeight="67.0" prefWidth="622.0">
             <children>

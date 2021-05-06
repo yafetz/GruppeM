@@ -28,7 +28,7 @@ import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class MeineKurse implements Initializable {
+public class MeineKurseController implements Initializable {
 
     @FXML
     private TableView meineLv;
@@ -82,7 +82,7 @@ public class MeineKurse implements Initializable {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getClassLoader().getResource("meineKurse.fxml"));
             AnchorPane root = (AnchorPane) loader.load();
-            MeineKurse meineKurse = loader.getController();
+            MeineKurseController meineKurse = loader.getController();
             Scene scene = new Scene(root);
             String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
             scene.getStylesheets().add(homescreencss);
@@ -101,7 +101,7 @@ public class MeineKurse implements Initializable {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getClassLoader().getResource("alleKurse.fxml"));
             AnchorPane root = (AnchorPane) loader.load();
-            AlleKurse alleKurse = loader.getController();
+            AlleKurseController alleKurse = loader.getController();
             Scene scene = new Scene(root);
             String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
             scene.getStylesheets().add(homescreencss);
@@ -120,7 +120,7 @@ public class MeineKurse implements Initializable {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getClassLoader().getResource("userprofile.fxml"));
             AnchorPane root = (AnchorPane) loader.load();
-            Userprofil userprofil = loader.getController();
+            UserprofilController userprofil = loader.getController();
             Scene scene = new Scene(root);
             String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
             scene.getStylesheets().add(homescreencss);

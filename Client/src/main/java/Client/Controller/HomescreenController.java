@@ -11,13 +11,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 
 
-public class Homescreen {
+public class HomescreenController {
 
     @FXML
     public Hyperlink namenLink;
@@ -40,7 +36,7 @@ public class Homescreen {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getClassLoader().getResource("meineKurse.fxml"));
             AnchorPane root = (AnchorPane) loader.load();
-            MeineKurse meineKurseKurse = loader.getController();
+            MeineKurseController meineKurseKurse = loader.getController();
             Scene scene = new Scene(root);
             String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
             scene.getStylesheets().add(homescreencss);
@@ -59,7 +55,7 @@ public class Homescreen {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getClassLoader().getResource("alleKurse.fxml"));
             AnchorPane root = (AnchorPane) loader.load();
-            AlleKurse alleKurse = loader.getController();
+            AlleKurseController alleKurse = loader.getController();
             Scene scene = new Scene(root);
             String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
             scene.getStylesheets().add(homescreencss);
@@ -78,7 +74,7 @@ public class Homescreen {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getClassLoader().getResource("userprofile.fxml"));
             AnchorPane root = (AnchorPane) loader.load();
-            Userprofil userprofil = loader.getController();
+            UserprofilController userprofil = loader.getController();
             Scene scene = new Scene(root);
             String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
             scene.getStylesheets().add(homescreencss);

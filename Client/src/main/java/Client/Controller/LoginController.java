@@ -18,7 +18,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class Login {
+public class LoginController {
     @FXML
     private TextField matrikelnummer ;
     @FXML
@@ -74,7 +74,7 @@ public class Login {
                         FXMLLoader loader = new FXMLLoader();
                         loader.setLocation(getClass().getClassLoader().getResource("userprofile.fxml"));
                         AnchorPane root = (AnchorPane) loader.load();
-                        Userprofil userprofil = loader.getController();
+                        UserprofilController userprofil = loader.getController();
                         userprofil.setStudent(student);
                         Scene scene = new Scene(root);
                         String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
@@ -93,7 +93,7 @@ public class Login {
                         FXMLLoader loader = new FXMLLoader();
                         loader.setLocation(getClass().getClassLoader().getResource("userprofile.fxml"));
                         AnchorPane root = (AnchorPane) loader.load();
-                        Userprofil userprofil = loader.getController();
+                        UserprofilController userprofil = loader.getController();
                         userprofil.setLehrender(lehrender);
                         Scene scene = new Scene(root);
                         String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
