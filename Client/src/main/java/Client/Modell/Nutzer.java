@@ -24,7 +24,7 @@ public class Nutzer {
         setStrasse(jsonObject.getString("strasse"));
         setHausnummer(jsonObject.getInt("hausnummer"));
         setPlz(jsonObject.getInt("plz"));
-        setStadt(jsonObject.getString("stadt"));
+        //setStadt(jsonObject.getString("stadt"));
     }
 
     public int getId() {
