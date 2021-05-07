@@ -29,7 +29,7 @@ public class Nutzer {
     @Column(nullable = false)
     private int plz;
     @Column(nullable = false)
-    private int stadt;
+    private String stadt;
 
     public Long getId() {
         return id;
@@ -103,11 +103,11 @@ public class Nutzer {
         this.plz = plz;
     }
 
-    public int getStadt() {
+    public String getStadt() {
         return stadt;
     }
 
-    public void setStadt(int stadt) {
+    public void setStadt(String stadt) {
         this.stadt = stadt;
     }
 }
