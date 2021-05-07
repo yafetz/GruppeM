@@ -45,9 +45,11 @@ public class MeineKurseController implements Initializable {
     @FXML
     private Button alleKurse;
     @FXML
-    public ImageView profilBild;
+    private ImageView profilBild;
     @FXML
-    public Hyperlink namenLink;
+    private Hyperlink namenLink;
+    @FXML
+    private Button neueLv;
 
 
     @Override
@@ -130,5 +132,10 @@ public class MeineKurseController implements Initializable {
         } catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    public void neueLvErstellen(ActionEvent event) {
+        event.consume();
+        //TODO
     }
 }

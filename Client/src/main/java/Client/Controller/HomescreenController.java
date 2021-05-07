@@ -36,7 +36,7 @@ public class HomescreenController {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getClassLoader().getResource("meineKurse.fxml"));
             AnchorPane root = (AnchorPane) loader.load();
-            MeineKurseController meineKurseKurse = loader.getController();
+            MeineKurseController meineKurse = loader.getController();
             Scene scene = new Scene(root);
             String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
             scene.getStylesheets().add(homescreencss);
