@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/login")
-public class Login {
+public class LoginController {
     @Autowired
     NutzerRepository nutzerRepository;
     @Autowired

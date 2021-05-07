@@ -18,7 +18,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class Login {
+public class LoginController {
     @FXML
     private TextField matrikelnummer ;
     @FXML
@@ -27,6 +27,7 @@ public class Login {
     private Button login;
     @FXML
     private Button register;
+
     // called by the FXML loader after the labels declared above are injected:
     public void initialize() {
 
@@ -34,6 +35,20 @@ public class Login {
 
     @FXML
     private void registerPressedButton(ActionEvent event) {
+        Stage stage = (Stage) register.getScene().getWindow();
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("Registrieren_Student.fxml"));
+            AnchorPane root = (AnchorPane) loader.load();
+            Scene scene = new Scene(root);
+            String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
+            scene.getStylesheets().add(homescreencss);
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.show();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
 
     }
 
@@ -59,7 +74,7 @@ public class Login {
                         FXMLLoader loader = new FXMLLoader();
                         loader.setLocation(getClass().getClassLoader().getResource("userprofile.fxml"));
                         AnchorPane root = (AnchorPane) loader.load();
-                        Userprofil userprofil = loader.getController();
+                        UserprofilController userprofil = loader.getController();
                         userprofil.setStudent(student);
                         Scene scene = new Scene(root);
                         String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
@@ -78,13 +93,13 @@ public class Login {
                         FXMLLoader loader = new FXMLLoader();
                         loader.setLocation(getClass().getClassLoader().getResource("userprofile.fxml"));
                         AnchorPane root = (AnchorPane) loader.load();
-                        Userprofil userprofil = loader.getController();
+                        UserprofilController userprofil = loader.getController();
                         userprofil.setLehrender(lehrender);
                         Scene scene = new Scene(root);
                         String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
                         scene.getStylesheets().add(homescreencss);
                         stage.setScene(scene);
-                        stage.setMaximized(true);
+                        stage.setMaximized(false);
                         stage.show();
                     }catch (IOException e){
                         e.printStackTrace();

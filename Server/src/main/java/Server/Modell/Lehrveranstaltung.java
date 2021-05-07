@@ -18,8 +18,9 @@ public class Lehrveranstaltung {
     private String art;
     @Column(nullable = false)
     private String semester;
-    @OneToMany(mappedBy = "lehrveranstaltung", fetch = FetchType.LAZY)
-    private Set<Lehrmaterial> lehrmaterial;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name= "lehrenderId", nullable = false)
+    private Lehrender lehrender;
 
     public Long getId() {
         return id;
