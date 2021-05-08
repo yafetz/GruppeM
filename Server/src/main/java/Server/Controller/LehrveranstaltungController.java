@@ -13,8 +13,13 @@ import java.util.List;
 @RequestMapping("/lehrveranstaltung")
 public class LehrveranstaltungController {
 
+    private final LehrveranstaltungRepository lvRepo;
+
     @Autowired
-    LehrveranstaltungRepository lvRepo;
+    public LehrveranstaltungController(LehrveranstaltungRepository lvRepo) {
+        this.lvRepo = lvRepo;
+    }
+
     @GetMapping("/all")
     public List<Lehrveranstaltung> getAllLehrveranstaltungen() {
         return lvRepo.findAll();
