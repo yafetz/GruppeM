@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("lehrveranstaltung/upload")
+@RequestMapping("lehrveranstaltung/lehrmaterial")
 public class LehrmaterialUploadController {
 
     private final LehrmaterialStorageService lehrmaterialStorageService;
