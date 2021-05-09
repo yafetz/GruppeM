@@ -1,9 +1,17 @@
-package Client.Controller;
+package Client.Controller.Nutzerprofil;
 
+import Client.Controller.AlleKurseController;
 import Client.Modell.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class UserprofilController {
     @FXML
@@ -24,6 +32,14 @@ public class UserprofilController {
     private Label city;
     @FXML
     private Label number;
+    @FXML
+    private Button allCourses;
+    @FXML
+    private Button myCourses;
+    @FXML
+    private Label forschung;
+    @FXML
+    private Label teaching;
 
     private Student student;
     private Lehrender lehrender;
@@ -42,6 +58,8 @@ public class UserprofilController {
          number.setText(String.valueOf(student.getNutzer().getHausnummer()));
          lehrstuhl.setVisible(false);
          forschungsgebiet.setVisible(false);
+         forschung.setVisible(false);
+         teaching.setVisible(false);
 
      }
     public void setLehrender(Lehrender lehrender) {
@@ -59,8 +77,27 @@ public class UserprofilController {
 
 
     public void meineKurseAufrufen(ActionEvent actionEvent) {
+
+
     }
 
     public void alleKurseAufrufen(ActionEvent actionEvent) {
+        actionEvent.consume();
+        Stage stage = (Stage) allCourses.getScene().getWindow();
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("alleKurse.fxml"));
+            AnchorPane root = (AnchorPane) loader.load();
+            AlleKurseController alleKurse = loader.getController();
+            Scene scene = new Scene(root);
+            String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
+            scene.getStylesheets().add(homescreencss);
+            stage.setScene(scene);
+            stage.setMaximized(false);
+            stage.show();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
     }
 }

@@ -1,5 +1,6 @@
 package Client.Controller;
 
+import Client.Controller.Nutzerprofil.UserprofilController;
 import Client.Modell.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -72,7 +73,7 @@ public class LoginController {
                     Stage stage = (Stage) register.getScene().getWindow();
                     try {
                         FXMLLoader loader = new FXMLLoader();
-                        loader.setLocation(getClass().getClassLoader().getResource("userprofile.fxml"));
+                        loader.setLocation(getClass().getClassLoader().getResource("userprofile/userprofile.fxml"));
                         AnchorPane root = (AnchorPane) loader.load();
                         UserprofilController userprofil = loader.getController();
                         userprofil.setStudent(student);
@@ -91,7 +92,7 @@ public class LoginController {
                     Stage stage = (Stage) register.getScene().getWindow();
                     try {
                         FXMLLoader loader = new FXMLLoader();
-                        loader.setLocation(getClass().getClassLoader().getResource("userprofile.fxml"));
+                        loader.setLocation(getClass().getClassLoader().getResource("userprofile/userprofile.fxml"));
                         AnchorPane root = (AnchorPane) loader.load();
                         UserprofilController userprofil = loader.getController();
                         userprofil.setLehrender(lehrender);

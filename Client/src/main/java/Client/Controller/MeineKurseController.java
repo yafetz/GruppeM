@@ -1,5 +1,6 @@
 package Client.Controller;
 
+import Client.Controller.Nutzerprofil.UserprofilController;
 import Client.Modell.Lehrveranstaltung;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -120,7 +121,7 @@ public class MeineKurseController implements Initializable {
         Stage stage = (Stage) namenLink.getScene().getWindow();
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getClassLoader().getResource("userprofile.fxml"));
+            loader.setLocation(getClass().getClassLoader().getResource("userprofile/userprofile.fxml"));
             AnchorPane root = (AnchorPane) loader.load();
             UserprofilController userprofil = loader.getController();
             Scene scene = new Scene(root);
