@@ -55,4 +55,11 @@ public class Lehrveranstaltung {
     }
 
 
+    public Lehrender getLehrender() {
+        return lehrender;
+    }
+
+    public void setLehrender(Lehrender lehrender) {
+        this.lehrender = lehrender;
+    }
 }
