@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.Nutzerprofil.UserprofilController">
+    <children>
+        <Label fx:id="username2" layoutX="93.0" layoutY="55.0" prefHeight="67.0" prefWidth="446.0" text="Name">
+            <font>
+                <Font size="45.0" />
+            </font></Label>
+        <Label fx:id="mailadresse2" layoutX="129.0" layoutY="148.0" prefHeight="26.0" prefWidth="261.0" text="Mailadresse" />
+        <Label fx:id="matr2" layoutX="129.0" layoutY="191.0" prefHeight="18.0" prefWidth="109.0" text="Matrikel" />
+        <Label fx:id="adresse2" layoutX="128.0" layoutY="227.0" prefHeight="18.0" prefWidth="142.0" text="Adress" />
+        <Label fx:id="plz2" layoutX="520.0" layoutY="226.0" prefHeight="18.0" prefWidth="51.0" text="plz" />
+        <Label fx:id="city2" layoutX="387.0" layoutY="226.0" prefHeight="18.0" prefWidth="63.0" text="citi" />
+        <Label fx:id="number2" layoutX="251.0" layoutY="227.0" text="hausnummer" />
+        <Button fx:id="allCourses" layoutX="261.0" layoutY="1.0" mnemonicParsing="false" onAction="#alleKurseAufrufen" prefHeight="26.0" prefWidth="110.0" text="Alle Kurse" />
+        <Accordion layoutX="-16.0" layoutY="67.0" />
+        <Accordion layoutX="14.0" layoutY="102.0" />
+        <Accordion layoutX="47.0" layoutY="89.0" />
+        <ButtonBar layoutX="7.0" layoutY="-6.0" prefHeight="40.0" prefWidth="200.0">
+            <buttons>
+                <Button fx:id="myCourses" mnemonicParsing="false" onAction="#meineKurseAufrufen" prefHeight="18.0" prefWidth="110.0" text="Meine Kurse" />
+            </buttons></ButtonBar>
+        <Label layoutX="129.0" layoutY="130.0" prefHeight="18.0" prefWidth="99.0" text="Mailadresse:" />
+        <Label layoutX="129.0" layoutY="174.0" text="Matrikelnummer" />
+        <Label layoutX="129.0" layoutY="209.0" text="Adresse" />
+        <Label layoutX="520.0" layoutY="209.0" text="PLZ" />
+        <Label layoutX="391.0" layoutY="208.0" text="Stadt" />
+        <Label layoutX="250.0" layoutY="209.0" text="Hausnummer" />
+    </children>
+</AnchorPane>

@@ -1,6 +1,7 @@
 package Client.Controller.Nutzerprofil;
 
 import Client.Controller.AlleKurseController;
+import Client.Controller.MeineKurseController;
 import Client.Modell.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,9 +41,12 @@ public class UserprofilController {
     private Label forschung;
     @FXML
     private Label teaching;
+    @FXML
+    private Button meineKurse;
 
     private Student student;
     private Lehrender lehrender;
+    private Object vergleichNutzer;
 
 
 
@@ -77,6 +81,22 @@ public class UserprofilController {
 
 
     public void meineKurseAufrufen(ActionEvent actionEvent) {
+        actionEvent.consume();
+        Stage stage = (Stage) meineKurse.getScene().getWindow();
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("meineKurse.fxml"));
+            AnchorPane root = (AnchorPane) loader.load();
+            MeineKurseController meineKurse = loader.getController();
+            Scene scene = new Scene(root);
+            String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
+            scene.getStylesheets().add(homescreencss);
+            stage.setScene(scene);
+            stage.setMaximized(false);
+            stage.show();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
 
 
     }
@@ -99,5 +119,10 @@ public class UserprofilController {
             e.printStackTrace();
         }
 
+    }
+
+    public void nutzerprofilAufrufen () {
+
+        
     }
 }

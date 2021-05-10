@@ -80,7 +80,7 @@ public class MeineKurseController implements Initializable {
 
     public void meineKurseAufrufen(ActionEvent event) {
         event.consume();
-        Stage stage = (Stage) alleKurse.getScene().getWindow();
+        Stage stage = (Stage) meineKurse.getScene().getWindow();
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getClassLoader().getResource("meineKurse.fxml"));
