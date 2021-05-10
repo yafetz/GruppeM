@@ -12,6 +12,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 public class RegistrierenController {
     @FXML
@@ -39,7 +43,7 @@ private TextField stadt;
 @FXML
 private TextField strasse;
 @FXML
-private TextField gebäude_nummer;
+private TextField hausnummer;
 @FXML
 private PasswordField passwort;
 @FXML
@@ -54,9 +58,6 @@ private CheckBox check_box;
 
 
 
-    public void registrieren(ActionEvent Event){
-        System.out.println(email.getText());
-    }
 
     public void Rollenwechsel(ActionEvent actionEvent) {
         actionEvent.consume();
@@ -107,12 +108,86 @@ private CheckBox check_box;
 
     public void Registrieren(ActionEvent actionEvent) {
         actionEvent.consume();
+        String vornameText = vorname.getText();
+        String nachnameText = nachname.getText();
+        String emailText = email.getText();
+        String passwortText = passwort.getText();
+        String hausnummerText = hausnummer.getText();
+        String plzText = postleitzahl.getText();
+        String stadtText = stadt.getText();
+        String strasseText = strasse.getText();
         if( registrieren_student==null){
             // als Student registrieren
-        }
-        else {
-            // als Lehrender registrieren
+            String studienfachText = studienfach.getText();
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("http://localhost:8080/register/student/"+
+                            vornameText+"&"+nachnameText+"&"+emailText+"&"+
+                            passwortText+"&"+studienfachText+"&"+
+                            hausnummerText+"&"+plzText+"&"+stadtText+"&"+strasseText)).build();
+            HttpResponse<String> response = null;
+            try {
+                response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                String Serverantwort = response.body();
+                System.out.println(Serverantwort);
+                if(Serverantwort.equals("OK")){
+                    //Weiterleitung zur Login Seite
+                    try {
+                        Stage stage = (Stage) registrieren.getScene().getWindow();
+                        FXMLLoader loader = new FXMLLoader();
+                        loader.setLocation(getClass().getClassLoader().getResource("login.fxml"));
+                        AnchorPane root = (AnchorPane) loader.load();
+                        Scene scene = new Scene(root);
+                        String logincss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
+                        scene.getStylesheets().add(logincss);
+                        stage.setScene(scene);
+                        stage.setMaximized(false);
+                        stage.show();
+                    }
+                    catch(Exception e)    {
+                        e.printStackTrace();
+                    }
+                }
+            }catch (IOException | InterruptedException e){
+                e.printStackTrace();
+            }
 
+            } else {
+            // als Lehrender registrieren
+            String forschungsgebietText = forschungsgebiet.getText();
+            String lehrstuhlText = lehrstuhl.getText();
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("http://localhost:8080/register/lehrender/"+
+                            vornameText+"&"+nachnameText+"&"+emailText+"&"+
+                            passwortText+"&"+forschungsgebietText+"&"+lehrstuhlText+"&"+
+                            hausnummerText+"&"+plzText+"&"+stadtText+"&"+strasseText)).build();
+            HttpResponse<String> response = null;
+            try {
+                response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                String Serverantwort = response.body();
+                System.out.println(Serverantwort);
+                if(Serverantwort.equals("OK")){
+                    //Weiterleitung zur Login Seite
+                    try {
+                        Stage stage = (Stage) registrieren.getScene().getWindow();
+                        FXMLLoader loader = new FXMLLoader();
+                        loader.setLocation(getClass().getClassLoader().getResource("login.fxml"));
+                        AnchorPane root = (AnchorPane) loader.load();
+                        Scene scene = new Scene(root);
+                        String logincss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
+                        scene.getStylesheets().add(logincss);
+                        stage.setScene(scene);
+                        stage.setMaximized(false);
+                        stage.show();
+                    }
+                    catch(Exception e)    {
+                        e.printStackTrace();
+                    }
+                }
+            }catch (IOException | InterruptedException e){
+                e.printStackTrace();
+            }
         }
     }
 }

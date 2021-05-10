@@ -40,24 +40,24 @@
             </font>
         </Text>
         <Text layoutX="16.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="E-Mail Adresse!" />
-        <TextField id="e-mail_adresse" layoutX="105.0" layoutY="175.0" />
+        <TextField fx:id="email" layoutX="105.0" layoutY="175.0" />
         <Text layoutX="16.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nachname" />
-        <TextField id="nachname" layoutX="105.0" layoutY="72.0" />
+        <TextField fx:id="nachname" layoutX="105.0" layoutY="72.0" />
         <Text layoutX="274.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Postleitzahl" />
-        <TextField id="postleitzahl" layoutX="337.0" layoutY="175.0" />
+        <TextField fx:id="postleitzahl" layoutX="337.0" layoutY="175.0" />
         <CheckBox layoutX="280.0" layoutY="108.0" mnemonicParsing="false" selected="true" text="Passwort besteht aus mindestens 8 Zeichen" />
         <Text layoutX="277.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vorname" />
-        <TextField id="vorname" layoutX="337.0" layoutY="72.0" />
+        <TextField fx:id="vorname" layoutX="337.0" layoutY="72.0" />
         <Text layoutX="274.0" layoutY="223.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Stadt" />
-        <TextField id="stadt" layoutX="338.0" layoutY="213.0" />
+        <TextField fx:id="stadt" layoutX="338.0" layoutY="213.0" />
         <Text layoutX="271.0" layoutY="263.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Straße" />
-        <TextField id="strasse" layoutX="338.0" layoutY="246.0" />
+        <TextField fx:id="strasse" layoutX="338.0" layoutY="246.0" />
         <Text layoutX="271.0" layoutY="301.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Haus Nr" wrappingWidth="60.29296875" />
-        <TextField id="gebäude_nummer" layoutX="337.0" layoutY="284.0" />
-        <PasswordField id="passwort" layoutX="104.0" layoutY="111.0" />
+        <TextField fx:id="hausnummer" layoutX="337.0" layoutY="284.0" />
+        <PasswordField fx:id="passwort" layoutX="104.0" layoutY="111.0" />
 
       <Text layoutX="19.0" layoutY="243.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lehrstuhl" />
-      <TextField id="lehrstuhl" layoutX="104.0" layoutY="226.0" />
+      <TextField fx:id="lehrstuhl" layoutX="104.0" layoutY="226.0" />
       <Text layoutX="14.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Forschungsgebiet" wrappingWidth="60.29296875" />
-      <TextField id="forschungsgebiet" layoutX="104.0" layoutY="258.0" />
+      <TextField fx:id="forschungsgebiet" layoutX="104.0" layoutY="258.0" />
     </children></AnchorPane>

@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface StudentRepository extends JpaRepository<Student,Long> {
     Student findStudentByMatrikelnummer(Integer matrikelnummer);
     Student findStudentByNutzerId(Nutzer nutzer);
-    int findTopByOrderByIdDesc();
+    Student findTopByOrderByIdDesc();
     Student findStudentById(long id);
 }
