@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="453.0" prefWidth="643.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.RegistrierenController">
+<AnchorPane id="registrieren_lehrender" minHeight="0.0" minWidth="0.0" prefHeight="453.0" prefWidth="643.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.RegistrierenController">
    <children>
       <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Registrierung">
          <font>
@@ -17,8 +17,8 @@
          </font>
       </Text>
       <Text layoutX="316.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <Button fx:id="registrierbutton" onAction="#registrieren" layoutX="135.0" layoutY="395.0" mnemonicParsing="false" text="Registrierung" />
-      <Button layoutX="28.0" layoutY="275.0" mnemonicParsing="false" text="Registrieren als Lehrender" />
+      <Button fx:id="registrierbutton" layoutX="135.0" layoutY="395.0" mnemonicParsing="false" onAction="#registrieren" text="Registrierung" />
+      <Button fx:id="registrieren_lehrender" layoutX="28.0" layoutY="275.0" mnemonicParsing="false" onAction="#Rollenwechsel" text="Registrieren als Lehrender" />
       <Button layoutX="275.0" layoutY="395.0" mnemonicParsing="false" text="Zurück zum Login" />
       <Text layoutX="16.0" layoutY="422.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pflichtfeld!">
          <font>
@@ -42,20 +42,20 @@
       <Text layoutX="16.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="E-Mail Adresse!" />
       <TextField fx:id="email" layoutX="105.0" layoutY="175.0" />
       <Text layoutX="16.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nachname" />
-      <TextField layoutX="105.0" layoutY="72.0" />
+      <TextField fx:id="nachname" layoutX="105.0" layoutY="72.0" />
       <Text layoutX="274.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Postleitzahl" />
-      <TextField layoutX="337.0" layoutY="175.0" />
-      <CheckBox layoutX="280.0" layoutY="108.0" mnemonicParsing="false" selected="true" text="Passwort besteht aus mindestens 8 Zeichen" />
+      <TextField fx:id="postleitzahl" layoutX="337.0" layoutY="175.0" />
+      <CheckBox fx:id="check_box" layoutX="280.0" layoutY="108.0" mnemonicParsing="false" selected="true" text="Passwort besteht aus mindestens 8 Zeichen" />
       <Text layoutX="277.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vorname" />
-      <TextField layoutX="337.0" layoutY="72.0" />
+      <TextField fx:id="vorname" layoutX="337.0" layoutY="72.0" />
       <Text layoutX="274.0" layoutY="223.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Stadt" />
-      <TextField layoutX="338.0" layoutY="213.0" />
+      <TextField fx:id="stadt" layoutX="338.0" layoutY="213.0" />
       <Text layoutX="271.0" layoutY="263.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Straße" />
-      <TextField layoutX="338.0" layoutY="246.0" />
+      <TextField fx:id="strasse" layoutX="338.0" layoutY="246.0" />
       <Text layoutX="271.0" layoutY="301.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Haus Nr" wrappingWidth="60.29296875" />
-      <TextField layoutX="337.0" layoutY="284.0" />
-      <PasswordField layoutX="104.0" layoutY="111.0" />
+      <TextField fx:id="gebäude_nummer" layoutX="337.0" layoutY="284.0" />
+      <PasswordField id="passwort" fx:id="passwort" layoutX="104.0" layoutY="111.0" />
 
       <Text layoutX="19.0" layoutY="243.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Studienfach" />
-      <TextField layoutX="105.0" layoutY="226.0" />
+      <TextField fx:id="studienfach" layoutX="105.0" layoutY="226.0" />
    </children></AnchorPane>
