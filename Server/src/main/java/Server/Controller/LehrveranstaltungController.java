@@ -24,4 +24,7 @@ public class LehrveranstaltungController {
     public List<Lehrveranstaltung> getMeineLehrveranstaltungen() {
         return null;
     }
+
 }
+
+
