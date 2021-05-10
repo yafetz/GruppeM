@@ -76,9 +76,6 @@ public class LoginController {
                         loader.setLocation(getClass().getClassLoader().getResource("homescreen.fxml"));
                         AnchorPane root = (AnchorPane) loader.load();
                         HomescreenController homescreenController = loader.getController();
-
-                        System.out.println("LoginController, ist student: " + student);
-
                         homescreenController.setNutzerInstanz(student);
                         Scene scene = new Scene(root);
                         String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
@@ -98,9 +95,6 @@ public class LoginController {
                         loader.setLocation(getClass().getClassLoader().getResource("homescreen.fxml"));
                         AnchorPane root = (AnchorPane) loader.load();
                         HomescreenController homescreenController = loader.getController();
-
-                        System.out.println("LoginController, ist Lehrender: " + lehrender);
-
                         homescreenController.setNutzerInstanz(lehrender);
                         Scene scene = new Scene(root);
                         String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();

@@ -31,7 +31,7 @@ public class HomescreenController {
 
 
     public void initialize() {
-        System.out.println("Homescreencontroller nutzerinstanz: " + nutzerInstanz);
+
     }
 
     public void meineKurseAufrufen(ActionEvent event) {
@@ -42,9 +42,6 @@ public class HomescreenController {
             loader.setLocation(getClass().getClassLoader().getResource("meineKurse.fxml"));
             AnchorPane root = (AnchorPane) loader.load();
             MeineKurseController meineKurseController = loader.getController();
-
-            System.out.println("Homescreencontroller, nutzerinstanz: " + nutzerInstanz);
-
             meineKurseController.setNutzerInstanz(nutzerInstanz);
             Scene scene = new Scene(root);
             String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
@@ -65,9 +62,6 @@ public class HomescreenController {
             loader.setLocation(getClass().getClassLoader().getResource("alleKurse.fxml"));
             AnchorPane root = (AnchorPane) loader.load();
             AlleKurseController alleKurseController = loader.getController();
-
-            System.out.println("Homescreencontroller, nutzerinstanz: " + nutzerInstanz);
-
             alleKurseController.setNutzerInstanz(nutzerInstanz);
             Scene scene = new Scene(root);
             String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
