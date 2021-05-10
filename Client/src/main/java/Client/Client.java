@@ -13,7 +13,7 @@ public class Client extends Application {
         try {
             stage.setTitle("SEP");
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getClassLoader().getResource("lehrmaterialUpload.fxml"));
+            loader.setLocation(getClass().getClassLoader().getResource("login.fxml"));
             AnchorPane root = (AnchorPane) loader.load();
             Scene scene = new Scene(root);
             String logincss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();

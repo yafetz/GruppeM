@@ -63,22 +63,24 @@ public class LehrmaterialUploadController {
     }
 
     public void alleKurseAufrufen(ActionEvent event) {
-        event.consume();
-        Stage stage = (Stage) alleKurse.getScene().getWindow();
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getClassLoader().getResource("alleKurse.fxml"));
-            AnchorPane root = (AnchorPane) loader.load();
-            AlleKurseController alleKurse = loader.getController();
-            Scene scene = new Scene(root);
-            String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
-            scene.getStylesheets().add(homescreencss);
-            stage.setScene(scene);
-            stage.setMaximized(false);
-            stage.show();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
+        HomescreenController homescreenController = new HomescreenController();
+        homescreenController.alleKurseAufrufen(event);
+//        event.consume();
+//        Stage stage = (Stage) alleKurse.getScene().getWindow();
+//        try {
+//            FXMLLoader loader = new FXMLLoader();
+//            loader.setLocation(getClass().getClassLoader().getResource("alleKurse.fxml"));
+//            AnchorPane root = (AnchorPane) loader.load();
+//            AlleKurseController alleKurse = loader.getController();
+//            Scene scene = new Scene(root);
+//            String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
+//            scene.getStylesheets().add(homescreencss);
+//            stage.setScene(scene);
+//            stage.setMaximized(false);
+//            stage.show();
+//        } catch (IOException e){
+//            e.printStackTrace();
+//        }
     }
 
     public void eigeneProfilSeiteAufrufen(ActionEvent event) {

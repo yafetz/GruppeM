@@ -7,7 +7,7 @@ public class Lehrender {
     private int id;
     private String lehrstuhl;
     private String forschungsgebiet;
-    private Nutzer nutzer;
+    private Nutzer nutzerId;
 
     public void addDataFromJson(JSONObject jsonObject) {
         setId(jsonObject.getInt("id"));
@@ -16,7 +16,7 @@ public class Lehrender {
         Nutzer nutzer = new Nutzer();
         JSONObject jsonNutzer = (JSONObject) jsonObject.get("nutzerId");
         nutzer.addDataFromJson(jsonNutzer);
-        setNutzer(nutzer);
+        setNutzerId(nutzer);
     }
 
     public int getId() {
@@ -43,11 +43,16 @@ public class Lehrender {
         this.forschungsgebiet = forschungsgebiet;
     }
 
-    public Nutzer getNutzer() {
-        return nutzer;
+    public Nutzer getNutzerId() {
+        return nutzerId;
     }
 
-    public void setNutzer(Nutzer nutzer) {
-        this.nutzer = nutzer;
+    public void setNutzerId(Nutzer nutzerId) {
+        this.nutzerId = nutzerId;
+    }
+
+//  used to display the lehrenderName in the tableviews
+    public String getLehrenderName() {
+        return nutzerId.getNachname() + ", " + nutzerId.getVorname();
     }
 }

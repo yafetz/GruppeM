@@ -11,8 +11,8 @@ public class LehrmaterialStorageService {
 
     private final LehrmaterialRepository lehrmaterialRepository;
 
-    @Value("${upload.path}")
-    private String path;
+//    @Value("${upload.path}")
+//    private String path;
 
 
 

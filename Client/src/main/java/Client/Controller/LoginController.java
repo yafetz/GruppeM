@@ -44,7 +44,7 @@ public class LoginController {
             String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
             scene.getStylesheets().add(homescreencss);
             stage.setScene(scene);
-            stage.setMaximized(true);
+            stage.setMaximized(false);
             stage.show();
         }catch (IOException e){
             e.printStackTrace();
@@ -67,21 +67,24 @@ public class LoginController {
             try {
                 JSONObject jsonObject = new JSONObject(Serverantwort);
                 if(jsonObject.has("matrikelnummer")){
-                    System.out.println(jsonObject);
+//                    System.out.println(jsonObject);
                     Student student = new Student();
                     student.addDataFromJson(jsonObject);
                     Stage stage = (Stage) register.getScene().getWindow();
                     try {
                         FXMLLoader loader = new FXMLLoader();
-                        loader.setLocation(getClass().getClassLoader().getResource("userprofile.fxml"));
+                        loader.setLocation(getClass().getClassLoader().getResource("homescreen.fxml"));
                         AnchorPane root = (AnchorPane) loader.load();
-                        UserprofilController userprofil = loader.getController();
-                        userprofil.setStudent(student);
+                        HomescreenController homescreenController = loader.getController();
+
+                        System.out.println("LoginController, ist student: " + student);
+
+                        homescreenController.setNutzerInstanz(student);
                         Scene scene = new Scene(root);
                         String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
                         scene.getStylesheets().add(homescreencss);
                         stage.setScene(scene);
-                        stage.setMaximized(true);
+                        stage.setMaximized(false);
                         stage.show();
                     }catch (IOException e){
                         e.printStackTrace();
@@ -92,10 +95,13 @@ public class LoginController {
                     Stage stage = (Stage) register.getScene().getWindow();
                     try {
                         FXMLLoader loader = new FXMLLoader();
-                        loader.setLocation(getClass().getClassLoader().getResource("userprofile.fxml"));
+                        loader.setLocation(getClass().getClassLoader().getResource("homescreen.fxml"));
                         AnchorPane root = (AnchorPane) loader.load();
-                        UserprofilController userprofil = loader.getController();
-                        userprofil.setLehrender(lehrender);
+                        HomescreenController homescreenController = loader.getController();
+
+                        System.out.println("LoginController, ist Lehrender: " + lehrender);
+
+                        homescreenController.setNutzerInstanz(lehrender);
                         Scene scene = new Scene(root);
                         String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
                         scene.getStylesheets().add(homescreencss);

@@ -1,12 +1,14 @@
 package Client.Modell;
 
+import java.util.List;
+
 public class Lehrveranstaltung {
 
     private int id;
     private String titel;
     private String art;
     private String semester;
-//    private Lehrender lehrende;
+    private Lehrender lehrender;
 
 
     public int getId() {
@@ -41,18 +43,27 @@ public class Lehrveranstaltung {
         this.semester = semester;
     }
 
-//    public Client.Modell.Lehrender getLehrende() {
-//        return lehrende;
-//    }
-//
-//    public void setLehrende(Client.Modell.Lehrender lehrende) {
-//        this.lehrende = lehrende;
-//    }
+    public Lehrender getLehrender() {
+        return lehrender;
+    }
+
+    public void setLehrender(Lehrender lehrender) {
+        this.lehrender = lehrender;
+    }
+
+//    used to display the lehrenderName in the tableviews
+    public String getLehrenderName() {
+        return lehrender.getLehrenderName();
+    }
 
     @Override
     public String toString() {
         return "Lehrveranstaltung{" +
-                "titel='" + titel + '\'' +
+                "id=" + id +
+                ", titel='" + titel + '\'' +
+                ", art='" + art + '\'' +
+                ", semester='" + semester + '\'' +
+                ", lehrender=" + lehrender.getLehrenderName() +
                 '}';
     }
 }

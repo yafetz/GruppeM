@@ -15,6 +15,8 @@ public class UserprofilController {
     private Student student;
     private Lehrender lehrender;
 
+    private Object nutzerInstanz;
+
 
 
     public void initialize() {
@@ -28,12 +30,17 @@ public class UserprofilController {
      }
     public void setLehrender(Lehrender lehrender) {
         this.lehrender = lehrender;
-        username.setText(lehrender.getNutzer().getVorname() + " " + lehrender.getNutzer().getNachname());
-        mailadresse.setText(lehrender.getNutzer().getEmail());
+        username.setText(lehrender.getNutzerId().getVorname() + " " + lehrender.getNutzerId().getNachname());
+        mailadresse.setText(lehrender.getNutzerId().getEmail());
         matr.setVisible(false);
 
     }
 
+    public Object getNutzerInstanz() {
+        return nutzerInstanz;
+    }
 
-
+    public void setNutzerInstanz(Object nutzerInstanz) {
+        this.nutzerInstanz = nutzerInstanz;
+    }
 }

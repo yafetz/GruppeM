@@ -74,6 +74,7 @@
          <children>
             <TableView fx:id="alleLv" layoutX="37.0" layoutY="154.0" prefHeight="821.0" prefWidth="1653.0">
               <columns>
+                  <TableColumn fx:id="col_LvId" text="LvID" visible="false" />
                   <TableColumn fx:id="col_LvTitel" prefWidth="688.000057220459" text="Titel der Lehrveranstaltung" />
                   <TableColumn fx:id="col_LvSemester" minWidth="0.0" prefWidth="235.33319091796875" text="Semester" />
                   <TableColumn fx:id="col_LvArt" prefWidth="223.33343505859375" text="Art der Lehrveranstaltung" />
@@ -89,7 +90,7 @@
         <Pane layoutX="1625.0" layoutY="-2.0" prefHeight="67.0" prefWidth="302.0">
             <children>
                 <ImageView fx:id="profilBild" fitHeight="67.0" fitWidth="68.0" layoutX="234.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-radius: 20 20 20 20;" />
-                <Hyperlink fx:id="namenLink" onAction="#eigeneProfilSeiteAufrufen" alignment="BOTTOM_RIGHT" layoutY="42.0" prefHeight="23.0" prefWidth="235.0" text="Vorname Nachname" />
+                <Hyperlink fx:id="namenLink" alignment="BOTTOM_RIGHT" layoutY="42.0" onAction="#eigeneProfilSeiteAufrufen" prefHeight="23.0" prefWidth="235.0" text="Vorname Nachname" />
             </children>
         </Pane>
     </children>
