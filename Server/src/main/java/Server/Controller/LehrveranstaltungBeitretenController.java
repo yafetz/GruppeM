@@ -1,9 +1,11 @@
 package Server.Controller;
 
+import Server.Modell.Student;
 import Server.Services.LehrveranstaltungBeitretenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -17,8 +19,8 @@ public class LehrveranstaltungBeitretenController {
         this.lehrveranstaltungBeitretenService = lehrveranstaltungBeitretenService;
     }
 
-    @PutMapping("{student_id}&{lehrveranstaltungsId}")
-    public void beitreten(@PathVariable long lehrveranstaltungsId,@PathVariable long student_id){
-        lehrveranstaltungBeitretenService.beitreten(lehrveranstaltungsId, student_id);
+    @PostMapping("{lehrveranstaltungsId}&{student_id}")
+    public Object beitreten(@PathVariable long lehrveranstaltungsId,@PathVariable long student_id){
+        return lehrveranstaltungBeitretenService.beitreten(lehrveranstaltungsId, student_id);
     }
 }
