@@ -13,5 +13,6 @@ public interface TeilnehmerListeRepository extends JpaRepository<TeilnehmerListe
     List<TeilnehmerListe> findAllByLehrveranstaltung(Lehrveranstaltung lehrveranstaltung);
     TeilnehmerListe findByLehrveranstaltung(long id);
     List<Student> getAllById(Long id);
+    List<TeilnehmerListe> findAllByStudentId(Student student);
 
 }
