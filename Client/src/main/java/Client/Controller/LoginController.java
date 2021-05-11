@@ -73,15 +73,15 @@ public class LoginController {
                     Stage stage = (Stage) register.getScene().getWindow();
                     try {
                         FXMLLoader loader = new FXMLLoader();
-                        loader.setLocation(getClass().getClassLoader().getResource("userprofile.fxml"));
+                        loader.setLocation(getClass().getClassLoader().getResource("homescreen.fxml"));
                         AnchorPane root = (AnchorPane) loader.load();
-                        UserprofilController userprofil = loader.getController();
-                        userprofil.nutzerprofilAufrufen(student, student);
+                        HomescreenController homescreenController = loader.getController();
+                        homescreenController.setNutzerInstanz(student);
                         Scene scene = new Scene(root);
                         String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
                         scene.getStylesheets().add(homescreencss);
                         stage.setScene(scene);
-                        stage.setMaximized(true);
+                        stage.setMaximized(false);
                         stage.show();
                     }catch (IOException e){
                         e.printStackTrace();
@@ -92,15 +92,15 @@ public class LoginController {
                     Stage stage = (Stage) register.getScene().getWindow();
                     try {
                         FXMLLoader loader = new FXMLLoader();
-                        loader.setLocation(getClass().getClassLoader().getResource("userprofile.fxml"));
+                        loader.setLocation(getClass().getClassLoader().getResource("homescreen.fxml"));
                         AnchorPane root = (AnchorPane) loader.load();
-                        UserprofilController userprofil = loader.getController();
-                        userprofil.nutzerprofilAufrufen(lehrender, lehrender);
+                        HomescreenController homescreenController = loader.getController();
+                        homescreenController.setNutzerInstanz(lehrender);
                         Scene scene = new Scene(root);
                         String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
                         scene.getStylesheets().add(homescreencss);
                         stage.setScene(scene);
-                        stage.setMaximized(true);
+                        stage.setMaximized(false);
                         stage.show();
                     }catch (IOException e){
                         e.printStackTrace();

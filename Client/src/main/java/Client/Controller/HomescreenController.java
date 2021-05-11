@@ -1,5 +1,8 @@
 package Client.Controller;
 
+import Client.Modell.Lehrender;
+import Client.Modell.Nutzer;
+import Client.Modell.Student;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,6 +27,8 @@ public class HomescreenController {
     @FXML
     private Button alleKurse;
 
+    private Object nutzerInstanz;
+
 
     public void initialize() {
 
@@ -36,7 +41,8 @@ public class HomescreenController {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getClassLoader().getResource("meineKurse.fxml"));
             AnchorPane root = (AnchorPane) loader.load();
-            MeineKurseController meineKurse = loader.getController();
+            MeineKurseController meineKurseController = loader.getController();
+            meineKurseController.setNutzerInstanz(nutzerInstanz);
             Scene scene = new Scene(root);
             String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
             scene.getStylesheets().add(homescreencss);
@@ -55,7 +61,8 @@ public class HomescreenController {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getClassLoader().getResource("alleKurse.fxml"));
             AnchorPane root = (AnchorPane) loader.load();
-            AlleKurseController alleKurse = loader.getController();
+            AlleKurseController alleKurseController = loader.getController();
+            alleKurseController.setNutzerInstanz(nutzerInstanz);
             Scene scene = new Scene(root);
             String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
             scene.getStylesheets().add(homescreencss);
@@ -74,7 +81,8 @@ public class HomescreenController {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getClassLoader().getResource("userprofile.fxml"));
             AnchorPane root = (AnchorPane) loader.load();
-            UserprofilController userprofil = loader.getController();
+            UserprofilController userprofilController = loader.getController();
+            userprofilController.setNutzerInstanz(nutzerInstanz);
             Scene scene = new Scene(root);
             String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
             scene.getStylesheets().add(homescreencss);
@@ -84,6 +92,14 @@ public class HomescreenController {
         } catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    public Object getNutzerInstanz() {
+        return nutzerInstanz;
+    }
+
+    public void setNutzerInstanz(Object nutzerInstanz) {
+        this.nutzerInstanz = nutzerInstanz;
     }
 }
 

@@ -1,7 +1,9 @@
 package Client.Controller;
 
 
+import Client.Modell.Lehrender;
 import Client.Modell.Lehrveranstaltung;
+import Client.Modell.Student;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.collections.FXCollections;
@@ -10,11 +12,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -36,41 +36,90 @@ public class AlleKurseController implements Initializable {
     @FXML
     public Hyperlink namenLink;
     @FXML
-    private TableView alleLv;
+    private TableView<Lehrveranstaltung> alleLv;
     @FXML
-    private TableColumn col_LvTitel;
+    private TableColumn<Lehrveranstaltung, Long> col_LvId;
     @FXML
-    private TableColumn col_LvSemester;
+    private TableColumn<Lehrveranstaltung, String> col_LvTitel;
     @FXML
-    private TableColumn col_LvArt;
+    private TableColumn<Lehrveranstaltung, String> col_LvSemester;
     @FXML
-    private TableColumn col_LvLehrende;
+    private TableColumn<Lehrveranstaltung, String> col_LvArt;
+    @FXML
+    private TableColumn<Lehrveranstaltung, String> col_LvLehrende;
     @FXML
     private Button alleKurse;
     @FXML
     private Button meineKurse;
 
+    private Object nutzerInstanz;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
+
+    public void populateTableView() {
+        System.out.println(nutzerInstanz);
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/all")).build();
         HttpResponse<String> response;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
             System.out.println(response.body());
-            //mapping data in response.body() to list of lehrveranstaltung-objects
+
+//            mapping data in response.body() to a list of lehrveranstaltung-objects
             ObjectMapper mapper = new ObjectMapper();
             List<Lehrveranstaltung> lehrveranstaltungen = mapper.readValue(response.body(), new TypeReference<List<Lehrveranstaltung>>() {});
 
-            col_LvTitel.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("Titel"));
-            col_LvSemester.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("Semester"));
-            col_LvArt.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("Art"));
-            // ObservableList is required to populate the table alleLv using .setItems() :
+            col_LvId.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,Long>("id"));
+            col_LvTitel.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("titel"));
+            col_LvSemester.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("semester"));
+            col_LvArt.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("art"));
+            col_LvLehrende.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("lehrenderName"));
+
+//            Angelehnt an: https://stackoverflow.com/questions/35562037/how-to-set-click-event-for-a-cell-of-a-table-column-in-a-tableview
+            col_LvTitel.setCellFactory(tablecell -> {
+                TableCell<Lehrveranstaltung, String> cell = new TableCell<Lehrveranstaltung, String>(){
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty) ;
+                        setText(empty ? null : item);
+                    }
+                };
+                cell.setCursor(Cursor.HAND);
+                cell.setOnMouseClicked(e -> {
+                            if (!cell.isEmpty()) {
+                                redirectToCourseOverview(cell.getTableRow().getItem().getId());
+                            }
+                        }
+                );
+                return cell;
+            });
+
+//            ObservableList is required to populate the table alleLv using .setItems() :
             ObservableList<Lehrveranstaltung> obsLv = FXCollections.observableList(lehrveranstaltungen);
             alleLv.setItems(obsLv);
 
         } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void redirectToCourseOverview(Integer lehrveranstaltungId) {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/"+lehrveranstaltungId)).build();
+        HttpResponse<String> response;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+//            System.out.println(response.body());
+            ObjectMapper mapper = new ObjectMapper();
+            Lehrveranstaltung lehrveranstaltung = mapper.readValue(response.body(), Lehrveranstaltung.class);
+//            TODO Weiterleitung zu Übersichtsseite des Kurses
+//            Platzhalter bis dahin:
+            System.out.println(lehrveranstaltung.toString());
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -82,7 +131,8 @@ public class AlleKurseController implements Initializable {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getClassLoader().getResource("meineKurse.fxml"));
             AnchorPane root = (AnchorPane) loader.load();
-            MeineKurseController meineKurse = loader.getController();
+            MeineKurseController meineKurseController = loader.getController();
+            meineKurseController.setNutzerInstanz(nutzerInstanz);
             Scene scene = new Scene(root);
             String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
             scene.getStylesheets().add(homescreencss);
@@ -101,7 +151,8 @@ public class AlleKurseController implements Initializable {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getClassLoader().getResource("alleKurse.fxml"));
             AnchorPane root = (AnchorPane) loader.load();
-            AlleKurseController alleKurse = loader.getController();
+            AlleKurseController alleKurseController = loader.getController();
+            alleKurseController.setNutzerInstanz(nutzerInstanz);
             Scene scene = new Scene(root);
             String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
             scene.getStylesheets().add(homescreencss);
@@ -120,7 +171,8 @@ public class AlleKurseController implements Initializable {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getClassLoader().getResource("userprofile.fxml"));
             AnchorPane root = (AnchorPane) loader.load();
-            UserprofilController userprofil = loader.getController();
+            UserprofilController userprofilController = loader.getController();
+            userprofilController.setNutzerInstanz(nutzerInstanz);
             Scene scene = new Scene(root);
             String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
             scene.getStylesheets().add(homescreencss);
@@ -131,4 +183,14 @@ public class AlleKurseController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    public Object getNutzerInstanz() {
+        return nutzerInstanz;
+    }
+
+    public void setNutzerInstanz(Object nutzerInstanz) {
+        this.nutzerInstanz = nutzerInstanz;
+        populateTableView();
+    }
+
 }

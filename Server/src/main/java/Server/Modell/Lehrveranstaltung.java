@@ -3,7 +3,6 @@ package Server.Modell;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Table(name ="lehrveranstaltung")
@@ -12,14 +11,14 @@ public class Lehrveranstaltung {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     private String titel;
     @Column(nullable = false)
     private String art;
     @Column(nullable = false)
     private String semester;
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name= "lehrenderId", nullable = false)
+    @JoinColumn(name= "lehrender_Id", nullable = false)
     private Lehrender lehrender;
 
     public Long getId() {
