@@ -44,7 +44,7 @@ public class LoginController {
             String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
             scene.getStylesheets().add(homescreencss);
             stage.setScene(scene);
-            stage.setMaximized(false);
+            stage.setMaximized(true);
             stage.show();
         }catch (IOException e){
             e.printStackTrace();
@@ -67,7 +67,7 @@ public class LoginController {
             try {
                 JSONObject jsonObject = new JSONObject(Serverantwort);
                 if(jsonObject.has("matrikelnummer")){
-//                    System.out.println(jsonObject);
+                    System.out.println(jsonObject);
                     Student student = new Student();
                     student.addDataFromJson(jsonObject);
                     Stage stage = (Stage) register.getScene().getWindow();
