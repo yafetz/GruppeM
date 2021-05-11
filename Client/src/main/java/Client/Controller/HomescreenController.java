@@ -1,6 +1,5 @@
 package Client.Controller;
 
-import Client.Controller.Nutzerprofil.UserprofilController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -73,7 +72,7 @@ public class HomescreenController {
         Stage stage = (Stage) namenLink.getScene().getWindow();
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getClassLoader().getResource("userprofile/userprofile.fxml"));
+            loader.setLocation(getClass().getClassLoader().getResource("userprofile.fxml"));
             AnchorPane root = (AnchorPane) loader.load();
             UserprofilController userprofil = loader.getController();
             Scene scene = new Scene(root);

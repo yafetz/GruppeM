@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.UserprofilController">
+   <children>
+      <Label fx:id="username" layoutX="93.0" layoutY="55.0" prefHeight="67.0" prefWidth="446.0" text="Name">
+         <font>
+            <Font size="45.0" />
+         </font></Label>
+      <Label fx:id="mailadresse" layoutX="93.0" layoutY="138.0" prefHeight="26.0" prefWidth="261.0" text="Mailadresse" />
+      <Label fx:id="adresse" layoutX="93.0" layoutY="171.0" prefHeight="18.0" prefWidth="142.0" text="Adress" />
+      <Label fx:id="plz" layoutX="130.0" layoutY="244.0" prefHeight="18.0" prefWidth="51.0" text="plz" />
+      <Label fx:id="city" layoutX="93.0" layoutY="217.0" prefHeight="18.0" prefWidth="63.0" text="citi" />
+      <Label fx:id="lehrstuhl_oder_matr" layoutX="128.0" layoutY="290.0" prefHeight="18.0" prefWidth="99.0" text="lehrstuhl/matrikelnummer" />
+      <Label fx:id="forschungsgebiet_studienfach" layoutX="128.0" layoutY="336.0" prefHeight="18.0" prefWidth="142.0" text="forschungsgebiet/studienfach" />
+      <Label fx:id="number" layoutX="93.0" layoutY="191.0" text="hausnummer" />
+      <Accordion layoutX="-16.0" layoutY="67.0" />
+      <Accordion layoutX="14.0" layoutY="102.0" />
+      <Accordion layoutX="47.0" layoutY="89.0" />
+      <ButtonBar layoutX="7.0" layoutY="-6.0" prefHeight="40.0" prefWidth="200.0" />
+   </children>
+</AnchorPane>
