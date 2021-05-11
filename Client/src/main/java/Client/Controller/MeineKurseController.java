@@ -62,92 +62,7 @@ public class MeineKurseController implements Initializable {
 
     }
 
-    public void redirectToCourseOverview(Integer lehrveranstaltungId) {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/"+lehrveranstaltungId)).build();
-        HttpResponse<String> response;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-//            System.out.println(response.body());
-            ObjectMapper mapper = new ObjectMapper();
-            Lehrveranstaltung lehrveranstaltung = mapper.readValue(response.body(), Lehrveranstaltung.class);
-//            TODO Weiterleitung zu Übersichtsseite des Kurses
-//            Platzhalter bis dahin:
-            System.out.println(lehrveranstaltung.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void meineKurseAufrufen(ActionEvent event) {
-        event.consume();
-        Stage stage = (Stage) meineKurse.getScene().getWindow();
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getClassLoader().getResource("meineKurse.fxml"));
-            AnchorPane root = (AnchorPane) loader.load();
-            MeineKurseController meineKurse = loader.getController();
-            Scene scene = new Scene(root);
-            String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
-            scene.getStylesheets().add(homescreencss);
-            stage.setScene(scene);
-            stage.setMaximized(false);
-            stage.show();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-
-    public void alleKurseAufrufen(ActionEvent event) {
-        event.consume();
-        Stage stage = (Stage) alleKurse.getScene().getWindow();
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getClassLoader().getResource("alleKurse.fxml"));
-            AnchorPane root = (AnchorPane) loader.load();
-            AlleKurseController alleKurse = loader.getController();
-            Scene scene = new Scene(root);
-            String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
-            scene.getStylesheets().add(homescreencss);
-            stage.setScene(scene);
-            stage.setMaximized(false);
-            stage.show();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-
-    public void eigeneProfilSeiteAufrufen(ActionEvent event) {
-        event.consume();
-        Stage stage = (Stage) namenLink.getScene().getWindow();
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getClassLoader().getResource("userprofile.fxml"));
-            AnchorPane root = (AnchorPane) loader.load();
-            UserprofilController userprofil = loader.getController();
-            Scene scene = new Scene(root);
-            String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
-            scene.getStylesheets().add(homescreencss);
-            stage.setScene(scene);
-            stage.setMaximized(false);
-            stage.show();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-
-    public void neueLvErstellen(ActionEvent event) {
-        event.consume();
-        //TODO
-    }
-
-    public Object getNutzerInstanz() {
-        return nutzerInstanz;
-    }
-
-    public void setNutzerInstanz(Object nutzerInstanz) {
-        this.nutzerInstanz = nutzerInstanz;
-
+    public void populateTableView() {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = null;
         System.out.println(nutzerInstanz);
@@ -155,26 +70,29 @@ public class MeineKurseController implements Initializable {
         System.out.println("nutzerInstanz instanceof Student: " + (nutzerInstanz instanceof Student));
         if (nutzerInstanz instanceof Lehrender) {
             System.out.println("nutzerInstanz als Lehrender");
-            request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/meine/" + ((Lehrender) nutzerInstanz).getNutzerId().getId())).build();
+            request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/meine/nutzerId=" + ((Lehrender) nutzerInstanz).getNutzerId().getId())).build();
         }
         if (nutzerInstanz instanceof Student) {
             System.out.println("nutzerInstanz als Student");
-            request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/meine/" + ((Student) nutzerInstanz).getNutzer().getId())).build();
+            request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/meine/nutzerId=" + ((Student) nutzerInstanz).getNutzer().getId())).build();
         }
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            //mapping data in response.body() to JSON
+//            mapping data in response.body() to a list of lehrveranstaltung-objects
             ObjectMapper mapper = new ObjectMapper();
-            List<Lehrveranstaltung> lehrveranstaltungen = mapper.readValue(response.body(), new TypeReference<List<Lehrveranstaltung>>() {});
+            List<TeilnehmerListe> teilnehmerListe = mapper.readValue(response.body(), new TypeReference<List<TeilnehmerListe>>() {});
+            List<Lehrveranstaltung> lehrveranstaltungen = null;
+//            TODO
+//            for()
 
             col_LvId.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,Long>("id"));
             col_LvTitel.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("Titel"));
             col_LvSemester.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("Semester"));
             col_LvArt.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("Art"));
 
-            // Quelle: https://stackoverflow.com/questions/35562037/how-to-set-click-event-for-a-cell-of-a-table-column-in-a-tableview
+//            Angelehnt an: https://stackoverflow.com/questions/35562037/how-to-set-click-event-for-a-cell-of-a-table-column-in-a-tableview
             col_LvTitel.setCellFactory(tablecell -> {
                 TableCell<Lehrveranstaltung, String> cell = new TableCell<Lehrveranstaltung, String>(){
                     @Override
@@ -201,5 +119,96 @@ public class MeineKurseController implements Initializable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void redirectToCourseOverview(Integer lehrveranstaltungId) {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/"+lehrveranstaltungId)).build();
+        HttpResponse<String> response;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+//            System.out.println(response.body());
+            ObjectMapper mapper = new ObjectMapper();
+            Lehrveranstaltung lehrveranstaltung = mapper.readValue(response.body(), Lehrveranstaltung.class);
+//            TODO Weiterleitung zu Übersichtsseite des Kurses
+//            Platzhalter bis dahin:
+            System.out.println(lehrveranstaltung.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void meineKurseAufrufen(ActionEvent event) {
+        event.consume();
+        Stage stage = (Stage) meineKurse.getScene().getWindow();
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("meineKurse.fxml"));
+            AnchorPane root = (AnchorPane) loader.load();
+            MeineKurseController meineKurseController = loader.getController();
+            meineKurseController.setNutzerInstanz(nutzerInstanz);
+            Scene scene = new Scene(root);
+            String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
+            scene.getStylesheets().add(homescreencss);
+            stage.setScene(scene);
+            stage.setMaximized(false);
+            stage.show();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void alleKurseAufrufen(ActionEvent event) {
+        event.consume();
+        Stage stage = (Stage) alleKurse.getScene().getWindow();
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("alleKurse.fxml"));
+            AnchorPane root = (AnchorPane) loader.load();
+            AlleKurseController alleKurseController = loader.getController();
+            alleKurseController.setNutzerInstanz(nutzerInstanz);
+            Scene scene = new Scene(root);
+            String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
+            scene.getStylesheets().add(homescreencss);
+            stage.setScene(scene);
+            stage.setMaximized(false);
+            stage.show();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void eigeneProfilSeiteAufrufen(ActionEvent event) {
+        event.consume();
+        Stage stage = (Stage) namenLink.getScene().getWindow();
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getClassLoader().getResource("userprofile.fxml"));
+            AnchorPane root = (AnchorPane) loader.load();
+            UserprofilController userprofilController = loader.getController();
+            userprofilController.setNutzerInstanz(nutzerInstanz);
+            Scene scene = new Scene(root);
+            String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
+            scene.getStylesheets().add(homescreencss);
+            stage.setScene(scene);
+            stage.setMaximized(false);
+            stage.show();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void neueLvErstellen(ActionEvent event) {
+        event.consume();
+        //TODO
+    }
+
+    public Object getNutzerInstanz() {
+        return nutzerInstanz;
+    }
+
+    public void setNutzerInstanz(Object nutzerInstanz) {
+        this.nutzerInstanz = nutzerInstanz;
+        populateTableView();
     }
 }

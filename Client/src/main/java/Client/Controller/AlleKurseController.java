@@ -60,6 +60,53 @@ public class AlleKurseController implements Initializable {
 
     }
 
+    public void populateTableView() {
+        System.out.println(nutzerInstanz);
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/all")).build();
+        HttpResponse<String> response;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+//            System.out.println(response.body());
+
+//            mapping data in response.body() to a list of lehrveranstaltung-objects
+            ObjectMapper mapper = new ObjectMapper();
+            List<Lehrveranstaltung> lehrveranstaltungen = mapper.readValue(response.body(), new TypeReference<List<Lehrveranstaltung>>() {});
+
+            col_LvId.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,Long>("id"));
+            col_LvTitel.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("titel"));
+            col_LvSemester.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("semester"));
+            col_LvArt.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("art"));
+            col_LvLehrende.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("lehrenderName"));
+
+//            Angelehnt an: https://stackoverflow.com/questions/35562037/how-to-set-click-event-for-a-cell-of-a-table-column-in-a-tableview
+            col_LvTitel.setCellFactory(tablecell -> {
+                TableCell<Lehrveranstaltung, String> cell = new TableCell<Lehrveranstaltung, String>(){
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty) ;
+                        setText(empty ? null : item);
+                    }
+                };
+                cell.setCursor(Cursor.HAND);
+                cell.setOnMouseClicked(e -> {
+                            if (!cell.isEmpty()) {
+                                redirectToCourseOverview(cell.getTableRow().getItem().getId());
+                            }
+                        }
+                );
+                return cell;
+            });
+
+//            ObservableList is required to populate the table alleLv using .setItems() :
+            ObservableList<Lehrveranstaltung> obsLv = FXCollections.observableList(lehrveranstaltungen);
+            alleLv.setItems(obsLv);
+
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void redirectToCourseOverview(Integer lehrveranstaltungId) {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/"+lehrveranstaltungId)).build();
@@ -143,49 +190,7 @@ public class AlleKurseController implements Initializable {
 
     public void setNutzerInstanz(Object nutzerInstanz) {
         this.nutzerInstanz = nutzerInstanz;
-        System.out.println(nutzerInstanz);
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/all")).build();
-        HttpResponse<String> response;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-//            System.out.println(response.body());
-
-//            mapping data in response.body() to a list of lehrveranstaltung-objects
-            ObjectMapper mapper = new ObjectMapper();
-            List<Lehrveranstaltung> lehrveranstaltungen = mapper.readValue(response.body(), new TypeReference<List<Lehrveranstaltung>>() {});
-
-            col_LvId.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,Long>("id"));
-            col_LvTitel.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("titel"));
-            col_LvSemester.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("semester"));
-            col_LvArt.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("art"));
-            col_LvLehrende.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("lehrenderName"));
-
-//            Quelle: https://stackoverflow.com/questions/35562037/how-to-set-click-event-for-a-cell-of-a-table-column-in-a-tableview
-            col_LvTitel.setCellFactory(tablecell -> {
-                TableCell<Lehrveranstaltung, String> cell = new TableCell<Lehrveranstaltung, String>(){
-                    @Override
-                    protected void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty) ;
-                        setText(empty ? null : item);
-                    }
-                };
-                cell.setCursor(Cursor.HAND);
-                cell.setOnMouseClicked(e -> {
-                            if (!cell.isEmpty()) {
-                                redirectToCourseOverview(cell.getTableRow().getItem().getId());
-                            }
-                        }
-                );
-                return cell;
-            });
-
-//            ObservableList is required to populate the table alleLv using .setItems() :
-            ObservableList<Lehrveranstaltung> obsLv = FXCollections.observableList(lehrveranstaltungen);
-            alleLv.setItems(obsLv);
-
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
+        populateTableView();
     }
+
 }

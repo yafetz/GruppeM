@@ -35,7 +35,7 @@ public class LehrveranstaltungController {
         return lehrveranstaltungRepository.findAll();
     }
 
-    @GetMapping("/meine/{nutzerId}")
+    @GetMapping("/meine/nutzerId={nutzerId}")
     public List<TeilnehmerListe> getMeineLehrveranstaltungen(@PathVariable Long nutzerId) {
         Student student = studentRepository.findStudentById(nutzerId);
         return teilnehmerListeRepository.findAllByStudentId(student);
