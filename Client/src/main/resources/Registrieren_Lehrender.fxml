@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.gluonhq.charm.glisten.control.ToggleButtonGroup?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
@@ -10,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="453.0" prefWidth="643.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="453.0" prefWidth="643.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.RegistrierenController">
     <children>
         <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Registrierung">
             <font>
@@ -18,9 +17,9 @@
             </font>
         </Text>
         <Text layoutX="316.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-        <Button layoutX="210.0" layoutY="395.0" mnemonicParsing="false" text="Registrierung" />
-        <Button layoutX="108.0" layoutY="309.0" mnemonicParsing="false" text="Registrieren als Student" />
-        <Button layoutX="337.0" layoutY="395.0" mnemonicParsing="false" text="Zurück zum Login" />
+        <Button fx:id="registrieren" layoutX="210.0" layoutY="395.0" mnemonicParsing="false" onAction="#Registrieren" text="Registrierung" />
+        <Button fx:id="registrieren_student" layoutX="108.0" layoutY="309.0" mnemonicParsing="false" onAction="#Registrieren_Student" text="Registrieren als Student" />
+        <Button fx:id="zuruek" layoutX="337.0" layoutY="395.0" mnemonicParsing="false" onAction="#Zuruek" text="Zurück zum Login" />
         <Text layoutX="16.0" layoutY="422.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pflichtfeld!">
             <font>
                 <Font size="6.0" />
@@ -41,24 +40,24 @@
             </font>
         </Text>
         <Text layoutX="16.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="E-Mail Adresse!" />
-        <TextField layoutX="105.0" layoutY="175.0" />
+        <TextField fx:id="email" layoutX="105.0" layoutY="175.0" />
         <Text layoutX="16.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nachname" />
-        <TextField layoutX="105.0" layoutY="72.0" />
+        <TextField fx:id="nachname" layoutX="105.0" layoutY="72.0" />
         <Text layoutX="274.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Postleitzahl" />
-        <TextField layoutX="337.0" layoutY="175.0" />
+        <TextField fx:id="postleitzahl" layoutX="337.0" layoutY="175.0" />
         <CheckBox layoutX="280.0" layoutY="108.0" mnemonicParsing="false" selected="true" text="Passwort besteht aus mindestens 8 Zeichen" />
         <Text layoutX="277.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vorname" />
-        <TextField layoutX="337.0" layoutY="72.0" />
+        <TextField fx:id="vorname" layoutX="337.0" layoutY="72.0" />
         <Text layoutX="274.0" layoutY="223.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Stadt" />
-        <TextField layoutX="338.0" layoutY="213.0" />
+        <TextField fx:id="stadt" layoutX="338.0" layoutY="213.0" />
         <Text layoutX="271.0" layoutY="263.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Straße" />
-        <TextField layoutX="338.0" layoutY="246.0" />
+        <TextField fx:id="strasse" layoutX="338.0" layoutY="246.0" />
         <Text layoutX="271.0" layoutY="301.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Haus Nr" wrappingWidth="60.29296875" />
-        <TextField layoutX="337.0" layoutY="284.0" />
-        <PasswordField layoutX="104.0" layoutY="111.0" />
-        <ToggleButtonGroup layoutX="139.0" layoutY="338.0" selectionType="SINGLE" />
+        <TextField fx:id="hausnummer" layoutX="337.0" layoutY="284.0" />
+        <PasswordField fx:id="passwort" layoutX="104.0" layoutY="111.0" />
+
       <Text layoutX="19.0" layoutY="243.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lehrstuhl" />
-      <TextField layoutX="104.0" layoutY="226.0" />
-      <Text layoutX="20.0" layoutY="268.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Forschungsgebiet" wrappingWidth="74.0" />
-      <TextField layoutX="104.0" layoutY="258.0" />
+      <TextField fx:id="lehrstuhl" layoutX="104.0" layoutY="226.0" />
+      <Text layoutX="14.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Forschungsgebiet" wrappingWidth="60.29296875" />
+      <TextField fx:id="forschungsgebiet" layoutX="104.0" layoutY="258.0" />
     </children></AnchorPane>

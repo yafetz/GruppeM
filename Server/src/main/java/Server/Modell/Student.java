@@ -32,7 +32,7 @@ public class Student {
     }
 
     public void setMatrikelnummer(int matrikelnummer) {
-        matrikelnummer = matrikelnummer;
+        this.matrikelnummer = matrikelnummer;
     }
 
     public String getStudienfach() {

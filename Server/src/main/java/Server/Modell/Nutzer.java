@@ -44,7 +44,7 @@ public class Nutzer {
     }
 
     public void setVorname(String vorname) {
-        vorname = vorname;
+        this.vorname = vorname;
     }
 
     public String getNachname() {
@@ -52,7 +52,7 @@ public class Nutzer {
     }
 
     public void setNachname(String nachname) {
-        nachname = nachname;
+        this.nachname = nachname;
     }
 
     public String getEmail() {
@@ -60,7 +60,7 @@ public class Nutzer {
     }
 
     public void setEmail(String email) {
-        email = email;
+        this.email = email;
     }
 
     public String getPasswort() {
@@ -68,7 +68,7 @@ public class Nutzer {
     }
 
     public void setPasswort(String passwort) {
-        passwort = passwort;
+        this.passwort = passwort;
     }
 
     public String getProfilbild() {
@@ -76,7 +76,7 @@ public class Nutzer {
     }
 
     public void setProfilbild(String profilbild) {
-        profilbild = profilbild;
+        this.profilbild = profilbild;
     }
 
     public String getStrasse() {
@@ -84,7 +84,7 @@ public class Nutzer {
     }
 
     public void setStrasse(String strasse) {
-        strasse = strasse;
+        this.strasse = strasse;
     }
 
     public int getHausnummer() {
@@ -92,7 +92,7 @@ public class Nutzer {
     }
 
     public void setHausnummer(int hausnummer) {
-        hausnummer = hausnummer;
+        this.hausnummer = hausnummer;
     }
 
     public int getPlz() {
