@@ -67,7 +67,7 @@ public class AlleKurseController implements Initializable {
         HttpResponse<String> response;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
-//            System.out.println(response.body());
+            System.out.println(response.body());
 
 //            mapping data in response.body() to a list of lehrveranstaltung-objects
             ObjectMapper mapper = new ObjectMapper();

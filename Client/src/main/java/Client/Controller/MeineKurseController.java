@@ -65,28 +65,28 @@ public class MeineKurseController implements Initializable {
     public void populateTableView() {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = null;
-        System.out.println(nutzerInstanz);
-        System.out.println("nutzerInstanz instanceof Lehrender: " + (nutzerInstanz instanceof Lehrender));
-        System.out.println("nutzerInstanz instanceof Student: " + (nutzerInstanz instanceof Student));
+
         if (nutzerInstanz instanceof Lehrender) {
-            System.out.println("nutzerInstanz als Lehrender");
             request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/meine/nutzerId=" + ((Lehrender) nutzerInstanz).getNutzerId().getId())).build();
         }
         if (nutzerInstanz instanceof Student) {
-            System.out.println("nutzerInstanz als Student");
             request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/meine/nutzerId=" + ((Student) nutzerInstanz).getNutzer().getId())).build();
         }
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-//            mapping data in response.body() to a list of lehrveranstaltung-objects
+//            mapping data in response.body() to a list of teilnehmerliste-objects
             ObjectMapper mapper = new ObjectMapper();
+            System.out.println(response.body());
             List<TeilnehmerListe> teilnehmerListe = mapper.readValue(response.body(), new TypeReference<List<TeilnehmerListe>>() {});
             List<Lehrveranstaltung> lehrveranstaltungen = null;
-//            TODO
-//            for()
 
+            for(TeilnehmerListe teilnehmerListe1 : teilnehmerListe) {
+                lehrveranstaltungen.add(teilnehmerListe1.getLehrveranstaltung());
+            }
+
+//            set property of each column of the tableview
             col_LvId.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,Long>("id"));
             col_LvTitel.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("Titel"));
             col_LvSemester.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("Semester"));
@@ -110,7 +110,7 @@ public class MeineKurseController implements Initializable {
                 );
                 return cell;
             });
-            // ObservableList is required to populate the table alleLv using .setItems()
+            // ObservableList is required to populate the table meineLv using .setItems()
             ObservableList<Lehrveranstaltung> obsLv = FXCollections.observableList(lehrveranstaltungen);
             meineLv.setItems(obsLv);
 

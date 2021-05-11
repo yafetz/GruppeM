@@ -11,12 +11,15 @@ public class TeilnehmerListe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name= "lehrveranstaltungsId", nullable = false)
     private Lehrveranstaltung lehrveranstaltung;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="studentId", nullable=true)
     private Student studentId;
+
 
     public Long getId() {
         return id;
