@@ -2,6 +2,7 @@ package Client.Controller;
 
 import Client.Controller.AlleKurseController;
 import Client.Controller.MeineKurseController;
+import Client.Layouts.Layout;
 import Client.Modell.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,6 +20,7 @@ public class UserprofilController {
     private Label username;
     @FXML
     private Label mailadresse;
+
     @FXML
     private Label plz;
     @FXML
@@ -31,25 +33,33 @@ public class UserprofilController {
     private Label number;
     @FXML
     private Label city;
+    @FXML
+    private Button profil;
 
 
-    private Student student;
-    private Lehrender lehrender;
 
-    private Object nutzerInstanz;
 
     private Object vergleichNutzer;
     private Object eigenerNutzer;
 
 
+
     public void initialize() {
+        profil.setVisible(false);
     }
+
+
+
+
+
+
+
 
     public void nutzerprofilAufrufen (Object eigenerNutzer, Object vergleichNutzer) {
         this.eigenerNutzer = eigenerNutzer;
         this.vergleichNutzer = vergleichNutzer;
 
-        if(vergleichNutzer == eigenerNutzer) {
+        if(eigenerNutzer == vergleichNutzer) {
             //Diese If-Bedingung tritt ein, wenn der Nutzer sich selbst aufruft
 
             // Sicht eines Lehrenden auf sein eigenes Profil
@@ -61,8 +71,10 @@ public class UserprofilController {
                 plz.setText(String.valueOf(((Lehrender) eigenerNutzer).getNutzerId().getPlz()));
                 adresse.setText(((Lehrender) eigenerNutzer).getNutzerId().getStrasse());
                 city.setText(((Lehrender) eigenerNutzer).getNutzerId().getStadt());
-            }
+                profil.setVisible(true);
 
+
+            }
             // Sicht eines Studenten auf sein eigenes Profil
             else if(eigenerNutzer instanceof Student) {
                 username.setText(((Student) eigenerNutzer).getNutzer().getVorname() +" "+ ((Student) eigenerNutzer).getNutzer().getNachname());
@@ -72,17 +84,20 @@ public class UserprofilController {
                 plz.setText(String.valueOf(((Student) eigenerNutzer).getNutzer().getPlz()));
                 adresse.setText(((Student) eigenerNutzer).getNutzer().getStrasse());
                 city.setText(((Student) eigenerNutzer).getNutzer().getStadt());
-            }
-        }
+                profil.setVisible(true);
 
+            }
+
+
+        }
         // Diese else If tritt ein, wenn der Nutzer auf einen anderen Nutzer klickt
-        else if (vergleichNutzer != eigenerNutzer) {
+        else if (eigenerNutzer != vergleichNutzer) {
             if (eigenerNutzer instanceof Lehrender) {
                 // Sicht eines Lehrenden auf anderen Lehrenden
                 if (vergleichNutzer instanceof Lehrender) {
                     username.setText(((Lehrender) vergleichNutzer).getNutzerId().getVorname() +" "+ ((Lehrender) vergleichNutzer).getNutzerId().getNachname());
                     mailadresse.setText(((Lehrender) vergleichNutzer).getNutzerId().getEmail());
-                    lehrstuhl_oder_matr.setText(((Lehrender) vergleichNutzer).getLehrstuhl());
+                    lehrstuhl_oder_matr.setVisible(false);
                     forschungsgebiet_studienfach.setText(((Lehrender) vergleichNutzer).getForschungsgebiet());
                     plz.setText(String.valueOf(((Lehrender) vergleichNutzer).getNutzerId().getPlz()));
                     adresse.setText(((Lehrender) vergleichNutzer).getNutzerId().getStrasse());
@@ -98,8 +113,12 @@ public class UserprofilController {
                     adresse.setText(((Student) vergleichNutzer).getNutzer().getStrasse());
                     city.setText(((Student) vergleichNutzer).getNutzer().getStadt());
 
+
+
+
                 }
             }
+
             else if(eigenerNutzer instanceof Student) {
                 // Sicht eines Studenten auf das Profil eines Lehrenden
                 if (vergleichNutzer instanceof Lehrender) {
@@ -107,22 +126,33 @@ public class UserprofilController {
                     mailadresse.setText(((Lehrender) vergleichNutzer).getNutzerId().getEmail());
                     lehrstuhl_oder_matr.setText(((Lehrender) vergleichNutzer).getLehrstuhl());
                     forschungsgebiet_studienfach.setText(((Lehrender) vergleichNutzer).getForschungsgebiet());
+
                 }
                 //Sicht eines Studenten auf das Profil eines Studenten
                 else if(vergleichNutzer instanceof Student) {
                     username.setText(((Student) vergleichNutzer).getNutzer().getVorname() +" "+ ((Student) vergleichNutzer).getNutzer().getNachname());
                     mailadresse.setText(((Student) vergleichNutzer).getNutzer().getEmail());
+
                 }
+
             }
         }
+
+
+
     }
 
+    public void profilBearbeiten(ActionEvent actionEvent) {
+        Stage stage = (Stage) profil.getScene().getWindow();
+        Layout homeScreen = null;
+        try {
+            homeScreen = new Layout("Editieren.fxml", stage);
+            if (homeScreen.getController() instanceof HomescreenController) {
 
-    public Object getNutzerInstanz() {
-        return nutzerInstanz;
-    }
 
-    public void setNutzerInstanz(Object nutzerInstanz) {
-        this.nutzerInstanz = nutzerInstanz;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -71,16 +71,24 @@ public class LoginController {
                 if(jsonObject.has("matrikelnummer")){
                     System.out.println(jsonObject);
                     Student student = new Student();
+
                     student.addDataFromJson(jsonObject);
                     //Change View
-                    Layout homeScreen = new Layout("homescreen.fxml",stage);
-                    if(homeScreen.getController() instanceof HomescreenController){
-                        ((HomescreenController) homeScreen.getController()).setNutzerInstanz(student);
+
+                    Layout homeScreen = new Layout("userprofile.fxml",stage);
+
+
+                    if(homeScreen.getController() instanceof UserprofilController){
+                        ((UserprofilController) homeScreen.getController()).nutzerprofilAufrufen(student, student);
                     }
                 }else if(jsonObject.has("lehrstuhl")){
                     Lehrender lehrender = new Lehrender();
                     lehrender.addDataFromJson(jsonObject);
-                    Layout homeScreen = new Layout("homescreen.fxml",stage);
+
+
+                    Layout homeScreen = new Layout("lehrveranstaltungsuebersichtsseite.fxml",stage);
+
+
                     if(homeScreen.getController() instanceof HomescreenController){
                         ((HomescreenController) homeScreen.getController()).setNutzerInstanz(lehrender);
                     }
