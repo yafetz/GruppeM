@@ -18,6 +18,8 @@ import java.io.IOException;
 
 public class Layout {
 
+    Object Controller;
+
     public Layout(String view_path, Stage stage) throws IOException {
         AnchorPane container = new AnchorPane();
         container.setStyle("-fx-background-color: linear-gradient(to left bottom, #bfe3e5, #7ebed2, #4797c5, #2e6db2, #413e92);");
@@ -36,6 +38,7 @@ public class Layout {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource(view_path));
         AnchorPane gui = (AnchorPane) loader.load();
+        Controller = loader.getController();
         gui.setBackground(Background.EMPTY);
         meineKurse.setOnAction(buttonHandler);
         meineKurse.setAlignment(Pos.CENTER);
@@ -46,5 +49,13 @@ public class Layout {
         stage.setScene(scene);
         stage.setMaximized(false);
         stage.show();
+    }
+
+    public Object getController() {
+        return Controller;
+    }
+
+    public void setController(Object controller) {
+        Controller = controller;
     }
 }
