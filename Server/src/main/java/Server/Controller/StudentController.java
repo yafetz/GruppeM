@@ -1,7 +1,9 @@
 package Server.Controller;
 
 import Server.Modell.Lehrveranstaltung;
+import Server.Modell.Nutzer;
 import Server.Modell.Student;
+import Server.Repository.NutzerRepository;
 import Server.Repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,7 @@ import java.util.List;
 @RequestMapping("/studenten")
 public class StudentController {
     StudentRepository studentRepository;
+    NutzerRepository nutzerRepository;
 
     @Autowired
     public StudentController(StudentRepository studentRepository) {
@@ -21,9 +24,10 @@ public class StudentController {
     }
 
     @GetMapping("/all")
-    public List<Student> getAllLehrveranstaltungen() {
+    public List<Student> getAllStudenten() {
         return studentRepository.findAll();
     }
+
 
 
 

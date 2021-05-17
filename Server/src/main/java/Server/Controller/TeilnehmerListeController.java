@@ -1,6 +1,8 @@
 package Server.Controller;
 
 
+import Server.Modell.Student;
+import Server.Modell.TeilnehmerListe;
 import Server.Repository.LehrenderRepository;
 import Server.Repository.LehrveranstaltungRepository;
 import Server.Repository.StudentRepository;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/teilnehmer")
@@ -31,9 +35,12 @@ public class TeilnehmerListeController {
 
     }
     @GetMapping("/{lehrveranstaltungsId}")
-    public Object alleTeilnehmer(@PathVariable long lehrveranstaltungsId){
-        return teilnehmerListeService.teilnehmer(lehrveranstaltungsId);
+    public List<TeilnehmerListe> alleTeilnehmer(@PathVariable long lehrveranstaltungsId){
+        List<TeilnehmerListe> teilnehmer= teilnehmerListeService.teilnehmer(lehrveranstaltungsId);
+
+        return teilnehmer;
     }
+
 
 
 
