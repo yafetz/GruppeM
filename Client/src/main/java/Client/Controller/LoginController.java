@@ -88,9 +88,12 @@ public class LoginController {
 
                     Layout homeScreen = new Layout("lehrveranstaltungsuebersichtsseite.fxml",stage);
 
+                    System.out.println("Login erfolgreich");
 
-                    if(homeScreen.getController() instanceof HomescreenController){
-                        ((HomescreenController) homeScreen.getController()).setNutzerInstanz(lehrender);
+
+                    //TODO: fix this
+                    if(homeScreen.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
+                        //((LehrveranstaltungsuebersichtsseiteController) homeScreen.getController()).uebersichtsseiteAufrufen(lehrender);
                     }
                 }
 

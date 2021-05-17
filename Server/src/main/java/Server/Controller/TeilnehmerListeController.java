@@ -38,6 +38,7 @@ public class TeilnehmerListeController {
     @GetMapping("/{lehrveranstaltungsId}")
     public List<TeilnehmerListe> alleTeilnehmer(@PathVariable long lehrveranstaltungsId){
         List<TeilnehmerListe> teilnehmer= teilnehmerListeService.teilnehmer(lehrveranstaltungsId);
+        System.out.println("alles gut"+ lehrveranstaltungsId);
 
         return teilnehmer;
     }
