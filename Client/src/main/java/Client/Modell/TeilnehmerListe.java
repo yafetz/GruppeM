@@ -3,7 +3,7 @@ package Client.Modell;
 public class TeilnehmerListe {
     private Long id;
     private Lehrveranstaltung lehrveranstaltung;
-    private Nutzer nutzerInstanz;
+    private Nutzer nutzerId;
 
 
     public Long getid() {
@@ -22,12 +22,12 @@ public class TeilnehmerListe {
         this.lehrveranstaltung = lehrveranstaltung;
     }
 
-    public Nutzer getNutzerInstanz() {
-        return nutzerInstanz;
+    public Nutzer getNutzerId() {
+        return nutzerId;
     }
 
-    public void setNutzerInstanz(Nutzer nutzerInstanz) {
-        this.nutzerInstanz = nutzerInstanz;
+    public void setNutzerId(Nutzer nutzerId) {
+        this.nutzerId = nutzerId;
     }
 
 }

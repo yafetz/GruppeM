@@ -37,7 +37,7 @@ public class TeilnehmerListe {
         this.lehrveranstaltung = lehrveranstaltung;
     }
 
-    public Nutzer getStudentId() {
+    public Nutzer getNutzerId() {
         return nutzerId;
     }
 

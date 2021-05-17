@@ -79,7 +79,9 @@ public class MeineKurseController implements Initializable {
 
 //            mapping data in response.body() to a list of teilnehmerliste-objects
             ObjectMapper mapper = new ObjectMapper();
+
             System.out.println(response.body());
+
             List<TeilnehmerListe> teilnehmerListe = mapper.readValue(response.body(), new TypeReference<List<TeilnehmerListe>>() {});
             List<Lehrveranstaltung> lehrveranstaltungen = new LinkedList<>();
 
