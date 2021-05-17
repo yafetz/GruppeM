@@ -145,7 +145,9 @@ public class AlleKurseController implements Initializable {
                 if(memberResponse.body().equals("true")){
 
                     Layout studentLayout = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) namenLink.getScene().getWindow());
+                    if(studentLayout.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
 
+                    }
                 }
                 else{
                     Layout studentLayout = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) namenLink.getScene().getWindow());

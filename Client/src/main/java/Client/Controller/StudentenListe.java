@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.awt.event.ActionEvent;
 import java.io.IOException;
@@ -33,10 +34,12 @@ public class StudentenListe implements Initializable {
     private TableColumn<Student, String> nachname;
 
     @FXML
+    private TableColumn<Student, Integer> matrNr;
+
+    @FXML
     private Button profilbutton;
 
-    private Object studentInstanz;
-    private Student student;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -44,9 +47,9 @@ public class StudentenListe implements Initializable {
     }
 
     public void populateTableView(){
-        System.out.println(studentInstanz);
+
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/studenten/nutzer")).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/studenten/all")).build();
         HttpResponse<String> response;
 
 
@@ -56,6 +59,15 @@ public class StudentenListe implements Initializable {
             //            mapping data in response.body() to a list of lehrveranstaltung-objects
             ObjectMapper mapper = new ObjectMapper();
             List<Student> studenten = mapper.readValue(response.body(), new TypeReference<List<Student>>() {});
+            vorname.setCellValueFactory(new PropertyValueFactory<Student,String>("vorname"));
+            nachname.setCellValueFactory(new PropertyValueFactory<Student,String>("nachname"));
+            matrNr.setCellValueFactory(new PropertyValueFactory<Student,Integer>("matrikelnummer"));
+
+
+
+
+
+
 
 
         } catch (IOException e) {
