@@ -57,13 +57,13 @@ public class UserprofilController {
 
             // Sicht eines Lehrenden auf sein eigenes Profil
             if (eigenerNutzer instanceof Lehrender) {
-                username.setText(((Lehrender) eigenerNutzer).getNutzer().getVorname() +" "+ ((Lehrender) eigenerNutzer).getNutzer().getNachname());
-                mailadresse.setText(((Lehrender) eigenerNutzer).getNutzer().getEmail());
+                username.setText(((Lehrender) eigenerNutzer).getNutzerId().getVorname() +" "+ ((Lehrender) eigenerNutzer).getNutzerId().getNachname());
+                mailadresse.setText(((Lehrender) eigenerNutzer).getNutzerId().getEmail());
                 lehrstuhl_oder_matr.setText(((Lehrender) eigenerNutzer).getLehrstuhl());
                 forschungsgebiet_studienfach.setText(((Lehrender) eigenerNutzer).getForschungsgebiet());
-                plz.setText(String.valueOf(((Lehrender) eigenerNutzer).getNutzer().getPlz()));
-                adresse.setText(((Lehrender) eigenerNutzer).getNutzer().getStrasse());
-                city.setText(((Lehrender) eigenerNutzer).getNutzer().getStadt());
+                plz.setText(String.valueOf(((Lehrender) eigenerNutzer).getNutzerId().getPlz()));
+                adresse.setText(((Lehrender) eigenerNutzer).getNutzerId().getStrasse());
+                city.setText(((Lehrender) eigenerNutzer).getNutzerId().getStadt());
 
 
             }
@@ -86,13 +86,13 @@ public class UserprofilController {
             if (eigenerNutzer instanceof Lehrender) {
                 // Sicht eines Lehrenden auf anderen Lehrenden
                 if (vergleichNutzer instanceof Lehrender) {
-                    username.setText(((Lehrender) vergleichNutzer).getNutzer().getVorname() +" "+ ((Lehrender) vergleichNutzer).getNutzer().getNachname());
-                    mailadresse.setText(((Lehrender) vergleichNutzer).getNutzer().getEmail());
+                    username.setText(((Lehrender) vergleichNutzer).getNutzerId().getVorname() +" "+ ((Lehrender) vergleichNutzer).getNutzerId().getNachname());
+                    mailadresse.setText(((Lehrender) vergleichNutzer).getNutzerId().getEmail());
                     lehrstuhl_oder_matr.setText(((Lehrender) vergleichNutzer).getLehrstuhl());
                     forschungsgebiet_studienfach.setText(((Lehrender) vergleichNutzer).getForschungsgebiet());
-                    plz.setText(String.valueOf(((Lehrender) vergleichNutzer).getNutzer().getPlz()));
-                    adresse.setText(((Lehrender) vergleichNutzer).getNutzer().getStrasse());
-                    city.setText(((Lehrender) vergleichNutzer).getNutzer().getStadt());
+                    plz.setText(String.valueOf(((Lehrender) vergleichNutzer).getNutzerId().getPlz()));
+                    adresse.setText(((Lehrender) vergleichNutzer).getNutzerId().getStrasse());
+                    city.setText(((Lehrender) vergleichNutzer).getNutzerId().getStadt());
                 }
                 //Sicht eines Lehrenden auf das Profil eines Studenten
                 else if(vergleichNutzer instanceof Student) {
@@ -113,8 +113,8 @@ public class UserprofilController {
             else if(eigenerNutzer instanceof Student) {
                 // Sicht eines Studenten auf das Profil eines Lehrenden
                 if (vergleichNutzer instanceof Lehrender) {
-                    username.setText(((Lehrender) vergleichNutzer).getNutzer().getVorname() +" "+ ((Lehrender) vergleichNutzer).getNutzer().getNachname());
-                    mailadresse.setText(((Lehrender) vergleichNutzer).getNutzer().getEmail());
+                    username.setText(((Lehrender) vergleichNutzer).getNutzerId().getVorname() +" "+ ((Lehrender) vergleichNutzer).getNutzerId().getNachname());
+                    mailadresse.setText(((Lehrender) vergleichNutzer).getNutzerId().getEmail());
                     lehrstuhl_oder_matr.setText(((Lehrender) vergleichNutzer).getLehrstuhl());
                     forschungsgebiet_studienfach.setText(((Lehrender) vergleichNutzer).getForschungsgebiet());
 
