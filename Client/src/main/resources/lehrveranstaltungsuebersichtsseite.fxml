@@ -4,7 +4,6 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="616.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="146.0" layoutY="109.0" prefHeight="57.0" prefWidth="178.0" text="Titel">
@@ -12,5 +11,26 @@
             <Font size="33.0" />
          </font>
       </Label>
+      <Label layoutX="146.0" layoutY="327.0" prefHeight="71.0" prefWidth="147.0" text="Lehrmaterialien" />
+      <Accordion layoutX="146.0" layoutY="376.0">
+        <panes>
+          <TitledPane animated="false" text="Lehrmaterial1">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </TitledPane>
+          <TitledPane animated="false" text="Lehrmaterial2">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </TitledPane>
+          <TitledPane animated="false" text="Lehrmaterial3">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </TitledPane>
+        </panes>
+      </Accordion>
+      <Button layoutX="585.0" layoutY="138.0" mnemonicParsing="false" text="Button" />
    </children>
 </AnchorPane>
