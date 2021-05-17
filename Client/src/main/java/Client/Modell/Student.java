@@ -23,6 +23,12 @@ public class Student {
         return id;
     }
 
+    public String getVorname(){
+        return nutzer.getVorname();
+    }
+    public String getNachname(){
+        return nutzer.getNachname();
+    }
     public void setId(int id) {
         this.id = id;
     }
@@ -50,4 +56,6 @@ public class Student {
     public void setNutzer(Nutzer nutzer) {
         this.nutzer = nutzer;
     }
+
+
 }
