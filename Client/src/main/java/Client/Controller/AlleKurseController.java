@@ -131,6 +131,10 @@ public class AlleKurseController implements Initializable {
 
                     Layout lehrenderLayout = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) namenLink.getScene().getWindow());
                 }
+                else {
+                    Layout lehrenderLayout = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) namenLink.getScene().getWindow());
+
+                }
             }
             if (nutzerInstanz instanceof Student) {
 
@@ -140,8 +144,11 @@ public class AlleKurseController implements Initializable {
 
                 if(memberResponse.body().equals("true")){
 
-                    Layout studentLayout = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) namenLink.getScene().getWindow());
+                    Layout studentLayout = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) namenLink.getScene().getWindow());
 
+                }
+                else{
+                    Layout studentLayout = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) namenLink.getScene().getWindow());
                 }
 
             }
