@@ -3,6 +3,7 @@ package Client.Controller;
 import Client.Modell.Lehrveranstaltung;
 import Client.Modell.Nutzer;
 import Client.Modell.Student;
+import Client.Modell.TeilnehmerListe;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.collections.FXCollections;
@@ -67,9 +68,9 @@ public class TeilnehmerListeController implements Initializable {
             List<String> nachname = null;
 
             for(TeilnehmerListe teilnehmer: teilnehmerListe){
-                nutzers.add(teilnehmer.nutzerInstanz);
-                vorname.add(teilnehmer.nutzerInstanz.getVorname());
-                nachname.add(teilnehmer.nutzerInstanz.getNachname());
+                nutzers.add(teilnehmer.getNutzerInstanz());
+                vorname.add(teilnehmer.getNutzerInstanz().getVorname());
+                nachname.add(teilnehmer.getNutzerInstanz().getNachname());
             }
 
 
