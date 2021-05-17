@@ -23,7 +23,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
     @FXML
     private Button materialUpload;
 
-
+    private Object lehrveranstaltung;
     private Object nutzer;
 
 
@@ -44,6 +44,26 @@ public class LehrveranstaltungsuebersichtsseiteController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+    }
+
+    public void uebersichtsseiteAufrufen(Object nutzer, Object lehrveranstaltung) {
+        this.nutzer = nutzer;
+        this.lehrveranstaltung= lehrveranstaltung;
+
+        if (nutzer !=null) {
+            if (nutzer instanceof Lehrender) {
+                title.setText(((Lehrveranstaltung) lehrveranstaltung).getTitel());
+                materialUpload.setText("Lehrmaterial hochladen");
+
+            }
+            else if(nutzer instanceof Student) {
+                //title.setText(((Lehrveranstaltung) lehrveranstaltung).getTitel());
+                materialUpload.setVisible(false);
+            }
+
+        }
+
 
     }
 }
