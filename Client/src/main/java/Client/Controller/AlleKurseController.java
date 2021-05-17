@@ -68,7 +68,7 @@ public class AlleKurseController implements Initializable {
         HttpResponse<String> response;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.body());
+            System.out.println("Populate Tableview "+ response.body());
 
 //            mapping data in response.body() to a list of lehrveranstaltung-objects
             ObjectMapper mapper = new ObjectMapper();
@@ -118,9 +118,35 @@ public class AlleKurseController implements Initializable {
             ObjectMapper mapper = new ObjectMapper();
             Lehrveranstaltung lehrveranstaltung = mapper.readValue(response.body(), Lehrveranstaltung.class);
 //            TODO Weiterleitung zu Übersichtsseite des Kurses
-            Layout layout = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) namenLink.getScene().getWindow());
+          //  HttpRequest requestisMember = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/"+lehrveranstaltungId)).build();
+            //Layout layout = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) namenLink.getScene().getWindow());
 
 //            Platzhalter bis dahin:
+            HttpResponse<String> memberResponse;
+            if (nutzerInstanz instanceof Lehrender) {
+                long lehrId = ((Lehrender) nutzerInstanz).getNutzerId().getId();
+                request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/check/"+ lehrveranstaltungId + "&"+lehrId)).build();
+                memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
+                if(memberResponse.equals("true")){
+
+                    Layout lehrenderLayout = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) namenLink.getScene().getWindow());
+                }
+            }
+            if (nutzerInstanz instanceof Student) {
+
+                long id = ((Student) nutzerInstanz).getNutzer().getId();
+                request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/check/" + lehrveranstaltungId +"&"+ id)).build();
+                memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+                if(memberResponse.body().equals("true")){
+
+                    Layout studentLayout = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) namenLink.getScene().getWindow());
+
+                }
+
+            }
+
+
             System.out.println(lehrveranstaltung.toString());
         } catch (Exception e) {
             e.printStackTrace();

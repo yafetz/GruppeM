@@ -25,6 +25,8 @@ public class LehrveranstaltungErstellen {
 
     private Lehrender lehrender;
 
+
+
     public void initialize() {
 
     }
@@ -35,12 +37,18 @@ public class LehrveranstaltungErstellen {
         String tit = titel.getText();
         String type = typ.getText();
         String sem = semester.getText();
-        int id = lehrender.getId();
+        long id = lehrender.getId();
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:8080/erstellen/lehrveranstaltung/"+tit+"&"+id+"&"+type+"&"+sem)).build();
         HttpResponse<String> response = null;
     }
 
+    public Lehrender getLehrender() {
+        return lehrender;
+    }
 
+    public void setLehrender(Lehrender lehrender) {
+        this.lehrender = lehrender;
+    }
 }
