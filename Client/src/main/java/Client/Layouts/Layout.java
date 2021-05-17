@@ -1,4 +1,4 @@
-package Client.Modell;
+package Client.Layouts;
 
 import Client.Controller.AlleKurseController;
 import Client.Controller.MeineKurseController;
@@ -18,8 +18,7 @@ import java.io.IOException;
 
 public class Layout {
 
-    public Layout(AnchorPane gui, Stage stage){
-        gui.setBackground(Background.EMPTY);
+    public Layout(String view_path, Stage stage) throws IOException {
         AnchorPane container = new AnchorPane();
         container.setStyle("-fx-background-color: linear-gradient(to left bottom, #bfe3e5, #7ebed2, #4797c5, #2e6db2, #413e92);");
         HBox hbox = new HBox();
@@ -31,23 +30,13 @@ public class Layout {
         EventHandler<ActionEvent> buttonHandler = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                try {
-                    FXMLLoader loader = new FXMLLoader();
-                    loader.setLocation(getClass().getClassLoader().getResource("alleKurse.fxml"));
-                    AnchorPane root = (AnchorPane) loader.load();
-                    AlleKurseController meineKurseKurse = loader.getController();
-                    Scene scene = new Scene(root);
-                    String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
-                    scene.getStylesheets().add(homescreencss);
-                    stage.setScene(scene);
-                    stage.setMaximized(false);
-                    stage.show();
-                } catch (IOException e){
-                    e.printStackTrace();
-                }
                 event.consume();
             }
         };
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getClassLoader().getResource(view_path));
+        AnchorPane gui = (AnchorPane) loader.load();
+        gui.setBackground(Background.EMPTY);
         meineKurse.setOnAction(buttonHandler);
         meineKurse.setAlignment(Pos.CENTER);
         hbox.getChildren().add(meineKurse);

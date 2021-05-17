@@ -1,5 +1,6 @@
 package Client.Controller;
 
+import Client.Layouts.Layout;
 import Client.Modell.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -70,22 +71,9 @@ public class LoginController {
                     System.out.println(jsonObject);
                     Student student = new Student();
                     student.addDataFromJson(jsonObject);
+                    //Change View
                     Stage stage = (Stage) register.getScene().getWindow();
-                    try {
-                        FXMLLoader loader = new FXMLLoader();
-                        loader.setLocation(getClass().getClassLoader().getResource("homescreen.fxml"));
-                        AnchorPane root = (AnchorPane) loader.load();
-                        UserprofilController userprofil = loader.getController();
-                        userprofil.setStudent(student);
-                        Scene scene = new Scene(root);
-                        String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
-                        scene.getStylesheets().add(homescreencss);
-                        stage.setScene(scene);
-                        stage.setMaximized(true);
-                        stage.show();
-                    }catch (IOException e){
-                        e.printStackTrace();
-                    }
+                    Layout homeScreen = new Layout("homescreen.fxml",stage);
                 }else if(jsonObject.has("lehrstuhl")){
                     Lehrender lehrender = new Lehrender();
                     lehrender.addDataFromJson(jsonObject);
