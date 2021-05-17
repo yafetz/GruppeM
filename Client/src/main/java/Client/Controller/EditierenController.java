@@ -1,5 +1,8 @@
 package Client.Controller;
 
+import Client.Layouts.Layout;
+import Client.Modell.Lehrender;
+import Client.Modell.Student;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,82 +21,79 @@ import java.net.http.HttpResponse;
 
 public class EditierenController {
     @FXML
-    private String nachname;
+    private TextField nachname;
     @FXML
-    private String vorname;
+    private TextField vorname;
     @FXML
-    private String email;
+    private TextField email;
     @FXML
-    private String stadt;
+    private TextField stadt;
     @FXML
-    private String straße;
+    private TextField straße;
     @FXML
-    private String hausnummer;
+    private TextField hausnummer;
     @FXML
-    private String postleitzahl;
+    private TextField postleitzahl;
     @FXML
     private TextField lehrstuhl;
     @FXML
-    private TextField forschung;
+    private TextField forschungsgebiet;
     @FXML
     private TextField fach;
     @FXML
-    private Button Aktualisieren;
+    private Button aktualisieren;
     @FXML
-    private Button Abbrechen;
+    private Button abbrechen;
 
+    private Object Nutzer;
     public void create () {
 
+    }
+
+    public Object getNutzer() {
+        return Nutzer;
+    }
+
+    public void setNutzer(Object nutzer) {
+        Nutzer = nutzer;
+        if(nutzer instanceof Lehrender){
+            Lehrender l = (Lehrender) nutzer;
+            vorname.setText(l.getNutzerId().getVorname());
+            nachname.setText(l.getNutzerId().getNachname());
+            email.setText(l.getNutzerId().getEmail());
+            stadt.setText(l.getNutzerId().getStadt());
+            straße.setText(l.getNutzerId().getStrasse());
+            hausnummer.setText(String.valueOf(l.getNutzerId().getHausnummer()));
+            postleitzahl.setText(String.valueOf(l.getNutzerId().getPlz()));
+            fach.setVisible(false);
+            lehrstuhl.setText(l.getLehrstuhl());
+            forschungsgebiet.setText(l.getForschungsgebiet());
+        }else if(nutzer instanceof Student){
+            Student s = (Student) nutzer;
+            vorname.setText(s.getNutzer().getVorname());
+            nachname.setText(s.getNutzer().getNachname());
+            email.setText(s.getNutzer().getEmail());
+            stadt.setText(s.getNutzer().getStadt());
+            straße.setText(s.getNutzer().getStrasse());
+            hausnummer.setText(String.valueOf(s.getNutzer().getHausnummer()));
+            postleitzahl.setText(String.valueOf(s.getNutzer().getPlz()));
+            lehrstuhl.setVisible(false);
+            forschungsgebiet.setVisible(false);
+            fach.setText(s.getStudienfach());
+        }
     }
 
     public void Nutzerprofil_verändern(ActionEvent actionEvent) {
         actionEvent.consume();
 
 
-        this.vorname = vorname;
-        this.nachname = nachname;
-        this.email = email;
-        this.stadt = stadt;
-        this.straße = straße;
-        this.hausnummer = hausnummer;
-        this.postleitzahl = postleitzahl;
-        this.lehrstuhl =lehrstuhl;
-        this.forschung = forschung;
-        this.fach = fach;
-
-
-
-
-
-
-           /* Stage stage = (Stage) Aktualisieren.getScene().getWindow();
-            try {
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getClassLoader().getResource("Editieren.fxml"));
-                AnchorPane root = (AnchorPane) loader.load();
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
-                stage.setMaximized(false);
-                stage.show();
-            }catch (IOException e){
-                e.printStackTrace();
-            } }
-    }*/
-
-
-
-
-
-        if( Aktualisieren==null){ //Nutzerprofil aktualisieren
-
-
-
+        if( aktualisieren==null){ //Nutzerprofil aktualisieren
 
                 HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("http://localhost:8080/register/student/"+
                             vorname+"&"+nachname+"&"+email+"&"+
-                            hausnummer+"&"+postleitzahl+"&"+stadt+"&"+straße+"&"+fach+"&"+forschung+"&"
+                            hausnummer+"&"+postleitzahl+"&"+stadt+"&"+straße+"&"+fach+"&"+forschungsgebiet+"&"
                     +lehrstuhl)).build();
             HttpResponse<String> response = null;
         try {
@@ -108,7 +108,7 @@ public class EditierenController {
             System.out.println(Serverantwort);
             if(Serverantwort.equals("OK")) {
                 try {
-                    Stage stage = (Stage) Aktualisieren.getScene().getWindow();
+                    Stage stage = (Stage) aktualisieren.getScene().getWindow();
                     FXMLLoader loader = new FXMLLoader();
                     loader.setLocation(getClass().getClassLoader().getResource("login.fxml"));
                     AnchorPane root = (AnchorPane) loader.load();
@@ -121,7 +121,7 @@ public class EditierenController {
                 } catch (IOException e) {
                     e.printStackTrace();
 
-                System.out.println(Abbrechen);
+                System.out.println(abbrechen);
             }
                     try {
                         FXMLLoader loader = new FXMLLoader();
@@ -137,13 +137,26 @@ public class EditierenController {
                     }  }
                 }
             }
-                //Weiterleitung zur Nutzerprofil Seite
+
+    public void Abbrechen(ActionEvent actionEvent) {
+        //Weiterleitung zur Nutzerprofil Seite
+        Stage stage = (Stage) abbrechen.getScene().getWindow();
+        Layout userprofil = null;
+        try {
+            userprofil = new Layout("userprofile.fxml",stage);
+
+            if(userprofil.getController() instanceof UserprofilController){
+                ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(Nutzer,Nutzer);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 
 
-    private Node Nutzerprofil_verändern() {
-    return Aktualisieren;}
+
 }
 
 

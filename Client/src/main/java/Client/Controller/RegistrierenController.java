@@ -1,5 +1,6 @@
 package Client.Controller;
 
+import Client.Layouts.Layout;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -93,18 +94,12 @@ private CheckBox check_box;
     public void Zuruek(ActionEvent actionEvent) {
         actionEvent.consume();
         Stage stage = (Stage) zuruek.getScene().getWindow();
-
         try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getClassLoader().getResource("login.fxml"));
-            AnchorPane root = (AnchorPane) loader.load();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setMaximized(false);
-            stage.show();
-        }catch (IOException e){
+            Layout login = new Layout("login.fxml",stage);
+        } catch (IOException e) {
             e.printStackTrace();
-        }  }
+        }
+    }
 
     public void Registrieren(ActionEvent actionEvent) {
         actionEvent.consume();

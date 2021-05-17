@@ -144,11 +144,11 @@ public class UserprofilController {
 
     public void profilBearbeiten(ActionEvent actionEvent) {
         Stage stage = (Stage) profil.getScene().getWindow();
-        Layout homeScreen = null;
+        Layout editieren = null;
         try {
-            homeScreen = new Layout("Editieren.fxml", stage);
-            if (homeScreen.getController() instanceof HomescreenController) {
-
+            editieren = new Layout("Nutzerprofil_verändern.fxml", stage);
+            if (editieren.getController() instanceof EditierenController) {
+                ((EditierenController) editieren.getController()).setNutzer(eigenerNutzer);
 
             }
         } catch (IOException e) {

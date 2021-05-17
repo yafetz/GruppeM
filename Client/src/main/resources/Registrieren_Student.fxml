@@ -19,7 +19,7 @@
       <Text layoutX="316.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" />
       <Button fx:id="registrierbutton" layoutX="135.0" layoutY="395.0" mnemonicParsing="false" onAction="#Registrieren" text="Registrierung" />
       <Button fx:id="registrieren_lehrender" layoutX="28.0" layoutY="275.0" mnemonicParsing="false" onAction="#Rollenwechsel" text="Registrieren als Lehrender" />
-      <Button layoutX="275.0" layoutY="395.0" mnemonicParsing="false" text="Zurück zum Login" />
+      <Button fx:id="zuruek" layoutX="275.0" layoutY="395.0" mnemonicParsing="false" text="Zurück zum Login" onAction="#Zuruek" />
       <Text layoutX="16.0" layoutY="422.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pflichtfeld!">
          <font>
             <Font size="6.0" />
@@ -53,7 +53,7 @@
       <Text layoutX="271.0" layoutY="263.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Straße" />
       <TextField fx:id="strasse" layoutX="338.0" layoutY="246.0" />
       <Text layoutX="271.0" layoutY="301.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Haus Nr" wrappingWidth="60.29296875" />
-      <TextField fx:id="gebäude_nummer" layoutX="337.0" layoutY="284.0" />
+      <TextField fx:id="hausnummer" layoutX="337.0" layoutY="284.0" />
       <PasswordField id="passwort" fx:id="passwort" layoutX="104.0" layoutY="111.0" />
 
       <Text layoutX="19.0" layoutY="243.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Studienfach" />
