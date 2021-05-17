@@ -191,7 +191,3 @@ private CheckBox check_box;
         }
     }
 }
-/* public void lehrerregistrieren (ActionEvent Event){
-System.out.println(registrierbuttonfürLehrende());
-}
- */
