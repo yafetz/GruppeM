@@ -19,7 +19,6 @@ public class UserprofilController {
     private Label username;
     @FXML
     private Label mailadresse;
-
     @FXML
     private Label plz;
     @FXML
@@ -62,8 +61,8 @@ public class UserprofilController {
                 plz.setText(String.valueOf(((Lehrender) eigenerNutzer).getNutzerId().getPlz()));
                 adresse.setText(((Lehrender) eigenerNutzer).getNutzerId().getStrasse());
                 city.setText(((Lehrender) eigenerNutzer).getNutzerId().getStadt());
-
             }
+
             // Sicht eines Studenten auf sein eigenes Profil
             else if(eigenerNutzer instanceof Student) {
                 username.setText(((Student) eigenerNutzer).getNutzer().getVorname() +" "+ ((Student) eigenerNutzer).getNutzer().getNachname());
@@ -73,9 +72,9 @@ public class UserprofilController {
                 plz.setText(String.valueOf(((Student) eigenerNutzer).getNutzer().getPlz()));
                 adresse.setText(((Student) eigenerNutzer).getNutzer().getStrasse());
                 city.setText(((Student) eigenerNutzer).getNutzer().getStadt());
-
             }
         }
+
         // Diese else If tritt ein, wenn der Nutzer auf einen anderen Nutzer klickt
         else if (vergleichNutzer != eigenerNutzer) {
             if (eigenerNutzer instanceof Lehrender) {
@@ -118,20 +117,6 @@ public class UserprofilController {
         }
     }
 
-     public void setStudent(Student student) {
-        this.student = student;
-         username.setText(student.getNutzer().getVorname() + " " + student.getNutzer().getNachname());
-         mailadresse.setText(student.getNutzer().getEmail());
-         matr.setText(String.valueOf(student.getMatrikelnummer()));
-
-     }
-    public void setLehrender(Lehrender lehrender) {
-        this.lehrender = lehrender;
-        username.setText(lehrender.getNutzerId().getVorname() + " " + lehrender.getNutzerId().getNachname());
-        mailadresse.setText(lehrender.getNutzerId().getEmail());
-        matr.setVisible(false);
-
-    }
 
     public Object getNutzerInstanz() {
         return nutzerInstanz;
