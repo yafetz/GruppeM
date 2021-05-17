@@ -65,6 +65,7 @@ public class LoginController {
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
             String Serverantwort = response.body();
+            Stage stage = (Stage) register.getScene().getWindow();
             try {
                 JSONObject jsonObject = new JSONObject(Serverantwort);
                 if(jsonObject.has("matrikelnummer")){
@@ -72,24 +73,16 @@ public class LoginController {
                     Student student = new Student();
                     student.addDataFromJson(jsonObject);
                     //Change View
-                    Stage stage = (Stage) register.getScene().getWindow();
                     Layout homeScreen = new Layout("homescreen.fxml",stage);
+                    if(homeScreen.getController() instanceof HomescreenController){
+                        ((HomescreenController) homeScreen.getController()).setNutzerInstanz(student);
+                    }
                 }else if(jsonObject.has("lehrstuhl")){
                     Lehrender lehrender = new Lehrender();
                     lehrender.addDataFromJson(jsonObject);
-                    Stage stage = (Stage) register.getScene().getWindow();
-                    try {
-                        FXMLLoader loader = new FXMLLoader();
-                        loader.setLocation(getClass().getClassLoader().getResource("homescreen.fxml"));
-                        AnchorPane root = (AnchorPane) loader.load();
-                        Scene scene = new Scene(root);
-                        String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
-                        scene.getStylesheets().add(homescreencss);
-                        stage.setScene(scene);
-                        stage.setMaximized(false);
-                        stage.show();
-                    }catch (IOException e){
-                        e.printStackTrace();
+                    Layout homeScreen = new Layout("homescreen.fxml",stage);
+                    if(homeScreen.getController() instanceof HomescreenController){
+                        ((HomescreenController) homeScreen.getController()).setNutzerInstanz(lehrender);
                     }
                 }
 

@@ -1,9 +1,11 @@
 package Server.Controller;
 
 import Server.Modell.Lehrveranstaltung;
+import Server.Modell.Nutzer;
 import Server.Modell.Student;
 import Server.Modell.TeilnehmerListe;
 import Server.Repository.LehrveranstaltungRepository;
+import Server.Repository.NutzerRepository;
 import Server.Repository.StudentRepository;
 import Server.Repository.TeilnehmerListeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +24,14 @@ public class LehrveranstaltungController {
     private final LehrveranstaltungRepository lehrveranstaltungRepository;
     private final TeilnehmerListeRepository teilnehmerListeRepository;
     private final StudentRepository studentRepository;
+    private final NutzerRepository nutzerRepository;
 
     @Autowired
-    public LehrveranstaltungController(LehrveranstaltungRepository lehrveranstaltungRepository, TeilnehmerListeRepository teilnehmerListeRepository, StudentRepository studentRepository) {
+    public LehrveranstaltungController(LehrveranstaltungRepository lehrveranstaltungRepository, TeilnehmerListeRepository teilnehmerListeRepository, StudentRepository studentRepository, NutzerRepository nutzerRepository) {
         this.lehrveranstaltungRepository = lehrveranstaltungRepository;
         this.teilnehmerListeRepository = teilnehmerListeRepository;
         this.studentRepository = studentRepository;
+        this.nutzerRepository = nutzerRepository;
     }
 
     @GetMapping("/all")
@@ -38,7 +42,13 @@ public class LehrveranstaltungController {
     @GetMapping("/meine/nutzerId={nutzerId}")
     public List<TeilnehmerListe> getMeineLehrveranstaltungen(@PathVariable Long nutzerId) {
         Student student = studentRepository.findStudentById(nutzerId);
-        return teilnehmerListeRepository.findAllByStudentId(student);
+        // Neu hinzugefügt nach Änderung der Teilnehmerliste Tabelle
+        Nutzer nutzer = nutzerRepository.findNutzerById(nutzerId);
+        // Alter return Statement
+        //return teilnehmerListeRepository.findAllByStudentId(student);
+
+        // Neues return Statement
+        return  teilnehmerListeRepository.findAllByNutzerId(nutzer);
     }
 
     @GetMapping("/{lehrveranstaltungId}")
