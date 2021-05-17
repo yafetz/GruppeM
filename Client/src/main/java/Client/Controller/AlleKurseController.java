@@ -172,7 +172,7 @@ public class AlleKurseController implements Initializable {
             loader.setLocation(getClass().getClassLoader().getResource("userprofile.fxml"));
             AnchorPane root = (AnchorPane) loader.load();
             UserprofilController userprofilController = loader.getController();
-            userprofilController.setNutzerInstanz(nutzerInstanz);
+            userprofilController.nutzerprofilAufrufen(nutzerInstanz,nutzerInstanz);
             Scene scene = new Scene(root);
             String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
             scene.getStylesheets().add(homescreencss);
