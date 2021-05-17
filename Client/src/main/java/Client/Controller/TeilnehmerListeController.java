@@ -30,6 +30,10 @@ public class TeilnehmerListeController implements Initializable {
     @FXML
     private TableColumn col_nachname;
 
+    private Nutzer nutzerInstanz;
+
+
+
     public Lehrveranstaltung getLehrveranstaltung() {
         return lehrveranstaltung;
     }
@@ -42,23 +46,32 @@ public class TeilnehmerListeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+
+     }
+
+    public void populateTableview(){
+        long id = lehrveranstaltung.getId();
         HttpClient client = HttpClient.newHttpClient();
-        this.lehrveranstaltung=lehrveranstaltung;
-        lehrveranstaltung.getId();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/teilnehmer/"+lehrveranstaltung.getId())).build();
-        HttpResponse<String> response;
-
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/teilnehmer/" +id)).build();
+        HttpResponse<String> response = null;
         try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            //mapping data in response.body() to JSON
-            ObjectMapper mapper = new ObjectMapper();
-            List<Nutzer> nutzers = mapper.readValue(response.body(), new TypeReference<List<Nutzer>>() {});
-            col_vorname.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("Vorname"));
-            col_nachname.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("Nachname"));
+            response = client.send(request,HttpResponse.BodyHandlers.ofString());
 
-            // to populate the table alleLv using .setItems() an ObservableList is required, hence next line
-            ObservableList<Nutzer> obsLv = FXCollections.observableList(nutzers);
-            teilnehmer.setItems(obsLv);
+            //            mapping data in response.body() to a list of teilnehmerliste-objects
+            ObjectMapper mapper = new ObjectMapper();
+            System.out.println(response.body());
+            List<TeilnehmerListe> teilnehmerListe = mapper.readValue(response.body(), new TypeReference<List<TeilnehmerListe>>() {});
+            List<Nutzer> nutzers = null;
+            List<String> vorname = null;
+            List<String> nachname = null;
+
+            for(TeilnehmerListe teilnehmer: teilnehmerListe){
+                nutzers.add(teilnehmer.nutzerInstanz);
+                vorname.add(teilnehmer.nutzerInstanz.getVorname());
+                nachname.add(teilnehmer.nutzerInstanz.getNachname());
+            }
+
 
 
         } catch (IOException e) {
@@ -66,6 +79,8 @@ public class TeilnehmerListeController implements Initializable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
     }
 }
+
+
+
