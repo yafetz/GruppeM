@@ -133,7 +133,6 @@ public class LehrmaterialUploadController {
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
-
         RestTemplate restTemplate = new RestTemplate();
         String url = "http://localhost:8080/lehrveranstaltung/lehrmaterial/upload/" /* + lehrveranstaltung.getId()*/;
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestEntity, String.class);

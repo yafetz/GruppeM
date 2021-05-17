@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -26,7 +27,7 @@ public class LehrmaterialUploadController {
 
     @PostMapping("/upload/{lehrveranstaltungId}")
     public ResponseEntity<String> lehrmaterialUpload(@RequestBody List<MultipartFile> lehrmaterialList,
-                                                     @PathVariable Long lehrveranstaltungId) {
+                                                     @PathVariable Long lehrveranstaltungId) throws IOException {
         for (MultipartFile lehrmaterial : lehrmaterialList) {
             lehrmaterialStorageService.addNewLehrmaterial(lehrveranstaltungId, lehrmaterial);
         }
