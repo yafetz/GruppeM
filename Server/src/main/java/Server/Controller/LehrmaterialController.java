@@ -1,28 +1,21 @@
 package Server.Controller;
 
-import Server.Modell.Lehrmaterial;
-import Server.Repository.LehrmaterialRepository;
 import Server.Services.LehrmaterialStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost/")
 @RestController
 @RequestMapping("lehrveranstaltung/lehrmaterial")
-public class LehrmaterialUploadController {
-
-    private final LehrmaterialStorageService lehrmaterialStorageService;
-
+public class LehrmaterialController {
     @Autowired
-    public LehrmaterialUploadController(LehrmaterialStorageService lehrmaterialStorageService) {
-        this.lehrmaterialStorageService = lehrmaterialStorageService;
-    }
+    private LehrmaterialStorageService lehrmaterialStorageService;
 
 
     @PostMapping("/upload/{lehrveranstaltungId}")

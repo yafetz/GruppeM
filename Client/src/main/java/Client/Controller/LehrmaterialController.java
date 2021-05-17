@@ -1,6 +1,7 @@
 package Client.Controller;
 
 import Client.Modell.Lehrveranstaltung;
+import Client.Modell.Nutzer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,7 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class LehrmaterialUploadController {
+public class LehrmaterialController {
 
     @FXML
     private Button meineKurse;
@@ -45,7 +46,8 @@ public class LehrmaterialUploadController {
 
     private List<File> fileList;
     private ObservableList<File> obsFileList;
-//    private Lehrveranstaltung lehrveranstaltung;
+    private Lehrveranstaltung lehrveranstaltung;
+    private Nutzer nutzerInstanz;
 
     public void initialize() {
 
@@ -134,9 +136,26 @@ public class LehrmaterialUploadController {
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
         RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:8080/lehrveranstaltung/lehrmaterial/upload/" /* + lehrveranstaltung.getId()*/;
+        String url = "http://localhost:8080/lehrveranstaltung/lehrmaterial/upload/" + lehrveranstaltung.getId();
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestEntity, String.class);
         System.out.println(responseEntity.getBody());
+        System.out.println();
 
+    }
+
+    public Lehrveranstaltung getLehrveranstaltung() {
+        return lehrveranstaltung;
+    }
+
+    public void setLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) {
+        this.lehrveranstaltung = lehrveranstaltung;
+    }
+
+    public Nutzer getNutzerInstanz() {
+        return nutzerInstanz;
+    }
+
+    public void setNutzerInstanz(Nutzer nutzerInstanz) {
+        this.nutzerInstanz = nutzerInstanz;
     }
 }
