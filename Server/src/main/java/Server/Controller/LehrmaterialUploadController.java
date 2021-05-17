@@ -4,8 +4,13 @@ import Server.Modell.Lehrmaterial;
 import Server.Repository.LehrmaterialRepository;
 import Server.Services.LehrmaterialStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("lehrveranstaltung/lehrmaterial")
@@ -18,14 +23,14 @@ public class LehrmaterialUploadController {
         this.lehrmaterialStorageService = lehrmaterialStorageService;
     }
 
-//    @PostMapping(path = "{lehrveranstaltungId}")
-//    public void lehrmaterialUpload(@PathVariable("lehrveranstaltungId") Long lehrveranstaltungId,
-//                                   @RequestBody Lehrmaterial lehrmaterial) {
-//        lehrmaterialStorageService.addNewLehrmaterial(lehrveranstaltungsId, lehrmaterial);
-//    }
-    @PostMapping
-    public void lehrmaterialUpload(@RequestBody Lehrmaterial lehrmaterial,
-                                   @RequestParam Long lehrveranstaltungId) {
-        lehrmaterialStorageService.addNewLehrmaterial(lehrveranstaltungId, lehrmaterial);
+
+    @PostMapping("/upload/{lehrveranstaltungId}")
+    public ResponseEntity<String> lehrmaterialUpload(@RequestBody List<MultipartFile> lehrmaterialList,
+                                                     @PathVariable Long lehrveranstaltungId) {
+        for (MultipartFile lehrmaterial : lehrmaterialList) {
+            lehrmaterialStorageService.addNewLehrmaterial(lehrveranstaltungId, lehrmaterial);
+        }
+
+        return new ResponseEntity<>("erfolgreich hochgeladen", null, HttpStatus.OK);
     }
 }

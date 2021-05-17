@@ -7,7 +7,7 @@ public class Student {
     private int id;
     private int matrikelnummer;
     private String studienfach;
-    private Nutzer nutzer;
+    private Nutzer nutzerId;
 
     public void addDataFromJson(JSONObject jsonObject){
         setId(jsonObject.getInt("id"));
@@ -16,7 +16,7 @@ public class Student {
         Nutzer nutzer = new Nutzer();
         JSONObject jsonNutzer = (JSONObject) jsonObject.get("nutzerId");
         nutzer.addDataFromJson(jsonNutzer);
-        setNutzer(nutzer);
+        setNutzerId(nutzer);
     }
 
     public int getId() {
@@ -43,11 +43,11 @@ public class Student {
         this.studienfach = studienfach;
     }
 
-    public Nutzer getNutzer() {
-        return nutzer;
+    public Nutzer getNutzerId() {
+        return nutzerId;
     }
 
-    public void setNutzer(Nutzer nutzer) {
-        this.nutzer = nutzer;
+    public void setNutzerId(Nutzer nutzerId) {
+        this.nutzerId = nutzerId;
     }
 }

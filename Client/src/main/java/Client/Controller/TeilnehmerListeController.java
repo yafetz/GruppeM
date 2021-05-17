@@ -22,7 +22,7 @@ import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class TeilnehmerListe implements Initializable {
+public class TeilnehmerListeController implements Initializable {
     @FXML
     private TableView teilnehmer;
     @FXML

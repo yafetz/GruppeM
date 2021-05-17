@@ -23,8 +23,8 @@ public class UserprofilController {
     }
      public void setStudent(Student student) {
         this.student = student;
-         username.setText(student.getNutzer().getVorname() + " " + student.getNutzer().getNachname());
-         mailadresse.setText(student.getNutzer().getEmail());
+         username.setText(student.getNutzerId().getVorname() + " " + student.getNutzerId().getNachname());
+         mailadresse.setText(student.getNutzerId().getEmail());
          matr.setText(String.valueOf(student.getMatrikelnummer()));
 
      }

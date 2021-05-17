@@ -73,10 +73,10 @@ public class LoginController {
                     Stage stage = (Stage) register.getScene().getWindow();
                     try {
                         FXMLLoader loader = new FXMLLoader();
-                        loader.setLocation(getClass().getClassLoader().getResource("homescreen.fxml"));
+                        loader.setLocation(getClass().getClassLoader().getResource("lehrmaterialUpload.fxml"));
                         AnchorPane root = (AnchorPane) loader.load();
-                        HomescreenController homescreenController = loader.getController();
-                        homescreenController.setNutzerInstanz(student);
+//                        HomescreenController homescreenController = loader.getController();
+//                        homescreenController.setNutzerInstanz(student);
                         Scene scene = new Scene(root);
                         String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
                         scene.getStylesheets().add(homescreencss);

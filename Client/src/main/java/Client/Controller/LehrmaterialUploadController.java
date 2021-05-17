@@ -1,5 +1,6 @@
 package Client.Controller;
 
+import Client.Modell.Lehrveranstaltung;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,8 +14,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -38,6 +45,7 @@ public class LehrmaterialUploadController {
 
     private List<File> fileList;
     private ObservableList<File> obsFileList;
+//    private Lehrveranstaltung lehrveranstaltung;
 
     public void initialize() {
 
@@ -114,6 +122,22 @@ public class LehrmaterialUploadController {
 
     public void hochladenPressedButton(ActionEvent actionEvent) {
         actionEvent.consume();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.addAll("files", fileList);
+
+        System.out.println(body);
+
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+
+
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "http://localhost:8080/lehrveranstaltung/lehrmaterial/upload/" /* + lehrveranstaltung.getId()*/;
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestEntity, String.class);
+        System.out.println(responseEntity.getBody());
 
     }
 }
