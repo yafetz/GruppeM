@@ -11,12 +11,15 @@ public class TeilnehmerListe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name= "lehrveranstaltungsId", nullable = false)
     private Lehrveranstaltung lehrveranstaltung;
+
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="studentId", nullable=true)
-    private Student studentId;
+    @JoinColumn(name="nutzerId", nullable=true)
+    private Nutzer nutzerId;
+
 
     public Long getId() {
         return id;
@@ -34,11 +37,11 @@ public class TeilnehmerListe {
         this.lehrveranstaltung = lehrveranstaltung;
     }
 
-    public Student getStudentId() {
-        return studentId;
+    public Nutzer getStudentId() {
+        return nutzerId;
     }
 
-    public void setStudentId(Student studentId) {
-        this.studentId = studentId;
+    public void setNutzerId(Nutzer nutzerId) {
+        this.nutzerId = nutzerId;
     }
 }
