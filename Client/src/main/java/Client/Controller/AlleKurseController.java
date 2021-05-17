@@ -1,6 +1,7 @@
 package Client.Controller;
 
 
+import Client.Layouts.Layout;
 import Client.Modell.Lehrender;
 import Client.Modell.Lehrveranstaltung;
 import Client.Modell.Student;
@@ -117,6 +118,8 @@ public class AlleKurseController implements Initializable {
             ObjectMapper mapper = new ObjectMapper();
             Lehrveranstaltung lehrveranstaltung = mapper.readValue(response.body(), Lehrveranstaltung.class);
 //            TODO Weiterleitung zu Übersichtsseite des Kurses
+            Layout layout = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) namenLink.getScene().getWindow());
+
 //            Platzhalter bis dahin:
             System.out.println(lehrveranstaltung.toString());
         } catch (Exception e) {
