@@ -6,7 +6,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="616.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="146.0" layoutY="109.0" prefHeight="57.0" prefWidth="178.0" text="Titel">
+      <Label layoutX="158.0" layoutY="80.0" prefHeight="57.0" prefWidth="178.0" text="Titel">
          <font>
             <Font size="33.0" />
          </font>
@@ -31,6 +31,6 @@
           </TitledPane>
         </panes>
       </Accordion>
-      <Button layoutX="585.0" layoutY="138.0" mnemonicParsing="false" text="Button" />
+      <Button layoutX="585.0" layoutY="138.0" mnemonicParsing="false" text="Lehrmaterialien hochladen" />
    </children>
 </AnchorPane>
