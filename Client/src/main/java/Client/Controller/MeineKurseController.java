@@ -2,8 +2,8 @@ package Client.Controller;
 
 import Client.Modell.Lehrender;
 import Client.Modell.Lehrveranstaltung;
-import Client.Modell.Nutzer;
 import Client.Modell.Student;
+import Client.Modell.TeilnehmerListe;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.collections.FXCollections;
@@ -26,6 +26,7 @@ import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -80,7 +81,8 @@ public class MeineKurseController implements Initializable {
             ObjectMapper mapper = new ObjectMapper();
             System.out.println(response.body());
             List<TeilnehmerListe> teilnehmerListe = mapper.readValue(response.body(), new TypeReference<List<TeilnehmerListe>>() {});
-            List<Lehrveranstaltung> lehrveranstaltungen = null;
+            System.out.println(teilnehmerListe);
+            List<Lehrveranstaltung> lehrveranstaltungen = new LinkedList<>();
 
             for(TeilnehmerListe teilnehmerListe1 : teilnehmerListe) {
                 lehrveranstaltungen.add(teilnehmerListe1.getLehrveranstaltung());
@@ -186,7 +188,7 @@ public class MeineKurseController implements Initializable {
             loader.setLocation(getClass().getClassLoader().getResource("userprofile.fxml"));
             AnchorPane root = (AnchorPane) loader.load();
             UserprofilController userprofilController = loader.getController();
-            userprofilController.nutzerprofilAufrufen(nutzerInstanz,nutzerInstanz);
+            //userprofilController.setNutzerInstanz(nutzerInstanz);
             Scene scene = new Scene(root);
             String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
             scene.getStylesheets().add(homescreencss);
