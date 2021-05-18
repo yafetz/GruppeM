@@ -122,48 +122,50 @@ public class AlleKurseController implements Initializable {
             //Layout layout = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) namenLink.getScene().getWindow());
 
 //            Platzhalter bis dahin:
-            Layout lehrenderLayout = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) namenLink.getScene().getWindow());
-            if(lehrenderLayout.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
-                ((LehrveranstaltungsuebersichtsseiteController) lehrenderLayout.getController()).setNutzer(nutzerInstanz);
-                ((LehrveranstaltungsuebersichtsseiteController) lehrenderLayout.getController()).setLehrveranstaltung(lehrveranstaltung);
-                ((LehrveranstaltungsuebersichtsseiteController) lehrenderLayout.getController()).uebersichtsseiteAufrufen(nutzerInstanz, lehrveranstaltung);
+            HttpResponse<String> memberResponse;
+            if (nutzerInstanz instanceof Lehrender) {
+                long lehrId = ((Lehrender) nutzerInstanz).getNutzerId().getId();
+                request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/check/"+ lehrveranstaltungId + "&"+lehrId)).build();
+                memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
+                System.out.println("Instanz Lehrender "+memberResponse.body());
+                if(memberResponse.body().equals("true")){
+
+                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
+                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
+                        ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(nutzerInstanz,lehrveranstaltung);
+                    }
+                }
+                else {
+                    System.out.println("LehrveranstaltungsId   "+lehrveranstaltungId);
+                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
+                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
+                        ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(nutzerInstanz,lehrveranstaltung);
+                    }
+
+                }
             }
-//
-//            HttpResponse<String> memberResponse;
-//            if (nutzerInstanz instanceof Lehrender) {
-//                long lehrId = ((Lehrender) nutzerInstanz).getNutzerId().getId();
-//                request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/check/"+ lehrveranstaltungId + "&2")).build();
-//                memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-//                if(memberResponse.equals("true")){
-//
-//                    Layout lehrenderLayout = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) namenLink.getScene().getWindow());
-//                    if(lehrenderLayout.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
-//                        ((LehrveranstaltungsuebersichtsseiteController) lehrenderLayout.getController()).uebersichtsseiteAufrufen(nutzerInstanz, lehrveranstaltung);
-//                    }
-//                }
-//                else {
-//                    Layout lehrenderLayout = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) namenLink.getScene().getWindow());
-//
-//                }
-//            }
-//            if (nutzerInstanz instanceof Student) {
-//
-//                long id = ((Student) nutzerInstanz).getNutzer().getId();
-//                request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/check/" + lehrveranstaltungId +"&"+ id)).build();
-//                memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-//
-//                if(memberResponse.body().equals("true")){
-//
-//                    Layout studentLayout = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) namenLink.getScene().getWindow());
-//                    if(studentLayout.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
-//                        ((LehrveranstaltungsuebersichtsseiteController) studentLayout.getController()).uebersichtsseiteAufrufen(nutzerInstanz, lehrveranstaltung);
-//                    }
-//                }
-//                else{
-//                    Layout studentLayout = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) namenLink.getScene().getWindow());
-//                }
-//
-//            }
+            if (nutzerInstanz instanceof Student) {
+
+                long id = ((Student) nutzerInstanz).getNutzer().getId();
+                request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/check/" + lehrveranstaltungId +"&"+ id)).build();
+                memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
+                System.out.println("Student Instanz "+memberResponse.body());
+                if(memberResponse.body().equals("true")){
+
+                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
+                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
+                        ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(nutzerInstanz,lehrveranstaltung);
+                    }
+                }
+                else{
+                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
+                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
+                        ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(nutzerInstanz,lehrveranstaltung);
+                    }
+
+                }
+
+            }
 
 
             System.out.println(lehrveranstaltung.toString());

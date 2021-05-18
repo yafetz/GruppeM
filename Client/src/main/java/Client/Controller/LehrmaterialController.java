@@ -73,8 +73,8 @@ public class LehrmaterialController {
     }
 
     public void alleKurseAufrufen(ActionEvent event) {
-        HomescreenController homescreenController = new HomescreenController();
-        homescreenController.alleKurseAufrufen(event);
+       // HomescreenController homescreenController = new HomescreenController();
+        //homescreenController.alleKurseAufrufen(event);
 //        event.consume();
 //        Stage stage = (Stage) alleKurse.getScene().getWindow();
 //        try {

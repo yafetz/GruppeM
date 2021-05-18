@@ -28,7 +28,7 @@ public class TeilnehmerListeController implements Initializable {
     private TableColumn col_nachname;
 
     private Nutzer nutzerInstanz;
-
+    private Lehrveranstaltung lehrveranstaltung;
 
 
     public Lehrveranstaltung getLehrveranstaltung() {
@@ -38,8 +38,6 @@ public class TeilnehmerListeController implements Initializable {
     public void setLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) {
         this.lehrveranstaltung = lehrveranstaltung;
     }
-
-    private Lehrveranstaltung lehrveranstaltung;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
