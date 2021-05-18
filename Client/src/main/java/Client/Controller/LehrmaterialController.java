@@ -15,16 +15,26 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.springframework.http.HttpEntity;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -127,25 +137,48 @@ public class LehrmaterialController {
     public void hochladenPressedButton(ActionEvent actionEvent) {
         actionEvent.consume();
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        try (CloseableHttpClient client = HttpClients.createDefault()) {
 
-        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-        body.addAll("files", fileList);
+            String url = "http://localhost:8080/lehrveranstaltung/lehrmaterial/upload";
+            HttpPost post = new HttpPost(url);
+            MultipartEntityBuilder entity = MultipartEntityBuilder.create();
 
-//        System.out.println(body);
+            for(File file : fileList){
+                entity.addPart("files",new FileBody(file));
+            }
 
-        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+            entity.addTextBody("lehrveranstaltungId", String.valueOf( ((Lehrveranstaltung) lehrveranstaltung).getId()));
+            HttpEntity requestEntity = entity.build();
+            post.setEntity(requestEntity);
 
-        RestTemplate restTemplate = new RestTemplate();
-        if(lehrveranstaltung instanceof Lehrveranstaltung) {
-
-            System.out.println("instanceof test erfolgreich");
-
-            String url = "http://localhost:8080/lehrveranstaltung/lehrmaterial/upload/" + ((Lehrveranstaltung) lehrveranstaltung).getId();
-            ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestEntity, String.class);
-            System.out.println(responseEntity.getBody());
+            try (CloseableHttpResponse response = client.execute(post)) {
+                HttpEntity responseEntity = response.getEntity();
+                String result = EntityUtils.toString(responseEntity);
+                System.out.println(result);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+//
+//        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+//        body.addAll("files", fileList);
+//
+//        System.out.println(body);
+//
+//        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+//
+//        RestTemplate restTemplate = new RestTemplate();
+//        if(lehrveranstaltung instanceof Lehrveranstaltung) {
+//
+//            System.out.println("instanceof test erfolgreich");
+//
+//            String url = "http://localhost:8080/lehrveranstaltung/lehrmaterial/upload/" + ((Lehrveranstaltung) lehrveranstaltung).getId();
+//            ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestEntity, String.class);
+//            System.out.println(responseEntity.getBody());
+//        }
 
 
     }
