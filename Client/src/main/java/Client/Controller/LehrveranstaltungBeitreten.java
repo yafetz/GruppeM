@@ -2,6 +2,7 @@ package Client.Controller;
 
 import Client.Modell.Lehrender;
 import Client.Modell.Lehrveranstaltung;
+import Client.Modell.Nutzer;
 import Client.Modell.Student;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -27,9 +28,12 @@ public class LehrveranstaltungBeitreten implements Initializable {
     @FXML
     Button beitreten;
 
-    // Server import oder Client import???
+
     private Lehrveranstaltung lehrveranstaltung;
-    private Student student;
+    private Object nutzerInstanz;
+    private long lehrveranstaltungsId;
+    private long veranstaltung;
+
 
 
     @Override
@@ -39,17 +43,48 @@ public class LehrveranstaltungBeitreten implements Initializable {
 
     public void lehrveranstaltungBeitreten(){
 
+        long nutzerId = 0;
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/"+lehrveranstaltung.getId()+"&"+student.getId())).build();
+        if (nutzerInstanz instanceof Lehrender) {
+            nutzerId = ((Lehrender) nutzerInstanz).getNutzerId().getId();
+        }
+        if (nutzerInstanz instanceof Student) {
+            nutzerId = ((Student) nutzerInstanz).getNutzer().getId();
+        }
+        //long nutzerId = ((Nutzer) nutzerInstanz).getId();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/"+lehrveranstaltungsId+"&"+nutzerId)).build();
 
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println(response);
+            System.out.println(nutzerId);
+            System.out.println("Veranstaltungid        "+ veranstaltung);
+
+            System.out.println("LehrveranstaltungsId           "+lehrveranstaltungsId);
+            System.out.println("Success");
+            //System.out.println("Student instanz   "+((Student) nutzerInstanz).getId());
+            System.out.println("Lehrender instanz     "+((Lehrender) nutzerInstanz).getNutzerId().getId());
+
+
+
+
         } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("Hier");
         } catch (InterruptedException e) {
             e.printStackTrace();
+            System.out.println("Hier");
         }
         ;
+    }
+    public void  setLehrveranstaltungsId(long lehrveranstaltungsId){
+        this.lehrveranstaltungsId=lehrveranstaltungsId;
+    }
+    public Object getNutzerInstanz() {
+        return nutzerInstanz;
+    }
+    public void setNutzerInstanz(Object nutzerInstanz) {
+        this.nutzerInstanz = nutzerInstanz;
     }
 
 }
