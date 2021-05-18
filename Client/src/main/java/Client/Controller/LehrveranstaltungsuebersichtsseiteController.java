@@ -36,9 +36,10 @@ public class LehrveranstaltungsuebersichtsseiteController {
     private void materialUploadPressedButton(ActionEvent event) {
         Stage stage = (Stage) materialUpload.getScene().getWindow();
         Layout homeScreen = null;
-            homeScreen = new Layout("lehrmaterialUpload.fxml", stage,nutzer);
-            if (homeScreen.getController() instanceof HomescreenController) {
-               // ((HomescreenController) homeScreen.getController()).setNutzerInstanz(nutzer);
+            homeScreen = new Layout("lehrmaterialUpload.fxml", stage, nutzer);
+            if (homeScreen.getController() instanceof LehrmaterialController) {
+               ((LehrmaterialController) homeScreen.getController()).setNutzerInstanz(nutzer);
+               ((LehrmaterialController) homeScreen.getController()).setLehrveranstaltung(lehrveranstaltung);
             }
 
     }

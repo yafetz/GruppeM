@@ -24,8 +24,9 @@ public class LehrmaterialController {
 
 
     @PostMapping("/upload/{lehrveranstaltungId}")
-    public ResponseEntity<String> lehrmaterialUpload(@RequestParam("lehrmaterialList") List<MultipartFile> lehrmaterialList,
+    public ResponseEntity<String> lehrmaterialUpload(@RequestBody List<MultipartFile> lehrmaterialList,
                                                      @PathVariable Long lehrveranstaltungId) throws IOException {
+
         lehrmaterialStorageService.addNewLehrmaterial(lehrveranstaltungId, lehrmaterialList);
         return new ResponseEntity<>("erfolgreich hochgeladen", null, HttpStatus.OK);
     }
