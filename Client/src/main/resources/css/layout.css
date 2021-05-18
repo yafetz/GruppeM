@@ -1,0 +1,19 @@
+#meineKurse{
+    -fx-background-radius: 10 10 10 10;
+    -fx-background-color: #413E92;
+    -fx-text-fill: white;
+    -fx-pref-width: 120.0;
+    -fx-pref-height: 67.0;
+}
+
+#alleKurse{
+    -fx-background-radius: 10 10 10 10;
+    -fx-background-color: #413E92;
+    -fx-text-fill: white;
+    -fx-pref-width: 120.0;
+    -fx-pref-height: 67.0;
+}
+
+#logo{
+    -fx-fill: white;
+}

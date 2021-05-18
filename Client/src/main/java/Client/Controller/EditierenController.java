@@ -142,15 +142,11 @@ public class EditierenController {
         //Weiterleitung zur Nutzerprofil Seite
         Stage stage = (Stage) abbrechen.getScene().getWindow();
         Layout userprofil = null;
-        try {
-            userprofil = new Layout("userprofile.fxml",stage);
+            userprofil = new Layout("userprofile.fxml",stage,Nutzer);
 
             if(userprofil.getController() instanceof UserprofilController){
                 ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(Nutzer,Nutzer);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
 

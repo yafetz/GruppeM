@@ -129,10 +129,10 @@ public class AlleKurseController implements Initializable {
                 memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
                 if(memberResponse.equals("true")){
 
-                    Layout lehrenderLayout = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) namenLink.getScene().getWindow());
+                    Layout lehrenderLayout = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) namenLink.getScene().getWindow(),nutzerInstanz);
                 }
                 else {
-                    Layout lehrenderLayout = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) namenLink.getScene().getWindow());
+                    Layout lehrenderLayout = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) namenLink.getScene().getWindow(),nutzerInstanz);
 
                 }
             }
@@ -144,13 +144,13 @@ public class AlleKurseController implements Initializable {
 
                 if(memberResponse.body().equals("true")){
 
-                    Layout studentLayout = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) namenLink.getScene().getWindow());
+                    Layout studentLayout = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
                     if(studentLayout.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
 
                     }
                 }
                 else{
-                    Layout studentLayout = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) namenLink.getScene().getWindow());
+                    Layout studentLayout = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
                 }
 
             }
