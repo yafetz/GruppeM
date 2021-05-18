@@ -130,11 +130,11 @@ public class AlleKurseController implements Initializable {
                 System.out.println("Instanz Lehrender "+memberResponse.body());
                 if(memberResponse.body().equals("true")){
 
-                    Layout lehrenderLayout = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) namenLink.getScene().getWindow(),nutzerInstanz);
+                    Layout lehrenderLayout = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
                 }
                 else {
                     System.out.println("LehrveranstaltungsId   "+lehrveranstaltungId);
-                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) namenLink.getScene().getWindow(),nutzerInstanz);
+                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
                     if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungBeitreten){
                         ((LehrveranstaltungBeitreten) lehrveranstaltungBeitreten.getController()).setNutzerInstanz(nutzerInstanz);
                         long veranstaltung = lehrveranstaltungId;
@@ -151,22 +151,16 @@ public class AlleKurseController implements Initializable {
                 System.out.println("Student Instanz "+memberResponse.body());
                 if(memberResponse.body().equals("true")){
 
-                    Layout studentLayout = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) namenLink.getScene().getWindow(),nutzerInstanz);
-                    /*if(studentLayout.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
                     Layout studentLayout = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
-                    if(studentLayout.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
-
-                    }*/
                 }
                 else{
-                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) namenLink.getScene().getWindow(),nutzerInstanz);
+                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
                     if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungBeitreten){
                         ((LehrveranstaltungBeitreten) lehrveranstaltungBeitreten.getController()).setNutzerInstanz(nutzerInstanz);
                         long veranstaltung = lehrveranstaltungId;
                         ((LehrveranstaltungBeitreten) lehrveranstaltungBeitreten.getController()).setLehrveranstaltungsId(veranstaltung);
                     }
 
-                    Layout studentLayout = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
                 }
 
             }

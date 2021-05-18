@@ -63,7 +63,7 @@ public class LehrveranstaltungBeitreten implements Initializable {
             System.out.println("LehrveranstaltungsId           "+lehrveranstaltungsId);
             System.out.println("Success");
             //System.out.println("Student instanz   "+((Student) nutzerInstanz).getId());
-            System.out.println("Lehrender instanz     "+((Lehrender) nutzerInstanz).getNutzerId().getId());
+           // System.out.println("Lehrender instanz     "+((Lehrender) nutzerInstanz).getNutzerId().getId());
 
 
 
