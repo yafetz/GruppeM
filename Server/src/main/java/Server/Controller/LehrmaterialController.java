@@ -28,7 +28,7 @@ public class LehrmaterialController {
                                                      @RequestParam("lehrveranstaltungId") Long lehrveranstaltungId) throws IOException {
 
         lehrmaterialStorageService.addNewLehrmaterial(lehrveranstaltungId, multipartFiles);
-        return new ResponseEntity<>("erfolgreich hochgeladen", null, HttpStatus.OK);
+        return new ResponseEntity<>("Servernachricht: Erfolgreich hochgeladen!", null, HttpStatus.OK);
     }
 
     @GetMapping("/{lehrveranstaltungsId}")

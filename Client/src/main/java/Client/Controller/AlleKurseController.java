@@ -52,13 +52,12 @@ public class AlleKurseController{
     }
 
     public void populateTableView() {
-        System.out.println(nutzerInstanz);
+
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/all")).build();
         HttpResponse<String> response;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println("Populate Tableview "+ response.body());
 
 //            mapping data in response.body() to a list of lehrveranstaltung-objects
             ObjectMapper mapper = new ObjectMapper();
@@ -104,7 +103,6 @@ public class AlleKurseController{
         HttpResponse<String> response;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
-//            System.out.println(response.body());
             ObjectMapper mapper = new ObjectMapper();
             Lehrveranstaltung lehrveranstaltung = mapper.readValue(response.body(), Lehrveranstaltung.class);
 //            TODO Weiterleitung zu Übersichtsseite des Kurses
@@ -117,9 +115,10 @@ public class AlleKurseController{
                 long lehrId = ((Lehrender) nutzerInstanz).getNutzerId().getId();
                 request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/check/"+ lehrveranstaltungId + "&"+lehrId)).build();
                 memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-                System.out.println("Instanz Lehrender "+memberResponse.body());
-                if(memberResponse.body().equals("true")){
 
+//                System.out.println("Instanz Lehrender "+memberResponse.body());
+
+                if(memberResponse.body().equals("true")){
                     Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
                     if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
                         ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(nutzerInstanz,lehrveranstaltung);
@@ -138,9 +137,10 @@ public class AlleKurseController{
                 long id = ((Student) nutzerInstanz).getNutzer().getId();
                 request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/check/" + lehrveranstaltungId +"&"+ id)).build();
                 memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-                System.out.println("Student Instanz "+memberResponse.body());
-                if(memberResponse.body().equals("true")){
 
+//                System.out.println("Student Instanz "+memberResponse.body());
+
+                if(memberResponse.body().equals("true")){
                     Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
                     if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
                         ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(nutzerInstanz,lehrveranstaltung);
@@ -153,7 +153,9 @@ public class AlleKurseController{
                     }
                 }
             }
-            System.out.println(lehrveranstaltung.toString());
+
+//            System.out.println(lehrveranstaltung.toString());
+
         } catch (Exception e) {
             e.printStackTrace();
         }
