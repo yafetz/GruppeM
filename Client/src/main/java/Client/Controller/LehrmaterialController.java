@@ -46,8 +46,8 @@ public class LehrmaterialController {
 
     private List<File> fileList;
     private ObservableList<File> obsFileList;
-    private Lehrveranstaltung lehrveranstaltung;
-    private Nutzer nutzerInstanz;
+    private Object lehrveranstaltung;
+    private Object nutzerInstanz;
 
     public void initialize() {
 
@@ -131,31 +131,36 @@ public class LehrmaterialController {
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.addAll("files", fileList);
 
-        System.out.println(body);
+//        System.out.println(body);
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 
         RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:8080/lehrveranstaltung/lehrmaterial/upload/" + lehrveranstaltung.getId();
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestEntity, String.class);
-        System.out.println(responseEntity.getBody());
-        System.out.println();
+        if(lehrveranstaltung instanceof Lehrveranstaltung) {
+
+            System.out.println("instanceof test erfolgreich");
+
+            String url = "http://localhost:8080/lehrveranstaltung/lehrmaterial/upload/" + ((Lehrveranstaltung) lehrveranstaltung).getId();
+            ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestEntity, String.class);
+            System.out.println(responseEntity.getBody());
+        }
+
 
     }
 
-    public Lehrveranstaltung getLehrveranstaltung() {
+    public Object getLehrveranstaltung() {
         return lehrveranstaltung;
     }
 
-    public void setLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) {
+    public void setLehrveranstaltung(Object lehrveranstaltung) {
         this.lehrveranstaltung = lehrveranstaltung;
     }
 
-    public Nutzer getNutzerInstanz() {
+    public Object getNutzerInstanz() {
         return nutzerInstanz;
     }
 
-    public void setNutzerInstanz(Nutzer nutzerInstanz) {
+    public void setNutzerInstanz(Object nutzerInstanz) {
         this.nutzerInstanz = nutzerInstanz;
     }
 }

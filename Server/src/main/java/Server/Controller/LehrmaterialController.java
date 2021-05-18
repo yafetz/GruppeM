@@ -24,17 +24,14 @@ public class LehrmaterialController {
 
 
     @PostMapping("/upload/{lehrveranstaltungId}")
-    public ResponseEntity<String> lehrmaterialUpload(@RequestBody List<MultipartFile> lehrmaterialList,
+    public ResponseEntity<String> lehrmaterialUpload(@RequestParam("lehrmaterialList") List<MultipartFile> lehrmaterialList,
                                                      @PathVariable Long lehrveranstaltungId) throws IOException {
-        for (MultipartFile lehrmaterial : lehrmaterialList) {
-            lehrmaterialStorageService.addNewLehrmaterial(lehrveranstaltungId, lehrmaterial);
-        }
-
+        lehrmaterialStorageService.addNewLehrmaterial(lehrveranstaltungId, lehrmaterialList);
         return new ResponseEntity<>("erfolgreich hochgeladen", null, HttpStatus.OK);
     }
 
     @GetMapping("/{lehrveranstaltungsId}")
-    public Object alleLehrmaterialien (@PathVariable long lehrveranstaltungsId) {
+    public Object getAlleLehrmaterialien (@PathVariable long lehrveranstaltungsId) {
         return lehrmaterialRepository.findLehrmaterialByLehrveranstaltung(lehrveranstaltungRepository.findLehrveranstaltungById(lehrveranstaltungsId));
     }
 }

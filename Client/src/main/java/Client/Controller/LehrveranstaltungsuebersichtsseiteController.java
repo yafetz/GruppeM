@@ -38,8 +38,9 @@ public class LehrveranstaltungsuebersichtsseiteController {
         Layout homeScreen = null;
         try {
             homeScreen = new Layout("lehrmaterialUpload.fxml", stage);
-            if (homeScreen.getController() instanceof HomescreenController) {
-                ((HomescreenController) homeScreen.getController()).setNutzerInstanz(nutzer);
+            if (homeScreen.getController() instanceof LehrmaterialController) {
+                ((LehrmaterialController) homeScreen.getController()).setNutzerInstanz(nutzer);
+                ((LehrmaterialController) homeScreen.getController()).setLehrveranstaltung(lehrveranstaltung);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -65,5 +66,21 @@ public class LehrveranstaltungsuebersichtsseiteController {
         }
 
 
+    }
+
+    public Object getLehrveranstaltung() {
+        return lehrveranstaltung;
+    }
+
+    public void setLehrveranstaltung(Object lehrveranstaltung) {
+        this.lehrveranstaltung = lehrveranstaltung;
+    }
+
+    public Object getNutzer() {
+        return nutzer;
+    }
+
+    public void setNutzer(Object nutzer) {
+        this.nutzer = nutzer;
     }
 }

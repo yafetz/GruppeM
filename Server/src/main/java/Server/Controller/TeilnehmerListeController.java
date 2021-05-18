@@ -36,7 +36,7 @@ public class TeilnehmerListeController {
 
     }
     @GetMapping("/{lehrveranstaltungsId}")
-    public List<TeilnehmerListe> alleTeilnehmer(@PathVariable long lehrveranstaltungsId){
+    public List<TeilnehmerListe> getAlleTeilnehmer(@PathVariable long lehrveranstaltungsId){
         List<TeilnehmerListe> teilnehmer= teilnehmerListeService.teilnehmer(lehrveranstaltungsId);
 
         return teilnehmer;

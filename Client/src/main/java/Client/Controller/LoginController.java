@@ -75,18 +75,18 @@ public class LoginController {
                     student.addDataFromJson(jsonObject);
                     //Change View
 
-                    Layout homeScreen = new Layout("userprofile.fxml",stage);
+                    Layout homeScreen = new Layout("homescreen.fxml",stage);
 
 
-                    if(homeScreen.getController() instanceof UserprofilController){
-                        ((UserprofilController) homeScreen.getController()).nutzerprofilAufrufen(student, student);
+                    if(homeScreen.getController() instanceof HomescreenController){
+                        ((HomescreenController) homeScreen.getController()).setNutzerInstanz(student);
                     }
                 }else if(jsonObject.has("lehrstuhl")){
                     Lehrender lehrender = new Lehrender();
                     lehrender.addDataFromJson(jsonObject);
 
 
-                    Layout homeScreen = new Layout("lehrveranstaltungsuebersichtsseite.fxml",stage);
+                    Layout homeScreen = new Layout("homescreen.fxml",stage);
 
 
                     if(homeScreen.getController() instanceof HomescreenController){

@@ -2,14 +2,11 @@ package Server.Controller;
 
 import Server.Modell.Lehrveranstaltung;
 import Server.Modell.Nutzer;
-import Server.Modell.Student;
 import Server.Repository.LehrveranstaltungRepository;
 import Server.Repository.NutzerRepository;
-import Server.Repository.StudentRepository;
 import Server.Repository.TeilnehmerListeRepository;
 import Server.Services.LehrveranstaltungBeitretenService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,13 +14,10 @@ import org.springframework.web.bind.annotation.*;
 public class LehrveranstaltungBeitretenController {
     @Autowired
     LehrveranstaltungBeitretenService lehrveranstaltungBeitretenService;
-
     @Autowired
     TeilnehmerListeRepository teilnehmerListeRepository;
-
     @Autowired
     LehrveranstaltungRepository lehrveranstaltungRepository;
-
     @Autowired
     NutzerRepository nutzerRepository;
 

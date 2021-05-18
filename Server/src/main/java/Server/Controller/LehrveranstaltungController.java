@@ -21,18 +21,15 @@ import java.util.Optional;
 @RequestMapping("/lehrveranstaltung")
 public class LehrveranstaltungController {
 
-    private final LehrveranstaltungRepository lehrveranstaltungRepository;
-    private final TeilnehmerListeRepository teilnehmerListeRepository;
-    private final StudentRepository studentRepository;
-    private final NutzerRepository nutzerRepository;
-
     @Autowired
-    public LehrveranstaltungController(LehrveranstaltungRepository lehrveranstaltungRepository, TeilnehmerListeRepository teilnehmerListeRepository, StudentRepository studentRepository, NutzerRepository nutzerRepository) {
-        this.lehrveranstaltungRepository = lehrveranstaltungRepository;
-        this.teilnehmerListeRepository = teilnehmerListeRepository;
-        this.studentRepository = studentRepository;
-        this.nutzerRepository = nutzerRepository;
-    }
+    private LehrveranstaltungRepository lehrveranstaltungRepository;
+    @Autowired
+    private TeilnehmerListeRepository teilnehmerListeRepository;
+    @Autowired
+    private StudentRepository studentRepository;
+    @Autowired
+    private NutzerRepository nutzerRepository;
+
 
     @GetMapping("/all")
     public List<Lehrveranstaltung> getAllLehrveranstaltungen() {

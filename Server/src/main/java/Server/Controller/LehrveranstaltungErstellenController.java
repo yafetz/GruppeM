@@ -1,8 +1,5 @@
 package Server.Controller;
 
-
-import Server.Modell.Lehrender;
-import Server.Modell.Lehrveranstaltung;
 import Server.Repository.LehrenderRepository;
 import Server.Repository.LehrveranstaltungRepository;
 import Server.Services.LehrveranstaltungErstellenService;
@@ -12,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/create")
 public class LehrveranstaltungErstellenController {
+
     private final LehrveranstaltungErstellenService lehrveranstaltungErstellenService;
     LehrveranstaltungRepository lvRepo;
     LehrenderRepository lehrenderRepository;
