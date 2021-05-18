@@ -30,12 +30,8 @@ import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class AlleKurseController implements Initializable {
+public class AlleKurseController{
 
-    @FXML
-    public ImageView profilBild;
-    @FXML
-    public Hyperlink namenLink;
     @FXML
     private TableView<Lehrveranstaltung> alleLv;
     @FXML
@@ -48,17 +44,11 @@ public class AlleKurseController implements Initializable {
     private TableColumn<Lehrveranstaltung, String> col_LvArt;
     @FXML
     private TableColumn<Lehrveranstaltung, String> col_LvLehrende;
-    @FXML
-    private Button alleKurse;
-    @FXML
-    private Button meineKurse;
 
     private Object nutzerInstanz;
 
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
+    public void initialize() {
     }
 
     public void populateTableView() {
@@ -141,7 +131,6 @@ public class AlleKurseController implements Initializable {
                     if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
                         ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(nutzerInstanz,lehrveranstaltung);
                     }
-
                 }
             }
             if (nutzerInstanz instanceof Student) {
@@ -162,74 +151,10 @@ public class AlleKurseController implements Initializable {
                     if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
                         ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(nutzerInstanz,lehrveranstaltung);
                     }
-
                 }
-
             }
-
-
             System.out.println(lehrveranstaltung.toString());
         } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void meineKurseAufrufen(ActionEvent event) {
-        event.consume();
-        Stage stage = (Stage) meineKurse.getScene().getWindow();
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getClassLoader().getResource("meineKurse.fxml"));
-            AnchorPane root = (AnchorPane) loader.load();
-            MeineKurseController meineKurseController = loader.getController();
-            meineKurseController.setNutzerInstanz(nutzerInstanz);
-            Scene scene = new Scene(root);
-            String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
-            scene.getStylesheets().add(homescreencss);
-            stage.setScene(scene);
-            stage.setMaximized(false);
-            stage.show();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-
-    public void alleKurseAufrufen(ActionEvent event) {
-        event.consume();
-        Stage stage = (Stage) alleKurse.getScene().getWindow();
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getClassLoader().getResource("alleKurse.fxml"));
-            AnchorPane root = (AnchorPane) loader.load();
-            AlleKurseController alleKurseController = loader.getController();
-            alleKurseController.setNutzerInstanz(nutzerInstanz);
-            Scene scene = new Scene(root);
-            String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
-            scene.getStylesheets().add(homescreencss);
-            stage.setScene(scene);
-            stage.setMaximized(false);
-            stage.show();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-
-    public void eigeneProfilSeiteAufrufen(ActionEvent event) {
-        event.consume();
-        Stage stage = (Stage) namenLink.getScene().getWindow();
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getClassLoader().getResource("userprofile.fxml"));
-            AnchorPane root = (AnchorPane) loader.load();
-            UserprofilController userprofilController = loader.getController();
-            userprofilController.nutzerprofilAufrufen(nutzerInstanz,nutzerInstanz);
-            Scene scene = new Scene(root);
-            String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
-            scene.getStylesheets().add(homescreencss);
-            stage.setScene(scene);
-            stage.setMaximized(false);
-            stage.show();
-        } catch (IOException e){
             e.printStackTrace();
         }
     }

@@ -28,9 +28,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
 
 
     public void initialize() {
-
     }
-
 
     @FXML
     private void materialUploadPressedButton(ActionEvent event) {
@@ -41,7 +39,6 @@ public class LehrveranstaltungsuebersichtsseiteController {
                ((LehrmaterialController) homeScreen.getController()).setNutzerInstanz(nutzer);
                ((LehrmaterialController) homeScreen.getController()).setLehrveranstaltung(lehrveranstaltung);
             }
-
     }
 
     public void uebersichtsseiteAufrufen(Object nutzer, Object lehrveranstaltung) {
@@ -52,7 +49,6 @@ public class LehrveranstaltungsuebersichtsseiteController {
             if (nutzer instanceof Lehrender) {
                 title.setText(((Lehrveranstaltung) lehrveranstaltung).getTitel());
                 materialUpload.setText("Lehrmaterial hochladen");
-
             }
             else if(nutzer instanceof Student) {
                 //title.setText(((Lehrveranstaltung) lehrveranstaltung).getTitel());
@@ -60,7 +56,6 @@ public class LehrveranstaltungsuebersichtsseiteController {
             }
 
         }
-
 
     }
 }

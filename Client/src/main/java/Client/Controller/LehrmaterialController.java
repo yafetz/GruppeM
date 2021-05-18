@@ -1,7 +1,7 @@
 package Client.Controller;
 
+import Client.Layouts.Layout;
 import Client.Modell.Lehrveranstaltung;
-import Client.Modell.Nutzer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,35 +24,18 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 
 public class LehrmaterialController {
 
     @FXML
-    private Button meineKurse;
-    @FXML
-    private Button alleKurse;
-    @FXML
-    private Hyperlink namenLink;
-    @FXML
-    private ImageView profilBild;
-    @FXML
     private Button btn_upload;
     @FXML
     private Button btn_durchsuchen;
+    @FXML
+    public Button btn_abbrechen;
     @FXML
     private ListView listview_upload;
 
@@ -62,125 +45,61 @@ public class LehrmaterialController {
     private Object nutzerInstanz;
 
     public void initialize() {
-
     }
 
-    public void meineKurseAufrufen(ActionEvent event) {
-        event.consume();
-        Stage stage = (Stage) meineKurse.getScene().getWindow();
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getClassLoader().getResource("meineKurse.fxml"));
-            AnchorPane root = (AnchorPane) loader.load();
-            MeineKurseController meineKurse = loader.getController();
-            Scene scene = new Scene(root);
-            String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
-            scene.getStylesheets().add(homescreencss);
-            stage.setScene(scene);
-            stage.setMaximized(false);
-            stage.show();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-
-    public void alleKurseAufrufen(ActionEvent event) {
-       // HomescreenController homescreenController = new HomescreenController();
-        //homescreenController.alleKurseAufrufen(event);
-//        event.consume();
-//        Stage stage = (Stage) alleKurse.getScene().getWindow();
-//        try {
-//            FXMLLoader loader = new FXMLLoader();
-//            loader.setLocation(getClass().getClassLoader().getResource("alleKurse.fxml"));
-//            AnchorPane root = (AnchorPane) loader.load();
-//            AlleKurseController alleKurse = loader.getController();
-//            Scene scene = new Scene(root);
-//            String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
-//            scene.getStylesheets().add(homescreencss);
-//            stage.setScene(scene);
-//            stage.setMaximized(false);
-//            stage.show();
-//        } catch (IOException e){
-//            e.printStackTrace();
-//        }
-    }
-
-    public void eigeneProfilSeiteAufrufen(ActionEvent event) {
-        event.consume();
-        Stage stage = (Stage) namenLink.getScene().getWindow();
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getClassLoader().getResource("userprofile.fxml"));
-            AnchorPane root = (AnchorPane) loader.load();
-            UserprofilController userprofil = loader.getController();
-            Scene scene = new Scene(root);
-            String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
-            scene.getStylesheets().add(homescreencss);
-            stage.setScene(scene);
-            stage.setMaximized(false);
-            stage.show();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-
-    public void durchsuchenPressedButton(ActionEvent actionEvent) throws IOException {
+    public void durchsuchenPressedButton(ActionEvent actionEvent) {
         actionEvent.consume();
         Stage stage = (Stage) btn_durchsuchen.getScene().getWindow();
         FileChooser filechooser = new FileChooser();
         filechooser.setTitle("Datei auswählen");
         fileList = filechooser.showOpenMultipleDialog(stage);
-        obsFileList = FXCollections.observableList(fileList);
-        listview_upload.setItems(obsFileList);
+        try {
+            obsFileList = FXCollections.observableList(fileList);
+            listview_upload.setItems(obsFileList);
+        } catch (Exception e) {
+            System.out.println("Dateiauswahl wurde abgebrochen.");
+        }
+
     }
 
     public void hochladenPressedButton(ActionEvent actionEvent) {
         actionEvent.consume();
+        if(fileList != null) {
+            try (CloseableHttpClient client = HttpClients.createDefault()) {
 
-        try (CloseableHttpClient client = HttpClients.createDefault()) {
+                String url = "http://localhost:8080/lehrveranstaltung/lehrmaterial/upload";
+                HttpPost post = new HttpPost(url);
+                MultipartEntityBuilder entity = MultipartEntityBuilder.create();
 
-            String url = "http://localhost:8080/lehrveranstaltung/lehrmaterial/upload";
-            HttpPost post = new HttpPost(url);
-            MultipartEntityBuilder entity = MultipartEntityBuilder.create();
+                for(File file : fileList){
+                    entity.addPart("files",new FileBody(file));
+                }
 
-            for(File file : fileList){
-                entity.addPart("files",new FileBody(file));
+                entity.addTextBody("lehrveranstaltungId", String.valueOf( ((Lehrveranstaltung) lehrveranstaltung).getId()));
+                HttpEntity requestEntity = entity.build();
+                post.setEntity(requestEntity);
+
+                try (CloseableHttpResponse response = client.execute(post)) {
+                    HttpEntity responseEntity = response.getEntity();
+                    String result = EntityUtils.toString(responseEntity);
+                    System.out.println(result);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-            entity.addTextBody("lehrveranstaltungId", String.valueOf( ((Lehrveranstaltung) lehrveranstaltung).getId()));
-            HttpEntity requestEntity = entity.build();
-            post.setEntity(requestEntity);
-
-            try (CloseableHttpResponse response = client.execute(post)) {
-                HttpEntity responseEntity = response.getEntity();
-                String result = EntityUtils.toString(responseEntity);
-                System.out.println(result);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } else {
+            System.out.println("Keine Datei zum Hochladen ausgewählt!");
         }
+    }
 
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-//
-//        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-//        body.addAll("files", fileList);
-//
-//        System.out.println(body);
-//
-//        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-//
-//        RestTemplate restTemplate = new RestTemplate();
-//        if(lehrveranstaltung instanceof Lehrveranstaltung) {
-//
-//            System.out.println("instanceof test erfolgreich");
-//
-//            String url = "http://localhost:8080/lehrveranstaltung/lehrmaterial/upload/" + ((Lehrveranstaltung) lehrveranstaltung).getId();
-//            ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestEntity, String.class);
-//            System.out.println(responseEntity.getBody());
-//        }
-
-
+    public void abbrechenPressedButton(ActionEvent actionEvent) {
+        actionEvent.consume();
+        Stage stage = (Stage) btn_abbrechen.getScene().getWindow();
+        Layout homeScreen = null;
+        homeScreen = new Layout("lehrveranstaltungsuebersichtsseite.fxml", stage, nutzerInstanz);
+        if (homeScreen.getController() instanceof LehrveranstaltungsuebersichtsseiteController) {
+            ((LehrveranstaltungsuebersichtsseiteController) homeScreen.getController()).uebersichtsseiteAufrufen(nutzerInstanz, lehrveranstaltung);
+        }
     }
 
     public Object getLehrveranstaltung() {
@@ -198,4 +117,6 @@ public class LehrmaterialController {
     public void setNutzerInstanz(Object nutzerInstanz) {
         this.nutzerInstanz = nutzerInstanz;
     }
+
+
 }
