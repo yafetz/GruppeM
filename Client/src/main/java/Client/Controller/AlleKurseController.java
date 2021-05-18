@@ -130,15 +130,16 @@ public class AlleKurseController implements Initializable {
                 System.out.println("Instanz Lehrender "+memberResponse.body());
                 if(memberResponse.body().equals("true")){
 
-                    Layout lehrenderLayout = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
+                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
+                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
+                        ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(nutzerInstanz,lehrveranstaltung);
+                    }
                 }
                 else {
                     System.out.println("LehrveranstaltungsId   "+lehrveranstaltungId);
-                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
-                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungBeitreten){
-                        ((LehrveranstaltungBeitreten) lehrveranstaltungBeitreten.getController()).setNutzerInstanz(nutzerInstanz);
-                        long veranstaltung = lehrveranstaltungId;
-                        ((LehrveranstaltungBeitreten) lehrveranstaltungBeitreten.getController()).setLehrveranstaltungsId(veranstaltung);
+                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
+                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
+                        ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(nutzerInstanz,lehrveranstaltung);
                     }
 
                 }
@@ -151,14 +152,15 @@ public class AlleKurseController implements Initializable {
                 System.out.println("Student Instanz "+memberResponse.body());
                 if(memberResponse.body().equals("true")){
 
-                    Layout studentLayout = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
+                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
+                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
+                        ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(nutzerInstanz,lehrveranstaltung);
+                    }
                 }
                 else{
-                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
-                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungBeitreten){
-                        ((LehrveranstaltungBeitreten) lehrveranstaltungBeitreten.getController()).setNutzerInstanz(nutzerInstanz);
-                        long veranstaltung = lehrveranstaltungId;
-                        ((LehrveranstaltungBeitreten) lehrveranstaltungBeitreten.getController()).setLehrveranstaltungsId(veranstaltung);
+                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
+                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
+                        ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(nutzerInstanz,lehrveranstaltung);
                     }
 
                 }
