@@ -15,12 +15,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/login")
 public class LoginController {
+    private final NutzerRepository nutzerRepository;
+    private final StudentRepository studentRepository;
+    private final LehrenderRepository lehrenderRepository;
+
     @Autowired
-    NutzerRepository nutzerRepository;
-    @Autowired
-    StudentRepository studentRepository;
-    @Autowired
-    LehrenderRepository lehrenderRepository;
+    public LoginController(NutzerRepository nutzerRepository, StudentRepository studentRepository, LehrenderRepository lehrenderRepository) {
+        this.nutzerRepository = nutzerRepository;
+        this.studentRepository = studentRepository;
+        this.lehrenderRepository = lehrenderRepository;
+    }
+
     @GetMapping("/{user}&{passwort}")
     public Object getLogin(@PathVariable String user, @PathVariable String passwort){
         Lehrender lehrender = new Lehrender();

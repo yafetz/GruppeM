@@ -14,23 +14,19 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class LehrveranstaltungBeitretenService {
-    @Autowired
-    StudentRepository studentRepository;
-    @Autowired
-    LehrveranstaltungRepository lehrveranstaltungRepository;
-    @Autowired
-    TeilnehmerListeRepository teilnehmerListeRepository;
-    @Autowired
-    NutzerRepository nutzerRepository;
+    private final StudentRepository studentRepository;
+    private final LehrveranstaltungRepository lehrveranstaltungRepository;
+    private final TeilnehmerListeRepository teilnehmerListeRepository;
+    private final NutzerRepository nutzerRepository;
 
-   /* @Autowired
+   @Autowired
     public LehrveranstaltungBeitretenService(StudentRepository studentRepository,TeilnehmerListeRepository teilnehmerListeRepository, LehrveranstaltungRepository lehrveranstaltungRepository, NutzerRepository nutzerRepository) {
         this.studentRepository = studentRepository;
         this.lehrveranstaltungRepository = lehrveranstaltungRepository;
         this.teilnehmerListeRepository = teilnehmerListeRepository;
         this.nutzerRepository = nutzerRepository;
     }
-*/
+
     public Object beitreten(long lehrveranstaltungsId, long nutzerId){
         //Student student = studentRepository.findStudentById(nutzerId);
         Nutzer nutzer = nutzerRepository.findNutzerById(nutzerId);

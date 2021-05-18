@@ -9,12 +9,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/create")
 public class LehrveranstaltungErstellenController {
-
     private final LehrveranstaltungErstellenService lehrveranstaltungErstellenService;
-    LehrveranstaltungRepository lvRepo;
-    LehrenderRepository lehrenderRepository;
-
-
+    private final LehrveranstaltungRepository lvRepo;
+    private final LehrenderRepository lehrenderRepository;
 
     @Autowired
     public LehrveranstaltungErstellenController(LehrveranstaltungErstellenService lehrveranstaltungErstellenService, LehrveranstaltungRepository lvRepo, LehrenderRepository lehrenderRepository) {
@@ -22,7 +19,6 @@ public class LehrveranstaltungErstellenController {
         this.lvRepo = lvRepo;
         this.lehrenderRepository = lehrenderRepository;
     }
-
 
 
     @PostMapping("/lehrveranstaltung/{titel}&{lehrenderId}&{art}&{semester}")

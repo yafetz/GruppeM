@@ -13,14 +13,17 @@ import java.util.stream.Stream;
 
 @Service
 public class LehrmaterialStorageService {
+    private final LehrmaterialRepository lehrmaterialRepository;
+    private final LehrveranstaltungRepository lehrveranstaltungRepository;
+
     @Autowired
-    private LehrmaterialRepository lehrmaterialRepository;
-    @Autowired
-    private LehrveranstaltungRepository lehrveranstaltungRepository;
+    public LehrmaterialStorageService(LehrmaterialRepository lehrmaterialRepository, LehrveranstaltungRepository lehrveranstaltungRepository) {
+        this.lehrmaterialRepository = lehrmaterialRepository;
+        this.lehrveranstaltungRepository = lehrveranstaltungRepository;
+    }
 
 
     public void addNewLehrmaterial(Long lehrveranstaltungId, List<MultipartFile> lehrmaterialList) throws IOException {
-
         for (MultipartFile lehrmaterialFile : lehrmaterialList) {
             Lehrmaterial lehrmaterial = new Lehrmaterial(lehrveranstaltungRepository.findLehrveranstaltungById(lehrveranstaltungId),
                     lehrmaterialFile.getName(),

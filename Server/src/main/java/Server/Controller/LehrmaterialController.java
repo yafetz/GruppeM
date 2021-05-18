@@ -15,13 +15,16 @@ import java.util.List;
 @RestController
 @RequestMapping("lehrveranstaltung/lehrmaterial")
 public class LehrmaterialController {
-    @Autowired
-    private LehrmaterialStorageService lehrmaterialStorageService;
-    @Autowired
-    LehrmaterialRepository lehrmaterialRepository;
-    @Autowired
-    LehrveranstaltungRepository lehrveranstaltungRepository;
+    private final LehrmaterialStorageService lehrmaterialStorageService;
+    private final LehrmaterialRepository lehrmaterialRepository;
+    private final LehrveranstaltungRepository lehrveranstaltungRepository;
 
+    @Autowired
+    public LehrmaterialController(LehrmaterialStorageService lehrmaterialStorageService, LehrmaterialRepository lehrmaterialRepository, LehrveranstaltungRepository lehrveranstaltungRepository) {
+        this.lehrmaterialStorageService = lehrmaterialStorageService;
+        this.lehrmaterialRepository = lehrmaterialRepository;
+        this.lehrveranstaltungRepository = lehrveranstaltungRepository;
+    }
 
     @PostMapping("/upload")
     public ResponseEntity<String> lehrmaterialUpload(@RequestParam("files") List<MultipartFile> multipartFiles,
