@@ -4,33 +4,19 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="616.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="616.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.LehrveranstaltungsuebersichtsseiteController">
    <children>
-      <Label layoutX="158.0" layoutY="80.0" prefHeight="57.0" prefWidth="178.0" text="Titel">
+      <Label fx:id="title" layoutX="158.0" layoutY="80.0" prefHeight="57.0" prefWidth="178.0" text="Titel">
          <font>
             <Font size="33.0" />
          </font>
       </Label>
-      <Label layoutX="146.0" layoutY="327.0" prefHeight="71.0" prefWidth="147.0" text="Lehrmaterialien" />
-      <Accordion layoutX="146.0" layoutY="376.0">
-        <panes>
-          <TitledPane animated="false" text="Lehrmaterial1">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-          </TitledPane>
-          <TitledPane animated="false" text="Lehrmaterial2">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-          </TitledPane>
-          <TitledPane animated="false" text="Lehrmaterial3">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-          </TitledPane>
-        </panes>
-      </Accordion>
-      <Button layoutX="585.0" layoutY="138.0" mnemonicParsing="false" text="Lehrmaterialien hochladen" />
+      <Accordion layoutX="146.0" layoutY="376.0" />
+      <Button fx:id="materialUpload" layoutX="585.0" layoutY="138.0" mnemonicParsing="false" onAction="#materialUploadPressedButton" text="Lehrmaterialien hochladen" />
+      <TableView fx:id="material" layoutX="158.0" layoutY="362.0" prefHeight="252.0" prefWidth="390.0">
+        <columns>
+          <TableColumn prefWidth="388.60003662109375" text="Lehrmaterialien" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>

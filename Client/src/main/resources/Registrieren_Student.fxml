@@ -17,9 +17,9 @@
          </font>
       </Text>
       <Text layoutX="316.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-      <Button fx:id="registrieren" layoutX="135.0" layoutY="395.0" mnemonicParsing="false" onAction="#Registrieren" text="Registrierung" />
+      <Button fx:id="registrierbutton" layoutX="135.0" layoutY="395.0" mnemonicParsing="false" onAction="#Registrieren" text="Registrierung" />
       <Button fx:id="registrieren_lehrender" layoutX="28.0" layoutY="275.0" mnemonicParsing="false" onAction="#Rollenwechsel" text="Registrieren als Lehrender" />
-      <Button layoutX="275.0" layoutY="395.0" mnemonicParsing="false" text="Zurück zum Login" />
+      <Button fx:id="zuruek" layoutX="275.0" layoutY="395.0" mnemonicParsing="false" text="Zurück zum Login" onAction="#Zuruek" />
       <Text layoutX="16.0" layoutY="422.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pflichtfeld!">
          <font>
             <Font size="6.0" />

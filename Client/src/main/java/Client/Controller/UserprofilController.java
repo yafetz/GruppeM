@@ -2,6 +2,7 @@ package Client.Controller;
 
 import Client.Controller.AlleKurseController;
 import Client.Controller.MeineKurseController;
+import Client.Layouts.Layout;
 import Client.Modell.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -32,6 +33,8 @@ public class UserprofilController {
     private Label number;
     @FXML
     private Label city;
+    @FXML
+    private Button profil;
 
 
 
@@ -42,7 +45,11 @@ public class UserprofilController {
 
 
     public void initialize() {
+        profil.setVisible(false);
     }
+
+
+
 
 
 
@@ -52,7 +59,7 @@ public class UserprofilController {
         this.eigenerNutzer = eigenerNutzer;
         this.vergleichNutzer = vergleichNutzer;
 
-        if(vergleichNutzer == eigenerNutzer) {
+        if(eigenerNutzer == vergleichNutzer) {
             //Diese If-Bedingung tritt ein, wenn der Nutzer sich selbst aufruft
 
             // Sicht eines Lehrenden auf sein eigenes Profil
@@ -64,6 +71,7 @@ public class UserprofilController {
                 plz.setText(String.valueOf(((Lehrender) eigenerNutzer).getNutzerId().getPlz()));
                 adresse.setText(((Lehrender) eigenerNutzer).getNutzerId().getStrasse());
                 city.setText(((Lehrender) eigenerNutzer).getNutzerId().getStadt());
+                profil.setVisible(true);
 
 
             }
@@ -76,19 +84,20 @@ public class UserprofilController {
                 plz.setText(String.valueOf(((Student) eigenerNutzer).getNutzer().getPlz()));
                 adresse.setText(((Student) eigenerNutzer).getNutzer().getStrasse());
                 city.setText(((Student) eigenerNutzer).getNutzer().getStadt());
+                profil.setVisible(true);
 
             }
 
 
         }
         // Diese else If tritt ein, wenn der Nutzer auf einen anderen Nutzer klickt
-        else if (vergleichNutzer != eigenerNutzer) {
+        else if (eigenerNutzer != vergleichNutzer) {
             if (eigenerNutzer instanceof Lehrender) {
                 // Sicht eines Lehrenden auf anderen Lehrenden
                 if (vergleichNutzer instanceof Lehrender) {
                     username.setText(((Lehrender) vergleichNutzer).getNutzerId().getVorname() +" "+ ((Lehrender) vergleichNutzer).getNutzerId().getNachname());
                     mailadresse.setText(((Lehrender) vergleichNutzer).getNutzerId().getEmail());
-                    lehrstuhl_oder_matr.setText(((Lehrender) vergleichNutzer).getLehrstuhl());
+                    lehrstuhl_oder_matr.setVisible(false);
                     forschungsgebiet_studienfach.setText(((Lehrender) vergleichNutzer).getForschungsgebiet());
                     plz.setText(String.valueOf(((Lehrender) vergleichNutzer).getNutzerId().getPlz()));
                     adresse.setText(((Lehrender) vergleichNutzer).getNutzerId().getStrasse());
@@ -133,4 +142,17 @@ public class UserprofilController {
 
     }
 
+    public void profilBearbeiten(ActionEvent actionEvent) {
+        Stage stage = (Stage) profil.getScene().getWindow();
+        Layout editieren = null;
+        try {
+            editieren = new Layout("Nutzerprofil_verändern.fxml", stage);
+            if (editieren.getController() instanceof EditierenController) {
+                ((EditierenController) editieren.getController()).setNutzer(eigenerNutzer);
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
