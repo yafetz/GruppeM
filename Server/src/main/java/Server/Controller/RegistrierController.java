@@ -7,6 +7,7 @@ import Server.Repository.LehrenderRepository;
 import Server.Repository.NutzerRepository;
 import Server.Repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

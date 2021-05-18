@@ -1,5 +1,6 @@
 package Client.Controller;
 
+import Client.Layouts.Auth;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,8 +21,6 @@ import java.net.http.HttpResponse;
 public class RegistrierenController {
     @FXML
     private TextField email;
-    @FXML
-    private Button registrierbutton; //kommt hier nicht public?
     @FXML
 
 private Button registrieren_lehrender;
@@ -62,49 +61,20 @@ private CheckBox check_box;
     public void Rollenwechsel(ActionEvent actionEvent) {
         actionEvent.consume();
         Stage stage = (Stage) registrieren_lehrender.getScene().getWindow();
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getClassLoader().getResource("Registrieren_Lehrender.fxml"));
-            AnchorPane root = (AnchorPane) loader.load();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setMaximized(false);
-            stage.show();
-        }catch (IOException e){
-            e.printStackTrace();
-        }
+        Auth register_lehrender = new Auth("registerlehrender.fxml",stage);
     }
 
     public void Registrieren_Student(ActionEvent actionEvent) {
         actionEvent.consume();
         Stage stage = (Stage) registrieren_student.getScene().getWindow();
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getClassLoader().getResource("Registrieren_Student.fxml"));
-            AnchorPane root = (AnchorPane) loader.load();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setMaximized(false);
-            stage.show();
-        }catch (IOException e){
-            e.printStackTrace();
-        } }
+        Auth register_student = new Auth("Registrieren_Student.fxml",stage);
+    }
 
     public void Zuruek(ActionEvent actionEvent) {
         actionEvent.consume();
         Stage stage = (Stage) zuruek.getScene().getWindow();
-
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getClassLoader().getResource("login.fxml"));
-            AnchorPane root = (AnchorPane) loader.load();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setMaximized(false);
-            stage.show();
-        }catch (IOException e){
-            e.printStackTrace();
-        }  }
+        Auth login = new Auth("login.fxml",stage);
+    }
 
     public void Registrieren(ActionEvent actionEvent) {
         actionEvent.consume();
@@ -112,8 +82,8 @@ private CheckBox check_box;
         String nachnameText = nachname.getText();
         String emailText = email.getText();
         String passwortText = passwort.getText();
-        String hausnummerText = hausnummer.getText();
-        String plzText = postleitzahl.getText();
+        int hausnummerText = Integer.valueOf(hausnummer.getText());
+        int plzText = Integer.valueOf(postleitzahl.getText());
         String stadtText = stadt.getText();
         String strasseText = strasse.getText();
         if( registrieren_student==null){
@@ -132,21 +102,8 @@ private CheckBox check_box;
                 System.out.println(Serverantwort);
                 if(Serverantwort.equals("OK")){
                     //Weiterleitung zur Login Seite
-                    try {
-                        Stage stage = (Stage) registrieren.getScene().getWindow();
-                        FXMLLoader loader = new FXMLLoader();
-                        loader.setLocation(getClass().getClassLoader().getResource("login.fxml"));
-                        AnchorPane root = (AnchorPane) loader.load();
-                        Scene scene = new Scene(root);
-                        String logincss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
-                        scene.getStylesheets().add(logincss);
-                        stage.setScene(scene);
-                        stage.setMaximized(false);
-                        stage.show();
-                    }
-                    catch(Exception e)    {
-                        e.printStackTrace();
-                    }
+                    Stage stage = (Stage) registrieren.getScene().getWindow();
+                    Auth login = new Auth("login.fxml",stage);
                 }
             }catch (IOException | InterruptedException e){
                 e.printStackTrace();
@@ -191,7 +148,3 @@ private CheckBox check_box;
         }
     }
 }
-/* public void lehrerregistrieren (ActionEvent Event){
-System.out.println(registrierbuttonfürLehrende());
-}
- */

@@ -1,5 +1,6 @@
 package Client.Controller;
 
+import Client.Layouts.Auth;
 import Client.Layouts.Layout;
 import Client.Modell.*;
 import javafx.event.ActionEvent;
@@ -37,20 +38,7 @@ public class LoginController {
     @FXML
     private void registerPressedButton(ActionEvent event) {
         Stage stage = (Stage) register.getScene().getWindow();
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getClassLoader().getResource("Registrieren_Student.fxml"));
-            AnchorPane root = (AnchorPane) loader.load();
-            Scene scene = new Scene(root);
-            String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
-            scene.getStylesheets().add(homescreencss);
-            stage.setScene(scene);
-            stage.setMaximized(true);
-            stage.show();
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-
+        Auth login = new Auth("Registrieren_Student.fxml",stage);
     }
 
     @FXML
@@ -75,25 +63,22 @@ public class LoginController {
                     student.addDataFromJson(jsonObject);
                     //Change View
 
-                    Layout homeScreen = new Layout("userprofile.fxml",stage);
+                    Layout homeScreen = new Layout("homescreen.fxml",stage,student);
 
 
-                    if(homeScreen.getController() instanceof UserprofilController){
-                        ((UserprofilController) homeScreen.getController()).nutzerprofilAufrufen(student, student);
+                    if(homeScreen.getController() instanceof HomescreenController){
+                       // ((HomescreenController) homeScreen.getController()).setNutzerInstanz(student);
                     }
                 }else if(jsonObject.has("lehrstuhl")){
                     Lehrender lehrender = new Lehrender();
                     lehrender.addDataFromJson(jsonObject);
 
 
-                    Layout homeScreen = new Layout("lehrveranstaltungsuebersichtsseite.fxml",stage);
-
-                    System.out.println("Login erfolgreich");
+                    Layout homeScreen = new Layout("homescreen.fxml",stage,lehrender);
 
 
-                    //TODO: fix this
-                    if(homeScreen.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
-                        //((LehrveranstaltungsuebersichtsseiteController) homeScreen.getController()).uebersichtsseiteAufrufen(lehrender);
+                    if(homeScreen.getController() instanceof HomescreenController){
+                        //   ((HomescreenController) homeScreen.getController()).setNutzerInstanz(lehrender);
                     }
                 }
 

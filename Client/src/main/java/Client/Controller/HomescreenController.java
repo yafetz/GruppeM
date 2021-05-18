@@ -18,7 +18,7 @@ import java.io.IOException;
 
 public class HomescreenController {
 
-    @FXML
+ /*   @FXML
     public Hyperlink namenLink;
     @FXML
     public ImageView profilBild;
@@ -100,6 +100,6 @@ public class HomescreenController {
 
     public void setNutzerInstanz(Object nutzerInstanz) {
         this.nutzerInstanz = nutzerInstanz;
-    }
+    } */
 }
 

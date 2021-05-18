@@ -1,5 +1,6 @@
 package Client;
 
+import Client.Layouts.Auth;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,14 +14,7 @@ public class Client extends Application {
         try {
             stage.setTitle("SEP");
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getClassLoader().getResource("login.fxml"));
-            AnchorPane root = (AnchorPane) loader.load();
-            Scene scene = new Scene(root);
-            String logincss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
-            scene.getStylesheets().add(logincss);
-            stage.setScene(scene);
-            stage.setMaximized(false);
-            stage.show();
+            Auth login = new Auth("login.fxml",stage);
         }
         catch(Exception e)    {
             e.printStackTrace();
