@@ -127,13 +127,19 @@ public class AlleKurseController implements Initializable {
                 long lehrId = ((Lehrender) nutzerInstanz).getNutzerId().getId();
                 request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/check/"+ lehrveranstaltungId + "&"+lehrId)).build();
                 memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-                if(memberResponse.equals("true")){
+                System.out.println("Instanz Lehrender "+memberResponse.body());
+                if(memberResponse.body().equals("true")){
 
                     Layout lehrenderLayout = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) namenLink.getScene().getWindow());
                 }
                 else {
-                    Layout lehrenderLayout = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) namenLink.getScene().getWindow());
-
+                    System.out.println("LehrveranstaltungsId   "+lehrveranstaltungId);
+                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) namenLink.getScene().getWindow());
+                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungBeitreten){
+                        ((LehrveranstaltungBeitreten) lehrveranstaltungBeitreten.getController()).setNutzerInstanz(nutzerInstanz);
+                        long veranstaltung = lehrveranstaltungId;
+                        ((LehrveranstaltungBeitreten) lehrveranstaltungBeitreten.getController()).setLehrveranstaltungsId(veranstaltung);
+                    }
                 }
             }
             if (nutzerInstanz instanceof Student) {
@@ -141,16 +147,22 @@ public class AlleKurseController implements Initializable {
                 long id = ((Student) nutzerInstanz).getNutzer().getId();
                 request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/check/" + lehrveranstaltungId +"&"+ id)).build();
                 memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-
+                System.out.println("Student Instanz "+memberResponse.body());
                 if(memberResponse.body().equals("true")){
 
                     Layout studentLayout = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) namenLink.getScene().getWindow());
-                    if(studentLayout.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
+                    /*if(studentLayout.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
 
-                    }
+                    }*/
                 }
                 else{
-                    Layout studentLayout = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) namenLink.getScene().getWindow());
+                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) namenLink.getScene().getWindow());
+                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungBeitreten){
+                        ((LehrveranstaltungBeitreten) lehrveranstaltungBeitreten.getController()).setNutzerInstanz(nutzerInstanz);
+                        long veranstaltung = lehrveranstaltungId;
+                        ((LehrveranstaltungBeitreten) lehrveranstaltungBeitreten.getController()).setLehrveranstaltungsId(veranstaltung);
+                    }
+
                 }
 
             }
