@@ -2,16 +2,13 @@ package Client.Controller;
 
 import Client.Modell.Lehrveranstaltung;
 import Client.Modell.Nutzer;
-import Client.Modell.Student;
+import Client.Modell.TeilnehmerListe;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
 import java.net.URI;
@@ -22,7 +19,7 @@ import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class TeilnehmerListe implements Initializable {
+public class TeilnehmerListeController implements Initializable {
     @FXML
     private TableView teilnehmer;
     @FXML
@@ -44,9 +41,7 @@ public class TeilnehmerListe implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-
-     }
+    }
 
     public void populateTableview(){
         long id = lehrveranstaltung.getId();
@@ -65,12 +60,10 @@ public class TeilnehmerListe implements Initializable {
             List<String> nachname = null;
 
             for(TeilnehmerListe teilnehmer: teilnehmerListe){
-                nutzers.add(teilnehmer.nutzerInstanz);
-                vorname.add(teilnehmer.nutzerInstanz.getVorname());
-                nachname.add(teilnehmer.nutzerInstanz.getNachname());
+                nutzers.add(teilnehmer.getNutzerId());
+                vorname.add(teilnehmer.getNutzerId().getVorname());
+                nachname.add(teilnehmer.getNutzerId().getNachname());
             }
-
-
 
         } catch (IOException e) {
             e.printStackTrace();

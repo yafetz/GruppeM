@@ -1,7 +1,5 @@
 package Server.Controller;
 
-import Server.Modell.Lehrveranstaltung;
-import Server.Modell.Nutzer;
 import Server.Modell.Student;
 import Server.Repository.NutzerRepository;
 import Server.Repository.StudentRepository;
@@ -15,12 +13,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/studenten")
 public class StudentController {
-    StudentRepository studentRepository;
-    NutzerRepository nutzerRepository;
+    private final StudentRepository studentRepository;
+    private final NutzerRepository nutzerRepository;
 
     @Autowired
-    public StudentController(StudentRepository studentRepository) {
+    public StudentController(StudentRepository studentRepository, NutzerRepository nutzerRepository) {
         this.studentRepository = studentRepository;
+        this.nutzerRepository = nutzerRepository;
     }
 
     @GetMapping("/all")

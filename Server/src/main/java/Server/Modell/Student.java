@@ -16,7 +16,7 @@ public class Student {
     @Column(nullable = false)
     private String studienfach;
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="nutzerId", nullable=true)
+    @JoinColumn(name="nutzer_Id", nullable=true)
     private Nutzer nutzerId;
 
     public Long getId() {

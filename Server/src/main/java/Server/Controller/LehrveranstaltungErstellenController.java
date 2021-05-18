@@ -1,8 +1,5 @@
 package Server.Controller;
 
-
-import Server.Modell.Lehrender;
-import Server.Modell.Lehrveranstaltung;
 import Server.Repository.LehrenderRepository;
 import Server.Repository.LehrveranstaltungRepository;
 import Server.Services.LehrveranstaltungErstellenService;
@@ -13,10 +10,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/create")
 public class LehrveranstaltungErstellenController {
     private final LehrveranstaltungErstellenService lehrveranstaltungErstellenService;
-    LehrveranstaltungRepository lvRepo;
-    LehrenderRepository lehrenderRepository;
-
-
+    private final LehrveranstaltungRepository lvRepo;
+    private final LehrenderRepository lehrenderRepository;
 
     @Autowired
     public LehrveranstaltungErstellenController(LehrveranstaltungErstellenService lehrveranstaltungErstellenService, LehrveranstaltungRepository lvRepo, LehrenderRepository lehrenderRepository) {
@@ -24,7 +19,6 @@ public class LehrveranstaltungErstellenController {
         this.lvRepo = lvRepo;
         this.lehrenderRepository = lehrenderRepository;
     }
-
 
 
     @PostMapping("/lehrveranstaltung/{titel}&{lehrenderId}&{art}&{semester}")

@@ -30,12 +30,8 @@ import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class AlleKurseController implements Initializable {
+public class AlleKurseController{
 
-    @FXML
-    public ImageView profilBild;
-    @FXML
-    public Hyperlink namenLink;
     @FXML
     private TableView<Lehrveranstaltung> alleLv;
     @FXML
@@ -48,27 +44,20 @@ public class AlleKurseController implements Initializable {
     private TableColumn<Lehrveranstaltung, String> col_LvArt;
     @FXML
     private TableColumn<Lehrveranstaltung, String> col_LvLehrende;
-    @FXML
-    private Button alleKurse;
-    @FXML
-    private Button meineKurse;
 
     private Object nutzerInstanz;
 
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
+    public void initialize() {
     }
 
     public void populateTableView() {
-        System.out.println(nutzerInstanz);
+
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/all")).build();
         HttpResponse<String> response;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println("Populate Tableview "+ response.body());
 
 //            mapping data in response.body() to a list of lehrveranstaltung-objects
             ObjectMapper mapper = new ObjectMapper();
@@ -114,7 +103,6 @@ public class AlleKurseController implements Initializable {
         HttpResponse<String> response;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
-//            System.out.println(response.body());
             ObjectMapper mapper = new ObjectMapper();
             Lehrveranstaltung lehrveranstaltung = mapper.readValue(response.body(), Lehrveranstaltung.class);
 //            TODO Weiterleitung zu Übersichtsseite des Kurses
@@ -127,9 +115,10 @@ public class AlleKurseController implements Initializable {
                 long lehrId = ((Lehrender) nutzerInstanz).getNutzerId().getId();
                 request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/check/"+ lehrveranstaltungId + "&"+lehrId)).build();
                 memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-                System.out.println("Instanz Lehrender "+memberResponse.body());
-                if(memberResponse.body().equals("true")){
 
+//                System.out.println("Instanz Lehrender "+memberResponse.body());
+
+                if(memberResponse.body().equals("true")){
                     Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
                     if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
                         ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(nutzerInstanz,lehrveranstaltung);
@@ -141,7 +130,6 @@ public class AlleKurseController implements Initializable {
                     if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
                         ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(nutzerInstanz,lehrveranstaltung);
                     }
-
                 }
             }
             if (nutzerInstanz instanceof Student) {
@@ -149,9 +137,10 @@ public class AlleKurseController implements Initializable {
                 long id = ((Student) nutzerInstanz).getNutzer().getId();
                 request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/check/" + lehrveranstaltungId +"&"+ id)).build();
                 memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-                System.out.println("Student Instanz "+memberResponse.body());
-                if(memberResponse.body().equals("true")){
 
+//                System.out.println("Student Instanz "+memberResponse.body());
+
+                if(memberResponse.body().equals("true")){
                     Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
                     if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
                         ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(nutzerInstanz,lehrveranstaltung);
@@ -162,74 +151,12 @@ public class AlleKurseController implements Initializable {
                     if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
                         ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(nutzerInstanz,lehrveranstaltung);
                     }
-
                 }
-
             }
 
+//            System.out.println(lehrveranstaltung.toString());
 
-            System.out.println(lehrveranstaltung.toString());
         } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void meineKurseAufrufen(ActionEvent event) {
-        event.consume();
-        Stage stage = (Stage) meineKurse.getScene().getWindow();
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getClassLoader().getResource("meineKurse.fxml"));
-            AnchorPane root = (AnchorPane) loader.load();
-            MeineKurseController meineKurseController = loader.getController();
-            meineKurseController.setNutzerInstanz(nutzerInstanz);
-            Scene scene = new Scene(root);
-            String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
-            scene.getStylesheets().add(homescreencss);
-            stage.setScene(scene);
-            stage.setMaximized(false);
-            stage.show();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-
-    public void alleKurseAufrufen(ActionEvent event) {
-        event.consume();
-        Stage stage = (Stage) alleKurse.getScene().getWindow();
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getClassLoader().getResource("alleKurse.fxml"));
-            AnchorPane root = (AnchorPane) loader.load();
-            AlleKurseController alleKurseController = loader.getController();
-            alleKurseController.setNutzerInstanz(nutzerInstanz);
-            Scene scene = new Scene(root);
-            String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
-            scene.getStylesheets().add(homescreencss);
-            stage.setScene(scene);
-            stage.setMaximized(false);
-            stage.show();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-    }
-
-    public void eigeneProfilSeiteAufrufen(ActionEvent event) {
-        event.consume();
-        Stage stage = (Stage) namenLink.getScene().getWindow();
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getClassLoader().getResource("userprofile.fxml"));
-            AnchorPane root = (AnchorPane) loader.load();
-            UserprofilController userprofilController = loader.getController();
-            userprofilController.nutzerprofilAufrufen(nutzerInstanz,nutzerInstanz);
-            Scene scene = new Scene(root);
-            String homescreencss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
-            scene.getStylesheets().add(homescreencss);
-            stage.setScene(scene);
-            stage.setMaximized(false);
-            stage.show();
-        } catch (IOException e){
             e.printStackTrace();
         }
     }

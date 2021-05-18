@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class LehrveranstaltungErstellenService {
+
     private final LehrenderRepository lehrenderRepository;
     private final LehrveranstaltungRepository lehrveranstaltungRepository;
     private final NutzerRepository nutzerRepository;

@@ -13,9 +13,9 @@ import java.util.List;
 @Service
 public class TeilnehmerListeService {
 
-    LehrveranstaltungRepository lehrveranstaltungRepository;
-    StudentRepository studentRepository;
-    TeilnehmerListeRepository teilnehmerListeRepository;
+    private final LehrveranstaltungRepository lehrveranstaltungRepository;
+    private final StudentRepository studentRepository;
+    private final TeilnehmerListeRepository teilnehmerListeRepository;
 
     @Autowired
     public TeilnehmerListeService(LehrveranstaltungRepository lehrveranstaltungRepository, StudentRepository studentRepository,TeilnehmerListeRepository teilnehmerListeRepository) {

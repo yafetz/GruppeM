@@ -13,12 +13,16 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/register")
 public class RegistrierController {
+    private final StudentRepository studentRepository;
+    private final NutzerRepository nutzerRepository;
+    private final LehrenderRepository lehrenderRepository;
+
     @Autowired
-    StudentRepository studentRepository;
-    @Autowired
-    NutzerRepository nutzerRepository;
-    @Autowired
-    LehrenderRepository lehrenderRepository;
+    public RegistrierController(StudentRepository studentRepository, NutzerRepository nutzerRepository, LehrenderRepository lehrenderRepository) {
+        this.studentRepository = studentRepository;
+        this.nutzerRepository = nutzerRepository;
+        this.lehrenderRepository = lehrenderRepository;
+    }
 
     @GetMapping("/student/{vorname}&{nachname}&{email}&{passwort}&{studienfach}" +
             "&{hausnummer}&{plz}&{stadt}&{strasse}")

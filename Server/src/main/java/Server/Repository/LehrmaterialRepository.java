@@ -10,7 +10,4 @@ import java.util.List;
 public interface LehrmaterialRepository extends JpaRepository<Lehrmaterial, Long> {
     List<Lehrmaterial> findLehrmaterialByLehrveranstaltung(Lehrveranstaltung lehrveranstaltung);
 
-
-
-
 }

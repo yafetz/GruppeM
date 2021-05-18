@@ -13,11 +13,11 @@ public class TeilnehmerListe {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name= "lehrveranstaltungsId", nullable = false)
+    @JoinColumn(name= "lehrveranstaltungs_Id", nullable = false)
     private Lehrveranstaltung lehrveranstaltung;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="nutzerId", nullable=true)
+    @JoinColumn(name="nutzer_Id", nullable=true)
     private Nutzer nutzerId;
 
 
@@ -37,7 +37,7 @@ public class TeilnehmerListe {
         this.lehrveranstaltung = lehrveranstaltung;
     }
 
-    public Nutzer getStudentId() {
+    public Nutzer getNutzerId() {
         return nutzerId;
     }
 

@@ -2,32 +2,29 @@ package Client.Modell;
 
 public class Lehrmaterial {
 
-    private int id;
-    private String pfad;
-    private String titel;
+    private Long id;
     private Lehrveranstaltung lehrveranstaltung;
+    private String titel;
+    private String typ;
+    private byte[] datei;
 
-    public Lehrmaterial(int id, String pfad, String titel, Lehrveranstaltung lehrveranstaltung) {
-        this.id = id;
-        this.pfad = pfad;
-        this.titel = titel;
+    public Lehrmaterial(Lehrveranstaltung lehrveranstaltung, String titel, String typ, byte[] datei) {
         this.lehrveranstaltung = lehrveranstaltung;
+        this.titel = titel;
+        this.typ = typ;
+        this.datei = datei;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public Lehrveranstaltung getLehrveranstaltung() {
+        return lehrveranstaltung;
     }
 
-    public String getPfad() {
-        return pfad;
-    }
-
-    public void setPfad(String pfad) {
-        this.pfad = pfad;
+    public void setLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) {
+        this.lehrveranstaltung = lehrveranstaltung;
     }
 
     public String getTitel() {
@@ -38,11 +35,19 @@ public class Lehrmaterial {
         this.titel = titel;
     }
 
-    public Lehrveranstaltung getLehrveranstaltung() {
-        return lehrveranstaltung;
+    public String getTyp() {
+        return typ;
     }
 
-    public void setLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) {
-        this.lehrveranstaltung = lehrveranstaltung;
+    public void setTyp(String typ) {
+        this.typ = typ;
+    }
+
+    public byte[] getDatei() {
+        return datei;
+    }
+
+    public void setDatei(byte[] datei) {
+        this.datei = datei;
     }
 }
