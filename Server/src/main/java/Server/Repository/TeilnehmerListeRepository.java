@@ -20,5 +20,6 @@ public interface TeilnehmerListeRepository extends JpaRepository<TeilnehmerListe
     List<TeilnehmerListe> findAllByNutzerId(Nutzer nutzer);
     //Boolean findAllByLehrveranstaltungAndIdExists(Lehrveranstaltung lehrveranstaltung, long id);
     Boolean existsByLehrveranstaltungAndNutzerId(Lehrveranstaltung lehrveranstaltung, Nutzer nutzer);
+
 }
 

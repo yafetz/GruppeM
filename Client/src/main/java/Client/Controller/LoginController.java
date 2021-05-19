@@ -67,7 +67,7 @@ public class LoginController {
 
 
                     if(homeScreen.getController() instanceof HomescreenController){
-                       // ((HomescreenController) homeScreen.getController()).setNutzerInstanz(student);
+                        ((HomescreenController) homeScreen.getController()).setNutzerInstanz(student);
                     }
                 }else if(jsonObject.has("lehrstuhl")){
                     Lehrender lehrender = new Lehrender();
@@ -78,7 +78,7 @@ public class LoginController {
 
 
                     if(homeScreen.getController() instanceof HomescreenController){
-                        //   ((HomescreenController) homeScreen.getController()).setNutzerInstanz(lehrender);
+                         ((HomescreenController) homeScreen.getController()).setNutzerInstanz(lehrender);
                     }
                 }
 

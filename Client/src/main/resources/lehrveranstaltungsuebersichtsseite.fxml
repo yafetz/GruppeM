@@ -18,5 +18,6 @@
           <TableColumn prefWidth="388.60003662109375" text="Lehrmaterialien" />
         </columns>
       </TableView>
+      <Button fx:id="teilnehmerListe" layoutX="86.0" layoutY="321.0" mnemonicParsing="false" text="Teilnehmerliste" onAction="#teilnehmerListe"/>
    </children>
 </AnchorPane>

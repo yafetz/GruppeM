@@ -23,8 +23,26 @@ public class LehrveranstaltungsuebersichtsseiteController {
     @FXML
     private Button materialUpload;
 
+    @FXML
+    private Button teilnehmerListe;
     private Object lehrveranstaltung;
     private Object nutzer;
+
+    @FXML
+    private void teilnehmerListe(ActionEvent event){
+
+        Layout lehrveranstaltungBeitreten = new Layout("teilnehmerliste.fxml", (Stage) teilnehmerListe.getScene().getWindow(),nutzer);
+        if(lehrveranstaltungBeitreten.getController() instanceof TeilnehmerListe){
+            long veranstaltungId = ((Lehrveranstaltung) lehrveranstaltung).getId();
+
+
+            ((TeilnehmerListe) lehrveranstaltungBeitreten.getController()).setId(veranstaltungId);
+            ((TeilnehmerListe) lehrveranstaltungBeitreten.getController()).setNutzerInstanz(nutzer);
+            ((TeilnehmerListe)  lehrveranstaltungBeitreten.getController()).setLehrveranstaltung(((Lehrveranstaltung) lehrveranstaltung));
+
+        }
+    }
+
 
 
     public void initialize() {

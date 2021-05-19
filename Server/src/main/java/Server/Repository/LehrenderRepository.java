@@ -9,5 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LehrenderRepository extends JpaRepository<Lehrender,Long> {
     Lehrender findLehrenderByNutzerId(Nutzer nutzer);
+
     Lehrender findLehrenderById(long id);
 }
