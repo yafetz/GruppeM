@@ -198,7 +198,13 @@ public class UserprofilController {
 
             ObjectMapper mapper = new ObjectMapper();
             mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-            List<Lehrveranstaltung> kurse = mapper.readValue(response.body(), new TypeReference<List<Lehrveranstaltung>>() {});
+            List<TeilnehmerListe> kurse = mapper.readValue(response.body(), new TypeReference<List<TeilnehmerListe>>() {});
+            List<Lehrveranstaltung> lehrveranstaltungen = new LinkedList<>();
+
+            for(TeilnehmerListe teilnehmerListe1 : kurse) {
+                lehrveranstaltungen.add(teilnehmerListe1.getLehrveranstaltung());
+            }
+
 
             myCourses.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("titel"));
 
@@ -223,7 +229,7 @@ public class UserprofilController {
             });
 
 //            ObservableList is required to populate the table alleLv using .setItems() :
-            ObservableList<Lehrveranstaltung> kursListe = FXCollections.observableList(kurse);
+            ObservableList<Lehrveranstaltung> kursListe = FXCollections.observableList(lehrveranstaltungen);
             courseCol.setItems(kursListe);
 
         } catch (IOException | InterruptedException e) {
