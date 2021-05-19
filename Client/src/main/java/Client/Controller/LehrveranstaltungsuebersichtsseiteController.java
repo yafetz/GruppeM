@@ -3,19 +3,14 @@ package Client.Controller;
 import Client.Layouts.Layout;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import Client.Controller.AlleKurseController;
-import Client.Controller.MeineKurseController;
 import Client.Modell.*;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.Cursor;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -30,51 +25,85 @@ public class LehrveranstaltungsuebersichtsseiteController {
     private Label title;
     @FXML
     private Button materialUpload;
+    @FXML
+    private TableColumn<Lehrmaterial, String> teachMat;
+    @FXML
+    private TableView<Lehrmaterial> material;
    // @FXML
     //private TableView test;
 
+    private Lehrveranstaltung lehrkurs;
 
     private Object lehrveranstaltung;
     private Object nutzer;
 
 
-    public void getMaterial() {
-        System.out.println(" STart request");
-        long id = 1;
+    public void getMaterial(Lehrveranstaltung lehrkurs) {
+        this.lehrkurs=lehrkurs;
+        long id = lehrkurs.getId();
+
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrmaterial/" +id)).build();
-        HttpResponse<String> response = null;
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrmaterial/" + id)).build();
+        HttpResponse<String> response;
         try {
-            response = client.send(request,HttpResponse.BodyHandlers.ofString());
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+
+
+
             ObjectMapper mapper = new ObjectMapper();
             System.out.println(response.body());
-            List<Lehrmaterial> materials = mapper.readValue(response.body(), new TypeReference<List<Lehrmaterial>>() {});
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
+
+            List<Lehrmaterial> lehrmaterial = mapper.readValue(response.body(), new TypeReference<List<Lehrmaterial>>() {});
+
+
+
+            teachMat.setCellValueFactory(new PropertyValueFactory<Lehrmaterial,String>("titel"));
+
+
+
+            teachMat.setCellFactory(tablecell -> {
+                TableCell<Lehrmaterial, String> cell = new TableCell<Lehrmaterial, String>(){
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty) ;
+                        setText(empty ? null : item);
+                    }
+                };
+                cell.setCursor(Cursor.HAND);
+                cell.setOnMouseClicked(e -> {
+                            if (!cell.isEmpty()) {
+                                //redirectToCourseOverview(cell.getTableRow().getItem().getId());
+                            }
+                        }
+                );
+                return cell;
+            });
+
+//            ObservableList is required to populate the table alleLv using .setItems() :
+            ObservableList<Lehrmaterial> obsLv = FXCollections.observableList(lehrmaterial);
+            material.setItems(obsLv);
+
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println(" End request");
     }
+
     public void initialize() {
-        getMaterial();
-        System.out.println("initialize erfolgreich");
-
 
 
     }
-
-
 
 
     @FXML
     private void materialUploadPressedButton(ActionEvent event) {
+        event.consume();
         Stage stage = (Stage) materialUpload.getScene().getWindow();
-        Layout homeScreen = null;
-            homeScreen = new Layout("lehrmaterialUpload.fxml", stage,nutzer);
-            if (homeScreen.getController() instanceof HomescreenController) {
-               // ((HomescreenController) homeScreen.getController()).setNutzerInstanz(nutzer);
-            }
+        Layout uploadScreen = null;
+        uploadScreen = new Layout("lehrmaterialUpload.fxml", stage,nutzer);
+        if (uploadScreen.getController() instanceof LehrmaterialController) {
+            //((LehrmaterialController) uploadScreen.getController()).setNutzerInstanz(nutzer);
+        }
 
     }
 
@@ -86,16 +115,25 @@ public class LehrveranstaltungsuebersichtsseiteController {
         if (nutzer !=null) {
             if (nutzer instanceof Lehrender) {
                 title.setText(((Lehrveranstaltung) lehrveranstaltung).getTitel());
-                materialUpload.setText("Lehrmaterial hochladen");
+               // materialUpload.setText("Lehrmaterial hochladen")
+                getMaterial((Lehrveranstaltung) lehrveranstaltung);
 
             }
             else if(nutzer instanceof Student) {
-                //title.setText(((Lehrveranstaltung) lehrveranstaltung).getTitel());
+                title.setText(((Lehrveranstaltung) lehrveranstaltung).getTitel());
                 materialUpload.setVisible(false);
+                getMaterial((Lehrveranstaltung) lehrveranstaltung);
             }
 
         }
         System.out.println("hello2325");
+
+
+    }
+
+    public void downloadMaterial (ActionEvent download) {
+
+
 
 
     }
