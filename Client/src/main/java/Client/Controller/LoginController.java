@@ -74,7 +74,7 @@ public class LoginController {
                     lehrender.addDataFromJson(jsonObject);
 
 
-                    Layout homeScreen = new Layout("homescreen.fxml",stage,lehrender);
+                    Layout homeScreen = new Layout("homescreenLehrender.fxml",stage,lehrender);
 
 
                     if(homeScreen.getController() instanceof HomescreenController){

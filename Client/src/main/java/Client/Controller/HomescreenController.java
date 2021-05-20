@@ -30,12 +30,24 @@ public class HomescreenController {
     @FXML
     private Button createLehrveranstaltung;
 
+    @FXML
+    private Button students;
     private Object nutzerInstanz;
 
 
     public void initialize() {
 
     }
+
+    public void studentenListe(ActionEvent event){
+      Layout  studenten= new Layout("studentenListe.fxml", (Stage) students.getScene().getWindow(), nutzerInstanz);
+      if(studenten.getController() instanceof StudentenListe){
+        ((StudentenListe) studenten.getController()).setNutzerInstanz(nutzerInstanz);
+
+      }
+    }
+
+
     public void lehrveranstaltungErstellen(ActionEvent event){
       Layout lehrveranstaltungErstellen = new Layout("lehrveranstaltungErstellen.fxml", (Stage) createLehrveranstaltung.getScene().getWindow(),nutzerInstanz);
       if(lehrveranstaltungErstellen.getController() instanceof LehrveranstaltungErstellen){

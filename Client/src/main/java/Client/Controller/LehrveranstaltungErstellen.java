@@ -49,8 +49,10 @@ public class LehrveranstaltungErstellen {
         //Nutzer nutzer = ((Lehrender)nutzerInstanz).getNutzerId();
         long nutzerId = ((Lehrender) nutzerInstanz).getNutzerId().getId();
         //Nutzer nutzer = ((Lehrender) nutzerInstanz).getNutzerId();
+
         String tit = titels.getText();
         System.out.println("Titel     " + tit);
+
         String type = art.getText();
         System.out.println("typ     " + type);
         String sem = semesters.getText();

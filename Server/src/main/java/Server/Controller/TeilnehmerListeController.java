@@ -39,6 +39,13 @@ public class TeilnehmerListeController {
         return teilnehmer;
     }
 
+    @GetMapping("/{lehrveranstaltungsId}/distinct")
+    public List<TeilnehmerListe> getDistinctTeilnehmer(@PathVariable long lehrveranstaltungsId){
+        List<TeilnehmerListe> teilnehmer= teilnehmerListeService.distinctTeilnehmer(lehrveranstaltungsId);
+
+        return teilnehmer;
+    }
+
 
 
 }
