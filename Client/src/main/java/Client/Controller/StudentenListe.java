@@ -5,14 +5,14 @@ import Client.Modell.Nutzer;
 import Client.Modell.Student;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.awt.event.ActionEvent;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
@@ -22,16 +22,16 @@ import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class StudentenListe implements Initializable {
+public class StudentenListe {
 
     @FXML
     private TableView<Student> tabelle;
 
     @FXML
-    private TableColumn<Student, String> vorname;
+    private TableColumn<Student, String> Vorname;
 
     @FXML
-    private TableColumn<Student, String> nachname;
+    private TableColumn<Student, String> Nachname;
 
     @FXML
     private TableColumn<Student, Integer> matrNr;
@@ -39,10 +39,17 @@ public class StudentenListe implements Initializable {
     @FXML
     private Button profilbutton;
 
+    private Object nutzerInstanz;
 
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    public void initialize() {
+
+    }
+    public void setNutzerInstanz(Object nutzer) {
+        this.nutzerInstanz = nutzer;
+        System.out.println("NUtzerinstanz Stundentenliste   "+nutzerInstanz);
+        populateTableView();
 
     }
 
@@ -59,11 +66,20 @@ public class StudentenListe implements Initializable {
             //            mapping data in response.body() to a list of lehrveranstaltung-objects
             ObjectMapper mapper = new ObjectMapper();
             List<Student> studenten = mapper.readValue(response.body(), new TypeReference<List<Student>>() {});
-            vorname.setCellValueFactory(new PropertyValueFactory<Student,String>("vorname"));
-            nachname.setCellValueFactory(new PropertyValueFactory<Student,String>("nachname"));
+
+
+
+
+            Vorname.setCellValueFactory(new PropertyValueFactory<Student,String>("studentVorname"));
+            Nachname.setCellValueFactory(new PropertyValueFactory<Student,String>("studentNachname"));
             matrNr.setCellValueFactory(new PropertyValueFactory<Student,Integer>("matrikelnummer"));
 
 
+
+
+
+            ObservableList<Student> obsLv = FXCollections.observableList(studenten);
+            tabelle.setItems(obsLv);
 
 
 
@@ -71,8 +87,10 @@ public class StudentenListe implements Initializable {
 
 
         } catch (IOException e) {
+            System.out.println("ERROR HIER");
             e.printStackTrace();
         } catch (InterruptedException e) {
+            System.out.println("ERROR DA");
             e.printStackTrace();
         }
 
@@ -84,7 +102,5 @@ public class StudentenListe implements Initializable {
     }
 
 
-    public void studentAufrufen(ActionEvent event){
 
-    }
 }

@@ -67,18 +67,18 @@ public class LoginController {
 
 
                     if(homeScreen.getController() instanceof HomescreenController){
-                       // ((HomescreenController) homeScreen.getController()).setNutzerInstanz(student);
+                        ((HomescreenController) homeScreen.getController()).setNutzerInstanz(student);
                     }
                 }else if(jsonObject.has("lehrstuhl")){
                     Lehrender lehrender = new Lehrender();
                     lehrender.addDataFromJson(jsonObject);
 
 
-                    Layout homeScreen = new Layout("homescreen.fxml",stage,lehrender);
+                    Layout homeScreen = new Layout("homescreenLehrender.fxml",stage,lehrender);
 
 
                     if(homeScreen.getController() instanceof HomescreenController){
-                        //   ((HomescreenController) homeScreen.getController()).setNutzerInstanz(lehrender);
+                         ((HomescreenController) homeScreen.getController()).setNutzerInstanz(lehrender);
                     }
                 }
 

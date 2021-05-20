@@ -4,16 +4,28 @@ import Client.Controller.AlleKurseController;
 import Client.Controller.MeineKurseController;
 import Client.Layouts.Layout;
 import Client.Modell.*;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.LinkedList;
+import java.util.List;
 
 public class UserprofilController {
     @FXML
@@ -34,10 +46,17 @@ public class UserprofilController {
     private Label city;
     @FXML
     private Button profil;
+    @FXML
+    private TableView<Lehrveranstaltung> courseCol;
+    @FXML
+    public TableColumn<Lehrveranstaltung, String> myCourses;
 
 
     private Object vergleichNutzer;
     private Object eigenerNutzer;
+
+    private Object user;
+
 
 
 
@@ -62,6 +81,7 @@ public class UserprofilController {
                 adresse.setText(((Lehrender) eigenerNutzer).getNutzerId().getStrasse());
                 city.setText(((Lehrender) eigenerNutzer).getNutzerId().getStadt());
                 profil.setVisible(true);
+                KurseAufrufen(eigenerNutzer);
 
 
             }
@@ -75,6 +95,7 @@ public class UserprofilController {
                 adresse.setText(((Student) eigenerNutzer).getNutzer().getStrasse());
                 city.setText(((Student) eigenerNutzer).getNutzer().getStadt());
                 profil.setVisible(true);
+                KurseAufrufen(eigenerNutzer);
 
             }
         }
@@ -91,6 +112,7 @@ public class UserprofilController {
                     plz.setText(String.valueOf(((Lehrender) vergleichNutzer).getNutzerId().getPlz()));
                     adresse.setText(((Lehrender) vergleichNutzer).getNutzerId().getStrasse());
                     city.setText(((Lehrender) vergleichNutzer).getNutzerId().getStadt());
+                    KurseAufrufen(vergleichNutzer);
                 }
                 //Sicht eines Lehrenden auf das Profil eines Studenten
                 else if(vergleichNutzer instanceof Student) {
@@ -101,6 +123,7 @@ public class UserprofilController {
                     plz.setText(String.valueOf(((Student) vergleichNutzer).getNutzer().getPlz()));
                     adresse.setText(((Student) vergleichNutzer).getNutzer().getStrasse());
                     city.setText(((Student) vergleichNutzer).getNutzer().getStadt());
+                    KurseAufrufen(vergleichNutzer);
 
                 }
             }
@@ -112,12 +135,14 @@ public class UserprofilController {
                     mailadresse.setText(((Lehrender) vergleichNutzer).getNutzerId().getEmail());
                     lehrstuhl_oder_matr.setText(((Lehrender) vergleichNutzer).getLehrstuhl());
                     forschungsgebiet_studienfach.setText(((Lehrender) vergleichNutzer).getForschungsgebiet());
+                    KurseAufrufen(vergleichNutzer);
 
                 }
                 //Sicht eines Studenten auf das Profil eines Studenten
                 else if(vergleichNutzer instanceof Student) {
                     username.setText(((Student) vergleichNutzer).getNutzer().getVorname() +" "+ ((Student) vergleichNutzer).getNutzer().getNachname());
                     mailadresse.setText(((Student) vergleichNutzer).getNutzer().getEmail());
+                    KurseAufrufen(vergleichNutzer);
 
                 }
 
@@ -135,4 +160,59 @@ public class UserprofilController {
 
             }
     }
-}
+
+
+    public void KurseAufrufen(Object user) {
+        this.user = user;
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = null;
+
+        if (user instanceof Lehrender) {
+
+            request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/meine/nutzerId=" + ((Lehrender) user).getNutzerId().getId())).build();
+        }
+        if (user instanceof Student) {
+            request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/meine/nutzerId=" + ((Student) user).getNutzer().getId())).build();
+            System.out.println(((Student) user).getId());
+        }
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+            List<Lehrveranstaltung> kurse = mapper.readValue(response.body(), new TypeReference<List<Lehrveranstaltung>>() {});
+
+            myCourses.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("titel"));
+
+
+//            Angelehnt an: https://stackoverflow.com/questions/35562037/how-to-set-click-event-for-a-cell-of-a-table-column-in-a-tableview
+            myCourses.setCellFactory(tablecell -> {
+                TableCell<Lehrveranstaltung, String> cell = new TableCell<Lehrveranstaltung, String>(){
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty) ;
+                        setText(empty ? null : item);
+                    }
+                };
+                cell.setCursor(Cursor.HAND);
+                cell.setOnMouseClicked(e -> {
+                            if (!cell.isEmpty()) {
+                                //redirectToCourseOverview(cell.getTableRow().getItem().getId());
+                            }
+                        }
+                );
+                return cell;
+            });
+
+//            ObservableList is required to populate the table alleLv using .setItems() :
+            ObservableList<Lehrveranstaltung> kursListe = FXCollections.observableList(kurse);
+            courseCol.setItems(kursListe);
+
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    }
+

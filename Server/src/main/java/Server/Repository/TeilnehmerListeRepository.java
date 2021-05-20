@@ -11,14 +11,13 @@ import java.util.List;
 
 @Repository
 public interface TeilnehmerListeRepository extends JpaRepository<TeilnehmerListe,Long> {
-   // TeilnehmerListe findAllByLehrveranstaltung(Lehrveranstaltung lehrveranstaltung);
-//    TeilnehmerListe getAllByLehrveranstaltung(Lehrveranstaltung lehrveranstaltung);
+
     List<TeilnehmerListe> findAllByLehrveranstaltung(Lehrveranstaltung lehrveranstaltung);
-  //  TeilnehmerListe findByLehrveranstaltung(long id);
-    //List<Student> getAllById(Long id);
-    //List<TeilnehmerListe> findAllByStudentId(Student student);
+    List<TeilnehmerListe> findDistinctByLehrveranstaltung(Lehrveranstaltung lehrveranstaltung);
+    List<TeilnehmerListe> getDistinctByLehrveranstaltung(Lehrveranstaltung lehrveranstaltung);
     List<TeilnehmerListe> findAllByNutzerId(Nutzer nutzer);
-    //Boolean findAllByLehrveranstaltungAndIdExists(Lehrveranstaltung lehrveranstaltung, long id);
+
     Boolean existsByLehrveranstaltungAndNutzerId(Lehrveranstaltung lehrveranstaltung, Nutzer nutzer);
+
 }
 
