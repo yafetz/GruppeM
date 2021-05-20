@@ -50,12 +50,18 @@ public class LehrveranstaltungErstellen {
         long nutzerId = ((Lehrender) nutzerInstanz).getNutzerId().getId();
         //Nutzer nutzer = ((Lehrender) nutzerInstanz).getNutzerId();
 
+
         String tit = titels.getText();
-        System.out.println("Titel     " + tit);
+        String split = tit.replaceAll(" ", "%20");
+
+        System.out.println("Titel     " + split);
 
         String type = art.getText();
+        String splittype = type.replaceAll(" ", "%20");
         System.out.println("typ     " + type);
+
         String sem = semesters.getText();
+        String splitsem = sem.replaceAll(" ", "%20");
         System.out.println("Semester     " + sem);
 
 
@@ -66,7 +72,7 @@ public class LehrveranstaltungErstellen {
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/create/lehrveranstaltung/"+tit+"&"+nutzerId+"&"+type+"&"+sem)).POST(HttpRequest.BodyPublishers.noBody()).build();
+                .uri(URI.create("http://localhost:8080/create/lehrveranstaltung/"+split+"&"+nutzerId+"&"+splittype+"&"+splitsem)).POST(HttpRequest.BodyPublishers.noBody()).build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             System.out.println("Response body     "+ response.body());

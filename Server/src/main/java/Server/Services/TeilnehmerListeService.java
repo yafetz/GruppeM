@@ -26,16 +26,9 @@ public class TeilnehmerListeService {
     public List<TeilnehmerListe> teilnehmer(long lehrveranstaltungsId){
 
      return teilnehmerListeRepository.findAllByLehrveranstaltung(lehrveranstaltungRepository.findAllById(lehrveranstaltungsId));
-      //return teilnehmerListeRepository.findAllByLehrveranstaltung(lehrveranstaltungRepository.getOne(lehrveranstaltungsId));
 
     }
 
-    public List<TeilnehmerListe> distinctTeilnehmer(long lehrveranstaltungsId){
-
-        return teilnehmerListeRepository.getDistinctByLehrveranstaltung(lehrveranstaltungRepository.findAllById(lehrveranstaltungsId));
-        //return teilnehmerListeRepository.findAllByLehrveranstaltung(lehrveranstaltungRepository.getOne(lehrveranstaltungsId));
-
-    }
 
 
 }

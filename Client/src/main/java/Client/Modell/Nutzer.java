@@ -13,6 +13,7 @@ public class Nutzer {
     private int hausnummer;
     private int plz;
     private String stadt;
+    private String rolle;
 
     public void addDataFromJson(JSONObject jsonObject) {
         setId(jsonObject.getInt("id"));
@@ -37,6 +38,14 @@ public class Nutzer {
 
     public String getVorname() {
         return vorname;
+    }
+
+    public String getRolle() {
+        return rolle;
+    }
+
+    public void setRolle(String rolle) {
+        this.rolle = rolle;
     }
 
     public void setVorname(String vorname) {

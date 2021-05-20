@@ -30,6 +30,16 @@ public class Nutzer {
     private int plz;
     @Column(nullable = false)
     private String stadt;
+    @Column(nullable = false)
+    private String rolle;
+
+    public String getRolle() {
+        return rolle;
+    }
+
+    public void setRolle(String rolle) {
+        this.rolle = rolle;
+    }
 
     public Long getId() {
         return id;
