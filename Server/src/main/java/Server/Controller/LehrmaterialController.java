@@ -1,41 +1,44 @@
 package Server.Controller;
-
+import Server.Modell.Lehrmaterial;
+import Server.Modell.Lehrveranstaltung;
 import Server.Repository.LehrmaterialRepository;
 import Server.Repository.LehrveranstaltungRepository;
-import Server.Services.LehrmaterialStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("lehrveranstaltung/lehrmaterial")
+@RequestMapping("/lehrmaterial/")
+
+
 public class LehrmaterialController {
-    private final LehrmaterialStorageService lehrmaterialStorageService;
-    private final LehrmaterialRepository lehrmaterialRepository;
-    private final LehrveranstaltungRepository lehrveranstaltungRepository;
+   @Autowired
+   LehrveranstaltungRepository lehrveranstaltungRepository;
 
-    @Autowired
-    public LehrmaterialController(LehrmaterialStorageService lehrmaterialStorageService, LehrmaterialRepository lehrmaterialRepository, LehrveranstaltungRepository lehrveranstaltungRepository) {
-        this.lehrmaterialStorageService = lehrmaterialStorageService;
-        this.lehrmaterialRepository = lehrmaterialRepository;
-        this.lehrveranstaltungRepository = lehrveranstaltungRepository;
-    }
+   LehrmaterialRepository lehrmaterialRepository;
 
-    @PostMapping("/upload")
-    public ResponseEntity<String> lehrmaterialUpload(@RequestParam("files") List<MultipartFile> multipartFiles,
-                                                     @RequestParam("lehrveranstaltungId") Long lehrveranstaltungId) throws IOException {
+   public LehrmaterialController (LehrmaterialRepository lehrmaterialRepository) {
+      this.lehrmaterialRepository = lehrmaterialRepository;
+   }
 
-        lehrmaterialStorageService.addNewLehrmaterial(lehrveranstaltungId, multipartFiles);
-        return new ResponseEntity<>("Servernachricht: Erfolgreich hochgeladen!", null, HttpStatus.OK);
-    }
 
-    @GetMapping("/{lehrveranstaltungsId}")
-    public Object getAlleLehrmaterialien (@PathVariable long lehrveranstaltungsId) {
-        return lehrmaterialRepository.findLehrmaterialByLehrveranstaltung(lehrveranstaltungRepository.findLehrveranstaltungById(lehrveranstaltungsId));
-    }
+   @GetMapping("/{lehrveranstaltungsId}")
+  public Object alleLehrmaterialien (@PathVariable long lehrveranstaltungsId) {
+       long id = lehrveranstaltungsId;
+       Lehrveranstaltung event = lehrveranstaltungRepository.findLehrveranstaltungById(id);
+       List<Lehrmaterial> materials = lehrmaterialRepository.findLehrmaterialByLehrveranstaltung(event);
+       //System.out.println(materials.size()+ " ,"+ materials.get(0));
+      // return "hello3";
+       return materials;
+   }
+
+
+
+
+
+
 }
