@@ -22,38 +22,35 @@ public class RegistrierenController {
     @FXML
     private TextField email;
     @FXML
-
-private Button registrieren_lehrender;
-
-@FXML
-private Button registrieren_student;
-@FXML
-private Button zuruek;
-@FXML
-private Button registrieren;
-@FXML
-private TextField nachname;
-@FXML
-private TextField vorname;
-@FXML
-private TextField postleitzahl;
-@FXML
-private TextField stadt;
-@FXML
-private TextField strasse;
-@FXML
-private TextField hausnummer;
-@FXML
-private PasswordField passwort;
-@FXML
-private TextField studienfach;
-@FXML
-private TextField lehrstuhl;
-@FXML
-private TextField forschungsgebiet;
-
-@FXML
-private CheckBox check_box;
+    private Button registrieren_lehrender;
+    @FXML
+    private Button registrieren_student;
+    @FXML
+    private Button zuruek;
+    @FXML
+    private Button registrieren;
+    @FXML
+    private TextField nachname;
+    @FXML
+    private TextField vorname;
+    @FXML
+    private TextField postleitzahl;
+    @FXML
+    private TextField stadt;
+    @FXML
+    private TextField strasse;
+    @FXML
+    private TextField hausnummer;
+    @FXML
+    private PasswordField passwort;
+    @FXML
+    private TextField studienfach;
+    @FXML
+    private TextField lehrstuhl;
+    @FXML
+    private TextField forschungsgebiet;
+    @FXML
+    private CheckBox check_box;
 
 
 

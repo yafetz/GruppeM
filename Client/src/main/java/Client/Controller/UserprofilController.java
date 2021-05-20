@@ -20,7 +20,6 @@ public class UserprofilController {
     private Label username;
     @FXML
     private Label mailadresse;
-
     @FXML
     private Label plz;
     @FXML
@@ -37,8 +36,6 @@ public class UserprofilController {
     private Button profil;
 
 
-
-
     private Object vergleichNutzer;
     private Object eigenerNutzer;
 
@@ -47,13 +44,6 @@ public class UserprofilController {
     public void initialize() {
         profil.setVisible(false);
     }
-
-
-
-
-
-
-
 
     public void nutzerprofilAufrufen (Object eigenerNutzer, Object vergleichNutzer) {
         this.eigenerNutzer = eigenerNutzer;
@@ -87,9 +77,8 @@ public class UserprofilController {
                 profil.setVisible(true);
 
             }
-
-
         }
+
         // Diese else If tritt ein, wenn der Nutzer auf einen anderen Nutzer klickt
         else if (eigenerNutzer != vergleichNutzer) {
             if (eigenerNutzer instanceof Lehrender) {
@@ -113,9 +102,6 @@ public class UserprofilController {
                     adresse.setText(((Student) vergleichNutzer).getNutzer().getStrasse());
                     city.setText(((Student) vergleichNutzer).getNutzer().getStadt());
 
-
-
-
                 }
             }
 
@@ -137,8 +123,6 @@ public class UserprofilController {
 
             }
         }
-
-
 
     }
 
