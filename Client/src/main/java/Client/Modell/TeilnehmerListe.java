@@ -26,8 +26,10 @@ public class TeilnehmerListe {
         return nutzerId;
     }
 
-    public void setNutzerId(Nutzer nutzerId) {
+    public void setNutzer(Nutzer nutzerId) {
         this.nutzerId = nutzerId;
     }
 
+    public void setNutzerInstanz(Object nutzer) {
+    }
 }

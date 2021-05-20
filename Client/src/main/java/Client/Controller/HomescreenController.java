@@ -1,5 +1,6 @@
 package Client.Controller;
 
+import Client.Layouts.Layout;
 import Client.Modell.Lehrender;
 import Client.Modell.Nutzer;
 import Client.Modell.Student;
@@ -17,8 +18,7 @@ import java.io.IOException;
 
 
 public class HomescreenController {
-
- /*   @FXML
+  @FXML
     public Hyperlink namenLink;
     @FXML
     public ImageView profilBild;
@@ -27,6 +27,11 @@ public class HomescreenController {
     @FXML
     private Button alleKurse;
 
+    @FXML
+    private Button createLehrveranstaltung;
+
+    @FXML
+    private Button students;
     private Object nutzerInstanz;
 
 
@@ -34,6 +39,23 @@ public class HomescreenController {
 
     }
 
+    public void studentenListe(ActionEvent event){
+      Layout  studenten= new Layout("studentenListe.fxml", (Stage) students.getScene().getWindow(), nutzerInstanz);
+      if(studenten.getController() instanceof StudentenListe){
+        ((StudentenListe) studenten.getController()).setNutzerInstanz(nutzerInstanz);
+
+      }
+    }
+
+
+    public void lehrveranstaltungErstellen(ActionEvent event){
+      Layout lehrveranstaltungErstellen = new Layout("lehrveranstaltungErstellen.fxml", (Stage) createLehrveranstaltung.getScene().getWindow(),nutzerInstanz);
+      if(lehrveranstaltungErstellen.getController() instanceof LehrveranstaltungErstellen){
+        ((LehrveranstaltungErstellen) lehrveranstaltungErstellen.getController()).uebersichtsseiteAufrufen(nutzerInstanz);
+        System.out.println("NUTZERINSTANZ     "+ nutzerInstanz);
+      }
+    }
+    /*
     public void meineKurseAufrufen(ActionEvent event) {
         event.consume();
         Stage stage = (Stage) meineKurse.getScene().getWindow();
@@ -94,12 +116,12 @@ public class HomescreenController {
         }
     }
 
-    public Object getNutzerInstanz() {
+   */ public Object getNutzerInstanz() {
         return nutzerInstanz;
     }
 
     public void setNutzerInstanz(Object nutzerInstanz) {
         this.nutzerInstanz = nutzerInstanz;
-    } */
+    }
 }
 

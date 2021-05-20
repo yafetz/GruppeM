@@ -11,6 +11,8 @@ import javafx.event.ActionEvent;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -34,8 +36,26 @@ public class LehrveranstaltungsuebersichtsseiteController {
 
     private Lehrveranstaltung lehrkurs;
 
+    @FXML
+    private Button teilnehmerListe;
     private Object lehrveranstaltung;
     private Object nutzer;
+
+    @FXML
+    private void teilnehmerListe(ActionEvent event){
+
+        Layout lehrveranstaltungBeitreten = new Layout("teilnehmerliste.fxml", (Stage) teilnehmerListe.getScene().getWindow(),nutzer);
+        if(lehrveranstaltungBeitreten.getController() instanceof TeilnehmerListeController){
+            long veranstaltungId = ((Lehrveranstaltung) lehrveranstaltung).getId();
+
+
+            ((TeilnehmerListeController) lehrveranstaltungBeitreten.getController()).setId(veranstaltungId);
+            ((TeilnehmerListeController) lehrveranstaltungBeitreten.getController()).setNutzerInstanz(nutzer);
+            ((TeilnehmerListeController)  lehrveranstaltungBeitreten.getController()).setLehrveranstaltung(((Lehrveranstaltung) lehrveranstaltung));
+
+        }
+    }
+
 
 
     public void getMaterial(Lehrveranstaltung lehrkurs) {
