@@ -1,19 +1,20 @@
 package Client.Modell;
 
-public class Lehrmaterial {
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+public class Lehrmaterial {
+    @JsonProperty("id")
     private Long id;
+    @JsonProperty("lehrveranstaltung")
     private Lehrveranstaltung lehrveranstaltung;
+    @JsonProperty("titel")
     private String titel;
+    @JsonProperty("typ")
     private String typ;
+    @JsonProperty("datei")
     private byte[] datei;
 
-    public Lehrmaterial(Lehrveranstaltung lehrveranstaltung, String titel, String typ, byte[] datei) {
-        this.lehrveranstaltung = lehrveranstaltung;
-        this.titel = titel;
-        this.typ = typ;
-        this.datei = datei;
-    }
+   
 
     public Long getId() {
         return id;
@@ -50,4 +51,5 @@ public class Lehrmaterial {
     public void setDatei(byte[] datei) {
         this.datei = datei;
     }
+
 }

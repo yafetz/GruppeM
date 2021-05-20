@@ -15,7 +15,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -45,7 +48,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
     private void teilnehmerListe(ActionEvent event){
 
         Layout lehrveranstaltungBeitreten = new Layout("teilnehmerliste.fxml", (Stage) teilnehmerListe.getScene().getWindow(),nutzer);
-        if(lehrveranstaltungBeitreten.getController() instanceof TeilnehmerListeController){
+       /* if(lehrveranstaltungBeitreten.getController() instanceof TeilnehmerListeController){
             long veranstaltungId = ((Lehrveranstaltung) lehrveranstaltung).getId();
 
 
@@ -53,7 +56,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
             ((TeilnehmerListeController) lehrveranstaltungBeitreten.getController()).setNutzerInstanz(nutzer);
             ((TeilnehmerListeController)  lehrveranstaltungBeitreten.getController()).setLehrveranstaltung(((Lehrveranstaltung) lehrveranstaltung));
 
-        }
+        }*/
     }
 
 
@@ -93,9 +96,27 @@ public class LehrveranstaltungsuebersichtsseiteController {
                 cell.setCursor(Cursor.HAND);
                 cell.setOnMouseClicked(e -> {
                             if (!cell.isEmpty()) {
-                                //redirectToCourseOverview(cell.getTableRow().getItem().getId());
+                                long lehrmaterialId = cell.getTableRow().getItem().getId();
+                                HttpClient client1 = HttpClient.newHttpClient();
+                                HttpRequest request1 = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrmaterial/download/" + id)).build();
+                                HttpResponse<String> response1;
+                                try {
+                                    response1 = client.send(request, HttpResponse.BodyHandlers.ofString());
+                                    byte[] datei = response1.body().getBytes();
+                                    String home = System.getProperty("user.home");
+                                    File file = new File(home+"/Downloads/" + "test" + ".pdf");
+                                    FileOutputStream fo = new FileOutputStream(file);
+                                    fo.write(datei);
+                                    fo.close();
+                                    System.out.println("Fertig gedownloadet!");
+
+                                } catch (IOException ioException) {
+                                    ioException.printStackTrace();
+                                } catch (InterruptedException interruptedException) {
+                                    interruptedException.printStackTrace();
+                                }
                             }
-                        }
+                            }
                 );
                 return cell;
             });
@@ -122,7 +143,9 @@ public class LehrveranstaltungsuebersichtsseiteController {
         Layout uploadScreen = null;
         uploadScreen = new Layout("lehrmaterialUpload.fxml", stage,nutzer);
         if (uploadScreen.getController() instanceof LehrmaterialController) {
-            //((LehrmaterialController) uploadScreen.getController()).setNutzerInstanz(nutzer);
+            ((LehrmaterialController) uploadScreen.getController()).setNutzerInstanz(nutzer);
+            ((LehrmaterialController) uploadScreen.getController()).setLehrveranstaltung(lehrveranstaltung);
+            ((LehrmaterialController) uploadScreen.getController()).setModus("Lehrmaterial");
         }
 
     }
@@ -135,7 +158,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
         if (nutzer !=null) {
             if (nutzer instanceof Lehrender) {
                 title.setText(((Lehrveranstaltung) lehrveranstaltung).getTitel());
-               // materialUpload.setText("Lehrmaterial hochladen")
+                materialUpload.setText("Lehrmaterial hochladen");
                 getMaterial((Lehrveranstaltung) lehrveranstaltung);
 
             }
@@ -147,13 +170,6 @@ public class LehrveranstaltungsuebersichtsseiteController {
 
         }
         System.out.println("hello2325");
-
-
-    }
-
-    public void downloadMaterial (ActionEvent download) {
-
-
 
 
     }

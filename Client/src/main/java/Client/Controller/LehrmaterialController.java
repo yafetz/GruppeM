@@ -1,7 +1,9 @@
 package Client.Controller;
 
 import Client.Layouts.Layout;
+import Client.Modell.Lehrender;
 import Client.Modell.Lehrveranstaltung;
+import Client.Modell.Nutzer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -43,6 +46,7 @@ public class LehrmaterialController {
     private ObservableList<File> obsFileList;
     private Object lehrveranstaltung;
     private Object nutzerInstanz;
+    private String modus;
 
     public void initialize() {
     }
@@ -64,31 +68,62 @@ public class LehrmaterialController {
 
     public void hochladenPressedButton(ActionEvent actionEvent) {
         actionEvent.consume();
-        if(fileList != null) {
-            try (CloseableHttpClient client = HttpClients.createDefault()) {
+        if(modus.equals("Lehrmaterial")) {
+            if (fileList != null) {
+                try (CloseableHttpClient client = HttpClients.createDefault()) {
 
-                String url = "http://localhost:8080/lehrveranstaltung/lehrmaterial/upload";
-                HttpPost post = new HttpPost(url);
-                MultipartEntityBuilder entity = MultipartEntityBuilder.create();
+                    String url = "http://localhost:8080/lehrmaterial/upload";
+                    HttpPost post = new HttpPost(url);
+                    MultipartEntityBuilder entity = MultipartEntityBuilder.create();
 
-                for(File file : fileList){
-                    entity.addPart("files",new FileBody(file));
+                    for (File file : fileList) {
+                        entity.addPart("files", new FileBody(file));
+                    }
+
+                    entity.addTextBody("lehrveranstaltungId", String.valueOf(((Lehrveranstaltung) lehrveranstaltung).getId()));
+                    HttpEntity requestEntity = entity.build();
+                    post.setEntity(requestEntity);
+
+                    try (CloseableHttpResponse response = client.execute(post)) {
+                        HttpEntity responseEntity = response.getEntity();
+                        String result = EntityUtils.toString(responseEntity);
+                        System.out.println(result);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-
-                entity.addTextBody("lehrveranstaltungId", String.valueOf( ((Lehrveranstaltung) lehrveranstaltung).getId()));
-                HttpEntity requestEntity = entity.build();
-                post.setEntity(requestEntity);
-
-                try (CloseableHttpResponse response = client.execute(post)) {
-                    HttpEntity responseEntity = response.getEntity();
-                    String result = EntityUtils.toString(responseEntity);
-                    System.out.println(result);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+            } else {
+                System.out.println("Keine Datei zum Hochladen ausgewählt!");
             }
-        } else {
-            System.out.println("Keine Datei zum Hochladen ausgewählt!");
+        }else if(modus.equals("CSV")){
+            if (fileList != null) {
+                try (CloseableHttpClient client = HttpClients.createDefault()) {
+
+                    String url = "http://localhost:8080/lehrmaterial/csv";
+                    HttpPost post = new HttpPost(url);
+                MultipartEntityBuilder entity = MultipartEntityBuilder.create();
+                int countCsv = 0;
+                for (File file : fileList) {
+                    if(FilenameUtils.getExtension(file.getName()).equalsIgnoreCase("csv")){
+                        entity.addPart("files", new FileBody(file));
+                        System.out.println(file.getName());
+                        countCsv++;
+                    }
+                }
+                    if(countCsv > 0) {
+                        entity.addTextBody("nutzerId", String.valueOf(((Lehrender) nutzerInstanz).getNutzerId().getId()));
+                        HttpEntity requestEntity = entity.build();
+                        post.setEntity(requestEntity);
+                    try (CloseableHttpResponse response = client.execute(post)) {
+                        HttpEntity responseEntity = response.getEntity();
+                        String result = EntityUtils.toString(responseEntity);
+                        System.out.println(result);
+                    }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -118,5 +153,11 @@ public class LehrmaterialController {
         this.nutzerInstanz = nutzerInstanz;
     }
 
+    public String getModus() {
+        return modus;
+    }
 
+    public void setModus(String modus) {
+        this.modus = modus;
+    }
 }
