@@ -11,14 +11,12 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import org.springframework.core.type.filter.RegexPatternTypeFilter;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.regex.Pattern;
 
 public class RegistrierenController {
     @FXML
@@ -61,7 +59,7 @@ private CheckBox check_box;
     public void Rollenwechsel(ActionEvent actionEvent) {
         actionEvent.consume();
         Stage stage = (Stage) registrieren_lehrender.getScene().getWindow();
-        Auth register_lehrender = new Auth("registerlehrender.fxml",stage);
+        Auth register_lehrender = new Auth("Registrieren_Lehrender.fxml",stage);
     }
 
     public void Registrieren_Student(ActionEvent actionEvent) {
@@ -123,7 +121,7 @@ private CheckBox check_box;
                                 .uri(URI.create("http://localhost:8080/register/student/" +
                                         vornameText + "&" + nachnameText + "&" + emailText + "&" +
                                         passwortText + "&" + studienfachText + "&" +
-                                        hausnummerText + "&" + plzText + "&" + stadtText + "&" + strasseText)).build();
+                                        hausnummerText + "&" + plzText + "&" + stadtText + "&" + strasseText + "&Student")).build();
                         HttpResponse<String> response = null;
                         try {
                             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -147,7 +145,7 @@ private CheckBox check_box;
                                 .uri(URI.create("http://localhost:8080/register/lehrender/" +
                                         vornameText + "&" + nachnameText + "&" + emailText + "&" +
                                         passwortText + "&" + forschungsgebietText + "&" + lehrstuhlText + "&" +
-                                        hausnummerText + "&" + plzText + "&" + stadtText + "&" + strasseText)).build();
+                                        hausnummerText + "&" + plzText + "&" + stadtText + "&" + strasseText+ "&Lehrender")).build();
                         HttpResponse<String> response = null;
                         try {
                             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -155,20 +153,8 @@ private CheckBox check_box;
                             System.out.println(Serverantwort);
                             if (Serverantwort.equals("OK")) {
                                 //Weiterleitung zur Login Seite
-                                try {
-                                    Stage stage = (Stage) registrieren.getScene().getWindow();
-                                    FXMLLoader loader = new FXMLLoader();
-                                    loader.setLocation(getClass().getClassLoader().getResource("login.fxml"));
-                                    AnchorPane root = (AnchorPane) loader.load();
-                                    Scene scene = new Scene(root);
-                                    String logincss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
-                                    scene.getStylesheets().add(logincss);
-                                    stage.setScene(scene);
-                                    stage.setMaximized(false);
-                                    stage.show();
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
+                                Stage stage = (Stage) registrieren.getScene().getWindow();
+                                Auth login = new Auth("login.fxml", stage);
                             }
                         } catch (IOException | InterruptedException e) {
                             e.printStackTrace();

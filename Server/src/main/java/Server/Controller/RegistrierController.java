@@ -26,7 +26,7 @@ public class RegistrierController /*()*/{
     }
 
     @GetMapping("/student/{vorname}&{nachname}&{email}&{passwort}&{studienfach}" +
-            "&{hausnummer}&{plz}&{stadt}&{strasse}")
+            "&{hausnummer}&{plz}&{stadt}&{strasse}&{rolle}")
     public String registriere_student(@PathVariable String vorname,
                                       @PathVariable String nachname,
                                       @PathVariable String email,
@@ -35,7 +35,8 @@ public class RegistrierController /*()*/{
                                       @PathVariable int hausnummer,
                                       @PathVariable int plz,
                                       @PathVariable String stadt,
-                                      @PathVariable String strasse) {
+                                      @PathVariable String strasse,
+                                      @PathVariable String rolle) {
         Nutzer nutzer = new Nutzer();
         nutzer.setEmail(email);
         nutzer.setHausnummer(hausnummer);
@@ -46,6 +47,7 @@ public class RegistrierController /*()*/{
         nutzer.setStadt(stadt);
         nutzer.setStrasse(strasse);
         nutzer.setProfilbild(null);
+        nutzer.setRolle(rolle);
         nutzerRepository.save(nutzer);
         Student student = new Student();
         student.setMatrikelnummer(generiereMatrikelnummer());
@@ -56,7 +58,7 @@ public class RegistrierController /*()*/{
     }
 
     @GetMapping("/lehrender/{vorname}&{nachname}&{email}&{passwort}&{forschungsgebiet}&{lehrstuhl}" +
-            "&{hausnummer}&{plz}&{stadt}&{strasse}")
+            "&{hausnummer}&{plz}&{stadt}&{strasse}&{rolle}")
     public String registriere_lehrender(@PathVariable String vorname,
                                         @PathVariable String nachname,
                                         @PathVariable String email,
@@ -66,7 +68,8 @@ public class RegistrierController /*()*/{
                                         @PathVariable int hausnummer,
                                         @PathVariable int plz,
                                         @PathVariable String stadt,
-                                        @PathVariable String strasse) {
+                                        @PathVariable String strasse,
+                                        @PathVariable String rolle) {
         Nutzer nutzer = new Nutzer();
         nutzer.setEmail(email);
         nutzer.setHausnummer(hausnummer);
@@ -77,6 +80,7 @@ public class RegistrierController /*()*/{
         nutzer.setStadt(stadt);
         nutzer.setStrasse(strasse);
         nutzer.setProfilbild(null);
+        nutzer.setRolle(rolle);
         nutzerRepository.save(nutzer);
         Lehrender lehrender = new Lehrender();
         lehrender.setLehrstuhl(lehrstuhl);

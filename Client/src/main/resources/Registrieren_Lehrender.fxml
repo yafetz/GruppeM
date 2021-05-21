@@ -40,7 +40,7 @@
             </font>
         </Text>
         <Text layoutX="16.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="E-Mail Adresse!" />
-        <TextField fx:id="e-mail_adresse" layoutX="105.0" layoutY="175.0" />
+        <TextField fx:id="email" layoutX="105.0" layoutY="175.0" />
         <Text layoutX="16.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nachname" />
         <TextField fx:id="nachname" layoutX="105.0" layoutY="72.0" />
         <Text layoutX="274.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Postleitzahl" />
