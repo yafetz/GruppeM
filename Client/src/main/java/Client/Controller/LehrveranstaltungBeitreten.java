@@ -1,13 +1,18 @@
 package Client.Controller;
 
+import Client.Layouts.Layout;
 import Client.Modell.Lehrender;
 import Client.Modell.Lehrveranstaltung;
 import Client.Modell.Nutzer;
 import Client.Modell.Student;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URI;
@@ -15,16 +20,17 @@ import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class LehrveranstaltungBeitreten implements Initializable {
 
     @FXML
-    TextField lehrender;
+    Label lehrender;
     @FXML
-    TextField semester;
+    Label semester;
     @FXML
-    TextField lehrveranstaltungfield;
+    Label lehrveranstaltungfield;
     @FXML
     Button beitreten;
 
@@ -51,8 +57,19 @@ public class LehrveranstaltungBeitreten implements Initializable {
         if (nutzerInstanz instanceof Student) {
             nutzerId = ((Student) nutzerInstanz).getNutzer().getId();
         }
-        //long nutzerId = ((Nutzer) nutzerInstanz).getId();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/"+lehrveranstaltungsId+"&"+nutzerId)).build();
+        var values = new HashMap<String, Long>();
+        values.put("nutzer_id",nutzerId);
+        values.put("lehrveranstaltungsId",lehrveranstaltungsId);
+        var objectMapper = new ObjectMapper();
+        String requestBody=null;
+        try {
+            requestBody = objectMapper.writeValueAsString(values);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        //HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/"+lehrveranstaltungsId+"&"+nutzerId)).POST(HttpRequest.BodyPublishers.ofString(requestBody)).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/"+lehrveranstaltungsId+"&"+nutzerId)).POST(HttpRequest.BodyPublishers.ofString(requestBody)).build();
 
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -65,7 +82,11 @@ public class LehrveranstaltungBeitreten implements Initializable {
             //System.out.println("Student instanz   "+((Student) nutzerInstanz).getId());
            // System.out.println("Lehrender instanz     "+((Lehrender) nutzerInstanz).getNutzerId().getId());
 
+            Layout uebersicht= new Layout("lehrveranstaltungsuebersichtsseite.fxml",(Stage) beitreten.getScene().getWindow(),nutzerInstanz);
+            if(uebersicht.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
+                ((LehrveranstaltungsuebersichtsseiteController) uebersicht.getController()).uebersichtsseiteAufrufen(nutzerInstanz, lehrveranstaltung);
 
+            }
 
 
         } catch (IOException e) {
@@ -85,6 +106,12 @@ public class LehrveranstaltungBeitreten implements Initializable {
     }
     public void setNutzerInstanz(Object nutzerInstanz) {
         this.nutzerInstanz = nutzerInstanz;
+    }
+    public Lehrveranstaltung getLehrveranstaltung(){
+        return lehrveranstaltung;
+    }
+    public void setLehrveranstaltung(Lehrveranstaltung lehrveranstaltung){
+        this.lehrveranstaltung=lehrveranstaltung;
     }
 
 }

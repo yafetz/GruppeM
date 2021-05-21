@@ -35,16 +35,13 @@ public class TeilnehmerListeController {
     @GetMapping("/{lehrveranstaltungsId}")
     public List<TeilnehmerListe> getAlleTeilnehmer(@PathVariable long lehrveranstaltungsId){
         List<TeilnehmerListe> teilnehmer= teilnehmerListeService.teilnehmer(lehrveranstaltungsId);
+        System.out.println("alles gut"+ lehrveranstaltungsId);
 
         return teilnehmer;
     }
 
-    /*@GetMapping("/{lehrveranstaltungsId/{nutzerId}")
-    public boolean isNutzer(@PathVariable long lehrveranstaltungsId, @PathVariable long nutzerId){
-        Nutzer nutzer = nutzerRepository.findNutzerById(nutzerId);
-        Lehrveranstaltung lehrveranstaltung = lehrveranstaltungRepository.findLehrveranstaltungById(lehrveranstaltungsId);
-        return teilnehmerListeRepository.findAllByLehrveranstaltungAndIdExists(lehrveranstaltung, nutzerId);
 
-    }*/
+
+
 
 }

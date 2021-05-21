@@ -28,12 +28,10 @@ public class LehrveranstaltungBeitretenService {
     }
 
     public Object beitreten(long lehrveranstaltungsId, long nutzerId){
-        //Student student = studentRepository.findStudentById(nutzerId);
+
         Nutzer nutzer = nutzerRepository.findNutzerById(nutzerId);
         Lehrveranstaltung lehrveranstaltung = lehrveranstaltungRepository.findLehrveranstaltungById(lehrveranstaltungsId);
         TeilnehmerListe teilnehmerListe = new TeilnehmerListe();
-
-        //TeilnehmerListe teilnehmerListe = teilnehmerListeRepository.findByLehrveranstaltung(lehrveranstaltungsId);
         teilnehmerListe.setLehrveranstaltung(lehrveranstaltung);
         teilnehmerListe.setNutzerId(nutzer);
         teilnehmerListeRepository.save(teilnehmerListe);

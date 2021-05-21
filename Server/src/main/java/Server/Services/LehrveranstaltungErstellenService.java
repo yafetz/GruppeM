@@ -35,6 +35,7 @@ public class LehrveranstaltungErstellenService {
         lehrveranstaltung.setSemester(semester);
         lehrveranstaltungRepository.save(lehrveranstaltung);
         TeilnehmerListe teilnehmerListe = new TeilnehmerListe();
+        //Lehrender lehrender = lehrenderRepository.findLehrenderById(lehrenderId);
         Lehrender lehrender = lehrenderRepository.findLehrenderById(lehrenderId);
         teilnehmerListe.setNutzerId(lehrender.getNutzerId());
         teilnehmerListe.setLehrveranstaltung(lehrveranstaltung);

@@ -33,6 +33,10 @@ public class LehrmaterialStorageService {
         }
     }
 
+    public void readCsv(MultipartFile csv){
+
+    }
+
     public Lehrmaterial getLehrmaterial() {
 
         return null;

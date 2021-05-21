@@ -1,26 +1,36 @@
 package Server.Modell;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name="lehrmaterial")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Lehrmaterial {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("id")
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name= "lehrveranstaltungs_Id", nullable = false)
+    @JsonProperty("lehrveranstaltung")
     private Lehrveranstaltung lehrveranstaltung;
 
     @Column(nullable = false)
+    @JsonProperty("titel")
     private String titel;
 
     @Column(nullable = false)
+    @JsonProperty("typ")
     private String typ;
 
     @Column(nullable = false)
     @Lob
+    @JsonProperty("datei")
+
     private byte[] datei;
 
     public Lehrmaterial(Lehrveranstaltung lehrveranstaltung, String titel, String typ, byte[] datei) {
