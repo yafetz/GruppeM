@@ -13,7 +13,6 @@ public class LehrveranstaltungsuebersichtsseiteController {
     private Label title;
     @FXML
     private Button materialUpload;
-
     @FXML
     private Button teilnehmerListe;
     private Object lehrveranstaltung;
@@ -29,12 +28,10 @@ public class LehrveranstaltungsuebersichtsseiteController {
 
             ((TeilnehmerListeController) lehrveranstaltungBeitreten.getController()).setId(veranstaltungId);
             ((TeilnehmerListeController) lehrveranstaltungBeitreten.getController()).setNutzerInstanz(nutzer);
-            ((TeilnehmerListeController)  lehrveranstaltungBeitreten.getController()).setLehrveranstaltung(((Lehrveranstaltung) lehrveranstaltung));
+            ((TeilnehmerListeController) lehrveranstaltungBeitreten.getController()).setLehrveranstaltung(((Lehrveranstaltung) lehrveranstaltung));
 
         }
     }
-
-
 
     public void initialize() {
     }

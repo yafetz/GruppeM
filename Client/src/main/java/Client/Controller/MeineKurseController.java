@@ -172,27 +172,10 @@ public class MeineKurseController {
                     }
                 }
             }
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             public void neueLvErstellen(ActionEvent event) {
         event.consume();
