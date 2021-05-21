@@ -154,7 +154,7 @@ public class UserprofilController {
     public void profilBearbeiten(ActionEvent actionEvent) {
         Stage stage = (Stage) profil.getScene().getWindow();
         Layout editieren = null;
-            editieren = new Layout("Nutzerprofil_verändern.fxml", stage,eigenerNutzer);
+            editieren = new Layout("Nutzerprofil_veraendern.fxml", stage,eigenerNutzer);
             if (editieren.getController() instanceof EditierenController) {
                 ((EditierenController) editieren.getController()).setNutzer(eigenerNutzer);
 

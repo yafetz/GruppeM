@@ -25,6 +25,50 @@ public class RegistrierController /*()*/{
         this.lehrenderRepository = lehrenderRepository;
     }
 
+    @GetMapping("/student/update/{nutzerId}&{passwort}&{studienfach}&{hausnummer}&{plz}&{stadt}&{strasse}")
+    public String update_student(@PathVariable long nutzerId,
+                                 @PathVariable String passwort,
+                                 @PathVariable String studienfach,
+                                 @PathVariable int hausnummer,
+                                 @PathVariable int plz,
+                                 @PathVariable String stadt,
+                                 @PathVariable String strasse){
+        Nutzer updateNutzer = nutzerRepository.findNutzerById(nutzerId);
+        Student updateStudent = studentRepository.findStudentByNutzerId(updateNutzer);
+        updateNutzer.setPasswort(passwort);
+        updateNutzer.setHausnummer(hausnummer);
+        updateNutzer.setPlz(plz);
+        updateNutzer.setStadt(stadt);
+        updateNutzer.setStrasse(strasse);
+        updateStudent.setStudienfach(studienfach);
+        updateStudent.setNutzerId(updateNutzer);
+        studentRepository.save(updateStudent);
+        return "OK";
+    }
+
+    @GetMapping("/lehrender/update/{nutzerId}&{passwort}&{lehrstuhl}&{forschungsgebiet}&{hausnummer}&{plz}&{stadt}&{strasse}")
+    public String update_lehrender(@PathVariable long nutzerId,
+                                 @PathVariable String passwort,
+                                 @PathVariable String lehrstuhl,
+                                 @PathVariable String forschungsgebiet,
+                                 @PathVariable int hausnummer,
+                                 @PathVariable int plz,
+                                 @PathVariable String stadt,
+                                 @PathVariable String strasse){
+        Nutzer updateNutzer = nutzerRepository.findNutzerById(nutzerId);
+        Lehrender updateLehrender = lehrenderRepository.findLehrenderByNutzerId(updateNutzer);
+        updateNutzer.setPasswort(passwort);
+        updateNutzer.setHausnummer(hausnummer);
+        updateNutzer.setPlz(plz);
+        updateNutzer.setStadt(stadt);
+        updateNutzer.setStrasse(strasse);
+        updateLehrender.setLehrstuhl(lehrstuhl);
+        updateLehrender.setForschungsgebiet(forschungsgebiet);
+        updateLehrender.setNutzerId(updateNutzer);
+        lehrenderRepository.save(updateLehrender);
+        return "OK";
+    }
+
     @GetMapping("/student/{vorname}&{nachname}&{email}&{passwort}&{studienfach}" +
             "&{hausnummer}&{plz}&{stadt}&{strasse}&{rolle}")
     public String registriere_student(@PathVariable String vorname,
