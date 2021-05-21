@@ -1,10 +1,6 @@
 package Client.Controller;
 
 import Client.Layouts.Layout;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import Client.Modell.*;
 import javafx.event.ActionEvent;
@@ -25,6 +21,10 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
 
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.stage.Stage;
+
 public class LehrveranstaltungsuebersichtsseiteController {
     @FXML
     private Label title;
@@ -34,8 +34,6 @@ public class LehrveranstaltungsuebersichtsseiteController {
     private TableColumn<Lehrmaterial, String> teachMat;
     @FXML
     private TableView<Lehrmaterial> material;
-   // @FXML
-    //private TableView test;
 
     private Lehrveranstaltung lehrkurs;
 
@@ -48,7 +46,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
     private void teilnehmerListe(ActionEvent event){
 
         Layout lehrveranstaltungBeitreten = new Layout("teilnehmerliste.fxml", (Stage) teilnehmerListe.getScene().getWindow(),nutzer);
-       /* if(lehrveranstaltungBeitreten.getController() instanceof TeilnehmerListeController){
+        if(lehrveranstaltungBeitreten.getController() instanceof TeilnehmerListeController){
             long veranstaltungId = ((Lehrveranstaltung) lehrveranstaltung).getId();
 
 
@@ -56,7 +54,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
             ((TeilnehmerListeController) lehrveranstaltungBeitreten.getController()).setNutzerInstanz(nutzer);
             ((TeilnehmerListeController)  lehrveranstaltungBeitreten.getController()).setLehrveranstaltung(((Lehrveranstaltung) lehrveranstaltung));
 
-        }*/
+        }
     }
 
 
@@ -116,7 +114,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
                                     interruptedException.printStackTrace();
                                 }
                             }
-                            }
+                        }
                 );
                 return cell;
             });
@@ -158,7 +156,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
         if (nutzer !=null) {
             if (nutzer instanceof Lehrender) {
                 title.setText(((Lehrveranstaltung) lehrveranstaltung).getTitel());
-                materialUpload.setText("Lehrmaterial hochladen");
+               // materialUpload.setText("Lehrmaterial hochladen")
                 getMaterial((Lehrveranstaltung) lehrveranstaltung);
 
             }
@@ -170,6 +168,13 @@ public class LehrveranstaltungsuebersichtsseiteController {
 
         }
         System.out.println("hello2325");
+
+
+    }
+
+    public void downloadMaterial (ActionEvent download) {
+
+
 
 
     }
