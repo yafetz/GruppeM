@@ -68,7 +68,7 @@ public class Layout {
         guiPanel.getChildren().add(gui);
 
         Pane nutzer = new Pane();
-        nutzer.setLayoutX(1390.0);
+        nutzer.setLayoutX(1090.0);
         nutzer.setLayoutY(10.0);
         nutzer.setPrefHeight(67.0);
         nutzer.setPrefWidth(302.0);

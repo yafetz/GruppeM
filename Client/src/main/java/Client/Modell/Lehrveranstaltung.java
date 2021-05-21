@@ -1,13 +1,20 @@
 package Client.Modell;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
-
+@JsonIgnoreProperties
 public class Lehrveranstaltung {
-
+    @JsonProperty("id")
     private int id;
+    @JsonProperty("titel")
     private String titel;
+    @JsonProperty("art")
     private String art;
+    @JsonProperty("semester")
     private String semester;
+    @JsonProperty("lehrender")
     private Lehrender lehrender;
 
 
