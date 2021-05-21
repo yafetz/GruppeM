@@ -11,12 +11,14 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.springframework.core.type.filter.RegexPatternTypeFilter;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.regex.Pattern;
 
 public class RegistrierenController {
     @FXML
@@ -56,8 +58,6 @@ private TextField forschungsgebiet;
 private CheckBox check_box;
 
 
-
-
     public void Rollenwechsel(ActionEvent actionEvent) {
         actionEvent.consume();
         Stage stage = (Stage) registrieren_lehrender.getScene().getWindow();
@@ -86,65 +86,118 @@ private CheckBox check_box;
         int plzText = Integer.valueOf(postleitzahl.getText());
         String stadtText = stadt.getText();
         String strasseText = strasse.getText();
-        if( registrieren_student==null){
-            // als Student registrieren
-            String studienfachText = studienfach.getText();
-            HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://localhost:8080/register/student/"+
-                            vornameText+"&"+nachnameText+"&"+emailText+"&"+
-                            passwortText+"&"+studienfachText+"&"+
-                            hausnummerText+"&"+plzText+"&"+stadtText+"&"+strasseText)).build();
-            HttpResponse<String> response = null;
-            try {
-                response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                String Serverantwort = response.body();
-                System.out.println(Serverantwort);
-                if(Serverantwort.equals("OK")){
-                    //Weiterleitung zur Login Seite
-                    Stage stage = (Stage) registrieren.getScene().getWindow();
-                    Auth login = new Auth("login.fxml",stage);
-                }
-            }catch (IOException | InterruptedException e){
-                e.printStackTrace();
-            }
 
-            } else {
-            // als Lehrender registrieren
-            String forschungsgebietText = forschungsgebiet.getText();
-            String lehrstuhlText = lehrstuhl.getText();
-            HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://localhost:8080/register/lehrender/"+
-                            vornameText+"&"+nachnameText+"&"+emailText+"&"+
-                            passwortText+"&"+forschungsgebietText+"&"+lehrstuhlText+"&"+
-                            hausnummerText+"&"+plzText+"&"+stadtText+"&"+strasseText)).build();
-            HttpResponse<String> response = null;
-            try {
-                response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                String Serverantwort = response.body();
-                System.out.println(Serverantwort);
-                if(Serverantwort.equals("OK")){
-                    //Weiterleitung zur Login Seite
-                    try {
-                        Stage stage = (Stage) registrieren.getScene().getWindow();
-                        FXMLLoader loader = new FXMLLoader();
-                        loader.setLocation(getClass().getClassLoader().getResource("login.fxml"));
-                        AnchorPane root = (AnchorPane) loader.load();
-                        Scene scene = new Scene(root);
-                        String logincss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
-                        scene.getStylesheets().add(logincss);
-                        stage.setScene(scene);
-                        stage.setMaximized(false);
-                        stage.show();
+       /* @FXML
+        private Object args;
+        public String EmailValidieren(){
+            public static void main(String[] args){
+                //    String email1 = "nachname.vorname@stud.uni-due.de";
+                //  String email2 = "nachname.vornamestud.uni-due.de"; //invalide:false
+                System.out.println("email1= +EmailValidieren(EmailValidieren(Email1):
+                System.out.println("email2= +EmailValidieren(EmailValidieren(Email2):
+         if(!email.contains ("@") {
+            System.out.println("die Eingabe ist korrekt");
+
+            if (email == null || email.isDisabled()) { //also leer oder falsch
+                System.out.println("Die Eingabe ist falsch!");
+                String emailRegex = "A-Z*@\\.\\.de\\.com";
+            Pattern pattern = Pattern.compile(emailRegex);
+            if (pattern.matcher(email).matches()){
+            System.out.println("Valid") //return true
+            } else{
+            return invalid;
+            }
+            if(passwort.size()<8{
+            System.out.println("Das passwort ist zu kurz!")
+            }}}*/
+
+
+               // if (!passwort.contains(8))
+
+
+                    if (registrieren_student == null) {
+                        // als Student registrieren
+                        String studienfachText = studienfach.getText();
+                        HttpClient client = HttpClient.newHttpClient();
+                        HttpRequest request = HttpRequest.newBuilder()
+                                .uri(URI.create("http://localhost:8080/register/student/" +
+                                        vornameText + "&" + nachnameText + "&" + emailText + "&" +
+                                        passwortText + "&" + studienfachText + "&" +
+                                        hausnummerText + "&" + plzText + "&" + stadtText + "&" + strasseText)).build();
+                        HttpResponse<String> response = null;
+                        try {
+                            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                            String Serverantwort = response.body();
+                            System.out.println(Serverantwort);
+                            if (Serverantwort.equals("OK")) {
+                                //Weiterleitung zur Login Seite
+                                Stage stage = (Stage) registrieren.getScene().getWindow();
+                                Auth login = new Auth("login.fxml", stage);
+                            }
+                        } catch (IOException | InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                    } else {
+                        // als Lehrender registrieren
+                        String forschungsgebietText = forschungsgebiet.getText();
+                        String lehrstuhlText = lehrstuhl.getText();
+                        HttpClient client = HttpClient.newHttpClient();
+                        HttpRequest request = HttpRequest.newBuilder()
+                                .uri(URI.create("http://localhost:8080/register/lehrender/" +
+                                        vornameText + "&" + nachnameText + "&" + emailText + "&" +
+                                        passwortText + "&" + forschungsgebietText + "&" + lehrstuhlText + "&" +
+                                        hausnummerText + "&" + plzText + "&" + stadtText + "&" + strasseText)).build();
+                        HttpResponse<String> response = null;
+                        try {
+                            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                            String Serverantwort = response.body();
+                            System.out.println(Serverantwort);
+                            if (Serverantwort.equals("OK")) {
+                                //Weiterleitung zur Login Seite
+                                try {
+                                    Stage stage = (Stage) registrieren.getScene().getWindow();
+                                    FXMLLoader loader = new FXMLLoader();
+                                    loader.setLocation(getClass().getClassLoader().getResource("login.fxml"));
+                                    AnchorPane root = (AnchorPane) loader.load();
+                                    Scene scene = new Scene(root);
+                                    String logincss = getClass().getClassLoader().getResource("css/login.css").toExternalForm();
+                                    scene.getStylesheets().add(logincss);
+                                    stage.setScene(scene);
+                                    stage.setMaximized(false);
+                                    stage.show();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        } catch (IOException | InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
-                    catch(Exception e)    {
-                        e.printStackTrace();
-                    }
-                }
-            }catch (IOException | InterruptedException e){
-                e.printStackTrace();
             }
         }
-    }
-}
+   /* @FXML
+    private Object args;
+    public String EmailValidieren(){
+       public static void main(String[] args){
+        //    String email = "nachname.vorname@stud.uni-due.de";
+          //  String email2 = "nachname.vornamestud.uni-due.de"; //invalide:false
+
+     */
+        //public static String validiereEmail(String mail)
+
+//hier Validieren
+     /*   if(!email.contains ("@") {
+            System.out.println("die Eingabe ist korrekt");
+        }
+
+        else (email==null||email.isDisabled()){ //also leer oder falsch
+        System.out.println("false"); //return "false";
+String EmailRegex = "A-Z*@\\.\\.de\\.com";
+
+    }}}*/
+
+/*
+if(!email.containts("@")){
+    system.out.println}
+*/
