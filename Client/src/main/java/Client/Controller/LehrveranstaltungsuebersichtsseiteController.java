@@ -1,6 +1,10 @@
 package Client.Controller;
 
 import Client.Layouts.Layout;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import Client.Modell.*;
 import javafx.event.ActionEvent;
@@ -69,20 +73,9 @@ public class LehrveranstaltungsuebersichtsseiteController {
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-
-
-
             ObjectMapper mapper = new ObjectMapper();
-            System.out.println(response.body());
-
             List<Lehrmaterial> lehrmaterial = mapper.readValue(response.body(), new TypeReference<List<Lehrmaterial>>() {});
-
-
-
             teachMat.setCellValueFactory(new PropertyValueFactory<Lehrmaterial,String>("titel"));
-
-
-
             teachMat.setCellFactory(tablecell -> {
                 TableCell<Lehrmaterial, String> cell = new TableCell<Lehrmaterial, String>(){
                     @Override
@@ -171,14 +164,6 @@ public class LehrveranstaltungsuebersichtsseiteController {
 
 
     }
-
-    public void downloadMaterial (ActionEvent download) {
-
-
-
-
-    }
-
 
 
 }
