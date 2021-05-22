@@ -75,6 +75,7 @@ public class TeilnehmerListeController {
             for(int i=0;i<jsonObject.length();i++){
                 JSONObject nutzer= jsonObject.getJSONObject(i).getJSONObject("nutzerId");
 
+                System.out.println("JSONOBJECT NUTZER    "+nutzer);
                 Nutzer nutzer1 = new Nutzer();
                 if (nutzerId instanceof Lehrender){
                     if(nutzer.get("vorname").equals(((Lehrender)nutzerId).getVorname()) && nutzer.get("nachname").equals(((Lehrender)nutzerId).getNachname())){
@@ -121,6 +122,11 @@ public class TeilnehmerListeController {
                 );
                 return cell;
             });
+
+
+
+
+
 
         } catch (IOException e) {
             e.printStackTrace();
