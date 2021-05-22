@@ -54,6 +54,11 @@ public class LehrmaterialController {
 
         lehrmaterialStorageService.addNewLehrmaterial(lehrveranstaltungId, multipartFiles);
         return new ResponseEntity<>("Servernachricht: Erfolgreich hochgeladen!", null, HttpStatus.OK);
+
+
+
+
+
     }
 
     @GetMapping("/download/{id}")
@@ -90,6 +95,9 @@ public class LehrmaterialController {
                                 if(!semester.equalsIgnoreCase("")){
                                     String titel = components[0];
                                     if(lehrveranstaltungRepository.existsIfTitelAndArtAndSemester(titel,Veranstaltungsart,semester) == false){
+
+
+
                                         Lehrveranstaltung add = new Lehrveranstaltung();
                                         add.setTitel(titel);
                                         add.setArt(Veranstaltungsart);

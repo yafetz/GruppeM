@@ -71,6 +71,7 @@ public class TeilnehmerListeController {
                 JSONObject nutzer= jsonObject.getJSONObject(i).getJSONObject("nutzerId");
                 System.out.println(nutzer.get("vorname")+ " "+ nutzer.get("nachname"));
 
+                System.out.println("JSONOBJECT NUTZER    "+nutzer);
                 Nutzer nutzer1 = new Nutzer();
                 if (nutzerId instanceof Lehrender){
                     if(nutzer.get("vorname").equals(((Lehrender)nutzerId).getVorname()) && nutzer.get("nachname").equals(((Lehrender)nutzerId).getNachname())){
@@ -98,6 +99,7 @@ public class TeilnehmerListeController {
 
                 nutzer1.setVorname(nutzer.getString("vorname"));
                 nutzer1.setNachname(nutzer.getString("nachname"));
+                nutzer1.setId(nutzer.getInt("id"));
 
                 teilnehmerTabelle.getItems().add(nutzer1);
             }
@@ -113,7 +115,8 @@ public class TeilnehmerListeController {
                 cell.setCursor(Cursor.HAND);
                 cell.setOnMouseClicked(e -> {
                             if (!cell.isEmpty()) {
-                                redirectToCourseOverview(cell.getTableRow().getItem().getId());
+                                redirectToUserprofile(cell.getTableRow().getItem().getId());
+                                System.out.println("CLICKED ID   "+cell.getTableRow().getItem().getId());
                             }
                         }
                 );
@@ -135,9 +138,9 @@ public class TeilnehmerListeController {
 
     }
 
-    public void redirectToCourseOverview(Integer lehrveranstaltungId) {
+    public void redirectToUserprofile(Integer userId) {
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/"+lehrveranstaltungId)).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/"+userId)).build();
         HttpResponse<String> response;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -151,7 +154,7 @@ public class TeilnehmerListeController {
             HttpResponse<String> memberResponse;
             if (nutzerId instanceof Lehrender) {
                 long lehrId = ((Lehrender) nutzerId).getNutzerId().getId();
-                request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/check/"+ lehrveranstaltungId + "&"+lehrId)).build();
+                request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/check/"+ userId + "&"+lehrId)).build();
                 memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
 
 //                System.out.println("Instanz Lehrender "+memberResponse.body());
@@ -163,7 +166,7 @@ public class TeilnehmerListeController {
                     }
                 }
                 else {
-                    System.out.println("LehrveranstaltungsId   "+lehrveranstaltungId);
+                    System.out.println("LehrveranstaltungsId   "+userId);
                     Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) teilnehmerTabelle.getScene().getWindow(),nutzerId);
                     if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
                         ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(nutzerId,lehrveranstaltung);
@@ -173,7 +176,7 @@ public class TeilnehmerListeController {
             if (nutzerId instanceof Student) {
 
                 long id = ((Student) nutzerId).getNutzer().getId();
-                request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/check/" + lehrveranstaltungId +"&"+ id)).build();
+                request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/check/" + userId +"&"+ id)).build();
                 memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
 
 //                System.out.println("Student Instanz "+memberResponse.body());
