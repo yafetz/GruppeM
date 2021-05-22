@@ -41,6 +41,5 @@ public class LehrveranstaltungErstellenService {
         teilnehmerListe.setLehrveranstaltung(lehrveranstaltung);
         teilnehmerListeRepository.save(teilnehmerListe);
 
-
     }
 }

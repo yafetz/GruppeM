@@ -22,12 +22,12 @@ public class LehrveranstaltungErstellenController {
         this.lehrenderRepository = lehrenderRepository;
     }
 
-
     @PostMapping("/lehrveranstaltung/{titel}&{lehrenderd}&{art}&{semester}")
     public void newLehrveranstaltung(@PathVariable String titel, @PathVariable Nutzer lehrenderd, @PathVariable String art, @PathVariable String semester){
-       Lehrender lehrender = lehrenderRepository.findLehrenderByNutzerId(lehrenderd);
-       long lehrenderId=  lehrender.getId();
+
+        System.out.println("newLehrveranstaltung methode aufgerufen");
+        Lehrender lehrender = lehrenderRepository.findLehrenderByNutzerId(lehrenderd);
+        long lehrenderId=  lehrender.getId();
         lehrveranstaltungErstellenService.createNewLehrveranstaltung(titel,lehrenderId,art,semester);
     }
-
 }

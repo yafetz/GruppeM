@@ -37,8 +37,8 @@ public class LehrmaterialController {
     }
 
 
-   @GetMapping("/{lehrveranstaltungsId}")
-  public Object alleLehrmaterialien (@PathVariable long lehrveranstaltungsId) {
+    @GetMapping("/{lehrveranstaltungsId}")
+    public Object alleLehrmaterialien (@PathVariable long lehrveranstaltungsId) {
        long id = lehrveranstaltungsId;
        Lehrveranstaltung event = lehrveranstaltungRepository.findLehrveranstaltungById(id);
        List<Lehrmaterial> materials = lehrmaterialRepository.findLehrmaterialByLehrveranstaltung(event);
@@ -53,7 +53,7 @@ public class LehrmaterialController {
                                                      @RequestParam("lehrveranstaltungId") Long lehrveranstaltungId) throws IOException {
 
         lehrmaterialStorageService.addNewLehrmaterial(lehrveranstaltungId, multipartFiles);
-        return new ResponseEntity<>("Servernachricht: Erfolgreich hochgeladen!", null, HttpStatus.OK);
+        return new ResponseEntity<>("Servernachricht: Lehrmaterial erfolgreich hochgeladen!", null, HttpStatus.OK);
     }
 
     @GetMapping("/download/{id}")
@@ -65,7 +65,7 @@ public class LehrmaterialController {
     @PostMapping("/csv")
     public ResponseEntity<String> CsvUpload(@RequestParam("files") List<MultipartFile> multipartFiles,
                                             @RequestParam("nutzerId") Long nutzerId) throws IOException {
-        for(int i = 0; i < multipartFiles.size(); i++ ){
+        for (int i = 0; i < multipartFiles.size(); i++ ) {
             System.out.println(multipartFiles.get(i).getOriginalFilename());
             System.out.println("------------------------------------------");
             BufferedReader br = new BufferedReader(new InputStreamReader(multipartFiles.get(i).getInputStream()));
@@ -76,10 +76,10 @@ public class LehrmaterialController {
                     String[] header = line.split(";");
                     if(header[0].equalsIgnoreCase("Titel") && header[1].equalsIgnoreCase("Veranstaltungsart") && header[2].equalsIgnoreCase("Semester") && header.length == 3) {
 
-                    }else{
+                    } else {
                         //CSV ungültig
                     }
-                }else{
+                } else {
                     String[] components = line.split(";");
                     if(components.length == 3 && !components[0].equalsIgnoreCase("") && !components[1].equalsIgnoreCase("") && !components[2].equalsIgnoreCase("") ){
 
@@ -105,7 +105,7 @@ public class LehrmaterialController {
                 countLine++;
             }
         }
-        return new ResponseEntity<>("Servernachricht: Erfolgreich hochgeladen!", null, HttpStatus.OK);
+        return new ResponseEntity<>("Servernachricht: CSV-Datei erfolgreich hochgeladen!", null, HttpStatus.OK);
     }
 
     public String Art(String art){

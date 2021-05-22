@@ -1,5 +1,6 @@
 package Client.Controller;
 
+import Client.Layouts.Auth;
 import Client.Layouts.Layout;
 import Client.Modell.Lehrender;
 import Client.Modell.Lehrveranstaltung;
@@ -26,6 +27,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class UserprofilController {
+
 
     @FXML
     private Label username;
@@ -59,7 +61,8 @@ public class UserprofilController {
 
     private Object user;
 
-
+    @FXML
+    public Button abmeldenButton;
 
 
     public void initialize() {
@@ -69,6 +72,8 @@ public class UserprofilController {
     public void nutzerprofilAufrufen (Object eigenerNutzer, Object vergleichNutzer) {
         this.eigenerNutzer = eigenerNutzer;
         this.vergleichNutzer = vergleichNutzer;
+
+
 
         if(eigenerNutzer == vergleichNutzer) {
             //Diese If-Bedingung tritt ein, wenn der Nutzer sich selbst aufruft
@@ -123,10 +128,13 @@ public class UserprofilController {
                     city.setText(((Lehrender) vergleichNutzer).getNutzerId().getStadt());
                     KurseAufrufen(vergleichNutzer);
 
+                    lehrstuhlOderMatrNrTextLabel.setVisible(false);
+                    abmeldenButton.setVisible(false);
                     number.setText( "" + ((Lehrender) vergleichNutzer).getNutzerId().getHausnummer());
                     lehrstuhlOderMatrNrTextLabel.setText("Lehrstuhl");
                     forschungsgebietOderStudienfachTextLabel.setText("Forschungsgebiet");
                 }
+
                 //Sicht eines Lehrenden auf das Profil eines Studenten
                 else if(vergleichNutzer instanceof Student) {
                     username.setText(((Student) vergleichNutzer).getNutzer().getVorname() +" "+ ((Student) vergleichNutzer).getNutzer().getNachname());
@@ -138,6 +146,7 @@ public class UserprofilController {
                     city.setText(((Student) vergleichNutzer).getNutzer().getStadt());
                     KurseAufrufen(vergleichNutzer);
 
+                    abmeldenButton.setVisible(false);
                     number.setText( "" + ((Student) vergleichNutzer).getNutzer().getHausnummer());
                     lehrstuhlOderMatrNrTextLabel.setText("Matrikelnummer");
                     forschungsgebietOderStudienfachTextLabel.setText("Studienfach");
@@ -153,6 +162,11 @@ public class UserprofilController {
                     forschungsgebiet_studienfach.setText(((Lehrender) vergleichNutzer).getForschungsgebiet());
                     KurseAufrufen(vergleichNutzer);
 
+                    plz.setVisible(false);
+                    adresse.setVisible(false);
+                    number.setVisible(false);
+                    city.setVisible(false);
+                    abmeldenButton.setVisible(false);
                     lehrstuhlOderMatrNrTextLabel.setText("Lehrstuhl");
                     forschungsgebietOderStudienfachTextLabel.setText("Forschungsgebiet");
                 }
@@ -162,6 +176,11 @@ public class UserprofilController {
                     mailadresse.setText(((Student) vergleichNutzer).getNutzer().getEmail());
                     KurseAufrufen(vergleichNutzer);
 
+                    plz.setVisible(false);
+                    adresse.setVisible(false);
+                    number.setVisible(false);
+                    city.setVisible(false);
+                    abmeldenButton.setVisible(false);
                     lehrstuhlOderMatrNrTextLabel.setText("Matrikelnummer");
                     forschungsgebietOderStudienfachTextLabel.setText("Studienfach");
                 }
@@ -295,6 +314,10 @@ public class UserprofilController {
         }
     }
 
+    public void abmeldenPressedButton(ActionEvent actionEvent) {
+        actionEvent.consume();
+        Auth login = new Auth("login.fxml", (Stage) abmeldenButton.getScene().getWindow());
+    }
 
 
 }

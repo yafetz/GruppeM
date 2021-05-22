@@ -26,10 +26,10 @@
       <Accordion layoutX="14.0" layoutY="102.0" />
       <Accordion layoutX="47.0" layoutY="89.0" />
       <ButtonBar layoutX="7.0" layoutY="-6.0" prefHeight="40.0" prefWidth="200.0" />
-      <Button fx:id="profil" layoutX="567.0" layoutY="14.0" mnemonicParsing="false" onAction="#profilBearbeiten" text="Profil bearbeiten" />
-      <TableView fx:id="courseCol" layoutX="84.0" layoutY="354.0" prefHeight="200.0" prefWidth="365.0">
+      <Button fx:id="profil" layoutX="544.0" layoutY="132.0" mnemonicParsing="false" onAction="#profilBearbeiten" text="Profil bearbeiten" />
+      <TableView fx:id="courseCol" layoutX="84.0" layoutY="354.0" prefHeight="200.0" prefWidth="446.0">
          <columns>
-            <TableColumn fx:id="myCourses" prefWidth="363.99999745686847" text="Meine Kurse" />
+            <TableColumn fx:id="myCourses" prefWidth="443.99996185302734" text="Meine Kurse" />
          </columns>
       </TableView>
       <Label layoutX="86.0" layoutY="136.0" text="E-Mail-Adresse" />
@@ -39,5 +39,6 @@
       <Label layoutX="85.0" layoutY="245.0" text="Postleitzahl" />
       <Label fx:id="lehrstuhlOderMatrNrTextLabel" layoutX="85.0" layoutY="282.0" text="SetLehrstuhlOderMatrikelnummer" />
       <Label fx:id="forschungsgebietOderStudienfachTextLabel" layoutX="85.0" layoutY="315.0" text="SetForschungsgebietOderStudienfach" />
+      <Button fx:id="abmeldenButton" layoutX="577.0" layoutY="528.0" mnemonicParsing="false" onAction="#abmeldenPressedButton" text="Abmelden" />
    </children>
 </AnchorPane>

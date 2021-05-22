@@ -1,6 +1,7 @@
 package Server.Controller;
 
 
+import Server.Modell.Nutzer;
 import Server.Modell.TeilnehmerListe;
 import Server.Repository.*;
 import Server.Services.TeilnehmerListeService;
@@ -40,6 +41,17 @@ public class TeilnehmerListeController {
         return teilnehmer;
     }
 
+    @GetMapping("/teilnehmerId={teilnehmerId}")
+    public Object getNutzerWithTeilnehmerId(@PathVariable long teilnehmerId) {
+        Nutzer nutzer = nutzerRepository.findNutzerById(teilnehmerId);
+        if (nutzer.getRolle().equals("Lehrender")) {
+            return lehrenderRepository.findLehrenderByNutzerId(nutzer);
+        }
+        if (nutzer.getRolle().equals("Student")) {
+            return studentRepository.findStudentByNutzerId(nutzer);
+        }
+        return null;
+    }
 
 
 

@@ -22,31 +22,24 @@ import java.util.HashMap;
 public class LehrveranstaltungErstellen {
     @FXML
     private TextField titels;
-
     @FXML
     private TextField art;
-
     @FXML
     private TextField semesters;
-
     @FXML
     private Button erstellen;
-
     @FXML
     private Button addCSV;
 
     private Object nutzerInstanz;
 
 
-
     public void initialize() {
-
     }
+
     public void uebersichtsseiteAufrufen(Object nutzer) {
         this.nutzerInstanz = nutzer;
-
     }
-
 
     @FXML
     private void erstellenPressedButton(ActionEvent event) {
@@ -74,8 +67,6 @@ public class LehrveranstaltungErstellen {
         System.out.println("ID     " + nutzerId);
 
 
-
-
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:8080/create/lehrveranstaltung/"+split+"&"+nutzerId+"&"+splittype+"&"+splitsem)).POST(HttpRequest.BodyPublishers.noBody()).build();
@@ -87,22 +78,22 @@ public class LehrveranstaltungErstellen {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-
     }
 
-        public Object getNutzerInstanz () {
+    public Object getNutzerInstanz () {
             return nutzerInstanz;
-        }
-        public void setNutzerInstanz (Object nutzerInstanz){
+    }
+
+    public void setNutzerInstanz (Object nutzerInstanz){
             this.nutzerInstanz = nutzerInstanz;
-        }
+    }
 
     public void AddCsv(ActionEvent actionEvent) {
         Layout erstellenmitCSV = new Layout("lehrmaterialUpload.fxml",(Stage) addCSV.getScene().getWindow(),nutzerInstanz);
         if(erstellenmitCSV.getController() instanceof LehrmaterialController){
             ((LehrmaterialController) erstellenmitCSV.getController()).setNutzerInstanz(nutzerInstanz);
             ((LehrmaterialController) erstellenmitCSV.getController()).setModus("CSV");
+            ((LehrmaterialController) erstellenmitCSV.getController()).initializePageLabel();
         }
     }
 }

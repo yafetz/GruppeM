@@ -1,14 +1,13 @@
 package Client.Layouts;
 
 import Client.Controller.AlleKurseController;
-import Client.Controller.LoginController;
 import Client.Controller.MeineKurseController;
 import Client.Controller.UserprofilController;
+import Client.Modell.Lehrender;
+import Client.Modell.Student;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
@@ -26,7 +25,6 @@ public class Layout {
     Button alleKurse = new Button();
     Hyperlink logo = new Hyperlink();
     Hyperlink namenlink = new Hyperlink();
-    Hyperlink abmeldenlink = new Hyperlink();
     Object Nutzer;
     Stage stage;
 
@@ -78,7 +76,6 @@ public class Layout {
         instanziereNutzer();
 
         nutzer.getChildren().add(namenlink);
-        nutzer.getChildren().add(abmeldenlink);
 
         container.getChildren().add(hbox);
         container.getChildren().add(vbox);
@@ -153,7 +150,12 @@ public class Layout {
     }
 
     public void instanziereNutzer(){
-        namenlink.setText("Mein Profil");
+        if ( Nutzer instanceof Lehrender) {
+            namenlink.setText( ((Lehrender) Nutzer).getNutzerId().getName() );
+        } else if ( Nutzer instanceof Student) {
+            namenlink.setText( ((Student) Nutzer).getNutzer().getName() );
+        }
+
         namenlink.setFont(new Font("System Bold",24.0));
         namenlink.setStyle("-fx-text-fill: white");
         namenlink.setCursor(Cursor.HAND);
@@ -168,21 +170,7 @@ public class Layout {
             }
         };
         namenlink.setOnAction(nutzerHandler);
-
-        abmeldenlink.setText("Abmelden");
-        abmeldenlink.setFont(new Font("System", 14));
-        abmeldenlink.setStyle("-fx-text-fill: white");
-        abmeldenlink.setCursor(Cursor.HAND);
-        EventHandler<ActionEvent> abmeldenHandler = new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                actionEvent.consume();
-                Auth login = new Auth("login.fxml", stage);
-            }
-        };
-        abmeldenlink.setOnAction(abmeldenHandler);
     }
-
 
     public Object getController() {
         return Controller;
