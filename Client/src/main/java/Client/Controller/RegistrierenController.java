@@ -1,3 +1,4 @@
+
 package Client.Controller;
 
 import Client.Layouts.Auth;
@@ -82,7 +83,171 @@ public class RegistrierenController {
         String stadtText = stadt.getText();
         String strasseText = strasse.getText();
 
-       /* @FXML
+        String newVorname = vornameText.trim();
+        newVorname = newVorname.replaceAll(" ", "%20");
+        String newNachname = nachnameText.trim();
+        newNachname = newNachname.replaceAll(" ", "%20");
+        String newEmail = emailText.trim();
+        newEmail = newEmail.replaceAll(" ", "%20");
+        String newPasswort = passwortText.trim();
+        newPasswort = newPasswort.replaceAll(" ", "%20");
+        String newStadt = stadtText.trim();
+        newStadt = newStadt.replaceAll(" ", "%20");
+        String newStrasse = strasseText.trim();
+        newStrasse = newStrasse.replaceAll(" ", "%20");
+
+        if (registrieren_student == null) {
+            // als Student registrieren
+            String studienfachText = studienfach.getText();
+
+            String newStudienfach = studienfachText.trim();
+            newStudienfach = newStudienfach.replaceAll(" ", "%20");
+
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("http://localhost:8080/register/student/" +
+                            newVorname + "&" + newNachname + "&" + newEmail + "&" +
+                            newPasswort + "&" + newStudienfach + "&" +
+                            hausnummerText + "&" + plzText + "&" + newStadt + "&" + newStrasse + "&Student")).build();
+            HttpResponse<String> response = null;
+            try {
+                response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                String Serverantwort = response.body();
+                System.out.println(Serverantwort);
+                if (Serverantwort.equals("OK")) {
+                    //Weiterleitung zur Login Seite
+                    Stage stage = (Stage) registrieren.getScene().getWindow();
+                    Auth login = new Auth("login.fxml", stage);
+                }
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            // als Lehrender registrieren
+            String forschungsgebietText = forschungsgebiet.getText();
+            String lehrstuhlText = lehrstuhl.getText();
+
+            String newForschungsgebiet = forschungsgebietText.trim();
+            newForschungsgebiet = newForschungsgebiet.replaceAll(" ", "%20");
+            String newLehrstuhl = lehrstuhlText.trim();
+            newLehrstuhl = newLehrstuhl.replaceAll(" ", "%20");
+
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("http://localhost:8080/register/lehrender/" +
+                            newVorname + "&" + newNachname + "&" + newEmail + "&" +
+                            newPasswort + "&" + newForschungsgebiet + "&" + newLehrstuhl + "&" +
+                            hausnummerText + "&" + plzText + "&" + newStadt + "&" + newStrasse+ "&Lehrender")).build();
+            HttpResponse<String> response = null;
+            try {
+                response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                String Serverantwort = response.body();
+                System.out.println(Serverantwort);
+                if (Serverantwort.equals("OK")) {
+                    //Weiterleitung zur Login Seite
+                    Stage stage = (Stage) registrieren.getScene().getWindow();
+                    Auth login = new Auth("login.fxml", stage);
+                }
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+/*package Client.Controller;
+
+import Client.Layouts.Auth;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+public class RegistrierenController {
+    @FXML
+    private TextField email;
+    @FXML
+    private Button registrieren_lehrender;
+    @FXML
+    private Button registrieren_student;
+    @FXML
+    private Button zuruek;
+    @FXML
+    private Button registrieren;
+    @FXML
+    private TextField nachname;
+    @FXML
+    private TextField vorname;
+    @FXML
+    private TextField postleitzahl;
+    @FXML
+    private TextField stadt;
+    @FXML
+    private TextField strasse;
+    @FXML
+    private TextField hausnummer;
+    @FXML
+    private PasswordField passwort;
+    @FXML
+    private TextField studienfach;
+    @FXML
+    private TextField lehrstuhl;
+    @FXML
+    private TextField forschungsgebiet;
+    @FXML
+    private CheckBox check_box;
+
+
+    public void Rollenwechsel(ActionEvent actionEvent) {
+        actionEvent.consume();
+        Stage stage = (Stage) registrieren_lehrender.getScene().getWindow();
+        Auth register_lehrender = new Auth("Registrieren_Lehrender.fxml",stage);
+    }
+
+    public void Registrieren_Student(ActionEvent actionEvent) {
+        actionEvent.consume();
+        Stage stage = (Stage) registrieren_student.getScene().getWindow();
+        Auth register_student = new Auth("Registrieren_Student.fxml",stage);
+    }
+
+    public void Zuruek(ActionEvent actionEvent) {
+        actionEvent.consume();
+        Stage stage = (Stage) zuruek.getScene().getWindow();
+        Auth login = new Auth("login.fxml",stage);
+    }
+
+    public void Registrieren(ActionEvent actionEvent) {
+        actionEvent.consume();
+        String vornameText = vorname.getText();
+        String nachnameText = nachname.getText();
+        String emailText = email.getText();
+        String passwortText = passwort.getText();
+        int hausnummerText = Integer.valueOf(hausnummer.getText());
+        int plzText = Integer.valueOf(postleitzahl.getText());
+        String stadtText = stadt.getText();
+        String strasseText = strasse.getText();*/
+
+      /* @FXML
         private Object args;
         public String EmailValidieren(){
             public static void main(String[] args){
@@ -110,7 +275,7 @@ public class RegistrierenController {
                // if (!passwort.contains(8))
 
 
-                    if (registrieren_student == null) {
+             /*       if (registrieren_student == null) {
                         // als Student registrieren
                         String studienfachText = studienfach.getText();
                         HttpClient client = HttpClient.newHttpClient();
