@@ -20,7 +20,7 @@
         <Button fx:id="registrieren" layoutX="210.0" layoutY="395.0" mnemonicParsing="false" onAction="#Registrieren" text="Registrierung" />
         <Button fx:id="registrieren_student" layoutX="108.0" layoutY="309.0" mnemonicParsing="false" onAction="#Registrieren_Student" text="Registrieren als Student" />
         <Button fx:id="zuruek" layoutX="337.0" layoutY="395.0" mnemonicParsing="false" onAction="#Zuruek" text="Zurück zum Login" />
-        <Text layoutX="16.0" layoutY="422.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pflichtfeld!">
+        <Text layoutX="16.0" layoutY="422.0" strokeType="OUTSIDE" strokeWidth="0.0">
             <font>
                 <Font size="6.0" />
             </font>
@@ -33,13 +33,13 @@
                 <Font size="13.0" />
             </font>
         </Text>
-        <Text layoutX="14.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Passwort!" />
+        <Text layoutX="14.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Passwort" />
         <Text layoutX="19.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Weitere Details:" underline="true">
             <font>
                 <Font size="13.0" />
             </font>
         </Text>
-        <Text layoutX="16.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="E-Mail Adresse!" />
+        <Text layoutX="16.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="E-Mail Adresse" />
         <TextField fx:id="email" layoutX="105.0" layoutY="175.0" />
         <Text layoutX="16.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nachname" />
         <TextField fx:id="nachname" layoutX="105.0" layoutY="72.0" />
