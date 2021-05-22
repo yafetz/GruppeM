@@ -23,7 +23,7 @@ import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
-public class LehrveranstaltungBeitreten implements Initializable {
+public class LehrveranstaltungBeitretenController implements Initializable {
 
     @FXML
     Label lehrender;
@@ -38,7 +38,7 @@ public class LehrveranstaltungBeitreten implements Initializable {
     private Lehrveranstaltung lehrveranstaltung;
     private Object nutzerInstanz;
     private long lehrveranstaltungsId;
-    private long veranstaltung;
+
 
 
 
@@ -49,6 +49,7 @@ public class LehrveranstaltungBeitreten implements Initializable {
 
     public void lehrveranstaltungBeitreten(){
 
+        lehrveranstaltungsId=lehrveranstaltung.getId();
         long nutzerId = 0;
         HttpClient client = HttpClient.newHttpClient();
         if (nutzerInstanz instanceof Lehrender) {
@@ -68,16 +69,16 @@ public class LehrveranstaltungBeitreten implements Initializable {
             e.printStackTrace();
         }
 
-        //HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/"+lehrveranstaltungsId+"&"+nutzerId)).POST(HttpRequest.BodyPublishers.ofString(requestBody)).build();
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/"+lehrveranstaltungsId+"&"+nutzerId)).POST(HttpRequest.BodyPublishers.ofString(requestBody)).build();
 
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             System.out.println(response);
             System.out.println(nutzerId);
-            System.out.println("Veranstaltungid        "+ veranstaltung);
+
 
             System.out.println("LehrveranstaltungsId           "+lehrveranstaltungsId);
+            System.out.println("NutzerId       "+nutzerId);
             System.out.println("Success");
             //System.out.println("Student instanz   "+((Student) nutzerInstanz).getId());
            // System.out.println("Lehrender instanz     "+((Lehrender) nutzerInstanz).getNutzerId().getId());

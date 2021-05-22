@@ -43,6 +43,12 @@ public class Lehrender {
     public void setForschungsgebiet(String forschungsgebiet) {
         this.forschungsgebiet = forschungsgebiet;
     }
+    public String getVorname(){
+        return nutzerId.getVorname();
+    }
+    public String getNachname(){
+        return nutzerId.getNachname();
+    }
 
     public Nutzer getNutzerId() {
         return nutzerId;

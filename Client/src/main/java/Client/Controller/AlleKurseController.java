@@ -9,26 +9,18 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class AlleKurseController{
 
@@ -105,7 +97,6 @@ public class AlleKurseController{
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
             ObjectMapper mapper = new ObjectMapper();
             Lehrveranstaltung lehrveranstaltung = mapper.readValue(response.body(), Lehrveranstaltung.class);
-//            TODO Weiterleitung zu Übersichtsseite des Kurses
           //  HttpRequest requestisMember = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/"+lehrveranstaltungId)).build();
             //Layout layout = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) namenLink.getScene().getWindow());
 
@@ -126,9 +117,10 @@ public class AlleKurseController{
                 }
                 else {
                     System.out.println("LehrveranstaltungsId   "+lehrveranstaltungId);
-                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
-                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
-                        ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(nutzerInstanz,lehrveranstaltung);
+                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
+                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungBeitretenController){
+                        ((LehrveranstaltungBeitretenController) lehrveranstaltungBeitreten.getController()).setLehrveranstaltung(lehrveranstaltung);
+                        ((LehrveranstaltungBeitretenController) lehrveranstaltungBeitreten.getController()).setNutzerInstanz(nutzerInstanz);
                     }
                 }
             }
@@ -147,9 +139,11 @@ public class AlleKurseController{
                     }
                 }
                 else{
-                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
-                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
-                        ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(nutzerInstanz,lehrveranstaltung);
+                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
+                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungBeitretenController){
+                        System.out.println("Alle Kurse lehrveranstaltungsId   "+lehrveranstaltung.getId());
+                        ((LehrveranstaltungBeitretenController) lehrveranstaltungBeitreten.getController()).setLehrveranstaltung(lehrveranstaltung);
+                        ((LehrveranstaltungBeitretenController) lehrveranstaltungBeitreten.getController()).setNutzerInstanz(nutzerInstanz);
                     }
                 }
             }
