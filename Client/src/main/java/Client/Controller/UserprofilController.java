@@ -32,7 +32,6 @@ public class UserprofilController {
     private Label username;
     @FXML
     private Label mailadresse;
-
     @FXML
     private Label plz;
     @FXML
@@ -53,8 +52,6 @@ public class UserprofilController {
     public TableColumn<Lehrveranstaltung, String> myCourses;
 
 
-
-
     private Object vergleichNutzer;
     private Object eigenerNutzer;
 
@@ -66,13 +63,6 @@ public class UserprofilController {
     public void initialize() {
         profil.setVisible(false);
     }
-
-
-
-
-
-
-
 
     public void nutzerprofilAufrufen (Object eigenerNutzer, Object vergleichNutzer) {
         this.eigenerNutzer = eigenerNutzer;
@@ -108,9 +98,8 @@ public class UserprofilController {
                 KurseAufrufen(eigenerNutzer);
 
             }
-
-
         }
+
         // Diese else If tritt ein, wenn der Nutzer auf einen anderen Nutzer klickt
         else if (eigenerNutzer != vergleichNutzer) {
             if (eigenerNutzer instanceof Lehrender) {
@@ -136,9 +125,6 @@ public class UserprofilController {
                     city.setText(((Student) vergleichNutzer).getNutzer().getStadt());
                     KurseAufrufen(vergleichNutzer);
 
-
-
-
                 }
             }
 
@@ -163,14 +149,12 @@ public class UserprofilController {
             }
         }
 
-
-
     }
 
     public void profilBearbeiten(ActionEvent actionEvent) {
         Stage stage = (Stage) profil.getScene().getWindow();
         Layout editieren = null;
-            editieren = new Layout("Nutzerprofil_verändern.fxml", stage,eigenerNutzer);
+            editieren = new Layout("Nutzerprofil_veraendern.fxml", stage,eigenerNutzer);
             if (editieren.getController() instanceof EditierenController) {
                 ((EditierenController) editieren.getController()).setNutzer(eigenerNutzer);
 
@@ -198,7 +182,13 @@ public class UserprofilController {
 
             ObjectMapper mapper = new ObjectMapper();
             mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-            List<Lehrveranstaltung> kurse = mapper.readValue(response.body(), new TypeReference<List<Lehrveranstaltung>>() {});
+            List<TeilnehmerListe> kurse = mapper.readValue(response.body(), new TypeReference<List<TeilnehmerListe>>() {});
+            List<Lehrveranstaltung> lehrveranstaltungen = new LinkedList<>();
+
+            for(TeilnehmerListe teilnehmerListe1 : kurse) {
+                lehrveranstaltungen.add(teilnehmerListe1.getLehrveranstaltung());
+            }
+
 
             myCourses.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("titel"));
 
@@ -215,7 +205,7 @@ public class UserprofilController {
                 cell.setCursor(Cursor.HAND);
                 cell.setOnMouseClicked(e -> {
                             if (!cell.isEmpty()) {
-                                //redirectToCourseOverview(cell.getTableRow().getItem().getId());
+                                kurseAufrufen(cell.getTableRow().getItem().getId());
                             }
                         }
                 );
@@ -223,10 +213,65 @@ public class UserprofilController {
             });
 
 //            ObservableList is required to populate the table alleLv using .setItems() :
-            ObservableList<Lehrveranstaltung> kursListe = FXCollections.observableList(kurse);
+            ObservableList<Lehrveranstaltung> kursListe = FXCollections.observableList(lehrveranstaltungen);
             courseCol.setItems(kursListe);
 
         } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void kurseAufrufen(Integer lehrveranstaltungId) {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/"+lehrveranstaltungId)).build();
+        HttpResponse<String> response;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            ObjectMapper mapper = new ObjectMapper();
+            Lehrveranstaltung lehrveranstaltung = mapper.readValue(response.body(), Lehrveranstaltung.class);
+
+            HttpResponse<String> memberResponse;
+            if (user instanceof Lehrender) {
+                long lehrId = ((Lehrender) user).getNutzerId().getId();
+                request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/check/"+ lehrveranstaltungId + "&"+lehrId)).build();
+                memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+
+
+                if(memberResponse.body().equals("true")){
+                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) courseCol.getScene().getWindow(),user);
+                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
+                        ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(user,lehrveranstaltung);
+                    }
+                }
+                else {
+                    System.out.println("LehrveranstaltungsId   "+lehrveranstaltungId);
+                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) courseCol.getScene().getWindow(),user);
+                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
+                        ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(user,lehrveranstaltung);
+                    }
+                }
+            }
+            if (user instanceof Student) {
+
+                long id = ((Student) user).getNutzer().getId();
+                request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/check/" + lehrveranstaltungId +"&"+ id)).build();
+                memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+                if(memberResponse.body().equals("true")){
+                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) courseCol.getScene().getWindow(),user);
+                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
+                        ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(user,lehrveranstaltung);
+                    }
+                }
+                else{
+                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) courseCol.getScene().getWindow(),user);
+                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
+                        ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(user,lehrveranstaltung);
+                    }
+                }
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

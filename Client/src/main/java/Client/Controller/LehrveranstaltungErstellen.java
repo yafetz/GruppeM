@@ -1,5 +1,6 @@
 package Client.Controller;
 
+import Client.Layouts.Layout;
 import Client.Modell.Lehrender;
 import Client.Modell.Lehrveranstaltung;
 import Client.Modell.Nutzer;
@@ -9,6 +10,8 @@ import javafx.fxml.FXML;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -28,6 +31,9 @@ public class LehrveranstaltungErstellen {
 
     @FXML
     private Button erstellen;
+
+    @FXML
+    private Button addCSV;
 
     private Object nutzerInstanz;
 
@@ -92,5 +98,12 @@ public class LehrveranstaltungErstellen {
             this.nutzerInstanz = nutzerInstanz;
         }
 
+    public void AddCsv(ActionEvent actionEvent) {
+        Layout erstellenmitCSV = new Layout("lehrmaterialUpload.fxml",(Stage) addCSV.getScene().getWindow(),nutzerInstanz);
+        if(erstellenmitCSV.getController() instanceof LehrmaterialController){
+            ((LehrmaterialController) erstellenmitCSV.getController()).setNutzerInstanz(nutzerInstanz);
+            ((LehrmaterialController) erstellenmitCSV.getController()).setModus("CSV");
+        }
     }
+}
 

@@ -1,7 +1,8 @@
 package Client.Modell;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.json.JSONObject;
-
+@JsonIgnoreProperties
 public class Lehrender {
 
     private int id;

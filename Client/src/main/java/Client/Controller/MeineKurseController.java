@@ -5,6 +5,7 @@ import Client.Modell.Lehrender;
 import Client.Modell.Lehrveranstaltung;
 import Client.Modell.Student;
 import Client.Modell.TeilnehmerListe;
+import Server.Controller.LehrveranstaltungErstellenController;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.collections.FXCollections;
@@ -47,6 +48,8 @@ public class MeineKurseController {
     private TableColumn<Lehrveranstaltung, String> col_LvLehrende;
     @FXML
     private Button neueLv;
+    @FXML
+    private Button addCourse;
 
     private Object nutzerInstanz;
 
@@ -172,27 +175,10 @@ public class MeineKurseController {
                     }
                 }
             }
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             public void neueLvErstellen(ActionEvent event) {
         event.consume();
@@ -206,5 +192,12 @@ public class MeineKurseController {
     public void setNutzerInstanz(Object nutzerInstanz) {
         this.nutzerInstanz = nutzerInstanz;
         populateTableView();
+    }
+
+    public void AddCourse(ActionEvent actionEvent) {
+        Layout erstelleLehrveranstaltung = new Layout("lehrveranstaltungErstellen.fxml",(Stage) addCourse.getScene().getWindow(),nutzerInstanz);
+        if(erstelleLehrveranstaltung.getController() instanceof LehrveranstaltungErstellen) {
+            ((LehrveranstaltungErstellen) erstelleLehrveranstaltung.getController()).setNutzerInstanz(nutzerInstanz);
+        }
     }
 }
