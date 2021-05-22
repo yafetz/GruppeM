@@ -70,10 +70,34 @@ public class TeilnehmerListeController {
             for(int i=0;i<jsonObject.length();i++){
                 JSONObject nutzer= jsonObject.getJSONObject(i).getJSONObject("nutzerId");
                 System.out.println(nutzer.get("vorname")+ " "+ nutzer.get("nachname"));
+
                 Nutzer nutzer1 = new Nutzer();
+                if (nutzerId instanceof Lehrender){
+                    if(nutzer.get("vorname").equals(((Lehrender)nutzerId).getVorname()) && nutzer.get("nachname").equals(((Lehrender)nutzerId).getNachname())){
+                        nutzer1.setRolle(nutzer.getString("rolle")+" (Ich)");
+
+
+                    }
+                    else{
+                        nutzer1.setRolle(nutzer.getString("rolle"));
+                    }
+
+                }
+
+                if (nutzerId instanceof Student){
+                    if(nutzer.get("vorname").equals(((Student)nutzerId).getVorname()) && nutzer.get("nachname").equals(((Student)nutzerId).getNachname())){
+                        nutzer1.setRolle(nutzer.getString("rolle")+" (Ich)");
+
+
+                    }
+                    else{
+                        nutzer1.setRolle(nutzer.getString("rolle"));
+                    }
+
+                }
+
                 nutzer1.setVorname(nutzer.getString("vorname"));
                 nutzer1.setNachname(nutzer.getString("nachname"));
-                nutzer1.setRolle(nutzer.getString("rolle"));
 
                 teilnehmerTabelle.getItems().add(nutzer1);
             }
