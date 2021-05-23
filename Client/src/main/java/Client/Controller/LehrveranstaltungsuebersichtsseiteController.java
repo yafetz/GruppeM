@@ -1,10 +1,7 @@
 package Client.Controller;
 
 import Client.Layouts.Layout;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import Client.Modell.*;
 import javafx.event.ActionEvent;
@@ -14,15 +11,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import org.apache.commons.io.IOUtils;
+import org.json.JSONArray;
+import java.io.*;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.List;
+import java.sql.*;
 
 public class LehrveranstaltungsuebersichtsseiteController {
     @FXML
@@ -65,8 +61,9 @@ public class LehrveranstaltungsuebersichtsseiteController {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
             ObjectMapper mapper = new ObjectMapper();
-            List<Lehrmaterial> lehrmaterial = mapper.readValue(response.body(), new TypeReference<List<Lehrmaterial>>() {});
-            teachMat.setCellValueFactory(new PropertyValueFactory<Lehrmaterial,String>("titel"));
+            JSONArray alleLehrmaterialien = new JSONArray(response.body());
+            //List<Lehrmaterial> lehrmaterial = mapper.readValue(response.body(), new TypeReference<List<Lehrmaterial>>() {});
+            teachMat.setCellValueFactory(new PropertyValueFactory<>("titel"));
             teachMat.setCellFactory(tablecell -> {
                 TableCell<Lehrmaterial, String> cell = new TableCell<Lehrmaterial, String>(){
                     @Override
@@ -78,24 +75,22 @@ public class LehrveranstaltungsuebersichtsseiteController {
                 cell.setCursor(Cursor.HAND);
                 cell.setOnMouseClicked(e -> {
                             if (!cell.isEmpty()) {
-                                long lehrmaterialId = cell.getTableRow().getItem().getId();
-                                HttpClient client1 = HttpClient.newHttpClient();
-                                HttpRequest request1 = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrmaterial/download/" + id)).build();
-                                HttpResponse<String> response1;
+                                int lehrmaterialId = cell.getTableRow().getItem().getId().intValue();
                                 try {
-                                    response1 = client.send(request, HttpResponse.BodyHandlers.ofString());
-                                    byte[] datei = response1.body().getBytes();
+                                    Connection connection= DriverManager.getConnection("jdbc:mysql://localhost:3306/sep","root","");
+                                    System.out.println(lehrmaterialId);
+                                    PreparedStatement pstmt = connection.prepareStatement("select datei from lehrmaterial WHERE id LIKE "+lehrmaterialId);
+                                    ResultSet rs = pstmt.executeQuery();
                                     String home = System.getProperty("user.home");
-                                    File file = new File(home+"/Downloads/" + "test" + ".pdf");
+                                    File file = new File(home+"/Downloads/" + alleLehrmaterialien.getJSONObject(lehrmaterialId-1).getString("titel").replace(" ","_").replace("?",""));
                                     FileOutputStream fo = new FileOutputStream(file);
-                                    fo.write(datei);
-                                    fo.close();
+                                    rs.next();
+                                    Blob datei = rs.getBlob("datei");
+                                    IOUtils.write(datei.getBinaryStream().readAllBytes(),fo);
                                     System.out.println("Fertig gedownloadet!");
 
-                                } catch (IOException ioException) {
-                                    ioException.printStackTrace();
-                                } catch (InterruptedException interruptedException) {
-                                    interruptedException.printStackTrace();
+                                } catch (IOException | SQLException exception) {
+                                    exception.printStackTrace();
                                 }
                             }
                         }
@@ -104,8 +99,12 @@ public class LehrveranstaltungsuebersichtsseiteController {
             });
 
 //            ObservableList is required to populate the table alleLv using .setItems() :
-            ObservableList<Lehrmaterial> obsLv = FXCollections.observableList(lehrmaterial);
-            material.setItems(obsLv);
+            for(int i = 0; i < alleLehrmaterialien.length(); i++){
+                Lehrmaterial l = new Lehrmaterial();
+                l.setId(alleLehrmaterialien.getJSONObject(i).getLong("id"));
+                l.setTitel(alleLehrmaterialien.getJSONObject(i).getString("titel"));
+                material.getItems().add(l);
+            }
 
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();

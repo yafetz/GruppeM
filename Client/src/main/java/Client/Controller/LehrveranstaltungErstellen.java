@@ -96,7 +96,10 @@ public class LehrveranstaltungErstellen {
                     .uri(URI.create("http://localhost:8080/create/lehrveranstaltung/"+split+"&"+nutzerId+"&"+veranstaltungstyp+"&"+splitsem)).POST(HttpRequest.BodyPublishers.noBody()).build();
             try {
                 HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                System.out.println("Response body     "+ response.body());
+                Layout meineKurse = new Layout("meineKurse.fxml",(Stage) erstellen.getScene().getWindow(),nutzerInstanz);
+                if(meineKurse.getController() instanceof MeineKurseController){
+                    ((MeineKurseController) meineKurse.getController()).setNutzerInstanz(nutzerInstanz);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {

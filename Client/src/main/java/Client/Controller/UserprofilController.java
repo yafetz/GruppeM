@@ -243,7 +243,7 @@ public class UserprofilController {
                 cell.setCursor(Cursor.HAND);
                 cell.setOnMouseClicked(e -> {
                             if (!cell.isEmpty()) {
-                                kurseAufrufen(cell.getTableRow().getItem().getId());
+                                redirectToCourseOverview(cell.getTableRow().getItem().getId());
                             }
                         }
                 );
@@ -259,7 +259,7 @@ public class UserprofilController {
         }
     }
 
-    public void kurseAufrufen(Integer lehrveranstaltungId) {
+    public void redirectToCourseOverview(Integer lehrveranstaltungId) {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/"+lehrveranstaltungId)).build();
         HttpResponse<String> response;
@@ -267,14 +267,11 @@ public class UserprofilController {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
             ObjectMapper mapper = new ObjectMapper();
             Lehrveranstaltung lehrveranstaltung = mapper.readValue(response.body(), Lehrveranstaltung.class);
-
             HttpResponse<String> memberResponse;
             if (eigenerNutzer instanceof Lehrender) {
                 long lehrId = ((Lehrender) eigenerNutzer).getNutzerId().getId();
                 request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/check/"+ lehrveranstaltungId + "&"+lehrId)).build();
                 memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-
 
                 if(memberResponse.body().equals("true")){
                     Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) courseCol.getScene().getWindow(),eigenerNutzer);
@@ -284,13 +281,13 @@ public class UserprofilController {
                 }
                 else {
                     System.out.println("LehrveranstaltungsId   "+lehrveranstaltungId);
-                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) courseCol.getScene().getWindow(),eigenerNutzer);
-                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
-                        ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(eigenerNutzer,lehrveranstaltung);
+                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) courseCol.getScene().getWindow(),eigenerNutzer);
+                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungBeitretenController){
+                        ((LehrveranstaltungBeitretenController) lehrveranstaltungBeitreten.getController()).setLehrveranstaltung(lehrveranstaltung);
+                        ((LehrveranstaltungBeitretenController) lehrveranstaltungBeitreten.getController()).setNutzerInstanz(eigenerNutzer);
                     }
                 }
-            }
-            if (eigenerNutzer instanceof Student) {
+            }else if (eigenerNutzer instanceof Student) {
 
                 long id = ((Student) eigenerNutzer).getNutzer().getId();
                 request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/check/" + lehrveranstaltungId +"&"+ id)).build();
@@ -303,9 +300,10 @@ public class UserprofilController {
                     }
                 }
                 else{
-                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) courseCol.getScene().getWindow(),eigenerNutzer);
-                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
-                        ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(eigenerNutzer,lehrveranstaltung);
+                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) courseCol.getScene().getWindow(),eigenerNutzer);
+                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungBeitretenController){
+                        ((LehrveranstaltungBeitretenController) lehrveranstaltungBeitreten.getController()).setLehrveranstaltung(lehrveranstaltung);
+                        ((LehrveranstaltungBeitretenController) lehrveranstaltungBeitreten.getController()).setNutzerInstanz(eigenerNutzer);
                     }
                 }
             }
