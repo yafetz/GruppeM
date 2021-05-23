@@ -124,7 +124,6 @@ public class LehrveranstaltungsuebersichtsseiteController {
             ((LehrmaterialController) uploadScreen.getController()).setNutzerInstanz(nutzer);
             ((LehrmaterialController) uploadScreen.getController()).setLehrveranstaltung(lehrveranstaltung);
             ((LehrmaterialController) uploadScreen.getController()).setModus("Lehrmaterial");
-            ((LehrmaterialController) uploadScreen.getController()).initializePageLabel();
         }
 
     }
