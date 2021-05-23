@@ -80,7 +80,7 @@ public class LehrmaterialController {
 
     public void hochladenPressedButton(ActionEvent actionEvent) {
         actionEvent.consume();
-        long id = ((Lehrender)nutzerInstanz).getId();
+        long id = ((Lehrender) nutzerInstanz).getId();
         if (modus.equals("Lehrmaterial")) {
             if (fileList != null) {
                 try (CloseableHttpClient client = HttpClients.createDefault()) {

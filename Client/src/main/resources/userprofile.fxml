@@ -33,10 +33,10 @@
          </columns>
       </TableView>
       <Label layoutX="86.0" layoutY="136.0" text="E-Mail-Adresse" />
-      <Label layoutX="86.0" layoutY="162.0" text="Straße" />
-      <Label layoutX="85.0" layoutY="188.0" text="Hausnummer" />
-      <Label layoutX="86.0" layoutY="216.0" text="Stadt" />
-      <Label layoutX="85.0" layoutY="245.0" text="Postleitzahl" />
+      <Label fx:id="strasseLabel" layoutX="86.0" layoutY="162.0" text="Straße" />
+      <Label fx:id="hausnummerLabel" layoutX="85.0" layoutY="188.0" text="Hausnummer" />
+      <Label fx:id="stadtLabel" layoutX="86.0" layoutY="216.0" text="Stadt" />
+      <Label fx:id="plzLabel" layoutX="85.0" layoutY="245.0" text="Postleitzahl" />
       <Label fx:id="lehrstuhlOderMatrNrTextLabel" layoutX="85.0" layoutY="282.0" text="SetLehrstuhlOderMatrikelnummer" />
       <Label fx:id="forschungsgebietOderStudienfachTextLabel" layoutX="85.0" layoutY="315.0" text="SetForschungsgebietOderStudienfach" />
       <Button fx:id="abmeldenButton" layoutX="577.0" layoutY="528.0" mnemonicParsing="false" onAction="#abmeldenPressedButton" text="Abmelden" />

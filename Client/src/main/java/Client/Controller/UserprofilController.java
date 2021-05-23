@@ -28,7 +28,6 @@ import java.util.List;
 
 public class UserprofilController {
 
-
     @FXML
     private Label username;
     @FXML
@@ -53,6 +52,14 @@ public class UserprofilController {
     public TableColumn<Lehrveranstaltung, String> myCourses;
 
     @FXML
+    public Label strasseLabel;
+    @FXML
+    public Label hausnummerLabel;
+    @FXML
+    public Label stadtLabel;
+    @FXML
+    public Label plzLabel;
+    @FXML
     private Label lehrstuhlOderMatrNrTextLabel;
     @FXML
     private Label forschungsgebietOderStudienfachTextLabel;
@@ -63,6 +70,7 @@ public class UserprofilController {
 
     @FXML
     public Button abmeldenButton;
+
 
 
     public void initialize() {
@@ -121,14 +129,13 @@ public class UserprofilController {
                 if (vergleichNutzer instanceof Lehrender) {
                     username.setText(((Lehrender) vergleichNutzer).getNutzerId().getVorname() +" "+ ((Lehrender) vergleichNutzer).getNutzerId().getNachname());
                     mailadresse.setText(((Lehrender) vergleichNutzer).getNutzerId().getEmail());
-                    lehrstuhl_oder_matr.setVisible(false);
+                    lehrstuhl_oder_matr.setText(((Lehrender) vergleichNutzer).getLehrstuhl());
                     forschungsgebiet_studienfach.setText(((Lehrender) vergleichNutzer).getForschungsgebiet());
                     plz.setText(String.valueOf(((Lehrender) vergleichNutzer).getNutzerId().getPlz()));
                     adresse.setText(((Lehrender) vergleichNutzer).getNutzerId().getStrasse());
                     city.setText(((Lehrender) vergleichNutzer).getNutzerId().getStadt());
                     KurseAufrufen(vergleichNutzer);
 
-                    lehrstuhlOderMatrNrTextLabel.setVisible(false);
                     abmeldenButton.setVisible(false);
                     number.setText( "" + ((Lehrender) vergleichNutzer).getNutzerId().getHausnummer());
                     lehrstuhlOderMatrNrTextLabel.setText("Lehrstuhl");
@@ -162,6 +169,10 @@ public class UserprofilController {
                     forschungsgebiet_studienfach.setText(((Lehrender) vergleichNutzer).getForschungsgebiet());
                     KurseAufrufen(vergleichNutzer);
 
+                    stadtLabel.setVisible(false);
+                    strasseLabel.setVisible(false);
+                    hausnummerLabel.setVisible(false);
+                    plzLabel.setVisible(false);
                     plz.setVisible(false);
                     adresse.setVisible(false);
                     number.setVisible(false);
@@ -176,13 +187,19 @@ public class UserprofilController {
                     mailadresse.setText(((Student) vergleichNutzer).getNutzer().getEmail());
                     KurseAufrufen(vergleichNutzer);
 
+                    stadtLabel.setVisible(false);
+                    strasseLabel.setVisible(false);
+                    hausnummerLabel.setVisible(false);
+                    plzLabel.setVisible(false);
                     plz.setVisible(false);
                     adresse.setVisible(false);
                     number.setVisible(false);
                     city.setVisible(false);
                     abmeldenButton.setVisible(false);
-                    lehrstuhlOderMatrNrTextLabel.setText("Matrikelnummer");
+                    lehrstuhlOderMatrNrTextLabel.setVisible(false);
+                    lehrstuhl_oder_matr.setVisible(false);
                     forschungsgebietOderStudienfachTextLabel.setText("Studienfach");
+                    forschungsgebiet_studienfach.setText(((Student) vergleichNutzer).getStudienfach());
                 }
 
             }

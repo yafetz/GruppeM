@@ -13,9 +13,9 @@
         <ScrollPane hbarPolicy="NEVER" layoutX="38.0" layoutY="125.0" prefHeight="526.0" prefWidth="1383.0" vbarPolicy="AS_NEEDED">
 
             <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="517.0" prefWidth="1375.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="519.0" prefWidth="1379.0">
                     <children>
-                        <TableView fx:id="meineLv" prefHeight="523.0" prefWidth="1381.0" AnchorPane.bottomAnchor="-6.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-6.0" AnchorPane.topAnchor="0.0">
+                        <TableView fx:id="meineLv" prefHeight="526.0" prefWidth="1383.0" AnchorPane.bottomAnchor="-7.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-4.0" AnchorPane.topAnchor="0.0">
                             <columns>
                                 <TableColumn fx:id="col_LvId" text="LvID" visible="false" />
                                 <TableColumn fx:id="col_LvTitel" prefWidth="552.0000623464584" text="Titel der Lehrveranstaltung" />
