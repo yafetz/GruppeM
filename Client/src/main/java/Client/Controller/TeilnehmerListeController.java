@@ -148,7 +148,15 @@ public class TeilnehmerListeController {
                 Layout userprofil = new Layout("userprofile.fxml", (Stage) teilnehmerTabelle.getScene().getWindow(), nutzerId);
 
                 if (userprofil.getController() instanceof UserprofilController) {
-                    ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(nutzerId, vergleichNutzer);
+                    if(nutzerId instanceof  Student){
+                        if(((Student) nutzerId).getId() == vergleichNutzer.getId()){
+                            ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(nutzerId, nutzerId);
+                        }else{
+                            ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(nutzerId, vergleichNutzer);
+                        }
+                    }else{
+                        ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(nutzerId, vergleichNutzer);
+                    }
                 }
 
             } else if (response.body().contains("forschungsgebiet")) {
@@ -156,7 +164,15 @@ public class TeilnehmerListeController {
                 Layout userprofil = new Layout("userprofile.fxml", (Stage) teilnehmerTabelle.getScene().getWindow(), nutzerId);
 
                 if (userprofil.getController() instanceof UserprofilController) {
-                    ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(nutzerId, vergleichNutzer);
+                    if(nutzerId instanceof  Lehrender){
+                        if(((Lehrender) nutzerId).getId() == vergleichNutzer.getId()){
+                            ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(nutzerId, nutzerId);
+                        }else{
+                            ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(nutzerId, vergleichNutzer);
+                        }
+                    }else{
+                        ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(nutzerId, vergleichNutzer);
+                    }
                 }
             }
 

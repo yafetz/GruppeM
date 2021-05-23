@@ -5,32 +5,23 @@ import Client.Modell.Lehrender;
 import Client.Modell.Lehrveranstaltung;
 import Client.Modell.Student;
 import Client.Modell.TeilnehmerListe;
-import Server.Controller.LehrveranstaltungErstellenController;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URI;
-import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class MeineKurseController {
 
@@ -47,14 +38,15 @@ public class MeineKurseController {
     @FXML
     private TableColumn<Lehrveranstaltung, String> col_LvLehrende;
     @FXML
-    private Button neueLv;
-    @FXML
     private Button addCourse;
 
     private Object nutzerInstanz;
 
 
     public void initialize() {
+        if(nutzerInstanz instanceof Student){
+            addCourse.setVisible(false);
+        }
     }
 
     public void populateTableView() {

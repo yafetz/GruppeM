@@ -5,12 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Lehrmaterial {
     @JsonProperty("id")
     private Long id;
-    @JsonProperty("lehrveranstaltung")
+    @JsonProperty("lehrveranstaltungs_id")
     private Lehrveranstaltung lehrveranstaltung;
     @JsonProperty("titel")
     private String titel;
-    @JsonProperty("typ")
-    private String typ;
     @JsonProperty("datei")
     private byte[] datei;
 
@@ -18,6 +16,9 @@ public class Lehrmaterial {
 
     public Long getId() {
         return id;
+    }
+    public void setId(Long id){
+        this.id = id;
     }
 
     public Lehrveranstaltung getLehrveranstaltung() {
@@ -34,14 +35,6 @@ public class Lehrmaterial {
 
     public void setTitel(String titel) {
         this.titel = titel;
-    }
-
-    public String getTyp() {
-        return typ;
-    }
-
-    public void setTyp(String typ) {
-        this.typ = typ;
     }
 
     public byte[] getDatei() {

@@ -130,7 +130,10 @@ public class LehrmaterialController {
                     try (CloseableHttpResponse response = client.execute(post)) {
                         HttpEntity responseEntity = response.getEntity();
                         String result = EntityUtils.toString(responseEntity);
-                        System.out.println(result);
+                        Layout meineKurse = new Layout("meineKurse.fxml",(Stage) btn_upload.getScene().getWindow(),nutzerInstanz);
+                        if(meineKurse.getController() instanceof MeineKurseController){
+                            ((MeineKurseController) meineKurse.getController()).setNutzerInstanz(nutzerInstanz);
+                        }
                     }
                     }
                 } catch (IOException e) {
