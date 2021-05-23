@@ -3,11 +3,11 @@ package Client.Layouts;
 import Client.Controller.AlleKurseController;
 import Client.Controller.MeineKurseController;
 import Client.Controller.UserprofilController;
+import Client.Modell.Lehrender;
+import Client.Modell.Student;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
@@ -150,8 +150,14 @@ public class Layout {
     }
 
     public void instanziereNutzer(){
-        namenlink.setText("Mein Profil");
-        namenlink.setFont(new Font("System Bold",25.0));
+        if ( Nutzer instanceof Lehrender) {
+            namenlink.setText( ((Lehrender) Nutzer).getNutzerId().getName() );
+        } else if ( Nutzer instanceof Student) {
+            namenlink.setText( ((Student) Nutzer).getNutzer().getName() );
+        }
+
+        namenlink.setFont(new Font("System Bold",24.0));
+        namenlink.setStyle("-fx-text-fill: white");
         namenlink.setCursor(Cursor.HAND);
         EventHandler<ActionEvent> nutzerHandler = new EventHandler<ActionEvent>() {
             @Override
@@ -165,6 +171,7 @@ public class Layout {
         };
         namenlink.setOnAction(nutzerHandler);
     }
+
     public Object getController() {
         return Controller;
     }

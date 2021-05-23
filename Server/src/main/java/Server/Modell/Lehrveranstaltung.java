@@ -21,6 +21,8 @@ public class Lehrveranstaltung {
     @JoinColumn(name= "lehrender_Id", nullable = false)
     private Lehrender lehrender;
 
+
+
     public Long getId() {
         return id;
     }
