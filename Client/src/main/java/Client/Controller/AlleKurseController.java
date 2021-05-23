@@ -100,7 +100,6 @@ public class AlleKurseController{
           //  HttpRequest requestisMember = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/"+lehrveranstaltungId)).build();
             //Layout layout = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) namenLink.getScene().getWindow());
 
-//            Platzhalter bis dahin:
             HttpResponse<String> memberResponse;
             if (nutzerInstanz instanceof Lehrender) {
                 long lehrId = ((Lehrender) nutzerInstanz).getNutzerId().getId();
