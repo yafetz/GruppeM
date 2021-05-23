@@ -144,12 +144,13 @@ public class LehrveranstaltungsuebersichtsseiteController {
             }
             else if(nutzer instanceof Student) {
                 title.setText(((Lehrveranstaltung) lehrveranstaltung).getTitel());
+
                 materialUpload.setVisible(false);
                 getMaterial((Lehrveranstaltung) lehrveranstaltung);
             }
 
         }
-        System.out.println("hello2325");
+//        System.out.println("hello2325");
 
 
     }
