@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="497.0" prefWidth="652.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.EditierenController">
+<AnchorPane prefHeight="497.0" prefWidth="652.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.EditierenController">
    <children>
-      <Text layoutX="24.0" layoutY="42.0" lineSpacing="10.0" strokeType="OUTSIDE" strokeWidth="10.0" text="Profilbearbeitung">
+      <Text layoutX="21.0" layoutY="69.0" lineSpacing="10.0" strokeType="OUTSIDE" strokeWidth="10.0" text="Profilbearbeitung">
          <font>
-            <Font size="18.0" />
+            <Font size="36.0" />
          </font>
       </Text>
       <Text layoutX="21.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Passwort" wrappingWidth="67.89584350585938">
@@ -18,40 +20,36 @@
          </font>
       </Text>
       <TextField fx:id="passwort" layoutX="92.0" layoutY="114.0" />
-      <Text layoutX="24.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Straße">
+      <Text layoutX="21.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Straße">
          <font>
             <Font size="11.0" />
          </font>
       </Text>
       <TextField fx:id="straße" layoutX="92.0" layoutY="164.0" />
-      <Text layoutX="269.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Haus Nr.">
+      <Text layoutX="264.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hausnr.">
          <font>
             <Font size="11.0" />
          </font>
       </Text>
       <TextField fx:id="hausnummer" layoutX="325.0" layoutY="164.0" />
-      <Text layoutX="24.0" layoutY="223.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Postleitzahl">
+      <Text layoutX="20.0" layoutY="223.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Postleitzahl">
          <font>
             <Font size="11.0" />
          </font>
       </Text>
       <TextField fx:id="postleitzahl" layoutX="93.0" layoutY="206.0" />
-      <Text layoutX="269.0" layoutY="223.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Stadt">
+      <Text layoutX="264.0" layoutY="223.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Stadt">
          <font>
             <Font size="11.0" />
          </font>
       </Text>
       <TextField fx:id="stadt" layoutX="325.0" layoutY="206.0" />
-      <Text layoutX="25.0" layoutY="262.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bei interner Veränderung">
-         <font>
-            <Font size="14.0" />
-         </font></Text>
-      <Text fx:id="lehrstuhltext" layoutX="28.0" layoutY="293.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lehrstuhl">
+      <Text fx:id="lehrstuhltext" layoutX="24.0" layoutY="287.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lehrstuhl">
          <font>
             <Font size="11.0" />
          </font>
       </Text>
-      <Text fx:id="forschungstext" layoutX="24.0" layoutY="326.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Forschungsgebiet" wrappingWidth="60.29296875">
+      <Text fx:id="forschungstext" layoutX="21.0" layoutY="326.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Forschungsgebiet" wrappingWidth="60.29296875">
          <font>
             <Font size="11.0" />
          </font>
@@ -67,7 +65,7 @@
       <ImageView fitHeight="51.0" fitWidth="60.0" layoutX="559.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
       </ImageView>
       <ImageView fitHeight="91.0" fitWidth="92.0" layoutX="342.0" layoutY="329.0" pickOnBounds="true" preserveRatio="true" smooth="false" AnchorPane.leftAnchor="342.0" />
-      <Button fx:id="aktualisieren" layoutX="413.0" layoutY="440.0" mnemonicParsing="false" style="-fx-background-color: green;" text="Aktualisieren" onAction="#Nutzerprofil_veraendern" />
-      <Button fx:id="abbrechen" onAction="#Abbrechen" layoutX="529.0" layoutY="440.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="84.0" style="-fx-background-color: red;" text="Abbrechen" />
+      <Button fx:id="aktualisieren" layoutX="413.0" layoutY="440.0" mnemonicParsing="false" onAction="#Nutzerprofil_veraendern" text="Aktualisieren" />
+      <Button fx:id="abbrechen" layoutX="529.0" layoutY="440.0" mnemonicParsing="false" onAction="#Abbrechen" prefHeight="25.0" prefWidth="84.0" text="Abbrechen" />
    </children>
 </AnchorPane>

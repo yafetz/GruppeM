@@ -24,19 +24,14 @@ public class Lehrmaterial {
     private String titel;
 
     @Column(nullable = false)
-    @JsonProperty("typ")
-    private String typ;
-
-    @Column(nullable = false)
     @Lob
     @JsonProperty("datei")
 
     private byte[] datei;
 
-    public Lehrmaterial(Lehrveranstaltung lehrveranstaltung, String titel, String typ, byte[] datei) {
+    public Lehrmaterial(Lehrveranstaltung lehrveranstaltung, String titel, byte[] datei) {
         this.lehrveranstaltung = lehrveranstaltung;
         this.titel = titel;
-        this.typ = typ;
         this.datei = datei;
     }
 
@@ -62,14 +57,6 @@ public class Lehrmaterial {
 
     public void setTitel(String titel) {
         this.titel = titel;
-    }
-
-    public String getTyp() {
-        return typ;
-    }
-
-    public void setTyp(String typ) {
-        this.typ = typ;
     }
 
     public byte[] getDatei() {

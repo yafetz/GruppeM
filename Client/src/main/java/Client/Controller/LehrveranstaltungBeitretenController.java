@@ -113,6 +113,9 @@ public class LehrveranstaltungBeitretenController implements Initializable {
     }
     public void setLehrveranstaltung(Lehrveranstaltung lehrveranstaltung){
         this.lehrveranstaltung=lehrveranstaltung;
+        this.lehrveranstaltungfield.setText(this.lehrveranstaltung.getTitel());
+        this.semester.setText(this.lehrveranstaltung.getSemester());
+        this.lehrender.setText(this.lehrveranstaltung.getLehrenderName());
     }
 
 }

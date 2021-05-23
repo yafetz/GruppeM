@@ -19,7 +19,7 @@
         <Button fx:id="materialUpload" layoutX="274.0" layoutY="137.0" mnemonicParsing="false" onAction="#materialUploadPressedButton" text="Lehrmaterialien hochladen" />
         <TableView fx:id="material" layoutX="158.0" layoutY="362.0" prefHeight="252.0" prefWidth="390.0">
             <columns>
-                <TableColumn prefWidth="388.60003662109375" text="Lehrmaterialien" />
+                <TableColumn fx:id="teachMat" prefWidth="388.60003662109375" text="Lehrmaterialien" />
             </columns>
         </TableView>
         <Button fx:id="teilnehmerListe" layoutX="158.0" layoutY="137.0" mnemonicParsing="false" onAction="#teilnehmerListe" text="Teilnehmerliste" />

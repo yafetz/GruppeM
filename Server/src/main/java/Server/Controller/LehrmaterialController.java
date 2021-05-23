@@ -2,10 +2,8 @@ package Server.Controller;
 import Server.Modell.Lehrender;
 import Server.Modell.Lehrmaterial;
 import Server.Modell.Lehrveranstaltung;
-import Server.Repository.LehrenderRepository;
-import Server.Repository.LehrmaterialRepository;
-import Server.Repository.LehrveranstaltungRepository;
-import Server.Repository.NutzerRepository;
+import Server.Modell.TeilnehmerListe;
+import Server.Repository.*;
 import Server.Services.LehrmaterialStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,14 +24,16 @@ public class LehrmaterialController {
     private final LehrveranstaltungRepository lehrveranstaltungRepository;
     private final LehrenderRepository lehrenderRepository;
     private final NutzerRepository nutzerRepository;
+    private final TeilnehmerListeRepository teilnehmerListeRepository;
 
     @Autowired
-    public LehrmaterialController(LehrmaterialStorageService lehrmaterialStorageService, LehrmaterialRepository lehrmaterialRepository, LehrveranstaltungRepository lehrveranstaltungRepository, LehrenderRepository lehrenderRepository, NutzerRepository nutzerRepository) {
+    public LehrmaterialController(LehrmaterialStorageService lehrmaterialStorageService, LehrmaterialRepository lehrmaterialRepository, LehrveranstaltungRepository lehrveranstaltungRepository, LehrenderRepository lehrenderRepository, NutzerRepository nutzerRepository, TeilnehmerListeRepository teilnehmerListeRepository) {
         this.lehrmaterialStorageService = lehrmaterialStorageService;
         this.lehrmaterialRepository = lehrmaterialRepository;
         this.lehrveranstaltungRepository = lehrveranstaltungRepository;
         this.lehrenderRepository = lehrenderRepository;
         this.nutzerRepository = nutzerRepository;
+        this.teilnehmerListeRepository = teilnehmerListeRepository;
     }
 
 
@@ -97,6 +97,10 @@ public class LehrmaterialController {
                                         Lehrender l = lehrenderRepository.findLehrenderByNutzerId(nutzerRepository.findNutzerById(nutzerId));
                                         add.setLehrender(l);
                                         lehrveranstaltungRepository.save(add);
+                                        TeilnehmerListe teilnehmerListe = new TeilnehmerListe();
+                                        teilnehmerListe.setNutzerId(l.getNutzerId());
+                                        teilnehmerListe.setLehrveranstaltung(add);
+                                        teilnehmerListeRepository.save(teilnehmerListe);
                                     }
                                 }
                             }

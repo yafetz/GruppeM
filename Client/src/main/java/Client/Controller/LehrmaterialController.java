@@ -80,6 +80,7 @@ public class LehrmaterialController {
 
     public void hochladenPressedButton(ActionEvent actionEvent) {
         actionEvent.consume();
+        long id = ((Lehrender)nutzerInstanz).getId();
         if (modus.equals("Lehrmaterial")) {
             if (fileList != null) {
                 try (CloseableHttpClient client = HttpClients.createDefault()) {
@@ -129,7 +130,10 @@ public class LehrmaterialController {
                     try (CloseableHttpResponse response = client.execute(post)) {
                         HttpEntity responseEntity = response.getEntity();
                         String result = EntityUtils.toString(responseEntity);
-                        System.out.println(result);
+                        Layout meineKurse = new Layout("meineKurse.fxml",(Stage) btn_upload.getScene().getWindow(),nutzerInstanz);
+                        if(meineKurse.getController() instanceof MeineKurseController){
+                            ((MeineKurseController) meineKurse.getController()).setNutzerInstanz(nutzerInstanz);
+                        }
                     }
                     }
                 } catch (IOException e) {

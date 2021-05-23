@@ -26,8 +26,7 @@ public class LehrmaterialStorageService {
     public void addNewLehrmaterial(Long lehrveranstaltungId, List<MultipartFile> lehrmaterialList) throws IOException {
         for (MultipartFile lehrmaterialFile : lehrmaterialList) {
             Lehrmaterial lehrmaterial = new Lehrmaterial(lehrveranstaltungRepository.findLehrveranstaltungById(lehrveranstaltungId),
-                    lehrmaterialFile.getName(),
-                    lehrmaterialFile.getContentType(),
+                    lehrmaterialFile.getOriginalFilename(),
                     lehrmaterialFile.getBytes());
             lehrmaterialRepository.save(lehrmaterial);
         }
