@@ -158,7 +158,6 @@ public class LehrveranstaltungsuebersichtsseiteController {
                 title.setText(((Lehrveranstaltung) lehrveranstaltung).getTitel());
 
                 materialUpload.setVisible(false);
-                teilnehmerListe.setVisible(false);
                 studentenliste.setVisible(false);
                 getMaterial((Lehrveranstaltung) lehrveranstaltung);
             }
