@@ -55,14 +55,6 @@ public class LehrmaterialController {
 
     }
 
-    public void initializePageLabel() {
-        if (modus.equals("Lehrmaterial")) {
-            this.uploadSeiteLabel.setText("Lehrmaterial hochladen");
-        } else if (modus.equals("CSV")) {
-            this.uploadSeiteLabel.setText("CSV-Datei hochladen");
-        }
-    }
-
     public void durchsuchenPressedButton(ActionEvent actionEvent) {
         actionEvent.consume();
         Stage stage = (Stage) btn_durchsuchen.getScene().getWindow();
@@ -80,7 +72,7 @@ public class LehrmaterialController {
 
     public void hochladenPressedButton(ActionEvent actionEvent) {
         actionEvent.consume();
-        long id = ((Lehrender)nutzerInstanz).getId();
+        long id = ((Lehrender) nutzerInstanz).getId();
         if (modus.equals("Lehrmaterial")) {
             if (fileList != null) {
                 try (CloseableHttpClient client = HttpClients.createDefault()) {
@@ -182,5 +174,10 @@ public class LehrmaterialController {
 
     public void setModus(String modus) {
         this.modus = modus;
+        if (modus.equals("Lehrmaterial")) {
+            this.uploadSeiteLabel.setText("Lehrmaterial hochladen");
+        } else if (modus.equals("CSV")) {
+            this.uploadSeiteLabel.setText("CSV-Datei hochladen");
+        }
     }
 }
