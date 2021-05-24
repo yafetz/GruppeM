@@ -27,7 +27,6 @@ public class LehrveranstaltungController {
     private final TeilnehmerListeRepository teilnehmerListeRepository;
     private final NutzerRepository nutzerRepository;
     private final LehrenderRepository lehrenderRepository;
-    private final LehrveranstaltungService lehrveranstaltungErstellenService;
 
     @Autowired
     public LehrveranstaltungController(LehrveranstaltungService lehrveranstaltungService, LehrveranstaltungRepository lehrveranstaltungRepository, TeilnehmerListeRepository teilnehmerListeRepository, NutzerRepository nutzerRepository, LehrenderRepository lehrenderRepository, LehrveranstaltungService lehrveranstaltungErstellenService) {
@@ -36,7 +35,7 @@ public class LehrveranstaltungController {
         this.teilnehmerListeRepository = teilnehmerListeRepository;
         this.nutzerRepository = nutzerRepository;
         this.lehrenderRepository = lehrenderRepository;
-        this.lehrveranstaltungErstellenService = lehrveranstaltungErstellenService;
+
     }
 
     @PostMapping("/beitreten/{lehrveranstaltungsId}&{nutzer_id}")
@@ -59,7 +58,7 @@ public class LehrveranstaltungController {
     public void newLehrveranstaltung(@PathVariable String titel, @PathVariable Nutzer lehrenderd, @PathVariable String art, @PathVariable String semester){
         Lehrender lehrender = lehrenderRepository.findLehrenderByNutzerId(lehrenderd);
         long lehrenderId=  lehrender.getId();
-        lehrveranstaltungErstellenService.createNewLehrveranstaltung(titel,lehrenderId,art,semester);
+        lehrveranstaltungService.createNewLehrveranstaltung(titel,lehrenderId,art,semester);
     }
 
     @GetMapping("/all")
@@ -81,7 +80,7 @@ public class LehrveranstaltungController {
     @PostMapping("/csv")
     public ResponseEntity<String> CsvUpload(@RequestParam("files") List<MultipartFile> multipartFiles,
                                             @RequestParam("nutzerId") Long nutzerId) throws IOException {
-        lehrveranstaltungErstellenService.extractData(multipartFiles,nutzerId);
+        lehrveranstaltungService.extractData(multipartFiles,nutzerId);
         return new ResponseEntity<>("Servernachricht: CSV-Datei erfolgreich hochgeladen!", null, HttpStatus.OK);
     }
 

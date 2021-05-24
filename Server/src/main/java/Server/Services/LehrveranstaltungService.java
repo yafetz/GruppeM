@@ -19,15 +19,13 @@ import java.util.List;
 
 @Service
 public class LehrveranstaltungService {
-    private final LehrveranstaltungService lehrveranstaltungService;
     private final LehrenderRepository lehrenderRepository;
     private final LehrveranstaltungRepository lehrveranstaltungRepository;
     private final NutzerRepository nutzerRepository;
     private final TeilnehmerListeRepository teilnehmerListeRepository;
 
     @Autowired
-    public LehrveranstaltungService(LehrveranstaltungService lehrveranstaltungService, LehrenderRepository lehrenderRepository, TeilnehmerListeRepository teilnehmerListeRepository, NutzerRepository nutzerRepository, LehrveranstaltungRepository lehrveranstaltungRepository) {
-        this.lehrveranstaltungService = lehrveranstaltungService;
+    public LehrveranstaltungService( LehrenderRepository lehrenderRepository, TeilnehmerListeRepository teilnehmerListeRepository, NutzerRepository nutzerRepository, LehrveranstaltungRepository lehrveranstaltungRepository) {
         this.lehrenderRepository = lehrenderRepository;
         this.lehrveranstaltungRepository = lehrveranstaltungRepository;
         this.nutzerRepository = nutzerRepository;
