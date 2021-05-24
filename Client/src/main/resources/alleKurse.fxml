@@ -1,27 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.AlleKurseController">
+<AnchorPane prefHeight="762.0" prefWidth="1575.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.AlleKurseController">
     <children>
-            <TableView fx:id="alleLv" layoutX="38.0" layoutY="162.0" prefHeight="821.0" prefWidth="1653.0">
-              <columns>
-                  <TableColumn fx:id="col_LvId" text="LvID" visible="false" />
-                  <TableColumn fx:id="col_LvTitel" prefWidth="688.000057220459" text="Titel der Lehrveranstaltung" />
-                  <TableColumn fx:id="col_LvSemester" minWidth="0.0" prefWidth="235.33319091796875" text="Semester" />
-                  <TableColumn fx:id="col_LvArt" prefWidth="223.33343505859375" text="Art der Lehrveranstaltung" />
-                  <TableColumn fx:id="col_LvLehrende" prefWidth="503.6666259765625" text="Lehrende" />
-              </columns>
-            </TableView>
             <Label layoutX="37.0" layoutY="49.0" text="Alle Lehrveranstaltungen">
                <font>
                   <Font size="36.0" />
                </font>
             </Label>
+      <ScrollPane hbarPolicy="NEVER" layoutX="38.0" layoutY="125.0" prefHeight="594.0" prefWidth="1405.0" vbarPolicy="NEVER">
+
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="587.0" prefWidth="1399.0">
+               <children>
+                        <TableView fx:id="alleLv" prefHeight="594.0" prefWidth="1405.0" AnchorPane.bottomAnchor="-7.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-6.0" AnchorPane.topAnchor="0.0">
+                          <columns>
+                              <TableColumn fx:id="col_LvId" text="LvID" visible="false" />
+                              <TableColumn fx:id="col_LvTitel" prefWidth="552.0000623464584" text="Titel der Lehrveranstaltung" />
+                              <TableColumn fx:id="col_LvSemester" minWidth="0.0" prefWidth="233.333251953125" text="Semester" />
+                              <TableColumn fx:id="col_LvArt" prefWidth="271.3333740234375" text="Art der Lehrveranstaltung" />
+                              <TableColumn fx:id="col_LvLehrende" prefWidth="341.99995930989576" text="Lehrende" />
+                          </columns>
+                        </TableView>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
     </children>
 </AnchorPane>

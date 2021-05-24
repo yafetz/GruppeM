@@ -68,7 +68,7 @@ public class EditierenController {
             fach.setVisible(false);
             lehrstuhl.setText(l.getLehrstuhl());
             forschungsgebiet.setText(l.getForschungsgebiet());
-        }else if(nutzer instanceof Student){
+        } else if (nutzer instanceof Student) {
             Student s = (Student) nutzer;
             passwort.setText(s.getNutzer().getPasswort());
             stadt.setText(s.getNutzer().getStadt());
@@ -87,11 +87,21 @@ public class EditierenController {
         actionEvent.consume();
         if(Nutzer instanceof Lehrender){
             HttpClient client = HttpClient.newHttpClient();
+
+            String newLehrstuhl = lehrstuhl.getText().trim();
+            newLehrstuhl = newLehrstuhl.replaceAll(" ", "%20");
+            String newForschungsgebiet = forschungsgebiet.getText().trim();
+            newForschungsgebiet = newForschungsgebiet.replaceAll(" ", "%20");
+            String newStadt = stadt.getText().trim();
+            newStadt = newStadt.replaceAll(" ", "%20");
+            String newStraße = straße.getText().trim();
+            newStraße = newStraße.replaceAll(" ", "%20");
+
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("http://localhost:8080/register/lehrender/update/" +
-                            ((Lehrender) Nutzer).getNutzerId().getId() + "&"+ passwort.getText() + "&"+lehrstuhl.getText()
-                            + "&" + forschungsgebiet.getText() + "&" + hausnummer.getText() + "&"
-                            + postleitzahl.getText() + "&" + stadt.getText() + "&" + straße.getText())).build();
+                            ((Lehrender) Nutzer).getNutzerId().getId() + "&" + passwort.getText() + "&" + newLehrstuhl
+                            + "&" + newForschungsgebiet + "&" + hausnummer.getText() + "&"
+                            + postleitzahl.getText() + "&" + newStadt + "&" + newStraße)).build();
             HttpResponse<String> response = null;
             try {
                 response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -120,11 +130,19 @@ public class EditierenController {
             }
         }else if(Nutzer instanceof Student){
             HttpClient client = HttpClient.newHttpClient();
+
+            String newFach = fach.getText().trim();
+            newFach = newFach.replaceAll(" ", "%20");
+            String newStadt = stadt.getText().trim();
+            newStadt = newStadt.replaceAll(" ", "%20");
+            String newStraße = straße.getText().trim();
+            newStraße = newStraße.replaceAll(" ", "%20");
+
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("http://localhost:8080/register/student/update/" +
                             ((Student) Nutzer).getNutzer().getId() + "&"+ passwort.getText() + "&"
-                            + fach.getText() + "&" + hausnummer.getText() + "&"
-                            + postleitzahl.getText() + "&" + stadt.getText() + "&" + straße.getText())).build();
+                            + newFach + "&" + hausnummer.getText() + "&"
+                            + postleitzahl.getText() + "&" + newStadt + "&" + newStraße)).build();
             HttpResponse<String> response = null;
             try {
                 response = client.send(request, HttpResponse.BodyHandlers.ofString());

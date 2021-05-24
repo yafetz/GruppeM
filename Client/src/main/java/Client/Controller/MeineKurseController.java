@@ -5,32 +5,23 @@ import Client.Modell.Lehrender;
 import Client.Modell.Lehrveranstaltung;
 import Client.Modell.Student;
 import Client.Modell.TeilnehmerListe;
-import Server.Controller.LehrveranstaltungErstellenController;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URI;
-import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class MeineKurseController {
 
@@ -47,14 +38,15 @@ public class MeineKurseController {
     @FXML
     private TableColumn<Lehrveranstaltung, String> col_LvLehrende;
     @FXML
-    private Button neueLv;
-    @FXML
     private Button addCourse;
 
     private Object nutzerInstanz;
 
 
     public void initialize() {
+        if(nutzerInstanz instanceof Student){
+            addCourse.setVisible(false);
+        }
     }
 
     public void populateTableView() {
@@ -88,6 +80,7 @@ public class MeineKurseController {
             col_LvTitel.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("Titel"));
             col_LvSemester.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("Semester"));
             col_LvArt.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("Art"));
+            col_LvLehrende.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("lehrenderName"));
 
 //            Angelehnt an: https://stackoverflow.com/questions/35562037/how-to-set-click-event-for-a-cell-of-a-table-column-in-a-tableview
             col_LvTitel.setCellFactory(tablecell -> {
@@ -179,8 +172,7 @@ public class MeineKurseController {
             e.printStackTrace();
         }
     }
-
-            public void neueLvErstellen(ActionEvent event) {
+    public void neueLvErstellen(ActionEvent event) {
         event.consume();
         //TODO
     }
@@ -192,6 +184,13 @@ public class MeineKurseController {
     public void setNutzerInstanz(Object nutzerInstanz) {
         this.nutzerInstanz = nutzerInstanz;
         populateTableView();
+
+        if (this.nutzerInstanz !=null) {
+            if(this.nutzerInstanz instanceof Student) {
+                addCourse.setVisible(false);
+            }
+
+        }
     }
 
     public void AddCourse(ActionEvent actionEvent) {

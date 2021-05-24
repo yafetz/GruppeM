@@ -1,9 +1,11 @@
 package Client.Controller;
 
-import Client.Controller.AlleKurseController;
-import Client.Controller.MeineKurseController;
+import Client.Layouts.Auth;
 import Client.Layouts.Layout;
-import Client.Modell.*;
+import Client.Modell.Lehrender;
+import Client.Modell.Lehrveranstaltung;
+import Client.Modell.Student;
+import Client.Modell.TeilnehmerListe;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,12 +13,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -28,6 +27,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class UserprofilController {
+
     @FXML
     private Label username;
     @FXML
@@ -51,12 +51,25 @@ public class UserprofilController {
     @FXML
     public TableColumn<Lehrveranstaltung, String> myCourses;
 
-
+    @FXML
+    public Label strasseLabel;
+    @FXML
+    public Label hausnummerLabel;
+    @FXML
+    public Label stadtLabel;
+    @FXML
+    public Label plzLabel;
+    @FXML
+    private Label lehrstuhlOderMatrNrTextLabel;
+    @FXML
+    private Label forschungsgebietOderStudienfachTextLabel;
     private Object vergleichNutzer;
     private Object eigenerNutzer;
 
     private Object user;
 
+    @FXML
+    public Button abmeldenButton;
 
 
 
@@ -67,6 +80,8 @@ public class UserprofilController {
     public void nutzerprofilAufrufen (Object eigenerNutzer, Object vergleichNutzer) {
         this.eigenerNutzer = eigenerNutzer;
         this.vergleichNutzer = vergleichNutzer;
+
+
 
         if(eigenerNutzer == vergleichNutzer) {
             //Diese If-Bedingung tritt ein, wenn der Nutzer sich selbst aufruft
@@ -83,6 +98,10 @@ public class UserprofilController {
                 profil.setVisible(true);
                 KurseAufrufen(eigenerNutzer);
 
+                number.setText( "" + ((Lehrender) eigenerNutzer).getNutzerId().getHausnummer());
+                lehrstuhlOderMatrNrTextLabel.setText("Lehrstuhl");
+                forschungsgebietOderStudienfachTextLabel.setText("Forschungsgebiet");
+
 
             }
             // Sicht eines Studenten auf sein eigenes Profil
@@ -97,6 +116,9 @@ public class UserprofilController {
                 profil.setVisible(true);
                 KurseAufrufen(eigenerNutzer);
 
+                number.setText( "" + ((Student) eigenerNutzer).getNutzer().getHausnummer());
+                lehrstuhlOderMatrNrTextLabel.setText("Matrikelnummer");
+                forschungsgebietOderStudienfachTextLabel.setText("Studienfach");
             }
         }
 
@@ -107,13 +129,19 @@ public class UserprofilController {
                 if (vergleichNutzer instanceof Lehrender) {
                     username.setText(((Lehrender) vergleichNutzer).getNutzerId().getVorname() +" "+ ((Lehrender) vergleichNutzer).getNutzerId().getNachname());
                     mailadresse.setText(((Lehrender) vergleichNutzer).getNutzerId().getEmail());
-                    lehrstuhl_oder_matr.setVisible(false);
+                    lehrstuhl_oder_matr.setText(((Lehrender) vergleichNutzer).getLehrstuhl());
                     forschungsgebiet_studienfach.setText(((Lehrender) vergleichNutzer).getForschungsgebiet());
                     plz.setText(String.valueOf(((Lehrender) vergleichNutzer).getNutzerId().getPlz()));
                     adresse.setText(((Lehrender) vergleichNutzer).getNutzerId().getStrasse());
                     city.setText(((Lehrender) vergleichNutzer).getNutzerId().getStadt());
                     KurseAufrufen(vergleichNutzer);
+
+                    abmeldenButton.setVisible(false);
+                    number.setText( "" + ((Lehrender) vergleichNutzer).getNutzerId().getHausnummer());
+                    lehrstuhlOderMatrNrTextLabel.setText("Lehrstuhl");
+                    forschungsgebietOderStudienfachTextLabel.setText("Forschungsgebiet");
                 }
+
                 //Sicht eines Lehrenden auf das Profil eines Studenten
                 else if(vergleichNutzer instanceof Student) {
                     username.setText(((Student) vergleichNutzer).getNutzer().getVorname() +" "+ ((Student) vergleichNutzer).getNutzer().getNachname());
@@ -125,6 +153,10 @@ public class UserprofilController {
                     city.setText(((Student) vergleichNutzer).getNutzer().getStadt());
                     KurseAufrufen(vergleichNutzer);
 
+                    abmeldenButton.setVisible(false);
+                    number.setText( "" + ((Student) vergleichNutzer).getNutzer().getHausnummer());
+                    lehrstuhlOderMatrNrTextLabel.setText("Matrikelnummer");
+                    forschungsgebietOderStudienfachTextLabel.setText("Studienfach");
                 }
             }
 
@@ -137,6 +169,17 @@ public class UserprofilController {
                     forschungsgebiet_studienfach.setText(((Lehrender) vergleichNutzer).getForschungsgebiet());
                     KurseAufrufen(vergleichNutzer);
 
+                    stadtLabel.setVisible(false);
+                    strasseLabel.setVisible(false);
+                    hausnummerLabel.setVisible(false);
+                    plzLabel.setVisible(false);
+                    plz.setVisible(false);
+                    adresse.setVisible(false);
+                    number.setVisible(false);
+                    city.setVisible(false);
+                    abmeldenButton.setVisible(false);
+                    lehrstuhlOderMatrNrTextLabel.setText("Lehrstuhl");
+                    forschungsgebietOderStudienfachTextLabel.setText("Forschungsgebiet");
                 }
                 //Sicht eines Studenten auf das Profil eines Studenten
                 else if(vergleichNutzer instanceof Student) {
@@ -144,6 +187,19 @@ public class UserprofilController {
                     mailadresse.setText(((Student) vergleichNutzer).getNutzer().getEmail());
                     KurseAufrufen(vergleichNutzer);
 
+                    stadtLabel.setVisible(false);
+                    strasseLabel.setVisible(false);
+                    hausnummerLabel.setVisible(false);
+                    plzLabel.setVisible(false);
+                    plz.setVisible(false);
+                    adresse.setVisible(false);
+                    number.setVisible(false);
+                    city.setVisible(false);
+                    abmeldenButton.setVisible(false);
+                    lehrstuhlOderMatrNrTextLabel.setVisible(false);
+                    lehrstuhl_oder_matr.setVisible(false);
+                    forschungsgebietOderStudienfachTextLabel.setText("Studienfach");
+                    forschungsgebiet_studienfach.setText(((Student) vergleichNutzer).getStudienfach());
                 }
 
             }
@@ -154,11 +210,11 @@ public class UserprofilController {
     public void profilBearbeiten(ActionEvent actionEvent) {
         Stage stage = (Stage) profil.getScene().getWindow();
         Layout editieren = null;
-            editieren = new Layout("Nutzerprofil_veraendern.fxml", stage,eigenerNutzer);
-            if (editieren.getController() instanceof EditierenController) {
-                ((EditierenController) editieren.getController()).setNutzer(eigenerNutzer);
+        editieren = new Layout("Nutzerprofil_veraendern.fxml", stage,eigenerNutzer);
+        if (editieren.getController() instanceof EditierenController) {
+            ((EditierenController) editieren.getController()).setNutzer(eigenerNutzer);
 
-            }
+        }
     }
 
 
@@ -184,7 +240,6 @@ public class UserprofilController {
             mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
             List<TeilnehmerListe> kurse = mapper.readValue(response.body(), new TypeReference<List<TeilnehmerListe>>() {});
             List<Lehrveranstaltung> lehrveranstaltungen = new LinkedList<>();
-
             for(TeilnehmerListe teilnehmerListe1 : kurse) {
                 lehrveranstaltungen.add(teilnehmerListe1.getLehrveranstaltung());
             }
@@ -205,7 +260,7 @@ public class UserprofilController {
                 cell.setCursor(Cursor.HAND);
                 cell.setOnMouseClicked(e -> {
                             if (!cell.isEmpty()) {
-                                kurseAufrufen(cell.getTableRow().getItem().getId());
+                                redirectToCourseOverview(cell.getTableRow().getItem().getId());
                             }
                         }
                 );
@@ -221,7 +276,7 @@ public class UserprofilController {
         }
     }
 
-    public void kurseAufrufen(Integer lehrveranstaltungId) {
+    public void redirectToCourseOverview(Integer lehrveranstaltungId) {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/"+lehrveranstaltungId)).build();
         HttpResponse<String> response;
@@ -229,45 +284,43 @@ public class UserprofilController {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
             ObjectMapper mapper = new ObjectMapper();
             Lehrveranstaltung lehrveranstaltung = mapper.readValue(response.body(), Lehrveranstaltung.class);
-
             HttpResponse<String> memberResponse;
-            if (user instanceof Lehrender) {
-                long lehrId = ((Lehrender) user).getNutzerId().getId();
+            if (eigenerNutzer instanceof Lehrender) {
+                long lehrId = ((Lehrender) eigenerNutzer).getNutzerId().getId();
                 request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/check/"+ lehrveranstaltungId + "&"+lehrId)).build();
                 memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-
-
                 if(memberResponse.body().equals("true")){
-                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) courseCol.getScene().getWindow(),user);
+                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) courseCol.getScene().getWindow(),eigenerNutzer);
                     if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
-                        ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(user,lehrveranstaltung);
+                        ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(eigenerNutzer,lehrveranstaltung);
                     }
                 }
                 else {
                     System.out.println("LehrveranstaltungsId   "+lehrveranstaltungId);
-                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) courseCol.getScene().getWindow(),user);
-                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
-                        ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(user,lehrveranstaltung);
+                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) courseCol.getScene().getWindow(),eigenerNutzer);
+                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungBeitretenController){
+                        ((LehrveranstaltungBeitretenController) lehrveranstaltungBeitreten.getController()).setLehrveranstaltung(lehrveranstaltung);
+                        ((LehrveranstaltungBeitretenController) lehrveranstaltungBeitreten.getController()).setNutzerInstanz(eigenerNutzer);
                     }
                 }
-            }
-            if (user instanceof Student) {
+            }else if (eigenerNutzer instanceof Student) {
 
-                long id = ((Student) user).getNutzer().getId();
+                long id = ((Student) eigenerNutzer).getNutzer().getId();
                 request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/check/" + lehrveranstaltungId +"&"+ id)).build();
                 memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
 
                 if(memberResponse.body().equals("true")){
-                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) courseCol.getScene().getWindow(),user);
+                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) courseCol.getScene().getWindow(),eigenerNutzer);
                     if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
-                        ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(user,lehrveranstaltung);
+                        ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(eigenerNutzer,lehrveranstaltung);
                     }
                 }
                 else{
-                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) courseCol.getScene().getWindow(),user);
-                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
-                        ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(user,lehrveranstaltung);
+                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) courseCol.getScene().getWindow(),eigenerNutzer);
+                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungBeitretenController){
+                        ((LehrveranstaltungBeitretenController) lehrveranstaltungBeitreten.getController()).setLehrveranstaltung(lehrveranstaltung);
+                        ((LehrveranstaltungBeitretenController) lehrveranstaltungBeitreten.getController()).setNutzerInstanz(eigenerNutzer);
                     }
                 }
             }
@@ -275,5 +328,11 @@ public class UserprofilController {
             e.printStackTrace();
         }
     }
+
+    public void abmeldenPressedButton(ActionEvent actionEvent) {
+        actionEvent.consume();
+        Auth login = new Auth("login.fxml", (Stage) abmeldenButton.getScene().getWindow());
     }
 
+
+}

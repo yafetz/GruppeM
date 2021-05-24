@@ -1,25 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.MeineKurseController">
+<AnchorPane prefHeight="714.0" prefWidth="1461.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.MeineKurseController">
     <children>
-                <TableView fx:id="meineLv" layoutX="37.0" layoutY="154.0" prefHeight="821.0" prefWidth="1653.0">
-                    <columns>
-                        <TableColumn fx:id="col_LvId" text="LvID" visible="false" />
-                        <TableColumn fx:id="col_LvTitel" prefWidth="688.000057220459" text="Titel der Lehrveranstaltung" />
-                        <TableColumn fx:id="col_LvSemester" minWidth="0.0" prefWidth="235.33319091796875" text="Semester" />
-                        <TableColumn fx:id="col_LvArt" prefWidth="223.33343505859375" text="Art der Lehrveranstaltung" />
-                        <TableColumn fx:id="col_LvLehrende" prefWidth="503.6666259765625" text="Lehrende" />
-                    </columns>
-                </TableView>
+        <ScrollPane hbarPolicy="NEVER" layoutX="38.0" layoutY="125.0" prefHeight="526.0" prefWidth="1383.0" vbarPolicy="AS_NEEDED">
+
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="519.0" prefWidth="1379.0">
+                    <children>
+                        <TableView fx:id="meineLv" prefHeight="526.0" prefWidth="1383.0" AnchorPane.bottomAnchor="-7.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-4.0" AnchorPane.topAnchor="0.0">
+                            <columns>
+                                <TableColumn fx:id="col_LvId" text="LvID" visible="false" />
+                                <TableColumn fx:id="col_LvTitel" prefWidth="552.0000623464584" text="Titel der Lehrveranstaltung" />
+                                <TableColumn fx:id="col_LvSemester" minWidth="0.0" prefWidth="233.333251953125" text="Semester" />
+                                <TableColumn fx:id="col_LvArt" prefWidth="271.3333740234375" text="Art der Lehrveranstaltung" />
+                                <TableColumn fx:id="col_LvLehrende" prefWidth="345.333251953125" text="Lehrende" />
+                            </columns>
+                        </TableView>
+                    </children>
+                </AnchorPane>
+            </content>
+        </ScrollPane>
                 <Label layoutX="37.0" layoutY="49.0" text="Meine Lehrveranstaltungen">
                     <font>
                         <Font size="36.0" />
                     </font>
                 </Label>
-      <Button fx:id="addCourse" onAction="#AddCourse" layoutX="591.0" layoutY="63.0" mnemonicParsing="false" text="Lehrveranstaltung hinzufügen" />
+      <Button fx:id="addCourse" layoutX="591.0" layoutY="63.0" mnemonicParsing="false" onAction="#AddCourse" text="Lehrveranstaltung hinzufügen" />
     </children>
 </AnchorPane>

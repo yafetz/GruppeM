@@ -116,4 +116,8 @@ public class Nutzer {
     public void setStadt(String stadt) {
         this.stadt = stadt;
     }
+
+    public String getName() {
+        return vorname + " " + nachname;
+    }
 }
