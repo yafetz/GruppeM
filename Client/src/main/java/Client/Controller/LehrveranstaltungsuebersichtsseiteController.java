@@ -38,6 +38,16 @@ public class LehrveranstaltungsuebersichtsseiteController {
     private Object nutzer;
 
     @FXML
+    private Button studentenliste;
+
+    public void Studenliste(ActionEvent actionEvent) {
+        Layout lehrveranstaltungBeitreten = new Layout("studentenListe.fxml", (Stage) teilnehmerListe.getScene().getWindow(),nutzer);
+        if(lehrveranstaltungBeitreten.getController() instanceof StudentenListe){
+            ((TeilnehmerListeController) lehrveranstaltungBeitreten.getController()).setNutzerInstanz(nutzer);
+        }
+    }
+
+    @FXML
     private void teilnehmerListe(ActionEvent event){
 
         Layout lehrveranstaltungBeitreten = new Layout("teilnehmerliste.fxml", (Stage) teilnehmerListe.getScene().getWindow(),nutzer);
@@ -87,7 +97,11 @@ public class LehrveranstaltungsuebersichtsseiteController {
                                     rs.next();
                                     Blob datei = rs.getBlob("datei");
                                     IOUtils.write(datei.getBinaryStream().readAllBytes(),fo);
-                                    System.out.println("Fertig gedownloadet!");
+                                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                                    alert.setTitle("Erfolgreich heruntergladen!");
+                                    alert.setHeaderText("Ihre Lehrmaterialien wurden erfolgreich heruntergeladen!");
+                                    alert.setContentText("Sie können Ihr Lernmaterial unter ihrem Downloads Ordner finden! Sie müssen das Programm schließen bevor Sie ihre Datei öffnen können. Sonst kann es passieren das ihr Betriebssystem ihnen Probleme macht!");
+                                    alert.showAndWait();
 
                                 } catch (IOException | SQLException exception) {
                                     exception.printStackTrace();
@@ -152,6 +166,4 @@ public class LehrveranstaltungsuebersichtsseiteController {
 
 
     }
-
-
 }

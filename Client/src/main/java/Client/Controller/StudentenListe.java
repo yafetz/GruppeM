@@ -58,34 +58,16 @@ public class StudentenListe {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/studenten/all")).build();
         HttpResponse<String> response;
-
-
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
             System.out.println(response.body());
-            //            mapping data in response.body() to a list of lehrveranstaltung-objects
             ObjectMapper mapper = new ObjectMapper();
             List<Student> studenten = mapper.readValue(response.body(), new TypeReference<List<Student>>() {});
-
-
-
-
             Vorname.setCellValueFactory(new PropertyValueFactory<Student,String>("studentVorname"));
             Nachname.setCellValueFactory(new PropertyValueFactory<Student,String>("studentNachname"));
             matrNr.setCellValueFactory(new PropertyValueFactory<Student,Integer>("matrikelnummer"));
-
-
-
-
-
             ObservableList<Student> obsLv = FXCollections.observableList(studenten);
             tabelle.setItems(obsLv);
-
-
-
-
-
-
         } catch (IOException e) {
             System.out.println("ERROR HIER");
             e.printStackTrace();

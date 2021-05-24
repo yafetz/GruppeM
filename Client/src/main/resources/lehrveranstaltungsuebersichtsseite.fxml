@@ -19,6 +19,6 @@
             </columns>
         </TableView>
         <Button fx:id="teilnehmerListe" layoutX="158.0" layoutY="137.0" mnemonicParsing="false" onAction="#teilnehmerListe" text="Teilnehmerliste" />
-      <Button fx:id="studentenliste" layoutX="55.0" layoutY="137.0" mnemonicParsing="false" text="Studenten liste" />
+      <Button fx:id="studentenliste" onAction="#Studenliste" layoutX="55.0" layoutY="137.0" mnemonicParsing="false" text="Studenten liste" />
     </children>
 </AnchorPane>

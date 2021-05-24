@@ -10,10 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
@@ -92,7 +89,15 @@ public class LehrmaterialController {
                     try (CloseableHttpResponse response = client.execute(post)) {
                         HttpEntity responseEntity = response.getEntity();
                         String result = EntityUtils.toString(responseEntity);
-                        System.out.println(result);
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert.setTitle("Erfolgreich hochgeladen!");
+                        alert.setHeaderText("Ihre Lehrmaterialien wurden erfolgreich zum Server hochgeladen!");
+                        alert.setContentText("Sie werden nun zur Übersichtsseite weitergeleitet.");
+                        alert.showAndWait();
+                        Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) btn_upload.getScene().getWindow(),nutzerInstanz);
+                        if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
+                            ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(nutzerInstanz,lehrveranstaltung);
+                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
