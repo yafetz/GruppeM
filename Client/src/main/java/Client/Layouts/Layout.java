@@ -13,10 +13,15 @@ import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class Layout {
 
@@ -74,7 +79,16 @@ public class Layout {
         nutzer.setPrefWidth(302.0);
 
         instanziereNutzer();
-
+        byte[] profilbild = null;
+        if(Nutzer instanceof Student){
+            profilbild = ((Student) Nutzer).getNutzer().getProfilbild();
+        }else if(Nutzer instanceof Lehrender){
+            profilbild = ((Lehrender) Nutzer).getNutzerId().getProfilbild();
+        }
+            Image img = new Image(new ByteArrayInputStream(profilbild),50,50,true,true);
+        ImageView imgView = new ImageView(img);
+        imgView.setLayoutX(1030.00);
+        imgView.setLayoutY(10.00);
         nutzer.getChildren().add(namenlink);
 
         container.getChildren().add(hbox);
@@ -82,7 +96,7 @@ public class Layout {
         container.getChildren().add(logo);
         container.getChildren().add(guiPanel);
         container.getChildren().add(nutzer);
-
+        container.getChildren().add(imgView);
         Scene scene = new Scene(container);
         scene.getStylesheets().add("css/layout.css");
         stage.setScene(scene);

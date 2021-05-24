@@ -42,8 +42,6 @@ public class LehrmaterialController {
        long id = lehrveranstaltungsId;
        Lehrveranstaltung event = lehrveranstaltungRepository.findLehrveranstaltungById(id);
        List<Lehrmaterial> materials = lehrmaterialRepository.findLehrmaterialByLehrveranstaltung(event);
-       System.out.println(materials.size());
-      // return "hello3";
        return materials;
    }
 

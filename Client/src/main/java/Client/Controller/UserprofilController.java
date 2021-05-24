@@ -16,8 +16,12 @@ import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -63,6 +67,8 @@ public class UserprofilController {
 
     @FXML
     public Button abmeldenButton;
+    @FXML
+    private AnchorPane pane;
 
 
     public void initialize() {
@@ -73,7 +79,27 @@ public class UserprofilController {
         this.eigenerNutzer = eigenerNutzer;
         this.vergleichNutzer = vergleichNutzer;
 
-
+        byte[] profilbildArray = null;
+        if(eigenerNutzer == vergleichNutzer){
+            if(eigenerNutzer instanceof Student){
+                profilbildArray = ((Student) eigenerNutzer).getNutzer().getProfilbild();
+            }else if(eigenerNutzer instanceof Lehrender){
+                profilbildArray = ((Lehrender) eigenerNutzer).getNutzerId().getProfilbild();
+            }
+        }else{
+            if(vergleichNutzer instanceof Student){
+                profilbildArray = ((Student) vergleichNutzer).getNutzer().getProfilbild();
+            }else if(vergleichNutzer instanceof Lehrender){
+                profilbildArray = ((Lehrender) vergleichNutzer).getNutzerId().getProfilbild();
+            }
+        }
+        if(profilbildArray != null) {
+            Image img = new Image(new ByteArrayInputStream(profilbildArray),150,150,true,true);
+            ImageView imgView = new ImageView(img);
+            imgView.setLayoutX(350.00);
+            imgView.setLayoutY(55.00);
+            pane.getChildren().add(imgView);
+        }
 
         if(eigenerNutzer == vergleichNutzer) {
             //Diese If-Bedingung tritt ein, wenn der Nutzer sich selbst aufruft
