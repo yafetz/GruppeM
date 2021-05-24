@@ -19,7 +19,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.sql.*;
-
 public class LehrveranstaltungsuebersichtsseiteController {
     @FXML
     private Label title;
@@ -30,11 +29,9 @@ public class LehrveranstaltungsuebersichtsseiteController {
     @FXML
     private TableView<Lehrmaterial> material;
 
-    private Lehrveranstaltung lehrkurs;
-
     @FXML
     private Button teilnehmerListe;
-    private Object lehrveranstaltung;
+    private Lehrveranstaltung lehrveranstaltung;
     private Object nutzer;
 
     @FXML
@@ -42,8 +39,11 @@ public class LehrveranstaltungsuebersichtsseiteController {
 
     public void Studenliste(ActionEvent actionEvent) {
         Layout lehrveranstaltungBeitreten = new Layout("studentenListe.fxml", (Stage) teilnehmerListe.getScene().getWindow(),nutzer);
-        if(lehrveranstaltungBeitreten.getController() instanceof StudentenListe){
-            ((TeilnehmerListeController) lehrveranstaltungBeitreten.getController()).setNutzerInstanz(nutzer);
+        if(lehrveranstaltungBeitreten.getController() instanceof StudentenListeController){
+
+            ((StudentenListeController) lehrveranstaltungBeitreten.getController()).setNutzerInstanz(nutzer);
+            ((StudentenListeController) lehrveranstaltungBeitreten.getController()).setLehrveranstaltung(lehrveranstaltung);
+
         }
     }
 
@@ -61,7 +61,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
     }
 
     public void getMaterial(Lehrveranstaltung lehrkurs) {
-        this.lehrkurs=lehrkurs;
+        this.lehrveranstaltung=lehrkurs;
         long id = lehrkurs.getId();
 
         HttpClient client = HttpClient.newHttpClient();
@@ -142,7 +142,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
 
     }
 
-    public void uebersichtsseiteAufrufen(Object nutzer, Object lehrveranstaltung) {
+    public void uebersichtsseiteAufrufen(Object nutzer, Lehrveranstaltung lehrveranstaltung) {
         this.nutzer = nutzer;
         this.lehrveranstaltung= lehrveranstaltung;
 
@@ -158,6 +158,8 @@ public class LehrveranstaltungsuebersichtsseiteController {
                 title.setText(((Lehrveranstaltung) lehrveranstaltung).getTitel());
 
                 materialUpload.setVisible(false);
+                teilnehmerListe.setVisible(false);
+                studentenliste.setVisible(false);
                 getMaterial((Lehrveranstaltung) lehrveranstaltung);
             }
 

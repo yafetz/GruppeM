@@ -69,7 +69,7 @@ public class LehrveranstaltungBeitretenController implements Initializable {
             e.printStackTrace();
         }
 
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/"+lehrveranstaltungsId+"&"+nutzerId)).POST(HttpRequest.BodyPublishers.ofString(requestBody)).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/beitreten/"+lehrveranstaltungsId+"&"+nutzerId)).POST(HttpRequest.BodyPublishers.ofString(requestBody)).build();
 
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());

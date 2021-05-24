@@ -25,13 +25,13 @@ import java.net.URISyntaxException;
 
 public class Layout {
 
-    Object Controller;
-    Button meineKurse = new Button();
-    Button alleKurse = new Button();
-    Hyperlink logo = new Hyperlink();
-    Hyperlink namenlink = new Hyperlink();
-    Object Nutzer;
-    Stage stage;
+    private Object Controller;
+    private Button meineKurse = new Button();
+    private Button alleKurse = new Button();
+    private Hyperlink logo = new Hyperlink();
+    private Hyperlink namenlink = new Hyperlink();
+    private Object Nutzer;
+    private Stage stage;
 
     public Layout(String view_path, Stage stage, Object Nutzer){
         this.Nutzer = Nutzer;

@@ -172,10 +172,6 @@ public class MeineKurseController {
             e.printStackTrace();
         }
     }
-    public void neueLvErstellen(ActionEvent event) {
-        event.consume();
-        //TODO
-    }
 
     public Object getNutzerInstanz() {
         return nutzerInstanz;
@@ -195,8 +191,8 @@ public class MeineKurseController {
 
     public void AddCourse(ActionEvent actionEvent) {
         Layout erstelleLehrveranstaltung = new Layout("lehrveranstaltungErstellen.fxml",(Stage) addCourse.getScene().getWindow(),nutzerInstanz);
-        if(erstelleLehrveranstaltung.getController() instanceof LehrveranstaltungErstellen) {
-            ((LehrveranstaltungErstellen) erstelleLehrveranstaltung.getController()).setNutzerInstanz(nutzerInstanz);
+        if(erstelleLehrveranstaltung.getController() instanceof LehrveranstaltungErstellenController) {
+            ((LehrveranstaltungErstellenController) erstelleLehrveranstaltung.getController()).setNutzerInstanz(nutzerInstanz);
         }
     }
 }

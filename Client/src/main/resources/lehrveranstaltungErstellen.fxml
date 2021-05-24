@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.LehrveranstaltungErstellen">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.LehrveranstaltungErstellenController">
    <children>
       <TextField fx:id="titels" layoutX="142.0" layoutY="84.0" />
       <TextField fx:id="semesters" layoutX="143.0" layoutY="174.0" />

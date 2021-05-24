@@ -2,14 +2,12 @@ package Server.Controller;
 
 
 import Server.Modell.Nutzer;
+import Server.Modell.Student;
 import Server.Modell.TeilnehmerListe;
 import Server.Repository.*;
 import Server.Services.TeilnehmerListeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -39,6 +37,20 @@ public class TeilnehmerListeController {
         System.out.println("alles gut"+ lehrveranstaltungsId);
 
         return teilnehmer;
+    }
+
+    @GetMapping("/studentenliste/{lehrveranstaltungsId}")
+    public List<Student> getAllStudenten(@PathVariable long lehrveranstaltungsId) {
+        return teilnehmerListeRepository.findAllStudentsWhoAreNotAlreadyInLehrveranstaltung(lehrveranstaltungsId);
+    }
+
+    @PostMapping("/add")
+    public String add_teilnehmer(@RequestParam("studentId") Long studentId,@RequestParam("lehrveranstaltungId") Long lehrveranstaltungId){
+        TeilnehmerListe tl = new TeilnehmerListe();
+        tl.setLehrveranstaltung(lehrveranstaltungRepository.findLehrveranstaltungById(lehrveranstaltungId));
+        tl.setNutzerId(studentRepository.findStudentById(studentId).getNutzerId());
+        teilnehmerListeRepository.save(tl);
+        return "OK";
     }
 
     @GetMapping("/teilnehmerId={teilnehmerId}")

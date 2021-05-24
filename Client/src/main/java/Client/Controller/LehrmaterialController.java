@@ -3,16 +3,11 @@ package Client.Controller;
 import Client.Layouts.Layout;
 import Client.Modell.Lehrender;
 import Client.Modell.Lehrveranstaltung;
-import Client.Modell.Nutzer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.commons.io.FilenameUtils;
@@ -24,7 +19,6 @@ import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -44,7 +38,7 @@ public class LehrmaterialController {
 
     private List<File> fileList;
     private ObservableList<File> obsFileList;
-    private Object lehrveranstaltung;
+    private Lehrveranstaltung lehrveranstaltung;
     private Object nutzerInstanz;
     private String modus;
 
@@ -109,7 +103,7 @@ public class LehrmaterialController {
             if (fileList != null) {
                 try (CloseableHttpClient client = HttpClients.createDefault()) {
 
-                    String url = "http://localhost:8080/lehrmaterial/csv";
+                    String url = "http://localhost:8080/lehrveranstaltung/csv";
                     HttpPost post = new HttpPost(url);
                 MultipartEntityBuilder entity = MultipartEntityBuilder.create();
                 int countCsv = 0;
@@ -127,6 +121,11 @@ public class LehrmaterialController {
                     try (CloseableHttpResponse response = client.execute(post)) {
                         HttpEntity responseEntity = response.getEntity();
                         String result = EntityUtils.toString(responseEntity);
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert.setTitle("Erfolgreich hochgeladen!");
+                        alert.setHeaderText("Ihre CSV Datei wurde erfolgreich zum Server hochgeladen!");
+                        alert.setContentText("Die extrahierten Lehrveranstaltungen sind nun vorhanden!");
+                        alert.showAndWait();
                         Layout meineKurse = new Layout("meineKurse.fxml",(Stage) btn_upload.getScene().getWindow(),nutzerInstanz);
                         if(meineKurse.getController() instanceof MeineKurseController){
                             ((MeineKurseController) meineKurse.getController()).setNutzerInstanz(nutzerInstanz);
@@ -161,7 +160,7 @@ public class LehrmaterialController {
         return lehrveranstaltung;
     }
 
-    public void setLehrveranstaltung(Object lehrveranstaltung) {
+    public void setLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) {
         this.lehrveranstaltung = lehrveranstaltung;
     }
 
