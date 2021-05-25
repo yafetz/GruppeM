@@ -14,18 +14,18 @@
                   <Font size="36.0" />
                </font>
             </Label>
-      <ScrollPane hbarPolicy="NEVER" layoutX="38.0" layoutY="125.0" prefHeight="589.0" prefWidth="1401.0" vbarPolicy="AS_NEEDED">
+      <ScrollPane hbarPolicy="NEVER" layoutX="38.0" layoutY="125.0" prefHeight="594.0" prefWidth="1405.0" vbarPolicy="NEVER">
 
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="587.0" prefWidth="1399.0">
                <children>
-                        <TableView fx:id="alleLv" prefHeight="589.0" prefWidth="1401.0" AnchorPane.bottomAnchor="-2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="0.0">
+                        <TableView fx:id="alleLv" prefHeight="594.0" prefWidth="1405.0" AnchorPane.bottomAnchor="-7.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-6.0" AnchorPane.topAnchor="0.0">
                           <columns>
                               <TableColumn fx:id="col_LvId" text="LvID" visible="false" />
                               <TableColumn fx:id="col_LvTitel" prefWidth="552.0000623464584" text="Titel der Lehrveranstaltung" />
                               <TableColumn fx:id="col_LvSemester" minWidth="0.0" prefWidth="233.333251953125" text="Semester" />
                               <TableColumn fx:id="col_LvArt" prefWidth="271.3333740234375" text="Art der Lehrveranstaltung" />
-                              <TableColumn fx:id="col_LvLehrende" prefWidth="345.333251953125" text="Lehrende" />
+                              <TableColumn fx:id="col_LvLehrende" prefWidth="341.99995930989576" text="Lehrende" />
                           </columns>
                         </TableView>
                </children>

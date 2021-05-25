@@ -24,7 +24,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
 
-public class LehrveranstaltungErstellen {
+public class LehrveranstaltungErstellenController {
     @FXML
     private TextField titels;
 
@@ -93,7 +93,7 @@ public class LehrveranstaltungErstellen {
         if(matchFound || matchFound2) {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://localhost:8080/create/lehrveranstaltung/"+split+"&"+nutzerId+"&"+veranstaltungstyp+"&"+splitsem)).POST(HttpRequest.BodyPublishers.noBody()).build();
+                    .uri(URI.create("http://localhost:8080/lehrveranstaltung/create/lehrveranstaltung/"+split+"&"+nutzerId+"&"+veranstaltungstyp+"&"+splitsem)).POST(HttpRequest.BodyPublishers.noBody()).build();
             try {
                 HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
                 Layout meineKurse = new Layout("meineKurse.fxml",(Stage) erstellen.getScene().getWindow(),nutzerInstanz);

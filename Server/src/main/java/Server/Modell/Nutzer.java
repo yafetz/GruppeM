@@ -1,6 +1,7 @@
 package Server.Modell;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 
@@ -21,7 +22,9 @@ public class Nutzer {
     @Column(nullable = false)
     private String passwort;
     @Column(nullable = true)
-    private String profilbild;
+    @Lob
+    @JsonProperty("profilbild")
+    private byte[] profilbild;
     @Column(nullable = false)
     private String strasse;
     @Column(nullable = false)
@@ -81,14 +84,6 @@ public class Nutzer {
         this.passwort = passwort;
     }
 
-    public String getProfilbild() {
-        return profilbild;
-    }
-
-    public void setProfilbild(String profilbild) {
-        this.profilbild = profilbild;
-    }
-
     public String getStrasse() {
         return strasse;
     }
@@ -115,6 +110,14 @@ public class Nutzer {
 
     public String getStadt() {
         return stadt;
+    }
+
+    public byte[] getProfilbild() {
+        return profilbild;
+    }
+
+    public void setProfilbild(byte[] profilbild) {
+        this.profilbild = profilbild;
     }
 
     public void setStadt(String stadt) {

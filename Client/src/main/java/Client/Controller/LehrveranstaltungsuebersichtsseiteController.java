@@ -19,7 +19,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.sql.*;
-
 public class LehrveranstaltungsuebersichtsseiteController {
     @FXML
     private Label title;
@@ -30,12 +29,23 @@ public class LehrveranstaltungsuebersichtsseiteController {
     @FXML
     private TableView<Lehrmaterial> material;
 
-    private Lehrveranstaltung lehrkurs;
-
     @FXML
     private Button teilnehmerListe;
-    private Object lehrveranstaltung;
+    private Lehrveranstaltung lehrveranstaltung;
     private Object nutzer;
+
+    @FXML
+    private Button studentenliste;
+
+    public void Studenliste(ActionEvent actionEvent) {
+        Layout lehrveranstaltungBeitreten = new Layout("studentenListe.fxml", (Stage) teilnehmerListe.getScene().getWindow(),nutzer);
+        if(lehrveranstaltungBeitreten.getController() instanceof StudentenListeController){
+
+            ((StudentenListeController) lehrveranstaltungBeitreten.getController()).setNutzerInstanz(nutzer);
+            ((StudentenListeController) lehrveranstaltungBeitreten.getController()).setLehrveranstaltung(lehrveranstaltung);
+
+        }
+    }
 
     @FXML
     private void teilnehmerListe(ActionEvent event){
@@ -51,7 +61,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
     }
 
     public void getMaterial(Lehrveranstaltung lehrkurs) {
-        this.lehrkurs=lehrkurs;
+        this.lehrveranstaltung=lehrkurs;
         long id = lehrkurs.getId();
 
         HttpClient client = HttpClient.newHttpClient();
@@ -87,7 +97,11 @@ public class LehrveranstaltungsuebersichtsseiteController {
                                     rs.next();
                                     Blob datei = rs.getBlob("datei");
                                     IOUtils.write(datei.getBinaryStream().readAllBytes(),fo);
-                                    System.out.println("Fertig gedownloadet!");
+                                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                                    alert.setTitle("Erfolgreich heruntergladen!");
+                                    alert.setHeaderText("Ihre Lehrmaterialien wurden erfolgreich heruntergeladen!");
+                                    alert.setContentText("Sie können Ihr Lernmaterial unter ihrem Downloads Ordner finden! Sie müssen das Programm schließen bevor Sie ihre Datei öffnen können. Sonst kann es passieren das ihr Betriebssystem ihnen Probleme macht!");
+                                    alert.showAndWait();
 
                                 } catch (IOException | SQLException exception) {
                                     exception.printStackTrace();
@@ -124,12 +138,11 @@ public class LehrveranstaltungsuebersichtsseiteController {
             ((LehrmaterialController) uploadScreen.getController()).setNutzerInstanz(nutzer);
             ((LehrmaterialController) uploadScreen.getController()).setLehrveranstaltung(lehrveranstaltung);
             ((LehrmaterialController) uploadScreen.getController()).setModus("Lehrmaterial");
-            ((LehrmaterialController) uploadScreen.getController()).initializePageLabel();
         }
 
     }
 
-    public void uebersichtsseiteAufrufen(Object nutzer, Object lehrveranstaltung) {
+    public void uebersichtsseiteAufrufen(Object nutzer, Lehrveranstaltung lehrveranstaltung) {
         this.nutzer = nutzer;
         this.lehrveranstaltung= lehrveranstaltung;
 
@@ -145,6 +158,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
                 title.setText(((Lehrveranstaltung) lehrveranstaltung).getTitel());
 
                 materialUpload.setVisible(false);
+                studentenliste.setVisible(false);
                 getMaterial((Lehrveranstaltung) lehrveranstaltung);
             }
 
@@ -153,6 +167,4 @@ public class LehrveranstaltungsuebersichtsseiteController {
 
 
     }
-
-
 }

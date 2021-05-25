@@ -9,6 +9,9 @@ import Server.Repository.StudentRepository;
 import com.sun.xml.bind.v2.runtime.unmarshaller.IntData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/register")
@@ -46,6 +49,15 @@ public class RegistrierController /*()*/{
         return "OK";
     }
 
+    @PostMapping("/nutzer/profilbild")
+    public String update_Profilbild(@RequestParam("profilbild") MultipartFile profilbild,
+                                    @RequestParam("nutzerid") long id) throws IOException {
+        Nutzer nutzer = nutzerRepository.findNutzerById(id);
+        nutzer.setProfilbild(profilbild.getBytes());
+        nutzerRepository.save(nutzer);
+        return "OK";
+    }
+
     @GetMapping("/lehrender/update/{nutzerId}&{passwort}&{lehrstuhl}&{forschungsgebiet}&{hausnummer}&{plz}&{stadt}&{strasse}")
     public String update_lehrender(@PathVariable long nutzerId,
                                  @PathVariable String passwort,
@@ -69,18 +81,18 @@ public class RegistrierController /*()*/{
         return "OK";
     }
 
-    @GetMapping("/student/{vorname}&{nachname}&{email}&{passwort}&{studienfach}" +
-            "&{hausnummer}&{plz}&{stadt}&{strasse}&{rolle}")
-    public String registriere_student(@PathVariable String vorname,
-                                      @PathVariable String nachname,
-                                      @PathVariable String email,
-                                      @PathVariable String passwort,
-                                      @PathVariable String studienfach,
-                                      @PathVariable int hausnummer,
-                                      @PathVariable int plz,
-                                      @PathVariable String stadt,
-                                      @PathVariable String strasse,
-                                      @PathVariable String rolle) {
+    @PostMapping("/student")
+    public String registriere_student(@RequestParam("vorname") String vorname,
+                                    @RequestParam("nachname") String nachname,
+                                    @RequestParam("email") String email,
+                                    @RequestParam("passwort") String passwort,
+                                    @RequestParam("studienfach") String studienfach,
+                                    @RequestParam("hausnummer") int hausnummer,
+                                    @RequestParam("plz") int plz,
+                                    @RequestParam("stadt") String stadt,
+                                    @RequestParam("strasse") String strasse,
+                                    @RequestParam("rolle") String rolle,
+                                    @RequestParam("profilbild") MultipartFile profilbild) throws IOException {
         Nutzer nutzer = new Nutzer();
         nutzer.setEmail(email);
         nutzer.setHausnummer(hausnummer);
@@ -90,7 +102,11 @@ public class RegistrierController /*()*/{
         nutzer.setPlz(plz);
         nutzer.setStadt(stadt);
         nutzer.setStrasse(strasse);
-        nutzer.setProfilbild(null);
+        if(profilbild != null) {
+            nutzer.setProfilbild(profilbild.getBytes());
+        }else{
+            nutzer.setProfilbild(null);
+        }
         nutzer.setRolle(rolle);
         nutzerRepository.save(nutzer);
         Student student = new Student();
@@ -101,19 +117,19 @@ public class RegistrierController /*()*/{
         return "OK";
     }
 
-    @GetMapping("/lehrender/{vorname}&{nachname}&{email}&{passwort}&{forschungsgebiet}&{lehrstuhl}" +
-            "&{hausnummer}&{plz}&{stadt}&{strasse}&{rolle}")
-    public String registriere_lehrender(@PathVariable String vorname,
-                                        @PathVariable String nachname,
-                                        @PathVariable String email,
-                                        @PathVariable String passwort,
-                                        @PathVariable String forschungsgebiet,
-                                        @PathVariable String lehrstuhl,
-                                        @PathVariable int hausnummer,
-                                        @PathVariable int plz,
-                                        @PathVariable String stadt,
-                                        @PathVariable String strasse,
-                                        @PathVariable String rolle) {
+    @PostMapping("/lehrender")
+    public String registriere_lehrender(@RequestParam("vorname") String vorname,
+                                      @RequestParam("nachname") String nachname,
+                                      @RequestParam("email") String email,
+                                      @RequestParam("passwort") String passwort,
+                                      @RequestParam("lehrstuhl") String lehrstuhl,
+                                        @RequestParam("forschungsgebiet") String forschungsgebiet,
+                                      @RequestParam("hausnummer") int hausnummer,
+                                      @RequestParam("plz") int plz,
+                                      @RequestParam("stadt") String stadt,
+                                      @RequestParam("strasse") String strasse,
+                                      @RequestParam("rolle") String rolle,
+                                      @RequestParam("profilbild") MultipartFile profilbild) throws IOException {
         Nutzer nutzer = new Nutzer();
         nutzer.setEmail(email);
         nutzer.setHausnummer(hausnummer);
@@ -123,7 +139,11 @@ public class RegistrierController /*()*/{
         nutzer.setPlz(plz);
         nutzer.setStadt(stadt);
         nutzer.setStrasse(strasse);
-        nutzer.setProfilbild(null);
+        if(profilbild != null) {
+            nutzer.setProfilbild(profilbild.getBytes());
+        }else{
+            nutzer.setProfilbild(null);
+        }
         nutzer.setRolle(rolle);
         nutzerRepository.save(nutzer);
         Lehrender lehrender = new Lehrender();

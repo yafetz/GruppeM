@@ -22,20 +22,4 @@ public class StudentController {
         this.nutzerRepository = nutzerRepository;
     }
 
-    @GetMapping("/all")
-    public List<Student> getAllStudenten() {
-        return studentRepository.findAll();
-    }
-
-
-
-
-
-
-
-
-
-
-
-
 }

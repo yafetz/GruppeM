@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Accordion?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane id="registrieren_lehrender" minHeight="0.0" minWidth="0.0" prefHeight="453.0" prefWidth="643.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.RegistrierenController">
+<AnchorPane id="registrieren_lehrender" minHeight="0.0" minWidth="0.0" prefHeight="453.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.RegistrierenController">
    <children>
       <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Registrierung">
          <font>
@@ -45,7 +41,6 @@
       <TextField fx:id="nachname" layoutX="105.0" layoutY="72.0" />
       <Text layoutX="274.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Postleitzahl" />
       <TextField fx:id="postleitzahl" layoutX="337.0" layoutY="175.0" />
-      <CheckBox fx:id="check_box" layoutX="280.0" layoutY="108.0" mnemonicParsing="false" selected="true" text="Passwort besteht aus mindestens 8 Zeichen" />
       <Text layoutX="277.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vorname" />
       <TextField fx:id="vorname" layoutX="337.0" layoutY="72.0" />
       <Text layoutX="274.0" layoutY="223.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Stadt" />
@@ -58,4 +53,8 @@
 
       <Text layoutX="19.0" layoutY="243.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Studienfach" />
       <TextField fx:id="studienfach" layoutX="105.0" layoutY="226.0" />
+      <ImageView fx:id="profilbild" fitHeight="200.0" fitWidth="200.0" layoutX="532.0" layoutY="171.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="/images/profilbild_hochladen_standard.png" />
+         </image></ImageView>
    </children></AnchorPane>
