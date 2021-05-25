@@ -44,6 +44,11 @@ public class LehrveranstaltungController {
         return lehrveranstaltungService.beitreten(lehrveranstaltungsId, nutzer_id);
     }
 
+    @PostMapping("/suchen")
+    public List<Lehrveranstaltung> getAllByKeyword(@RequestParam("titel") String titel){
+        return lehrveranstaltungRepository.getAllLehrveranstaltungByKeyword(titel);
+    }
+
     @GetMapping("/beitreten/check/{lehrveranstaltungsId}&{nutzer_id}")
     public boolean isMember(@PathVariable long lehrveranstaltungsId,@PathVariable long nutzer_id){
         Lehrveranstaltung lehrveranstaltung = lehrveranstaltungRepository.findLehrveranstaltungById(lehrveranstaltungsId);

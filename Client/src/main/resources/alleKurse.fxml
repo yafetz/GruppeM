@@ -30,6 +30,6 @@
         </content>
       </ScrollPane>
         <TextField fx:id="suchtext" layoutX="481.0" layoutY="63.0" promptText="Suchen" />
-        <Button fx:id="suchen" layoutX="645.0" layoutY="63.0" mnemonicParsing="false" text="Suchen" />
+        <Button fx:id="suchen" layoutX="645.0" layoutY="63.0" mnemonicParsing="false" text="Suchen" onAction="#Suchen" />
     </children>
 </AnchorPane>
