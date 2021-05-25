@@ -146,12 +146,12 @@ public class EditierenController {
                 entity.setCharset(StandardCharsets.UTF_8);
                 entity.addTextBody("nutzerId", String.valueOf(((Lehrender) Nutzer).getNutzerId().getId()));
                 entity.addTextBody("passwort",passwort.getText(),ContentType.create("text/plain", MIME.UTF8_CHARSET));
-                entity.addTextBody("lehrstuhl",newLehrstuhl,ContentType.create("text/plain", MIME.UTF8_CHARSET));
-                entity.addTextBody("forschungsgebiet",newForschungsgebiet,ContentType.create("text/plain", MIME.UTF8_CHARSET));
+                entity.addTextBody("lehrstuhl",lehrstuhl.getText(),ContentType.create("text/plain", MIME.UTF8_CHARSET));
+                entity.addTextBody("forschungsgebiet",forschungsgebiet.getText(),ContentType.create("text/plain", MIME.UTF8_CHARSET));
                 entity.addTextBody("hausnummer",String.valueOf(hausnummer.getText()),ContentType.create("text/plain", MIME.UTF8_CHARSET));
                 entity.addTextBody("plz",String.valueOf(postleitzahl.getText()),ContentType.create("text/plain", MIME.UTF8_CHARSET));
-                entity.addTextBody("stadt",newStadt,ContentType.create("text/plain", MIME.UTF8_CHARSET));
-                entity.addTextBody("strasse",newStraße,ContentType.create("text/plain", MIME.UTF8_CHARSET));
+                entity.addTextBody("stadt",stadt.getText(),ContentType.create("text/plain", MIME.UTF8_CHARSET));
+                entity.addTextBody("strasse",straße.getText(),ContentType.create("text/plain", MIME.UTF8_CHARSET));
 
                 if(profil != null){
                     entity.addPart("profilbild",new FileBody(profil) );
@@ -201,11 +201,11 @@ public class EditierenController {
                 entity.setCharset(StandardCharsets.UTF_8);
                 entity.addTextBody("nutzerId", String.valueOf(((Student) Nutzer).getNutzer().getId()));
                 entity.addTextBody("passwort",passwort.getText(),ContentType.create("text/plain", MIME.UTF8_CHARSET));
-                entity.addTextBody("studienfach",newFach,ContentType.create("text/plain", MIME.UTF8_CHARSET));
+                entity.addTextBody("studienfach",fach.getText(),ContentType.create("text/plain", MIME.UTF8_CHARSET));
                 entity.addTextBody("hausnummer",String.valueOf(hausnummer.getText()),ContentType.create("text/plain", MIME.UTF8_CHARSET));
                 entity.addTextBody("plz",String.valueOf(postleitzahl.getText()),ContentType.create("text/plain", MIME.UTF8_CHARSET));
-                entity.addTextBody("stadt",newStadt,ContentType.create("text/plain", MIME.UTF8_CHARSET));
-                entity.addTextBody("strasse",newStraße,ContentType.create("text/plain", MIME.UTF8_CHARSET));
+                entity.addTextBody("stadt",stadt.getText(),ContentType.create("text/plain", MIME.UTF8_CHARSET));
+                entity.addTextBody("strasse",straße.getText(),ContentType.create("text/plain", MIME.UTF8_CHARSET));
 
                 if(profil != null){
                     entity.addPart("profilbild",new FileBody(profil) );
