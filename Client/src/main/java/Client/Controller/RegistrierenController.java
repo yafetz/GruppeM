@@ -235,6 +235,7 @@ public class RegistrierenController {
                     File file = new File(home+"/Downloads/profilbild.png");
                     FileOutputStream fo = new FileOutputStream(file);
                     IOUtils.write(in.readAllBytes(),fo);
+                    entity.addPart("profilbild",new FileBody(file));
                 }
                 HttpEntity requestEntity = entity.build();
                 post.setEntity(requestEntity);
