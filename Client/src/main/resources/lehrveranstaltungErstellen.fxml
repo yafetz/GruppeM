@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.LehrveranstaltungErstellenController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.LehrveranstaltungErstellenController">
    <children>
       <TextField fx:id="titels" layoutX="142.0" layoutY="84.0" />
       <TextField fx:id="semesters" layoutX="143.0" layoutY="174.0" />
@@ -22,5 +19,8 @@
             <Font size="24.0" />
          </font>
       </Label>
+      <Label layoutX="296.0" layoutY="178.0" text="Hinweis: es wird nur die Abgekürzte Version abgespeichert" />
+      <Label layoutX="296.0" layoutY="200.0" text="Bitte geben Sie die folgende Form ein SoSe 2020 " />
+      <Label layoutX="296.0" layoutY="224.0" text="und WiSe 2020/2021" />
    </children>
 </AnchorPane>

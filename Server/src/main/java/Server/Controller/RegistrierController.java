@@ -28,14 +28,15 @@ public class RegistrierController /*()*/{
         this.lehrenderRepository = lehrenderRepository;
     }
 
-    @GetMapping("/student/update/{nutzerId}&{passwort}&{studienfach}&{hausnummer}&{plz}&{stadt}&{strasse}")
-    public String update_student(@PathVariable long nutzerId,
-                                 @PathVariable String passwort,
-                                 @PathVariable String studienfach,
-                                 @PathVariable int hausnummer,
-                                 @PathVariable int plz,
-                                 @PathVariable String stadt,
-                                 @PathVariable String strasse){
+    @PostMapping("/update/student")
+    public String update_student(@RequestParam("nutzerId") long nutzerId,
+                                 @RequestParam("passwort") String passwort,
+                                 @RequestParam("studienfach") String studienfach,
+                                 @RequestParam("hausnummer") int hausnummer,
+                                 @RequestParam("plz") int plz,
+                                 @RequestParam("stadt") String stadt,
+                                 @RequestParam("strasse") String strasse,
+                                 @RequestParam("profilbild") MultipartFile profilbild) throws IOException {
         Nutzer updateNutzer = nutzerRepository.findNutzerById(nutzerId);
         Student updateStudent = studentRepository.findStudentByNutzerId(updateNutzer);
         updateNutzer.setPasswort(passwort);
@@ -43,30 +44,25 @@ public class RegistrierController /*()*/{
         updateNutzer.setPlz(plz);
         updateNutzer.setStadt(stadt);
         updateNutzer.setStrasse(strasse);
+        if(!profilbild.isEmpty()) {
+            updateNutzer.setProfilbild(profilbild.getBytes());
+        }
         updateStudent.setStudienfach(studienfach);
         updateStudent.setNutzerId(updateNutzer);
         studentRepository.save(updateStudent);
         return "OK";
     }
 
-    @PostMapping("/nutzer/profilbild")
-    public String update_Profilbild(@RequestParam("profilbild") MultipartFile profilbild,
-                                    @RequestParam("nutzerid") long id) throws IOException {
-        Nutzer nutzer = nutzerRepository.findNutzerById(id);
-        nutzer.setProfilbild(profilbild.getBytes());
-        nutzerRepository.save(nutzer);
-        return "OK";
-    }
-
-    @GetMapping("/lehrender/update/{nutzerId}&{passwort}&{lehrstuhl}&{forschungsgebiet}&{hausnummer}&{plz}&{stadt}&{strasse}")
-    public String update_lehrender(@PathVariable long nutzerId,
-                                 @PathVariable String passwort,
-                                 @PathVariable String lehrstuhl,
-                                 @PathVariable String forschungsgebiet,
-                                 @PathVariable int hausnummer,
-                                 @PathVariable int plz,
-                                 @PathVariable String stadt,
-                                 @PathVariable String strasse){
+    @PostMapping("/update/lehrender")
+    public String update_lehrender(@RequestParam("nutzerId") long nutzerId,
+                                   @RequestParam("passwort") String passwort,
+                                   @RequestParam("lehrstuhl") String lehrstuhl,
+                                   @RequestParam("forschungsgebiet") String forschungsgebiet,
+                                   @RequestParam("hausnummer") int hausnummer,
+                                   @RequestParam("plz") int plz,
+                                   @RequestParam("stadt") String stadt,
+                                   @RequestParam("strasse") String strasse,
+                                   @RequestParam("profilbild") MultipartFile profilbild) throws IOException {
         Nutzer updateNutzer = nutzerRepository.findNutzerById(nutzerId);
         Lehrender updateLehrender = lehrenderRepository.findLehrenderByNutzerId(updateNutzer);
         updateNutzer.setPasswort(passwort);
@@ -74,6 +70,9 @@ public class RegistrierController /*()*/{
         updateNutzer.setPlz(plz);
         updateNutzer.setStadt(stadt);
         updateNutzer.setStrasse(strasse);
+        if(!profilbild.isEmpty()) {
+            updateNutzer.setProfilbild(profilbild.getBytes());
+        }
         updateLehrender.setLehrstuhl(lehrstuhl);
         updateLehrender.setForschungsgebiet(forschungsgebiet);
         updateLehrender.setNutzerId(updateNutzer);

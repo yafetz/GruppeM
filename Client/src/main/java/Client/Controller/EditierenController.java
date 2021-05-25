@@ -1,21 +1,41 @@
 package Client.Controller;
 
+import Client.Layouts.Auth;
 import Client.Layouts.Layout;
 import Client.Modell.Lehrender;
 import Client.Modell.Student;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.commons.io.FileUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -47,9 +67,25 @@ public class EditierenController {
     private Button abbrechen;
 
     private Object Nutzer;
+    @FXML
+    private ImageView profilbild;
 
-    public void create () {
+    private File profil;
 
+    public void initialize(){
+        profilbild.setCursor(Cursor.HAND);
+        profilbild.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                event.consume();
+                FileChooser filechooser = new FileChooser();
+                filechooser.setTitle("Datei auswählen");
+                profil = filechooser.showOpenDialog(profilbild.getScene().getWindow());
+                if(profil != null) {
+                    profilbild.setImage(new Image(profil.toURI().toString(), 200, 200, true, true));
+                }
+            }
+        });
     }
 
     public Object getNutzer() {
@@ -86,8 +122,6 @@ public class EditierenController {
     public void Nutzerprofil_veraendern(ActionEvent actionEvent) {
         actionEvent.consume();
         if(Nutzer instanceof Lehrender){
-            HttpClient client = HttpClient.newHttpClient();
-
             String newLehrstuhl = lehrstuhl.getText().trim();
             newLehrstuhl = newLehrstuhl.replaceAll(" ", "%20");
             String newForschungsgebiet = forschungsgebiet.getText().trim();
@@ -96,87 +130,109 @@ public class EditierenController {
             newStadt = newStadt.replaceAll(" ", "%20");
             String newStraße = straße.getText().trim();
             newStraße = newStraße.replaceAll(" ", "%20");
+            try (CloseableHttpClient client1 = HttpClients.createDefault()) {
 
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://localhost:8080/register/lehrender/update/" +
-                            ((Lehrender) Nutzer).getNutzerId().getId() + "&" + passwort.getText() + "&" + newLehrstuhl
-                            + "&" + newForschungsgebiet + "&" + hausnummer.getText() + "&"
-                            + postleitzahl.getText() + "&" + newStadt + "&" + newStraße)).build();
-            HttpResponse<String> response = null;
-            try {
-                response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                String Serverantwort = response.body();
-                if (Serverantwort.equals("OK")) {
+                String url = "http://localhost:8080/register/update/lehrender";
+                HttpPost post = new HttpPost(url);
+                MultipartEntityBuilder entity = MultipartEntityBuilder.create();
+                entity.addTextBody("nutzerId", String.valueOf(((Lehrender) Nutzer).getNutzerId().getId()));
+                entity.addTextBody("passwort",passwort.getText());
+                entity.addTextBody("lehrstuhl",newLehrstuhl);
+                entity.addTextBody("forschungsgebiet",newForschungsgebiet);
+                entity.addTextBody("hausnummer",String.valueOf(hausnummer.getText()));
+                entity.addTextBody("plz",String.valueOf(postleitzahl.getText()));
+                entity.addTextBody("stadt",newStadt);
+                entity.addTextBody("strasse",newStraße);
+
+                if(profil != null){
+                    entity.addPart("profilbild",new FileBody(profil) );
+                }else{
+                    File standard = new File(getClass().getClassLoader().getResource("images/standardPb.png").toURI());
+                    entity.addPart("profilbild",new FileBody(standard));
+                }
+
+                HttpEntity requestEntity = entity.build();
+                post.setEntity(requestEntity);
+
+                try (CloseableHttpResponse response = client1.execute(post)) {
+                    HttpEntity responseEntity = response.getEntity();
+                    String result = EntityUtils.toString(responseEntity);
                     //Weiterleitung zur Nutzerprofil Seite
-                    ((Lehrender) Nutzer).setLehrstuhl(lehrstuhl.getText());
-                    ((Lehrender) Nutzer).setForschungsgebiet(forschungsgebiet.getText());
-                    ((Lehrender) Nutzer).getNutzerId().setPasswort(passwort.getText());
-                    ((Lehrender) Nutzer).getNutzerId().setHausnummer(Integer.valueOf(hausnummer.getText()));
-                    ((Lehrender) Nutzer).getNutzerId().setPlz(Integer.valueOf(postleitzahl.getText()));
-                    ((Lehrender) Nutzer).getNutzerId().setStadt(stadt.getText());
-                    ((Lehrender) Nutzer).getNutzerId().setStrasse(straße.getText());
-                    Stage stage = (Stage) aktualisieren.getScene().getWindow();
-                    Layout userprofil = null;
-                    userprofil = new Layout("userprofile.fxml",stage,Nutzer);
+                    if (result.equals("OK")) {
+                        ((Lehrender) Nutzer).setLehrstuhl(lehrstuhl.getText());
+                        ((Lehrender) Nutzer).setForschungsgebiet(forschungsgebiet.getText());
+                        ((Lehrender) Nutzer).getNutzerId().setPasswort(passwort.getText());
+                        ((Lehrender) Nutzer).getNutzerId().setHausnummer(Integer.valueOf(hausnummer.getText()));
+                        ((Lehrender) Nutzer).getNutzerId().setPlz(Integer.valueOf(postleitzahl.getText()));
+                        ((Lehrender) Nutzer).getNutzerId().setStadt(stadt.getText());
+                        ((Lehrender) Nutzer).getNutzerId().setStrasse(straße.getText());
+                        ((Lehrender) Nutzer).getNutzerId().setProfilbild(FileUtils.readFileToByteArray(profil));
+                        Stage stage = (Stage) aktualisieren.getScene().getWindow();
+                        Layout userprofil = null;
+                        userprofil = new Layout("userprofile.fxml", stage, Nutzer);
 
-                    if(userprofil.getController() instanceof UserprofilController){
-                        ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(Nutzer,Nutzer);
+                        if (userprofil.getController() instanceof UserprofilController) {
+                            ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(Nutzer, Nutzer);
+                        }
                     }
                 }
-            }catch (IOException ie){
-                ie.printStackTrace();
-            }catch(InterruptedException e){
+            } catch (IOException | URISyntaxException e) {
                 e.printStackTrace();
             }
         }else if(Nutzer instanceof Student){
-            HttpClient client = HttpClient.newHttpClient();
-
             String newFach = fach.getText().trim();
             newFach = newFach.replaceAll(" ", "%20");
             String newStadt = stadt.getText().trim();
             newStadt = newStadt.replaceAll(" ", "%20");
             String newStraße = straße.getText().trim();
             newStraße = newStraße.replaceAll(" ", "%20");
+            try (CloseableHttpClient client1 = HttpClients.createDefault()) {
 
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://localhost:8080/register/student/update/" +
-                            ((Student) Nutzer).getNutzer().getId() + "&"+ passwort.getText() + "&"
-                            + newFach + "&" + hausnummer.getText() + "&"
-                            + postleitzahl.getText() + "&" + newStadt + "&" + newStraße)).build();
-            HttpResponse<String> response = null;
-            try {
-                response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                String Serverantwort = response.body();
-                if (Serverantwort.equals("OK")) {
-                    ((Student) Nutzer).setStudienfach(fach.getText());
-                    ((Student) Nutzer).getNutzer().setPasswort(passwort.getText());
-                    ((Student) Nutzer).getNutzer().setHausnummer(Integer.valueOf(hausnummer.getText()));
-                    ((Student) Nutzer).getNutzer().setPlz(Integer.valueOf(postleitzahl.getText()));
-                    ((Student) Nutzer).getNutzer().setStadt(stadt.getText());
-                    ((Student) Nutzer).getNutzer().setStrasse(straße.getText());
-                    //Weiterleitung zur Nutzerprofil Seite
-                    Stage stage = (Stage) aktualisieren.getScene().getWindow();
-                    Layout userprofil = null;
-                    userprofil = new Layout("userprofile.fxml",stage,Nutzer);
+                String url = "http://localhost:8080/register/update/student";
+                HttpPost post = new HttpPost(url);
+                MultipartEntityBuilder entity = MultipartEntityBuilder.create();
+                entity.addTextBody("nutzerId", String.valueOf(((Student) Nutzer).getNutzer().getId()));
+                entity.addTextBody("passwort",passwort.getText());
+                entity.addTextBody("studienfach",newFach);
+                entity.addTextBody("hausnummer",String.valueOf(hausnummer.getText()));
+                entity.addTextBody("plz",String.valueOf(postleitzahl.getText()));
+                entity.addTextBody("stadt",newStadt);
+                entity.addTextBody("strasse",newStraße);
 
-                    if(userprofil.getController() instanceof UserprofilController){
-                        ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(Nutzer,Nutzer);
+                if(profil != null){
+                    entity.addPart("profilbild",new FileBody(profil) );
+                }else{
+                    File standard = new File(getClass().getClassLoader().getResource("images/standardPb.png").toURI());
+                    entity.addPart("profilbild",new FileBody(standard));
+                }
+
+                HttpEntity requestEntity = entity.build();
+                post.setEntity(requestEntity);
+
+                try (CloseableHttpResponse response1 = client1.execute(post)) {
+                    HttpEntity responseEntity = response1.getEntity();
+                    String result = EntityUtils.toString(responseEntity);
+                    if (result.equals("OK")) {
+                        ((Student) Nutzer).setStudienfach(fach.getText());
+                        ((Student) Nutzer).getNutzer().setPasswort(passwort.getText());
+                        ((Student) Nutzer).getNutzer().setHausnummer(Integer.valueOf(hausnummer.getText()));
+                        ((Student) Nutzer).getNutzer().setPlz(Integer.valueOf(postleitzahl.getText()));
+                        ((Student) Nutzer).getNutzer().setStadt(stadt.getText());
+                        ((Student) Nutzer).getNutzer().setStrasse(straße.getText());
+                        ((Student) Nutzer).getNutzer().setProfilbild(FileUtils.readFileToByteArray(profil));
+                        //Weiterleitung zur Nutzerprofil Seite
+                        Stage stage = (Stage) aktualisieren.getScene().getWindow();
+                        Layout userprofil = null;
+                        userprofil = new Layout("userprofile.fxml",stage,Nutzer);
+
+                        if(userprofil.getController() instanceof UserprofilController){
+                            ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(Nutzer,Nutzer);
+                        }
                     }
                 }
-            }catch (IOException ie){
-                ie.printStackTrace();
-            }catch(InterruptedException e){
+            } catch (IOException | URISyntaxException e) {
                 e.printStackTrace();
             }
-        }
-
-        //Weiterleitung zur Nutzerprofil Seite
-        Stage stage = (Stage) aktualisieren.getScene().getWindow();
-        Layout userprofil = null;
-        userprofil = new Layout("userprofile.fxml",stage,Nutzer);
-
-        if(userprofil.getController() instanceof UserprofilController){
-            ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(Nutzer,Nutzer);
         }
     }
 
@@ -191,67 +247,3 @@ public class EditierenController {
             }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   /*
-    public void Abbrechen (ActionEvent)  {
-        actionEvent.consume();
-        Stage stage = (Stage) Abbrechen.getScene().getWindow();
-
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getClassLoader().getResource("Login.fxml"));
-            AnchorPane root = (AnchorPane) loader.load();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.setMaximized(false);
-            stage.show();
-        }catch (IOException e){
-            e.printStackTrace();
-        }  }
-*/
-  /* public void Aktualisieren(ActionEvent actionEvent){
-       actionEvent.consume();
-
-
-
-       Stage stage = (Stage) Aktualisieren.getScene().getWindow();
-       try {
-           FXMLLoader loader = new FXMLLoader();
-           loader.setLocation(getClass().getClassLoader().getResource("Editieren.fxml"));
-           AnchorPane root = (AnchorPane) loader.load();
-           Scene scene = new Scene(root);
-           stage.setScene(scene);
-           stage.setMaximized(false);
-           stage.show();
-       }catch (IOException e){
-           e.printStackTrace();
-       } }
-}
-*/
-
-
-
-
-
-
-
-
-
-
-
-

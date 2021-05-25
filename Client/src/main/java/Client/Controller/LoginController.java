@@ -44,8 +44,8 @@ public class LoginController {
     @FXML
     private void loginPressedButton(ActionEvent event) {
         event.consume();
-        String matr = matrikelnummer.getText();
-        String pass = password.getText();
+        String matr = matrikelnummer.getText().trim().replaceAll(" ","%20");
+        String pass = password.getText().trim().replaceAll(" ","%20");
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:8080/login/"+matr+"&"+pass)).build();
