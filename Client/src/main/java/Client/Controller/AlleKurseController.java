@@ -99,9 +99,8 @@ public class AlleKurseController{
             HttpResponse<String> memberResponse;
             if (nutzerInstanz instanceof Lehrender) {
                 long lehrId = ((Lehrender) nutzerInstanz).getNutzerId().getId();
-                request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/check/"+ lehrveranstaltungId + "&"+lehrId)).build();
+                request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/beitreten/check/"+ lehrveranstaltungId + "&"+lehrId)).build();
                 memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-
                 if(memberResponse.body().equals("true")){
                     Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
                     if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
@@ -119,7 +118,7 @@ public class AlleKurseController{
             }else if (nutzerInstanz instanceof Student) {
 
                 long id = ((Student) nutzerInstanz).getNutzer().getId();
-                request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/check/" + lehrveranstaltungId +"&"+ id)).build();
+                request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/beitreten/check/" + lehrveranstaltungId +"&"+ id)).build();
                 memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
 
                 if(memberResponse.body().equals("true")){

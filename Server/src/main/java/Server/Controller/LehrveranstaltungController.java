@@ -44,7 +44,7 @@ public class LehrveranstaltungController {
         return lehrveranstaltungService.beitreten(lehrveranstaltungsId, nutzer_id);
     }
 
-    @GetMapping("/check/{lehrveranstaltungsId}&{nutzer_id}")
+    @GetMapping("/beitreten/check/{lehrveranstaltungsId}&{nutzer_id}")
     public boolean isMember(@PathVariable long lehrveranstaltungsId,@PathVariable long nutzer_id){
         Lehrveranstaltung lehrveranstaltung = lehrveranstaltungRepository.findLehrveranstaltungById(lehrveranstaltungsId);
         Nutzer nutzer = nutzerRepository.findNutzerById(nutzer_id);
