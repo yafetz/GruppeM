@@ -79,7 +79,57 @@ public class AlleKurseController{
                 );
                 return cell;
             });
-
+            col_LvSemester.setCellFactory(tablecell -> {
+                TableCell<Lehrveranstaltung, String> cell = new TableCell<Lehrveranstaltung, String>(){
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty) ;
+                        setText(empty ? null : item);
+                    }
+                };
+                cell.setCursor(Cursor.HAND);
+                cell.setOnMouseClicked(e -> {
+                            if (!cell.isEmpty()) {
+                                redirectToCourseOverview(cell.getTableRow().getItem().getId());
+                            }
+                        }
+                );
+                return cell;
+            });
+            col_LvArt.setCellFactory(tablecell -> {
+                TableCell<Lehrveranstaltung, String> cell = new TableCell<Lehrveranstaltung, String>(){
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty) ;
+                        setText(empty ? null : item);
+                    }
+                };
+                cell.setCursor(Cursor.HAND);
+                cell.setOnMouseClicked(e -> {
+                            if (!cell.isEmpty()) {
+                                redirectToCourseOverview(cell.getTableRow().getItem().getId());
+                            }
+                        }
+                );
+                return cell;
+            });
+            col_LvLehrende.setCellFactory(tablecell -> {
+                TableCell<Lehrveranstaltung, String> cell = new TableCell<Lehrveranstaltung, String>(){
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty) ;
+                        setText(empty ? null : item);
+                    }
+                };
+                cell.setCursor(Cursor.HAND);
+                cell.setOnMouseClicked(e -> {
+                            if (!cell.isEmpty()) {
+                                redirectToCourseOverview(cell.getTableRow().getItem().getId());
+                            }
+                        }
+                );
+                return cell;
+            });
 //            ObservableList is required to populate the table alleLv using .setItems() :
             ObservableList<Lehrveranstaltung> obsLv = FXCollections.observableList(lehrveranstaltungen);
             alleLv.setItems(obsLv);

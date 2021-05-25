@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -54,36 +55,43 @@ public class LoginController {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
             String Serverantwort = response.body();
             Stage stage = (Stage) register.getScene().getWindow();
-            try {
-                JSONObject jsonObject = new JSONObject(Serverantwort);
-                if(jsonObject.has("matrikelnummer")){
-                    System.out.println(jsonObject);
-                    Student student = new Student();
+            if(Serverantwort.equals("")){
+                Alert fehler = new Alert(Alert.AlertType.ERROR);
+                fehler.setTitle("Falsche Anmelde Daten!");
+                fehler.setContentText("Ungültige Login Daten!");
+                fehler.showAndWait();
+            }else {
+                try {
+                    JSONObject jsonObject = new JSONObject(Serverantwort);
+                    if (jsonObject.has("matrikelnummer")) {
+                        System.out.println(jsonObject);
+                        Student student = new Student();
 
-                    student.addDataFromJson(jsonObject);
-                    //Change View
+                        student.addDataFromJson(jsonObject);
+                        //Change View
 
-                    Layout homeScreen = new Layout("homescreen.fxml",stage,student);
+                        Layout homeScreen = new Layout("homescreen.fxml", stage, student);
 
 
-                    if(homeScreen.getController() instanceof HomescreenController){
-                        ((HomescreenController) homeScreen.getController()).setNutzerInstanz(student);
+                        if (homeScreen.getController() instanceof HomescreenController) {
+                            ((HomescreenController) homeScreen.getController()).setNutzerInstanz(student);
+                        }
+                    } else if (jsonObject.has("lehrstuhl")) {
+                        Lehrender lehrender = new Lehrender();
+                        lehrender.addDataFromJson(jsonObject);
+
+
+                        Layout homeScreen = new Layout("homescreen.fxml", stage, lehrender);
+
+
+                        if (homeScreen.getController() instanceof HomescreenController) {
+                            ((HomescreenController) homeScreen.getController()).setNutzerInstanz(lehrender);
+                        }
                     }
-                }else if(jsonObject.has("lehrstuhl")){
-                    Lehrender lehrender = new Lehrender();
-                    lehrender.addDataFromJson(jsonObject);
 
-
-                    Layout homeScreen = new Layout("homescreen.fxml",stage,lehrender);
-
-
-                    if(homeScreen.getController() instanceof HomescreenController){
-                         ((HomescreenController) homeScreen.getController()).setNutzerInstanz(lehrender);
-                    }
+                } catch (JSONException err) {
+                    err.printStackTrace();
                 }
-
-            }catch (JSONException err){
-                err.printStackTrace();
             }
         } catch (IOException e) {
             e.printStackTrace();

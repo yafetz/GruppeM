@@ -58,32 +58,12 @@ public class LehrveranstaltungErstellenController {
     @FXML
     private void erstellenPressedButton(ActionEvent event) {
         event.consume();
-
-
-        //Nutzer nutzer = ((Lehrender)nutzerInstanz).getNutzerId();
         long nutzerId = ((Lehrender) nutzerInstanz).getNutzerId().getId();
-        //Nutzer nutzer = ((Lehrender) nutzerInstanz).getNutzerId();
-
-
         String tit = titels.getText();
         String split = tit.replaceAll(" ", "%20");
-
-        System.out.println("Titel     " + split);
-
-
-
-
         String veranstaltungstyp = typVorlesung.getValue();
-        System.out.println("Art:::     "+veranstaltungstyp);
-
         String sem = semesters.getText();
-        String splitsem = sem.replaceAll(" ", "%20");
-        System.out.println("Semester     " + sem);
-
-
-        System.out.println("ID     " + nutzerId);
-
-
+        String splitsem = sem.replaceAll(" ", "%20").replaceAll("/","%2F");
         Pattern pattern1 = Pattern.compile("sose");
         Pattern pattern2 = Pattern.compile("wise");
         Matcher matcher1 = pattern1.matcher(sem.toLowerCase());

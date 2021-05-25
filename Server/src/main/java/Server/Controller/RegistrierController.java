@@ -122,7 +122,7 @@ public class RegistrierController /*()*/{
                                       @RequestParam("email") String email,
                                       @RequestParam("passwort") String passwort,
                                       @RequestParam("lehrstuhl") String lehrstuhl,
-                                        @RequestParam("forschungsgebiet") String forschungsgebiet,
+                                      @RequestParam("forschungsgebiet") String forschungsgebiet,
                                       @RequestParam("hausnummer") int hausnummer,
                                       @RequestParam("plz") int plz,
                                       @RequestParam("stadt") String stadt,

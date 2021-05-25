@@ -313,7 +313,7 @@ public class UserprofilController {
             HttpResponse<String> memberResponse;
             if (eigenerNutzer instanceof Lehrender) {
                 long lehrId = ((Lehrender) eigenerNutzer).getNutzerId().getId();
-                request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/check/"+ lehrveranstaltungId + "&"+lehrId)).build();
+                request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/beitreten/check/"+ lehrveranstaltungId + "&"+lehrId)).build();
                 memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
 
                 if(memberResponse.body().equals("true")){
@@ -333,7 +333,7 @@ public class UserprofilController {
             }else if (eigenerNutzer instanceof Student) {
 
                 long id = ((Student) eigenerNutzer).getNutzer().getId();
-                request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/beitreten/check/" + lehrveranstaltungId +"&"+ id)).build();
+                request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/beitreten/check/" + lehrveranstaltungId +"&"+ id)).build();
                 memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
 
                 if(memberResponse.body().equals("true")){
