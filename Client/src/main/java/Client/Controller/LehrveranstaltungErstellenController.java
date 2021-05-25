@@ -1,4 +1,5 @@
 package Client.Controller;
+import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -6,6 +7,7 @@ import Client.Layouts.Layout;
 import Client.Modell.Lehrender;
 import Client.Modell.Lehrveranstaltung;
 import Client.Modell.Nutzer;
+import Client.Modell.Student;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,6 +18,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.apache.commons.io.FileUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.MIME;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.net.URI;
@@ -63,7 +76,8 @@ public class LehrveranstaltungErstellenController {
         String split = tit.replaceAll(" ", "%20");
         String veranstaltungstyp = typVorlesung.getValue();
         String sem = semesters.getText();
-        String splitsem = sem.replaceAll(" ", "%20").replaceAll("/","%2F");
+        String splitsem = sem.replaceAll(" ", "%20");
+        String newsplitsem = splitsem.replaceAll("/","%2F");
         Pattern pattern1 = Pattern.compile("sose");
         Pattern pattern2 = Pattern.compile("wise");
         Matcher matcher1 = pattern1.matcher(sem.toLowerCase());
@@ -71,18 +85,29 @@ public class LehrveranstaltungErstellenController {
         boolean matchFound = matcher1.find();
         boolean matchFound2 = matcher2.find();
         if(matchFound || matchFound2) {
-            HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://localhost:8080/lehrveranstaltung/create/lehrveranstaltung/"+split+"&"+nutzerId+"&"+veranstaltungstyp+"&"+splitsem)).POST(HttpRequest.BodyPublishers.noBody()).build();
-            try {
-                HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                Layout meineKurse = new Layout("meineKurse.fxml",(Stage) erstellen.getScene().getWindow(),nutzerInstanz);
-                if(meineKurse.getController() instanceof MeineKurseController){
-                    ((MeineKurseController) meineKurse.getController()).setNutzerInstanz(nutzerInstanz);
+            try (CloseableHttpClient client1 = HttpClients.createDefault()) {
+
+                String url = "http://localhost:8080/lehrveranstaltung/create/lehrveranstaltung/";
+                HttpPost post = new HttpPost(url);
+                MultipartEntityBuilder entity = MultipartEntityBuilder.create();
+                entity.setCharset(StandardCharsets.UTF_8);
+                entity.addTextBody("titel",tit,ContentType.create("text/plain", MIME.UTF8_CHARSET));
+                entity.addTextBody("lehrenderd",String.valueOf(nutzerId), ContentType.create("text/plain", MIME.UTF8_CHARSET));
+                entity.addTextBody("art",veranstaltungstyp,ContentType.create("text/plain", MIME.UTF8_CHARSET));
+                entity.addTextBody("semester",sem,ContentType.create("text/plain", MIME.UTF8_CHARSET));
+
+                HttpEntity requestEntity = entity.build();
+                post.setEntity(requestEntity);
+
+                try (CloseableHttpResponse response1 = client1.execute(post)) {
+                    HttpEntity responseEntity = response1.getEntity();
+                    String result = EntityUtils.toString(responseEntity);
+                    Layout meineKurse = new Layout("meineKurse.fxml",(Stage) erstellen.getScene().getWindow(),nutzerInstanz);
+                    if(meineKurse.getController() instanceof MeineKurseController){
+                        ((MeineKurseController) meineKurse.getController()).setNutzerInstanz(nutzerInstanz);
+                    }
                 }
             } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }

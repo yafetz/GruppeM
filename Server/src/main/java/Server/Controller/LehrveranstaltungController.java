@@ -54,8 +54,8 @@ public class LehrveranstaltungController {
 
         return false;
     }
-    @PostMapping("/create/lehrveranstaltung/{titel}&{lehrenderd}&{art}&{semester}")
-    public void newLehrveranstaltung(@PathVariable String titel, @PathVariable Nutzer lehrenderd, @PathVariable String art, @PathVariable String semester){
+    @PostMapping("/create/lehrveranstaltung/")
+    public void newLehrveranstaltung(@RequestParam("titel") String titel, @RequestParam("lehrenderd") Nutzer lehrenderd, @RequestParam("art") String art, @RequestParam("semester") String semester){
         Lehrender lehrender = lehrenderRepository.findLehrenderByNutzerId(lehrenderd);
         long lehrenderId=  lehrender.getId();
         lehrveranstaltungService.createNewLehrveranstaltung(titel,lehrenderId,art,semester);

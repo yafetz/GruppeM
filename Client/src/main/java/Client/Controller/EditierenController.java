@@ -20,10 +20,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.MIME;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -39,6 +42,8 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class EditierenController {
     @FXML
@@ -135,22 +140,19 @@ public class EditierenController {
                 String url = "http://localhost:8080/register/update/lehrender";
                 HttpPost post = new HttpPost(url);
                 MultipartEntityBuilder entity = MultipartEntityBuilder.create();
+                entity.setCharset(StandardCharsets.UTF_8);
                 entity.addTextBody("nutzerId", String.valueOf(((Lehrender) Nutzer).getNutzerId().getId()));
-                entity.addTextBody("passwort",passwort.getText());
-                entity.addTextBody("lehrstuhl",newLehrstuhl);
-                entity.addTextBody("forschungsgebiet",newForschungsgebiet);
-                entity.addTextBody("hausnummer",String.valueOf(hausnummer.getText()));
-                entity.addTextBody("plz",String.valueOf(postleitzahl.getText()));
-                entity.addTextBody("stadt",newStadt);
-                entity.addTextBody("strasse",newStraße);
+                entity.addTextBody("passwort",passwort.getText(),ContentType.create("text/plain", MIME.UTF8_CHARSET));
+                entity.addTextBody("lehrstuhl",newLehrstuhl,ContentType.create("text/plain", MIME.UTF8_CHARSET));
+                entity.addTextBody("forschungsgebiet",newForschungsgebiet,ContentType.create("text/plain", MIME.UTF8_CHARSET));
+                entity.addTextBody("hausnummer",String.valueOf(hausnummer.getText()),ContentType.create("text/plain", MIME.UTF8_CHARSET));
+                entity.addTextBody("plz",String.valueOf(postleitzahl.getText()),ContentType.create("text/plain", MIME.UTF8_CHARSET));
+                entity.addTextBody("stadt",newStadt,ContentType.create("text/plain", MIME.UTF8_CHARSET));
+                entity.addTextBody("strasse",newStraße,ContentType.create("text/plain", MIME.UTF8_CHARSET));
 
                 if(profil != null){
                     entity.addPart("profilbild",new FileBody(profil) );
-                }else{
-                    File standard = new File(getClass().getClassLoader().getResource("images/standardPb.png").toURI());
-                    entity.addPart("profilbild",new FileBody(standard));
                 }
-
                 HttpEntity requestEntity = entity.build();
                 post.setEntity(requestEntity);
 
@@ -166,7 +168,9 @@ public class EditierenController {
                         ((Lehrender) Nutzer).getNutzerId().setPlz(Integer.valueOf(postleitzahl.getText()));
                         ((Lehrender) Nutzer).getNutzerId().setStadt(stadt.getText());
                         ((Lehrender) Nutzer).getNutzerId().setStrasse(straße.getText());
-                        ((Lehrender) Nutzer).getNutzerId().setProfilbild(FileUtils.readFileToByteArray(profil));
+                        if(profil != null) {
+                            ((Lehrender) Nutzer).getNutzerId().setProfilbild(FileUtils.readFileToByteArray(profil));
+                        }
                         Stage stage = (Stage) aktualisieren.getScene().getWindow();
                         Layout userprofil = null;
                         userprofil = new Layout("userprofile.fxml", stage, Nutzer);
@@ -176,7 +180,7 @@ public class EditierenController {
                         }
                     }
                 }
-            } catch (IOException | URISyntaxException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }else if(Nutzer instanceof Student){
@@ -191,21 +195,18 @@ public class EditierenController {
                 String url = "http://localhost:8080/register/update/student";
                 HttpPost post = new HttpPost(url);
                 MultipartEntityBuilder entity = MultipartEntityBuilder.create();
+                entity.setCharset(StandardCharsets.UTF_8);
                 entity.addTextBody("nutzerId", String.valueOf(((Student) Nutzer).getNutzer().getId()));
-                entity.addTextBody("passwort",passwort.getText());
-                entity.addTextBody("studienfach",newFach);
-                entity.addTextBody("hausnummer",String.valueOf(hausnummer.getText()));
-                entity.addTextBody("plz",String.valueOf(postleitzahl.getText()));
-                entity.addTextBody("stadt",newStadt);
-                entity.addTextBody("strasse",newStraße);
+                entity.addTextBody("passwort",passwort.getText(),ContentType.create("text/plain", MIME.UTF8_CHARSET));
+                entity.addTextBody("studienfach",newFach,ContentType.create("text/plain", MIME.UTF8_CHARSET));
+                entity.addTextBody("hausnummer",String.valueOf(hausnummer.getText()),ContentType.create("text/plain", MIME.UTF8_CHARSET));
+                entity.addTextBody("plz",String.valueOf(postleitzahl.getText()),ContentType.create("text/plain", MIME.UTF8_CHARSET));
+                entity.addTextBody("stadt",newStadt,ContentType.create("text/plain", MIME.UTF8_CHARSET));
+                entity.addTextBody("strasse",newStraße,ContentType.create("text/plain", MIME.UTF8_CHARSET));
 
                 if(profil != null){
                     entity.addPart("profilbild",new FileBody(profil) );
-                }else{
-                    File standard = new File(getClass().getClassLoader().getResource("images/standardPb.png").toURI());
-                    entity.addPart("profilbild",new FileBody(standard));
                 }
-
                 HttpEntity requestEntity = entity.build();
                 post.setEntity(requestEntity);
 
@@ -219,7 +220,9 @@ public class EditierenController {
                         ((Student) Nutzer).getNutzer().setPlz(Integer.valueOf(postleitzahl.getText()));
                         ((Student) Nutzer).getNutzer().setStadt(stadt.getText());
                         ((Student) Nutzer).getNutzer().setStrasse(straße.getText());
-                        ((Student) Nutzer).getNutzer().setProfilbild(FileUtils.readFileToByteArray(profil));
+                        if(profil != null) {
+                            ((Student) Nutzer).getNutzer().setProfilbild(FileUtils.readFileToByteArray(profil));
+                        }
                         //Weiterleitung zur Nutzerprofil Seite
                         Stage stage = (Stage) aktualisieren.getScene().getWindow();
                         Layout userprofil = null;
@@ -230,7 +233,7 @@ public class EditierenController {
                         }
                     }
                 }
-            } catch (IOException | URISyntaxException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
