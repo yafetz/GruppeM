@@ -74,6 +74,8 @@ public class EditierenController {
     private Object Nutzer;
     @FXML
     private ImageView profilbild;
+    @FXML
+    private Text fachtext;
 
     private File profil;
 
@@ -107,6 +109,7 @@ public class EditierenController {
             hausnummer.setText(String.valueOf(l.getNutzerId().getHausnummer()));
             postleitzahl.setText(String.valueOf(l.getNutzerId().getPlz()));
             fach.setVisible(false);
+            fachtext.setVisible(false);
             lehrstuhl.setText(l.getLehrstuhl());
             forschungsgebiet.setText(l.getForschungsgebiet());
         } else if (nutzer instanceof Student) {

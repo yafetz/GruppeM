@@ -57,7 +57,7 @@
       </Text>
       <TextField fx:id="lehrstuhl" layoutX="93.0" layoutY="270.0" />
       <TextField fx:id="forschungsgebiet" layoutX="93.0" layoutY="316.0" />
-      <Text layoutX="263.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Studienfach" wrappingWidth="67.89584350585943">
+      <Text fx:id="fachtext" layoutX="263.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Studienfach" wrappingWidth="67.89584350585943">
          <font>
             <Font size="11.0" />
          </font>
