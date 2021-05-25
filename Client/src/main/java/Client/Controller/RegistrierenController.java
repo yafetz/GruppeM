@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -21,7 +22,9 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 
@@ -182,8 +185,12 @@ public class RegistrierenController {
                 if(profil != null){
                     entity.addPart("profilbild",new FileBody(profil) );
                 }else{
-                    File standard = new File(getClass().getClassLoader().getResource("images/standardPb.png").toURI());
-                    entity.addPart("profilbild",new FileBody(standard));
+                    InputStream in = getClass().getClassLoader().getResourceAsStream("images/standardPb.png");
+                    String home = System.getProperty("user.home");
+                    File file = new File(home+"/Downloads/profilbild.png");
+                    FileOutputStream fo = new FileOutputStream(file);
+                    IOUtils.write(in.readAllBytes(),fo);
+                    entity.addPart("profilbild",new FileBody(file));
                 }
                 HttpEntity requestEntity = entity.build();
                 post.setEntity(requestEntity);
@@ -194,7 +201,7 @@ public class RegistrierenController {
                     System.out.println(result);
                     Auth login = new Auth("login.fxml",(Stage) registrieren.getScene().getWindow());
                 }
-            } catch (IOException | URISyntaxException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 
@@ -223,8 +230,11 @@ public class RegistrierenController {
                 if(profil != null){
                     entity.addPart("profilbild",new FileBody(profil) );
                 }else{
-                    File standard = new File(getClass().getClassLoader().getResource("images/standardPb.png").toURI());
-                    entity.addPart("profilbild",new FileBody(standard));
+                    InputStream in = getClass().getClassLoader().getResourceAsStream("images/standardPb.png");
+                    String home = System.getProperty("user.home");
+                    File file = new File(home+"/Downloads/profilbild.png");
+                    FileOutputStream fo = new FileOutputStream(file);
+                    IOUtils.write(in.readAllBytes(),fo);
                 }
                 HttpEntity requestEntity = entity.build();
                 post.setEntity(requestEntity);
@@ -235,7 +245,7 @@ public class RegistrierenController {
                     System.out.println(result);
                     Auth login = new Auth("login.fxml",(Stage) registrieren.getScene().getWindow());
                 }
-            } catch (IOException | URISyntaxException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }

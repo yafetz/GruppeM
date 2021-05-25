@@ -262,7 +262,7 @@ public class StudentenListeController {
                 HttpEntity responseEntity = response1.getEntity();
                 String result = EntityUtils.toString(responseEntity);
 
-                Layout teilnehmerListeView = new Layout("teilnehmerliste.fxml", (Stage) tabelle.getScene().getWindow(),nutzerInstanz);
+                Layout teilnehmerListeView = new Layout("teilnehmerListe.fxml", (Stage) tabelle.getScene().getWindow(),nutzerInstanz);
                 if(teilnehmerListeView.getController() instanceof TeilnehmerListeController){
                     long veranstaltungId = ((Lehrveranstaltung) lehrveranstaltung).getId();
 

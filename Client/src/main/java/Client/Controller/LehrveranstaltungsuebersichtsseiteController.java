@@ -50,7 +50,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
     @FXML
     private void teilnehmerListe(ActionEvent event){
 
-        Layout lehrveranstaltungBeitreten = new Layout("teilnehmerliste.fxml", (Stage) teilnehmerListe.getScene().getWindow(),nutzer);
+        Layout lehrveranstaltungBeitreten = new Layout("teilnehmerListe.fxml", (Stage) teilnehmerListe.getScene().getWindow(),nutzer);
         if(lehrveranstaltungBeitreten.getController() instanceof TeilnehmerListeController){
             long veranstaltungId = ((Lehrveranstaltung) lehrveranstaltung).getId();
 
