@@ -104,8 +104,8 @@ public class UserprofilController {
         if(profilbildArray != null) {
             Image img = new Image(new ByteArrayInputStream(profilbildArray),150,150,true,true);
             ImageView imgView = new ImageView(img);
-            imgView.setLayoutX(350.00);
-            imgView.setLayoutY(55.00);
+            imgView.setLayoutX(50.00);
+            imgView.setLayoutY(56.00);
             pane.getChildren().add(imgView);
         }
 
