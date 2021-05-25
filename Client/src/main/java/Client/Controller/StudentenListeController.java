@@ -2,6 +2,7 @@ package Client.Controller;
 
 import Client.Layouts.Auth;
 import Client.Layouts.Layout;
+import Client.Modell.Lehrender;
 import Client.Modell.Lehrveranstaltung;
 import Client.Modell.Nutzer;
 import Client.Modell.Student;
@@ -9,15 +10,19 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.MIME;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -33,6 +38,7 @@ import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -52,6 +58,11 @@ public class StudentenListeController {
 
     @FXML
     private TableColumn<Student, Integer> studentenId;
+
+    @FXML
+    private TextField suchtext;
+    @FXML
+    private Button suchen;
 
     private Lehrveranstaltung lehrveranstaltung;
     private Object nutzerInstanz;
@@ -74,6 +85,88 @@ public class StudentenListeController {
     public void setNutzerInstanz(Object nutzer) {
         this.nutzerInstanz = nutzer;
         System.out.println("NUtzerinstanz Stundentenliste   "+nutzerInstanz);
+    }
+
+    public void Suchen(ActionEvent actionEvent) {
+        try (CloseableHttpClient client1 = HttpClients.createDefault()) {
+
+            String url = "http://localhost:8080/teilnehmer/suchen";
+            HttpPost post = new HttpPost(url);
+            MultipartEntityBuilder entity = MultipartEntityBuilder.create();
+            entity.setCharset(StandardCharsets.UTF_8);
+            entity.addTextBody("lehrveranstaltungsId",String.valueOf(lehrveranstaltung.getId()));
+            entity.addTextBody("keyword",suchtext.getText());
+            HttpEntity requestEntity = entity.build();
+            post.setEntity(requestEntity);
+
+            try (CloseableHttpResponse response = client1.execute(post)) {
+                HttpEntity responseEntity = response.getEntity();
+                String result = EntityUtils.toString(responseEntity);
+                tabelle.getItems().removeAll();
+                ObjectMapper mapper = new ObjectMapper();
+                List<Student> studenten = mapper.readValue(result, new TypeReference<List<Student>>() {});
+                Vorname.setCellValueFactory(new PropertyValueFactory<Student,String>("studentVorname"));
+                Nachname.setCellValueFactory(new PropertyValueFactory<Student,String>("studentNachname"));
+                matrNr.setCellValueFactory(new PropertyValueFactory<Student,Integer>("matrikelnummer"));
+
+                Vorname.setCellFactory(tablecell -> {
+                    TableCell<Student, String> cell = new TableCell<Student, String>(){
+                        @Override
+                        protected void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty) ;
+                            setText(empty ? null : item);
+                        }
+                    };
+                    cell.setCursor(Cursor.HAND);
+                    cell.setOnMouseClicked(e -> {
+                                if (!cell.isEmpty()) {
+                                    zurLehrveranstaltungHinzufügen(cell.getTableRow().getItem().getId());
+                                }
+                            }
+                    );
+                    return cell;
+                });
+
+                Nachname.setCellFactory(tablecell -> {
+                    TableCell<Student, String> cell = new TableCell<Student, String>(){
+                        @Override
+                        protected void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty) ;
+                            setText(empty ? null : item);
+                        }
+                    };
+                    cell.setCursor(Cursor.HAND);
+                    cell.setOnMouseClicked(e -> {
+                                if (!cell.isEmpty()) {
+                                    zurLehrveranstaltungHinzufügen(cell.getTableRow().getItem().getId());
+                                }
+                            }
+                    );
+                    return cell;
+                });
+                matrNr.setCellFactory(tablecell -> {
+                    TableCell<Student, Integer> cell = new TableCell<Student, Integer>(){
+                        @Override
+                        protected void updateItem(Integer item, boolean empty) {
+                            super.updateItem(item, empty) ;
+                            setText(empty ? null : String.valueOf(item));
+                        }
+                    };
+                    cell.setCursor(Cursor.HAND);
+                    cell.setOnMouseClicked(e -> {
+                                if (!cell.isEmpty()) {
+                                    zurLehrveranstaltungHinzufügen(cell.getTableRow().getItem().getId());
+                                }
+                            }
+                    );
+                    return cell;
+                });
+                ObservableList<Student> obsLv = FXCollections.observableList(studenten);
+                tabelle.setItems(obsLv);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void populateTableView(){
@@ -100,42 +193,47 @@ public class StudentenListeController {
                 cell.setCursor(Cursor.HAND);
                 cell.setOnMouseClicked(e -> {
                             if (!cell.isEmpty()) {
-                                System.out.println(cell.getTableRow().getItem().getId());
-                                try (CloseableHttpClient client1 = HttpClients.createDefault()) {
-
-                                    String url = "http://localhost:8080/teilnehmer/add";
-                                    HttpPost post = new HttpPost(url);
-                                    MultipartEntityBuilder entity = MultipartEntityBuilder.create();
-
-                                    entity.addTextBody("studentId",String.valueOf(cell.getTableRow().getItem().getId()));
-                                    entity.addTextBody("lehrveranstaltungId",String.valueOf(lehrveranstaltung.getId()));
-
-                                    HttpEntity requestEntity = entity.build();
-                                    post.setEntity(requestEntity);
-
-                                    try (CloseableHttpResponse response1 = client1.execute(post)) {
-                                        HttpEntity responseEntity = response1.getEntity();
-                                        String result = EntityUtils.toString(responseEntity);
-
-                                        Layout teilnehmerListeView = new Layout("teilnehmerliste.fxml", (Stage) tabelle.getScene().getWindow(),nutzerInstanz);
-                                        if(teilnehmerListeView.getController() instanceof TeilnehmerListeController){
-                                            long veranstaltungId = ((Lehrveranstaltung) lehrveranstaltung).getId();
-
-                                            ((TeilnehmerListeController) teilnehmerListeView.getController()).setId(veranstaltungId);
-                                            ((TeilnehmerListeController) teilnehmerListeView.getController()).setNutzerInstanz(nutzerInstanz);
-                                            ((TeilnehmerListeController)  teilnehmerListeView.getController()).setLehrveranstaltung(((Lehrveranstaltung) lehrveranstaltung));
-                                        }
-                                    }
-                                } catch (IOException e1) {
-                                    e1.printStackTrace();
-                                }
-
+                                zurLehrveranstaltungHinzufügen(cell.getTableRow().getItem().getId());
                             }
                         }
                 );
                 return cell;
             });
 
+            Nachname.setCellFactory(tablecell -> {
+                TableCell<Student, String> cell = new TableCell<Student, String>(){
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty) ;
+                        setText(empty ? null : item);
+                    }
+                };
+                cell.setCursor(Cursor.HAND);
+                cell.setOnMouseClicked(e -> {
+                            if (!cell.isEmpty()) {
+                                zurLehrveranstaltungHinzufügen(cell.getTableRow().getItem().getId());
+                            }
+                        }
+                );
+                return cell;
+            });
+            matrNr.setCellFactory(tablecell -> {
+                TableCell<Student, Integer> cell = new TableCell<Student, Integer>(){
+                    @Override
+                    protected void updateItem(Integer item, boolean empty) {
+                        super.updateItem(item, empty) ;
+                        setText(empty ? null : String.valueOf(item));
+                    }
+                };
+                cell.setCursor(Cursor.HAND);
+                cell.setOnMouseClicked(e -> {
+                            if (!cell.isEmpty()) {
+                                zurLehrveranstaltungHinzufügen(cell.getTableRow().getItem().getId());
+                            }
+                        }
+                );
+                return cell;
+            });
             ObservableList<Student> obsLv = FXCollections.observableList(studenten);
             tabelle.setItems(obsLv);
         } catch (IOException e) {
@@ -146,4 +244,36 @@ public class StudentenListeController {
             e.printStackTrace();
         }
     }
+
+    private void zurLehrveranstaltungHinzufügen(int id){
+        try (CloseableHttpClient client1 = HttpClients.createDefault()) {
+
+            String url = "http://localhost:8080/teilnehmer/add";
+            HttpPost post = new HttpPost(url);
+            MultipartEntityBuilder entity = MultipartEntityBuilder.create();
+
+            entity.addTextBody("studentId",String.valueOf(id));
+            entity.addTextBody("lehrveranstaltungId",String.valueOf(lehrveranstaltung.getId()));
+
+            HttpEntity requestEntity = entity.build();
+            post.setEntity(requestEntity);
+
+            try (CloseableHttpResponse response1 = client1.execute(post)) {
+                HttpEntity responseEntity = response1.getEntity();
+                String result = EntityUtils.toString(responseEntity);
+
+                Layout teilnehmerListeView = new Layout("teilnehmerliste.fxml", (Stage) tabelle.getScene().getWindow(),nutzerInstanz);
+                if(teilnehmerListeView.getController() instanceof TeilnehmerListeController){
+                    long veranstaltungId = ((Lehrveranstaltung) lehrveranstaltung).getId();
+
+                    ((TeilnehmerListeController) teilnehmerListeView.getController()).setId(veranstaltungId);
+                    ((TeilnehmerListeController) teilnehmerListeView.getController()).setNutzerInstanz(nutzerInstanz);
+                    ((TeilnehmerListeController)  teilnehmerListeView.getController()).setLehrveranstaltung(((Lehrveranstaltung) lehrveranstaltung));
+                }
+            }
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    }
+
 }

@@ -36,7 +36,7 @@ public class RegistrierController /*()*/{
                                  @RequestParam("plz") int plz,
                                  @RequestParam("stadt") String stadt,
                                  @RequestParam("strasse") String strasse,
-                                 @RequestParam("profilbild") MultipartFile profilbild) throws IOException {
+                                 @RequestParam(value = "profilbild",required = false) MultipartFile profilbild) throws IOException {
         Nutzer updateNutzer = nutzerRepository.findNutzerById(nutzerId);
         Student updateStudent = studentRepository.findStudentByNutzerId(updateNutzer);
         updateNutzer.setPasswort(passwort);
@@ -44,7 +44,7 @@ public class RegistrierController /*()*/{
         updateNutzer.setPlz(plz);
         updateNutzer.setStadt(stadt);
         updateNutzer.setStrasse(strasse);
-        if(!profilbild.isEmpty()) {
+        if(profilbild != null) {
             updateNutzer.setProfilbild(profilbild.getBytes());
         }
         updateStudent.setStudienfach(studienfach);
@@ -62,7 +62,7 @@ public class RegistrierController /*()*/{
                                    @RequestParam("plz") int plz,
                                    @RequestParam("stadt") String stadt,
                                    @RequestParam("strasse") String strasse,
-                                   @RequestParam("profilbild") MultipartFile profilbild) throws IOException {
+                                   @RequestParam(value = "profilbild",required = false) MultipartFile profilbild) throws IOException {
         Nutzer updateNutzer = nutzerRepository.findNutzerById(nutzerId);
         Lehrender updateLehrender = lehrenderRepository.findLehrenderByNutzerId(updateNutzer);
         updateNutzer.setPasswort(passwort);
@@ -70,7 +70,7 @@ public class RegistrierController /*()*/{
         updateNutzer.setPlz(plz);
         updateNutzer.setStadt(stadt);
         updateNutzer.setStrasse(strasse);
-        if(!profilbild.isEmpty()) {
+        if(profilbild != null) {
             updateNutzer.setProfilbild(profilbild.getBytes());
         }
         updateLehrender.setLehrstuhl(lehrstuhl);
@@ -91,7 +91,7 @@ public class RegistrierController /*()*/{
                                     @RequestParam("stadt") String stadt,
                                     @RequestParam("strasse") String strasse,
                                     @RequestParam("rolle") String rolle,
-                                    @RequestParam("profilbild") MultipartFile profilbild) throws IOException {
+                                    @RequestParam(value = "profilbild",required = false) MultipartFile profilbild) throws IOException {
         Nutzer nutzer = new Nutzer();
         nutzer.setEmail(email);
         nutzer.setHausnummer(hausnummer);
@@ -103,8 +103,6 @@ public class RegistrierController /*()*/{
         nutzer.setStrasse(strasse);
         if(profilbild != null) {
             nutzer.setProfilbild(profilbild.getBytes());
-        }else{
-            nutzer.setProfilbild(null);
         }
         nutzer.setRolle(rolle);
         nutzerRepository.save(nutzer);
@@ -122,13 +120,13 @@ public class RegistrierController /*()*/{
                                       @RequestParam("email") String email,
                                       @RequestParam("passwort") String passwort,
                                       @RequestParam("lehrstuhl") String lehrstuhl,
-                                        @RequestParam("forschungsgebiet") String forschungsgebiet,
+                                      @RequestParam("forschungsgebiet") String forschungsgebiet,
                                       @RequestParam("hausnummer") int hausnummer,
                                       @RequestParam("plz") int plz,
                                       @RequestParam("stadt") String stadt,
                                       @RequestParam("strasse") String strasse,
                                       @RequestParam("rolle") String rolle,
-                                      @RequestParam("profilbild") MultipartFile profilbild) throws IOException {
+                                      @RequestParam(value = "profilbild", required = false) MultipartFile profilbild) throws IOException {
         Nutzer nutzer = new Nutzer();
         nutzer.setEmail(email);
         nutzer.setHausnummer(hausnummer);
@@ -140,8 +138,6 @@ public class RegistrierController /*()*/{
         nutzer.setStrasse(strasse);
         if(profilbild != null) {
             nutzer.setProfilbild(profilbild.getBytes());
-        }else{
-            nutzer.setProfilbild(null);
         }
         nutzer.setRolle(rolle);
         nutzerRepository.save(nutzer);

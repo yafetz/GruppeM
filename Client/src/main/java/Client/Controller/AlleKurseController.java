@@ -9,17 +9,26 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class AlleKurseController{
@@ -36,11 +45,117 @@ public class AlleKurseController{
     private TableColumn<Lehrveranstaltung, String> col_LvArt;
     @FXML
     private TableColumn<Lehrveranstaltung, String> col_LvLehrende;
+    @FXML
+    private TextField suchtext;
+    @FXML
+    private Button suchen;
 
     private Object nutzerInstanz;
 
 
     public void initialize() {
+    }
+
+    public void Suchen(ActionEvent actionEvent) {
+        try (CloseableHttpClient client1 = HttpClients.createDefault()) {
+
+            String url = "http://localhost:8080/lehrveranstaltung/suchen";
+            HttpPost post = new HttpPost(url);
+            MultipartEntityBuilder entity = MultipartEntityBuilder.create();
+            entity.setCharset(StandardCharsets.UTF_8);
+            entity.addTextBody("titel",suchtext.getText());
+            HttpEntity requestEntity = entity.build();
+            post.setEntity(requestEntity);
+
+            try (CloseableHttpResponse response = client1.execute(post)) {
+                HttpEntity responseEntity = response.getEntity();
+                String result = EntityUtils.toString(responseEntity);
+                alleLv.getItems().removeAll();
+                ObjectMapper mapper = new ObjectMapper();
+                List<Lehrveranstaltung> lehrveranstaltungen = mapper.readValue(result, new TypeReference<List<Lehrveranstaltung>>() {});
+
+                col_LvId.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,Long>("id"));
+                col_LvTitel.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("titel"));
+                col_LvSemester.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("semester"));
+                col_LvArt.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("art"));
+                col_LvLehrende.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("lehrenderName"));
+
+//            Angelehnt an: https://stackoverflow.com/questions/35562037/how-to-set-click-event-for-a-cell-of-a-table-column-in-a-tableview
+                col_LvTitel.setCellFactory(tablecell -> {
+                    TableCell<Lehrveranstaltung, String> cell = new TableCell<Lehrveranstaltung, String>(){
+                        @Override
+                        protected void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty) ;
+                            setText(empty ? null : item);
+                        }
+                    };
+                    cell.setCursor(Cursor.HAND);
+                    cell.setOnMouseClicked(e -> {
+                                if (!cell.isEmpty()) {
+                                    redirectToCourseOverview(cell.getTableRow().getItem().getId());
+                                }
+                            }
+                    );
+                    return cell;
+                });
+                col_LvSemester.setCellFactory(tablecell -> {
+                    TableCell<Lehrveranstaltung, String> cell = new TableCell<Lehrveranstaltung, String>(){
+                        @Override
+                        protected void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty) ;
+                            setText(empty ? null : item);
+                        }
+                    };
+                    cell.setCursor(Cursor.HAND);
+                    cell.setOnMouseClicked(e -> {
+                                if (!cell.isEmpty()) {
+                                    redirectToCourseOverview(cell.getTableRow().getItem().getId());
+                                }
+                            }
+                    );
+                    return cell;
+                });
+                col_LvArt.setCellFactory(tablecell -> {
+                    TableCell<Lehrveranstaltung, String> cell = new TableCell<Lehrveranstaltung, String>(){
+                        @Override
+                        protected void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty) ;
+                            setText(empty ? null : item);
+                        }
+                    };
+                    cell.setCursor(Cursor.HAND);
+                    cell.setOnMouseClicked(e -> {
+                                if (!cell.isEmpty()) {
+                                    redirectToCourseOverview(cell.getTableRow().getItem().getId());
+                                }
+                            }
+                    );
+                    return cell;
+                });
+                col_LvLehrende.setCellFactory(tablecell -> {
+                    TableCell<Lehrveranstaltung, String> cell = new TableCell<Lehrveranstaltung, String>(){
+                        @Override
+                        protected void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty) ;
+                            setText(empty ? null : item);
+                        }
+                    };
+                    cell.setCursor(Cursor.HAND);
+                    cell.setOnMouseClicked(e -> {
+                                if (!cell.isEmpty()) {
+                                    redirectToCourseOverview(cell.getTableRow().getItem().getId());
+                                }
+                            }
+                    );
+                    return cell;
+                });
+//            ObservableList is required to populate the table alleLv using .setItems() :
+                ObservableList<Lehrveranstaltung> obsLv = FXCollections.observableList(lehrveranstaltungen);
+                alleLv.setItems(obsLv);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void populateTableView() {
@@ -79,7 +194,57 @@ public class AlleKurseController{
                 );
                 return cell;
             });
-
+            col_LvSemester.setCellFactory(tablecell -> {
+                TableCell<Lehrveranstaltung, String> cell = new TableCell<Lehrveranstaltung, String>(){
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty) ;
+                        setText(empty ? null : item);
+                    }
+                };
+                cell.setCursor(Cursor.HAND);
+                cell.setOnMouseClicked(e -> {
+                            if (!cell.isEmpty()) {
+                                redirectToCourseOverview(cell.getTableRow().getItem().getId());
+                            }
+                        }
+                );
+                return cell;
+            });
+            col_LvArt.setCellFactory(tablecell -> {
+                TableCell<Lehrveranstaltung, String> cell = new TableCell<Lehrveranstaltung, String>(){
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty) ;
+                        setText(empty ? null : item);
+                    }
+                };
+                cell.setCursor(Cursor.HAND);
+                cell.setOnMouseClicked(e -> {
+                            if (!cell.isEmpty()) {
+                                redirectToCourseOverview(cell.getTableRow().getItem().getId());
+                            }
+                        }
+                );
+                return cell;
+            });
+            col_LvLehrende.setCellFactory(tablecell -> {
+                TableCell<Lehrveranstaltung, String> cell = new TableCell<Lehrveranstaltung, String>(){
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty) ;
+                        setText(empty ? null : item);
+                    }
+                };
+                cell.setCursor(Cursor.HAND);
+                cell.setOnMouseClicked(e -> {
+                            if (!cell.isEmpty()) {
+                                redirectToCourseOverview(cell.getTableRow().getItem().getId());
+                            }
+                        }
+                );
+                return cell;
+            });
 //            ObservableList is required to populate the table alleLv using .setItems() :
             ObservableList<Lehrveranstaltung> obsLv = FXCollections.observableList(lehrveranstaltungen);
             alleLv.setItems(obsLv);

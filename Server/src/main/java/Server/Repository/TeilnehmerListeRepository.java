@@ -19,6 +19,12 @@ public interface TeilnehmerListeRepository extends JpaRepository<TeilnehmerListe
     List<TeilnehmerListe> findAllByNutzerId(Nutzer nutzer);
     @Query("SELECT student FROM Student student LEFT JOIN TeilnehmerListe teilnehmerliste ON teilnehmerliste.nutzerId = student.nutzerId AND teilnehmerliste.lehrveranstaltung.id = ?1 WHERE teilnehmerliste.nutzerId IS NULL ")
     List<Student> findAllStudentsWhoAreNotAlreadyInLehrveranstaltung(long id);
+    @Query("SELECT student FROM Student student LEFT JOIN TeilnehmerListe teilnehmerliste ON teilnehmerliste.nutzerId = student.nutzerId AND teilnehmerliste.lehrveranstaltung.id = ?1 " +
+            "JOIN Nutzer nutzer On nutzer.id = student.nutzerId.id WHERE teilnehmerliste.nutzerId IS NULL AND  nutzer.vorname LIKE %?2% OR nutzer.nachname LIKE %?2% ")
+    List<Student> findAllStudentsByKeywordVornameUndNachname(long id,String keyword);
+    @Query("SELECT student FROM Student student LEFT JOIN TeilnehmerListe teilnehmerliste ON teilnehmerliste.nutzerId = student.nutzerId AND teilnehmerliste.lehrveranstaltung.id = ?1 " +
+            "WHERE teilnehmerliste.nutzerId IS NULL AND student.matrikelnummer = ?2 ")
+    List<Student> findAllStudentsByKeywordMatrikelnummer(long id,int keyword);
     Boolean existsByLehrveranstaltungAndNutzerId(Lehrveranstaltung lehrveranstaltung, Nutzer nutzer);
 
 }

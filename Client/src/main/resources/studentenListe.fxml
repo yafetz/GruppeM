@@ -19,7 +19,7 @@
                 <Font size="24.0" />
             </font>
         </Label>
-        <TextField layoutX="481.0" layoutY="36.0" promptText="Suchen" />
-        <Button layoutX="645.0" layoutY="36.0" mnemonicParsing="false" text="Suchen" />
+        <TextField fx:id="suchtext" layoutX="481.0" layoutY="36.0" promptText="Suchen" />
+        <Button fx:id="suchen" layoutX="645.0" layoutY="36.0" mnemonicParsing="false" text="Suchen" onAction="#Suchen" />
     </children>
 </AnchorPane>

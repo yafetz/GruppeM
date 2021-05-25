@@ -119,14 +119,47 @@ public class TeilnehmerListeController {
                             }
                         }
                 );
+
                 return cell;
             });
+            Nachname.setCellFactory(tablecell -> {
+                TableCell<Nutzer, String> cell = new TableCell<Nutzer, String>(){
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty) ;
+                        setText(empty ? null : item);
+                    }
+                };
+                cell.setCursor(Cursor.HAND);
+                cell.setOnMouseClicked(e -> {
+                            if (!cell.isEmpty()) {
+                                redirectToUserprofile(cell.getTableRow().getItem().getId());
+                                System.out.println("id vom angeklickten nutzer aus tabelle: " + cell.getTableRow().getItem().getId());
+                            }
+                        }
+                );
 
+                return cell;
+            });
+            Rolle.setCellFactory(tablecell -> {
+                TableCell<Nutzer, String> cell = new TableCell<Nutzer, String>(){
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty) ;
+                        setText(empty ? null : item);
+                    }
+                };
+                cell.setCursor(Cursor.HAND);
+                cell.setOnMouseClicked(e -> {
+                            if (!cell.isEmpty()) {
+                                redirectToUserprofile(cell.getTableRow().getItem().getId());
+                                System.out.println("id vom angeklickten nutzer aus tabelle: " + cell.getTableRow().getItem().getId());
+                            }
+                        }
+                );
 
-
-
-
-
+                return cell;
+            });
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
