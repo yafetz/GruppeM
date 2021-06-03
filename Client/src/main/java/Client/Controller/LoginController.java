@@ -70,22 +70,28 @@ public class LoginController {
                         student.addDataFromJson(jsonObject);
                         //Change View
 
+                        Layout auth = new Layout("auth.fxml", stage, student);
+
+                        if (auth.getController() instanceof AuthenticationController) {
+                            ((AuthenticationController) auth.getController()).setNutzerInstanz(student);
+                        }
+                        /*
                         Layout homeScreen = new Layout("homescreen.fxml", stage, student);
 
 
                         if (homeScreen.getController() instanceof HomescreenController) {
                             ((HomescreenController) homeScreen.getController()).setNutzerInstanz(student);
                         }
-                    } else if (jsonObject.has("lehrstuhl")) {
+                    */ }
+                        else if (jsonObject.has("lehrstuhl")) {
                         Lehrender lehrender = new Lehrender();
                         lehrender.addDataFromJson(jsonObject);
 
 
-                        Layout homeScreen = new Layout("homescreen.fxml", stage, lehrender);
+                        Layout auth = new Layout("auth.fxml", stage, lehrender);
 
-
-                        if (homeScreen.getController() instanceof HomescreenController) {
-                            ((HomescreenController) homeScreen.getController()).setNutzerInstanz(lehrender);
+                        if (auth.getController() instanceof AuthenticationController) {
+                            ((AuthenticationController) auth.getController()).setNutzerInstanz(lehrender);
                         }
                     }
 
