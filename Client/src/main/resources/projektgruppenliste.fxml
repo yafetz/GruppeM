@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="635.0" prefWidth="891.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.ProjektgruppenController">
+   <children>
+      <Label fx:id="pglisteseitentitel_label" layoutX="40.0" layoutY="29.0" text="Projektgruppen der Lehrveranstaltung XYZ">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Button fx:id="pgErstellen_btn" layoutX="675.0" layoutY="84.0" mnemonicParsing="false" onAction="#pgListeErstellenPressedButton" text="Neue Projektgruppe erstellen" />
+      <Label layoutX="40.0" layoutY="88.0" text="Projektgruppe suchen" />
+      <TextField fx:id="suchen_txtfield" layoutX="190.0" layoutY="84.0" promptText="Titel eingeben" />
+      <ScrollPane layoutX="40.0" layoutY="135.0" prefHeight="484.0" prefWidth="809.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="481.0" prefWidth="806.0">
+               <children>
+                  <TableView fx:id="pgListe_tableview" prefHeight="484.0" prefWidth="809.0">
+                    <columns>
+                      <TableColumn fx:id="pgTitel_col" prefWidth="538.6668103933334" text="Projektgruppentitel" />
+                      <TableColumn fx:id="nrMitglieder_col" minWidth="0.0" prefWidth="268.0" text="Anzahl Mitglieder" />
+                        <TableColumn fx:id="pgId_col" minWidth="0.0" prefWidth="0.0" text="Projektgruppenid" visible="false" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>

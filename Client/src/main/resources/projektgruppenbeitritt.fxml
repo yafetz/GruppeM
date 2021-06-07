@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="635.0" prefWidth="891.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.ProjektgruppenController">
+    <children>
+        <Label fx:id="beitretenPgTitel_label" layoutX="40.0" layoutY="29.0" text="Projektgruppe ABC">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+      <Label fx:id="beitretenLvTitel_label" layoutX="40.0" layoutY="82.0" text="Lehrveranstaltung XYZ">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="40.0" layoutY="137.0" text="Sie sind noch kein Mitglied dieser Projektgruppe!" />
+      <Button fx:id="beitreten_btn" layoutX="445.0" layoutY="180.0" mnemonicParsing="false" onAction="#beitretenPressedButton" text="Der Projektgruppe beitreten" />
+      <Button fx:id="zurueck_btn" layoutX="643.0" layoutY="180.0" mnemonicParsing="false" onAction="#zurueckPressedButton" text="Zurück zur Projektgruppenliste" />
+    </children>
+</AnchorPane>

@@ -20,6 +20,9 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.sql.*;
 public class LehrveranstaltungsuebersichtsseiteController {
+
+    @FXML
+    public Button projektgruppe_btn;
     @FXML
     private Label title;
     @FXML
@@ -164,6 +167,17 @@ public class LehrveranstaltungsuebersichtsseiteController {
         }
 //        System.out.println("hello2325");
 
+
+    }
+
+    public void projektgruppePressedButton(ActionEvent actionEvent) {
+        actionEvent.consume();
+        Layout projektgruppenliste = new Layout("projektgruppenliste.fxml", (Stage) projektgruppe_btn.getScene().getWindow(), nutzer);
+        if (projektgruppenliste.getController() instanceof ProjektgruppenController) {
+            ((ProjektgruppenController) projektgruppenliste.getController()).setNutzer(nutzer);
+            ((ProjektgruppenController) projektgruppenliste.getController()).setLehrveranstaltung(lehrveranstaltung);
+            ((ProjektgruppenController) projektgruppenliste.getController()).setPageTitel("Projektgruppen der Lehrveranstaltung " + lehrveranstaltung.getTitel());
+        }
 
     }
 }

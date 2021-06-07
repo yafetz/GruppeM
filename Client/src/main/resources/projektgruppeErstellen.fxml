@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="635.0" prefWidth="891.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.ProjektgruppenController">
+    <children>
+        <Label layoutX="40.0" layoutY="29.0" text="Neue Projektgruppe erstellen">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+      <Label fx:id="erstellenLvTitel_label" layoutX="40.0" layoutY="75.0" text="Lehrveranstaltung XYZ" />
+      <Label layoutX="40.0" layoutY="124.0" text="Titel der Projektgruppe" />
+      <TextField fx:id="pgTitel_txtfield" layoutX="202.0" layoutY="120.0" prefHeight="25.0" prefWidth="399.0" promptText="Titel" />
+      <Label layoutX="40.0" layoutY="169.0" text="Studenten zur Projektgruppe hinzufügen:" />
+      <ScrollPane layoutX="40.0" layoutY="202.0" prefHeight="404.0" prefWidth="563.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="399.0" prefWidth="560.0">
+               <children>
+                  <TableView fx:id="studentenliste_tableview" prefHeight="404.0" prefWidth="563.0">
+                    <columns>
+                      <TableColumn fx:id="checkbox_col" prefWidth="61.333375334739685" text="Select" />
+                      <TableColumn fx:id="studentenname_col" prefWidth="365.99993896484375" text="Name, Vorname" />
+                        <TableColumn fx:id="matrnr_col" prefWidth="135.3333740234375" text="Matrikelnummer" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+      <Button fx:id="erstellen_btn" layoutX="677.0" layoutY="120.0" mnemonicParsing="false" onAction="#erstellenPressedButton" text="Projektgruppe erstellen" />
+    </children>
+</AnchorPane>
