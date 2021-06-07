@@ -12,4 +12,7 @@ public interface ProjektgruppenRepository extends JpaRepository<Projektgruppe, L
     List<Projektgruppe> findAllByLehrveranstaltung(Lehrveranstaltung lehrveranstaltung);
     Projektgruppe findProjektgruppeById(long id);
     List<Projektgruppe> findAllByTitelEquals(String suchbegriff);
+    Projektgruppe findProjektgruppeByTitel(String titel);
+    List<Projektgruppe> findAllByLehrveranstaltungId(Long lvId);
+
 }

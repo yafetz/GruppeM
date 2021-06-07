@@ -19,8 +19,8 @@
       <Label fx:id="erstellenLvTitel_label" layoutX="40.0" layoutY="75.0" text="Lehrveranstaltung XYZ" />
       <Label layoutX="40.0" layoutY="124.0" text="Titel der Projektgruppe" />
       <TextField fx:id="pgTitel_txtfield" layoutX="202.0" layoutY="120.0" prefHeight="25.0" prefWidth="399.0" promptText="Titel" />
-      <Label layoutX="40.0" layoutY="169.0" text="Studenten zur Projektgruppe hinzufügen:" />
-      <ScrollPane layoutX="40.0" layoutY="202.0" prefHeight="404.0" prefWidth="563.0">
+      <Label fx:id="addStud_label" layoutX="40.0" layoutY="169.0" text="Studenten zur Projektgruppe hinzufügen:" />
+      <ScrollPane fx:id="scrollpane" layoutX="40.0" layoutY="202.0" prefHeight="404.0" prefWidth="563.0">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="399.0" prefWidth="560.0">
                <children>
