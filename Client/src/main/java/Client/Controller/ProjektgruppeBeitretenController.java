@@ -24,14 +24,10 @@ import java.nio.charset.StandardCharsets;
 
 public class ProjektgruppeBeitretenController {
 
-    @FXML
-    private Label beitretenPgTitel_label;
-    @FXML
-    private Label beitretenLvTitel_label;
-    @FXML
-    private Button beitreten_btn;
-    @FXML
-    private Button zurueck_btn;
+    @FXML private Label beitretenPgTitel_label;
+    @FXML private Label beitretenLvTitel_label;
+    @FXML private Button beitreten_btn;
+    @FXML private Button zurueck_btn;
 
     private Object nutzer;
     private Lehrveranstaltung lehrveranstaltung;
@@ -92,7 +88,6 @@ public class ProjektgruppeBeitretenController {
                     ((ProjektgruppenController) projektgruppeUebersicht.getController()).setPGUebersichtPGTitel(projektgruppe.getTitel());
                 }
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }

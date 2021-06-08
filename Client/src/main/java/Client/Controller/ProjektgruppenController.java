@@ -31,14 +31,14 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class ProjektgruppenController {
-    @FXML public Label addStud_label;
-    @FXML public ScrollPane scrollpane;
-    @FXML public Label uebersichtPGTitel_label;
-    @FXML public Label uebersichtLvTitel_label;
-    @FXML public Button chatButton;
-    @FXML public Button todoButton;
-    @FXML public Button filesButton;
-    @FXML public Button memberButton;
+    @FXML private Label addStud_label;
+    @FXML private ScrollPane scrollpane;
+    @FXML private Label uebersichtPGTitel_label;
+    @FXML private Label uebersichtLvTitel_label;
+    @FXML private Button chatButton;
+    @FXML private Button todoButton;
+    @FXML private Button filesButton;
+    @FXML private Button memberButton;
     @FXML private Label pglisteseitentitel_label;
     @FXML private Button pgErstellen_btn;
     @FXML private TextField suchen_txtfield;

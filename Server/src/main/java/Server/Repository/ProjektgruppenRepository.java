@@ -9,10 +9,10 @@ import java.util.List;
 
 @Repository
 public interface ProjektgruppenRepository extends JpaRepository<Projektgruppe, Long> {
-    List<Projektgruppe> findAllByLehrveranstaltung(Lehrveranstaltung lehrveranstaltung);
     Projektgruppe findProjektgruppeById(long id);
-    List<Projektgruppe> findAllByTitelEquals(String suchbegriff);
     Projektgruppe findProjektgruppeByTitel(String titel);
+    List<Projektgruppe> findAllByLehrveranstaltung(Lehrveranstaltung lehrveranstaltung);
+    List<Projektgruppe> findAllByTitelEquals(String suchbegriff);
     List<Projektgruppe> findAllByLehrveranstaltungId(Long lvId);
 
 }
