@@ -176,7 +176,6 @@ public class LehrveranstaltungsuebersichtsseiteController {
         if (projektgruppenliste.getController() instanceof ProjektgruppenController) {
             ((ProjektgruppenController) projektgruppenliste.getController()).setNutzer(nutzer);
             ((ProjektgruppenController) projektgruppenliste.getController()).setLehrveranstaltung(lehrveranstaltung);
-            ((ProjektgruppenController) projektgruppenliste.getController()).setPageTitel("Projektgruppen der Lehrveranstaltung " + lehrveranstaltung.getTitel());
         }
 
     }

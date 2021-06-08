@@ -13,4 +13,5 @@ public interface GruppenmitgliedRepository extends JpaRepository<Gruppenmitglied
 
     List<Gruppenmitglied> findAllByProjektgruppe(Projektgruppe projektgruppe);
     List<Gruppenmitglied> findAllByStudentId(Student student);
+    Boolean existsByProjektgruppeAndStudent(Projektgruppe projektgruppe, Student student);
 }

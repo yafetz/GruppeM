@@ -64,7 +64,7 @@ public class LoginController {
                 try {
                     JSONObject jsonObject = new JSONObject(Serverantwort);
                     if (jsonObject.has("matrikelnummer")) {
-                        System.out.println(jsonObject);
+//                        System.out.println(jsonObject);
                         Student student = new Student();
 
                         student.addDataFromJson(jsonObject);

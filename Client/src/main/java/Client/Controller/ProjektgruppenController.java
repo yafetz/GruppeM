@@ -31,50 +31,33 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class ProjektgruppenController {
-    @FXML
-    public Label addStud_label;
-    @FXML
-    public ScrollPane scrollpane;
-    @FXML
-    private Label pglisteseitentitel_label;
-    @FXML
-    private Button pgErstellen_btn;
-    @FXML
-    private TextField suchen_txtfield;
-    @FXML
-    private TableView<Projektgruppe> pgListe_tableview;
-    @FXML
-    private TableColumn<Projektgruppe, String> pgTitel_col;
-    @FXML
-    private TableColumn<Projektgruppe, Integer> nrMitglieder_col;
-    @FXML
-    private TableColumn<Projektgruppe, Long> pgId_col;
-    @FXML
-    private Label beitretenPgTitel_label;
-    @FXML
-    private Label beitretenLvTitel_label;
-    @FXML
-    private Button beitreten_btn;
-    @FXML
-    private Button zurueck_btn;
-    @FXML
-    private Label erstellenLvTitel_label;
-    @FXML
-    private TextField pgTitel_txtfield;
-    @FXML
-    private TableView<Student> studentenliste_tableview;
-    @FXML
-    private TableColumn<Student, Boolean> checkbox_col;
-    @FXML
-    private TableColumn<Student, String> studentenname_col;
-    @FXML
-    private TableColumn<Student, Integer> matrnr_col;
-    @FXML
-    private Button erstellen_btn;
-
+    @FXML public Label addStud_label;
+    @FXML public ScrollPane scrollpane;
+    @FXML public Label uebersichtPGTitel_label;
+    @FXML public Label uebersichtLvTitel_label;
+    @FXML public Button chatButton;
+    @FXML public Button todoButton;
+    @FXML public Button filesButton;
+    @FXML public Button memberButton;
+    @FXML private Label pglisteseitentitel_label;
+    @FXML private Button pgErstellen_btn;
+    @FXML private TextField suchen_txtfield;
+    @FXML private TableView<Projektgruppe> pgListe_tableview;
+    @FXML private TableColumn<Projektgruppe, String> pgTitel_col;
+    @FXML private TableColumn<Projektgruppe, Integer> nrMitglieder_col;
+    @FXML private TableColumn<Projektgruppe, Long> pgId_col;
+    @FXML private Label erstellenLvTitel_label;
+    @FXML private TextField pgTitel_txtfield;
+    @FXML private TableView<Student> studentenliste_tableview;
+    @FXML private TableColumn<Student, Boolean> checkbox_col;
+    @FXML private TableColumn<Student, String> studentenname_col;
+    @FXML private TableColumn<Student, Integer> matrnr_col;
+    @FXML private Button erstellen_btn;
 
     private Object nutzer;
     private Lehrveranstaltung lehrveranstaltung;
+    private Projektgruppe projektgruppe;
+
 
     public void setPageTitel(String titel) {
         pglisteseitentitel_label.setText(titel);
@@ -99,6 +82,24 @@ public class ProjektgruppenController {
     public void setLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) {
         this.lehrveranstaltung = lehrveranstaltung;
         populateTableView();
+        pglisteseitentitel_label.setText("Projektgruppen der Lehrveranstaltung " + lehrveranstaltung.getTitel());
+    }
+
+    public void setPGUebersichtLvTitel(String titelLehrveranstaltung) {
+         uebersichtLvTitel_label.setText("der Lehrveranstaltung " + titelLehrveranstaltung);
+    }
+
+    public void setPGUebersichtPGTitel(String titelProjektgruppe) {
+        uebersichtPGTitel_label.setText(titelProjektgruppe);
+    }
+
+    public Projektgruppe getProjektgruppe() {
+        return projektgruppe;
+    }
+
+    public void setProjektgruppe(Projektgruppe projektgruppe) {
+        this.projektgruppe = projektgruppe;
+        uebersichtPGTitel_label.setText(projektgruppe.getTitel());
     }
 
     public void populateTableView() {
@@ -107,7 +108,6 @@ public class ProjektgruppenController {
         java.net.http.HttpResponse<String> response;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
             ObjectMapper mapper = new ObjectMapper();
             List<Projektgruppe> projektgruppen = mapper.readValue(response.body(), new TypeReference<List<Projektgruppe>>() {});
 
@@ -125,7 +125,7 @@ public class ProjektgruppenController {
                 cell.setCursor(Cursor.HAND);
                 cell.setOnMouseClicked(e -> {
                             if (!cell.isEmpty()) {
-                                redirectToProjektgruppeOverview(cell.getTableRow().getItem().getId());
+                                redirectToProjektgruppe(cell.getTableRow().getItem().getId());
                             }
                         }
                 );
@@ -140,8 +140,42 @@ public class ProjektgruppenController {
         }
     }
 
-    public void redirectToProjektgruppeOverview(Long id) {
-        // TODO
+    public void redirectToProjektgruppe(Long id) {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/projektgruppe/" + id)).build();
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            ObjectMapper mapper = new ObjectMapper();
+            Projektgruppe projektgruppe = mapper.readValue(response.body(), Projektgruppe.class);
+
+            if (nutzer instanceof Student) {        //nur Studenten dürfen Projektgruppen beitreten
+                long studentID = ((Student) nutzer).getId();
+                System.out.println(studentID);
+                request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/projektgruppe/checkMember/" + id + "&" + studentID)).build();
+                HttpResponse<String> istGruppenmitgliedResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
+                System.out.println(istGruppenmitgliedResponse.body());
+                if (istGruppenmitgliedResponse.body().equals("true")) {         //der Student ist bereits Mitglied dieser Projektgruppe -> Übersichtsseite
+                    Layout projektgruppeoverview = new Layout ("projektgruppeUebersicht.fxml", (Stage) pgListe_tableview.getScene().getWindow(), nutzer);
+                    if (projektgruppeoverview.getController() instanceof ProjektgruppenController) {
+                        ((ProjektgruppenController) projektgruppeoverview.getController()).setNutzer(nutzer);
+                        ((ProjektgruppenController) projektgruppeoverview.getController()).setProjektgruppe(projektgruppe);
+                        ((ProjektgruppenController) projektgruppeoverview.getController()).setLehrveranstaltung(lehrveranstaltung);
+                        ((ProjektgruppenController) projektgruppeoverview.getController()).setPGUebersichtLvTitel(lehrveranstaltung.getTitel());
+                        ((ProjektgruppenController) projektgruppeoverview.getController()).setPGUebersichtPGTitel(projektgruppe.getTitel());
+                    }
+                } else {        //Student ist noch nicht Mitglied -> Beitrittsseite
+                    Layout projektgruppebeitritt = new Layout("projektgruppenbeitritt.fxml", (Stage) pgListe_tableview.getScene().getWindow(), nutzer);
+                    if (projektgruppebeitritt.getController() instanceof ProjektgruppeBeitretenController) {
+                        ((ProjektgruppeBeitretenController) projektgruppebeitritt.getController()).setNutzer(nutzer);
+                        ((ProjektgruppeBeitretenController) projektgruppebeitritt.getController()).setProjektgruppe(projektgruppe);
+                        ((ProjektgruppeBeitretenController) projektgruppebeitritt.getController()).setLehrveranstaltung(lehrveranstaltung);
+                    }
+                }
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
     // anklicken von "Neue Projektgruppe erstellen"-Button auf der Seite der Projektgruppenliste
@@ -166,15 +200,6 @@ public class ProjektgruppenController {
         }
     }
 
-    public void beitretenPressedButton(ActionEvent actionEvent) {
-        // TODO
-    }
-
-    // anklicken von "Zurück zur Projektgruppenliste"-Button auf der Projektgruppenbeitrittsseite
-    public void zurueckPressedButton(ActionEvent actionEvent) {
-        // TODO
-    }
-
     // anklicken von "Projektgruppe erstellen"-Button auf der Seite zur Erstellung einer neuen Projektgruppe
     public void erstellenPressedButton(ActionEvent actionEvent) {
         actionEvent.consume();
@@ -187,7 +212,7 @@ public class ProjektgruppenController {
         }
 
         try(CloseableHttpClient client = HttpClients.createDefault()) {
-            String url = "http://localhost:8080/projektgruppe/new";
+            String url = "http://localhost:8080/projektgruppe/neu";
             HttpPost post = new HttpPost(url);
             MultipartEntityBuilder entity = MultipartEntityBuilder.create();
             entity.setCharset(StandardCharsets.UTF_8);
@@ -222,11 +247,21 @@ public class ProjektgruppenController {
                     alert.setContentText("Geben Sie einen anderen Titel ein");
                     alert.showAndWait();
                 }
-
-
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void chatPressedButton(ActionEvent actionEvent) {
+    }
+
+    public void todoPressedButton(ActionEvent actionEvent) {
+    }
+
+    public void filesPressedButton(ActionEvent actionEvent) {
+    }
+
+    public void memberPressedButton(ActionEvent actionEvent) {
     }
 }
