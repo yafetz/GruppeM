@@ -31,6 +31,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class ProjektgruppenController {
+    @FXML private Button suchenButton;
     @FXML private Label addStud_label;
     @FXML private ScrollPane scrollpane;
     @FXML private Label uebersichtPGTitel_label;
@@ -253,6 +254,52 @@ public class ProjektgruppenController {
         }
     }
 
+    public void suchenPressedButton(ActionEvent actionEvent) {
+        try (CloseableHttpClient client = HttpClients.createDefault()) {
+            String url = "http://localhost:8080/projektgruppe/suchen";
+            HttpPost post = new HttpPost(url);
+            MultipartEntityBuilder entity = MultipartEntityBuilder.create();
+            entity.setCharset(StandardCharsets.UTF_8);
+            entity.addTextBody("titel", suchen_txtfield.getText().trim());
+            entity.addTextBody("lvID", String.valueOf(lehrveranstaltung.getId()));
+            HttpEntity requestEntity = entity.build();
+            post.setEntity(requestEntity);
+            try (CloseableHttpResponse response = client.execute(post)) {
+                HttpEntity responseEntity = response.getEntity();
+                String result = EntityUtils.toString(responseEntity);
+                pgListe_tableview.getItems().removeAll();
+                ObjectMapper mapper = new ObjectMapper();
+                List<Projektgruppe> projektgruppen = mapper.readValue(result, new TypeReference<List<Projektgruppe>>() {});
+
+                pgTitel_col.setCellValueFactory(new PropertyValueFactory<Projektgruppe,String>("titel"));
+                pgId_col.setCellValueFactory(new PropertyValueFactory<Projektgruppe,Long>("id"));
+
+                pgTitel_col.setCellFactory(tablecell -> {
+                    TableCell<Projektgruppe, String> cell = new TableCell<Projektgruppe, String>() {
+                        @Override
+                        protected void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty) ;
+                            setText(empty ? null : item);
+                        }
+                    };
+                    cell.setCursor(Cursor.HAND);
+                    cell.setOnMouseClicked(e -> {
+                                if (!cell.isEmpty()) {
+                                    redirectToProjektgruppe(cell.getTableRow().getItem().getId());
+                                }
+                            }
+                    );
+                    return cell;
+                });
+
+                ObservableList<Projektgruppe> obsPG = FXCollections.observableList(projektgruppen);
+                pgListe_tableview.setItems(obsPG);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void chatPressedButton(ActionEvent actionEvent) {
     }
 
@@ -264,4 +311,6 @@ public class ProjektgruppenController {
 
     public void memberPressedButton(ActionEvent actionEvent) {
     }
+
+
 }

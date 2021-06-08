@@ -76,4 +76,9 @@ public class ProjektgruppenController {
         gruppenmitgliedRepository.save(neu);
         return new ResponseEntity<>("Erfolgreich der Projektgruppe " + projektgruppe.getTitel() + " beigetreten!", null, HttpStatus.OK);
     }
+
+    @PostMapping("/suchen")
+    public List<Projektgruppe> getAllByLehrveranstaltungAndKeyword(@RequestParam("lvID") Long lvID, @RequestParam("titel") String titel) {
+        return projektgruppenRepository.getAllProjektgruppeByLehrveranstaltungAndKeyword(lvID, titel);
+    }
 }

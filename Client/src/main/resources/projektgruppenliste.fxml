@@ -25,14 +25,14 @@
                <children>
                   <TableView fx:id="pgListe_tableview" prefHeight="484.0" prefWidth="809.0">
                     <columns>
-                      <TableColumn fx:id="pgTitel_col" prefWidth="538.6668103933334" text="Projektgruppentitel" />
-                      <TableColumn fx:id="nrMitglieder_col" minWidth="0.0" prefWidth="268.0" text="Anzahl Mitglieder" />
-                        <TableColumn fx:id="pgId_col" minWidth="0.0" prefWidth="0.0" text="Projektgruppenid" visible="false" />
+                      <TableColumn fx:id="pgId_col" prefWidth="55.9999440908432" text="ProjektgruppenId" visible="false" />
+                        <TableColumn fx:id="pgTitel_col" minWidth="0.0" prefWidth="808.0000216563543" text="Projektgruppentitel" />
                     </columns>
                   </TableView>
                </children>
             </AnchorPane>
         </content>
       </ScrollPane>
+      <Button fx:id="suchenButton" layoutX="356.0" layoutY="84.0" mnemonicParsing="false" onAction="#suchenPressedButton" text="Suchen" />
    </children>
 </AnchorPane>
