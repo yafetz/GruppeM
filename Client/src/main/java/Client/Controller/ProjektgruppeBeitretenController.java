@@ -105,6 +105,8 @@ public class ProjektgruppeBeitretenController {
         if (projektgruppenliste.getController() instanceof ProjektgruppenController) {
             ((ProjektgruppenController) projektgruppenliste.getController()).setNutzer(nutzer);
             ((ProjektgruppenController) projektgruppenliste.getController()).setLehrveranstaltung(lehrveranstaltung);
+            ((ProjektgruppenController) projektgruppenliste.getController()).populateTableView();
+            ((ProjektgruppenController) projektgruppenliste.getController()).setPGListeSeitentitel(lehrveranstaltung.getTitel());
         }
     }
 }

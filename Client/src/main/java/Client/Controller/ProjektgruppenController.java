@@ -81,7 +81,9 @@ public class ProjektgruppenController {
 
     public void setLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) {
         this.lehrveranstaltung = lehrveranstaltung;
-        populateTableView();
+    }
+
+    public void setPGListeSeitentitel(String titelLehrveranstaltung) {
         pglisteseitentitel_label.setText("Projektgruppen der Lehrveranstaltung " + lehrveranstaltung.getTitel());
     }
 
@@ -150,10 +152,8 @@ public class ProjektgruppenController {
 
             if (nutzer instanceof Student) {        //nur Studenten dürfen Projektgruppen beitreten
                 long studentID = ((Student) nutzer).getId();
-                System.out.println(studentID);
                 request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/projektgruppe/checkMember/" + id + "&" + studentID)).build();
                 HttpResponse<String> istGruppenmitgliedResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-                System.out.println(istGruppenmitgliedResponse.body());
                 if (istGruppenmitgliedResponse.body().equals("true")) {         //der Student ist bereits Mitglied dieser Projektgruppe -> Übersichtsseite
                     Layout projektgruppeoverview = new Layout ("projektgruppeUebersicht.fxml", (Stage) pgListe_tableview.getScene().getWindow(), nutzer);
                     if (projektgruppeoverview.getController() instanceof ProjektgruppenController) {
