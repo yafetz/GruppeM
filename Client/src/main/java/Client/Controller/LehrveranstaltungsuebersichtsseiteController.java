@@ -163,7 +163,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
             }
 
         }
-//        System.out.println("hello2325");
+
 
 
     }
