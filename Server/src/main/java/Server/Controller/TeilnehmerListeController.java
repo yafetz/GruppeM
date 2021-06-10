@@ -39,6 +39,15 @@ public class TeilnehmerListeController {
         return teilnehmer;
     }
 
+    @PostMapping("/suchen")
+    public List<Student> getAllStudentenByKeyword(@RequestParam("lehrveranstaltungsId") long lehrveranstaltungsId, @RequestParam("keyword") String keyword){
+        if(keyword.matches("[0-9]+")){
+            return teilnehmerListeRepository.findAllStudentsByKeywordMatrikelnummer(lehrveranstaltungsId,Integer.valueOf(keyword));
+        }else {
+            return teilnehmerListeRepository.findAllStudentsByKeywordVornameUndNachname(lehrveranstaltungsId, keyword);
+        }
+    }
+
     @GetMapping("/studentenliste/{lehrveranstaltungsId}")
     public List<Student> getAllStudenten(@PathVariable long lehrveranstaltungsId) {
         return teilnehmerListeRepository.findAllStudentsWhoAreNotAlreadyInLehrveranstaltung(lehrveranstaltungsId);

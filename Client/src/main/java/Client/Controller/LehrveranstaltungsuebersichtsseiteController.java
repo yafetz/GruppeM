@@ -50,7 +50,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
     @FXML
     private void teilnehmerListe(ActionEvent event){
 
-        Layout lehrveranstaltungBeitreten = new Layout("teilnehmerliste.fxml", (Stage) teilnehmerListe.getScene().getWindow(),nutzer);
+        Layout lehrveranstaltungBeitreten = new Layout("teilnehmerListe.fxml", (Stage) teilnehmerListe.getScene().getWindow(),nutzer);
         if(lehrveranstaltungBeitreten.getController() instanceof TeilnehmerListeController){
             long veranstaltungId = ((Lehrveranstaltung) lehrveranstaltung).getId();
 
@@ -88,11 +88,10 @@ public class LehrveranstaltungsuebersichtsseiteController {
                                 int lehrmaterialId = cell.getTableRow().getItem().getId().intValue();
                                 try {
                                     Connection connection= DriverManager.getConnection("jdbc:mysql://localhost:3306/sep","root","");
-                                    System.out.println(lehrmaterialId);
                                     PreparedStatement pstmt = connection.prepareStatement("select datei from lehrmaterial WHERE id LIKE "+lehrmaterialId);
                                     ResultSet rs = pstmt.executeQuery();
                                     String home = System.getProperty("user.home");
-                                    File file = new File(home+"/Downloads/" + alleLehrmaterialien.getJSONObject(lehrmaterialId-1).getString("titel").replace(" ","_").replace("?",""));
+                                    File file = new File(home+"/Downloads/" + alleLehrmaterialien.getJSONObject(cell.getTableRow().getIndex()).getString("titel").replace(" ","_").replace("?",""));
                                     FileOutputStream fo = new FileOutputStream(file);
                                     rs.next();
                                     Blob datei = rs.getBlob("datei");

@@ -20,7 +20,6 @@ public class TeilnehmerListe {
     @JoinColumn(name="nutzer_Id", nullable=true)
     private Nutzer nutzerId;
 
-
     public Long getId() {
         return id;
     }
