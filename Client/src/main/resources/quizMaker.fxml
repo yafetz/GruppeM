@@ -1,8 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane prefHeight="558.0" prefWidth="793.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.QuizMaker">
-
+   <children>
+      <TextField fx:id="question" layoutX="211.0" layoutY="80.0" text="Frage:" />
+      <TextField fx:id="ans1" layoutX="211.0" layoutY="138.0" text="Antwort1" />
+      <TextField fx:id="ans2" layoutX="211.0" layoutY="194.0" text="Antwort2" />
+      <TextField fx:id="ans3" layoutX="211.0" layoutY="246.0" text="Antwort3" />
+      <TextField fx:id="ans4" layoutX="211.0" layoutY="301.0" text="Antwort4" />
+      <TextField fx:id="ans5" layoutX="211.0" layoutY="361.0" text="Antwort5" />
+      <ToggleButton layoutX="397.0" layoutY="138.0" mnemonicParsing="false" text="ToggleButton" />
+      <TextField fx:id="ans6" layoutX="211.0" layoutY="417.0" text="Antwort6" />
+      <TextField fx:id="ans7" layoutX="211.0" layoutY="468.0" text="Antwort7" />
+      <TextField fx:id="ans8" layoutX="211.0" layoutY="519.0" text="Antwort8" />
+      <TextField layoutX="558.0" layoutY="106.0" text="Anzahl der Antworten" />
+      <Button layoutX="607.0" layoutY="336.0" mnemonicParsing="false" text="Nächste Frage" />
+      <Button layoutX="609.0" layoutY="374.0" mnemonicParsing="false" text="Fertig" />
+      <Label fx:id="questionLab" layoutX="211.0" layoutY="57.0" prefHeight="18.0" prefWidth="55.0" text="Frage:" />
+      <Label layoutX="211.0" layoutY="123.0" text="Antwort 1" />
+      <Label fx:id="ans2Lab" layoutX="211.0" layoutY="177.0" text="Antwort 2" />
+      <Label fx:id="ans3Lab" layoutX="211.0" layoutY="229.0" text="Antwort 3" />
+      <Label fx:id="ans4Lab" layoutX="211.0" layoutY="279.0" text="Antwort 4" />
+      <Label fx:id="ans5Lab" layoutX="211.0" layoutY="340.0" text="Antwort 5" />
+      <Label fx:id="ans6Lab" layoutX="211.0" layoutY="400.0" text="Antwort 6" />
+      <Label fx:id="ans7Lab" layoutX="211.0" layoutY="451.0" text="Antwort 7" />
+      <Label fx:id="ans8Lab" layoutX="211.0" layoutY="502.0" text="Antwort 8" />
+      <Label layoutX="558.0" layoutY="84.0" text="Wie viele Antworten bnötigen Sie?" />
+   </children>
 </AnchorPane>
