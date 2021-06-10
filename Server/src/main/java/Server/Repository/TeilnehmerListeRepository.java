@@ -12,7 +12,6 @@ import java.util.List;
 
 @Repository
 public interface TeilnehmerListeRepository extends JpaRepository<TeilnehmerListe,Long> {
-
     List<TeilnehmerListe> findAllByLehrveranstaltung(Lehrveranstaltung lehrveranstaltung);
     List<TeilnehmerListe> findDistinctByLehrveranstaltung(Lehrveranstaltung lehrveranstaltung);
     List<TeilnehmerListe> getDistinctByLehrveranstaltung(Lehrveranstaltung lehrveranstaltung);
