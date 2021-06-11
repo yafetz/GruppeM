@@ -75,7 +75,7 @@ public class TeilnehmerListeController {
             for(int i=0;i<jsonObject.length();i++){
                 JSONObject nutzer= jsonObject.getJSONObject(i).getJSONObject("nutzerId");
 
-                System.out.println("JSONOBJECT NUTZER    "+nutzer);
+//                System.out.println("JSONOBJECT NUTZER    "+nutzer);
                 Nutzer nutzer1 = new Nutzer();
                 if (nutzerId instanceof Lehrender){
                     if(nutzer.get("vorname").equals(((Lehrender)nutzerId).getVorname()) && nutzer.get("nachname").equals(((Lehrender)nutzerId).getNachname())){
@@ -116,7 +116,7 @@ public class TeilnehmerListeController {
                 cell.setOnMouseClicked(e -> {
                             if (!cell.isEmpty()) {
                                 redirectToUserprofile(cell.getTableRow().getItem().getId());
-                                System.out.println("id vom angeklickten nutzer aus tabelle: " + cell.getTableRow().getItem().getId());
+//                                System.out.println("id vom angeklickten nutzer aus tabelle: " + cell.getTableRow().getItem().getId());
                             }
                         }
                 );
@@ -135,7 +135,7 @@ public class TeilnehmerListeController {
                 cell.setOnMouseClicked(e -> {
                             if (!cell.isEmpty()) {
                                 redirectToUserprofile(cell.getTableRow().getItem().getId());
-                                System.out.println("id vom angeklickten nutzer aus tabelle: " + cell.getTableRow().getItem().getId());
+//                                System.out.println("id vom angeklickten nutzer aus tabelle: " + cell.getTableRow().getItem().getId());
                             }
                         }
                 );
@@ -154,7 +154,7 @@ public class TeilnehmerListeController {
                 cell.setOnMouseClicked(e -> {
                             if (!cell.isEmpty()) {
                                 redirectToUserprofile(cell.getTableRow().getItem().getId());
-                                System.out.println("id vom angeklickten nutzer aus tabelle: " + cell.getTableRow().getItem().getId());
+//                                System.out.println("id vom angeklickten nutzer aus tabelle: " + cell.getTableRow().getItem().getId());
                             }
                         }
                 );
@@ -228,7 +228,7 @@ public class TeilnehmerListeController {
 
     public void setNutzerInstanz(Object nutzer) {
         this.nutzerId = nutzer;
-        System.out.println(id);
+//        System.out.println(id);
         populateTableView();
 
     }

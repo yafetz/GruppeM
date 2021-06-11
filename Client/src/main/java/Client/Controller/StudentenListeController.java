@@ -84,7 +84,7 @@ public class StudentenListeController {
 
     public void setNutzerInstanz(Object nutzer) {
         this.nutzerInstanz = nutzer;
-        System.out.println("NUtzerinstanz Stundentenliste   "+nutzerInstanz);
+//        System.out.println("NUtzerinstanz Stundentenliste   "+nutzerInstanz);
     }
 
     public void Suchen(ActionEvent actionEvent) {
@@ -175,7 +175,7 @@ public class StudentenListeController {
         HttpResponse<String> response;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.body());
+//            System.out.println(response.body());
             ObjectMapper mapper = new ObjectMapper();
             List<Student> studenten = mapper.readValue(response.body(), new TypeReference<List<Student>>() {});
             Vorname.setCellValueFactory(new PropertyValueFactory<Student,String>("studentVorname"));
@@ -240,7 +240,7 @@ public class StudentenListeController {
             System.out.println("ERROR HIER");
             e.printStackTrace();
         } catch (InterruptedException e) {
-            System.out.println("ERROR DA");
+            System.out.println("ERROR DA"); // xD
             e.printStackTrace();
         }
     }

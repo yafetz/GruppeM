@@ -227,7 +227,6 @@ public class ProjektgruppenController {
             try (CloseableHttpResponse response = client.execute(post)) {
                 HttpEntity responseEntity = response.getEntity();
                 String responseBody = EntityUtils.toString(responseEntity);
-                System.out.println(responseBody);
 
                 if(responseBody.contentEquals("true")) {     // Projektgruppe wurde erstellt
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

@@ -141,13 +141,11 @@ public class LehrveranstaltungsuebersichtsseiteController {
             ((LehrmaterialController) uploadScreen.getController()).setLehrveranstaltung(lehrveranstaltung);
             ((LehrmaterialController) uploadScreen.getController()).setModus("Lehrmaterial");
         }
-
     }
 
     public void uebersichtsseiteAufrufen(Object nutzer, Lehrveranstaltung lehrveranstaltung) {
         this.nutzer = nutzer;
         this.lehrveranstaltung= lehrveranstaltung;
-
 
         if (nutzer !=null) {
             if (nutzer instanceof Lehrender) {
@@ -163,11 +161,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
                 studentenliste.setVisible(false);
                 getMaterial((Lehrveranstaltung) lehrveranstaltung);
             }
-
         }
-//        System.out.println("hello2325");
-
-
     }
 
     public void projektgruppePressedButton(ActionEvent actionEvent) {

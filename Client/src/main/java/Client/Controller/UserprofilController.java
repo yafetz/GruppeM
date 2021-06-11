@@ -32,51 +32,30 @@ import java.util.List;
 
 public class UserprofilController {
 
-    @FXML
-    private Label username;
-    @FXML
-    private Label mailadresse;
-    @FXML
-    private Label plz;
-    @FXML
-    private Label adresse;
-    @FXML
-    private Label lehrstuhl_oder_matr;
-    @FXML
-    private Label forschungsgebiet_studienfach;
-    @FXML
-    private Label number;
-    @FXML
-    private Label city;
-    @FXML
-    private Button profil;
-    @FXML
-    private TableView<Lehrveranstaltung> courseCol;
-    @FXML
-    public TableColumn<Lehrveranstaltung, String> myCourses;
+    @FXML private Label username;
+    @FXML private Label mailadresse;
+    @FXML private Label plz;
+    @FXML private Label adresse;
+    @FXML private Label lehrstuhl_oder_matr;
+    @FXML private Label forschungsgebiet_studienfach;
+    @FXML private Label number;
+    @FXML private Label city;
+    @FXML private Button profil;
+    @FXML private TableView<Lehrveranstaltung> courseCol;
+    @FXML public TableColumn<Lehrveranstaltung, String> myCourses;
 
-    @FXML
-    public Label strasseLabel;
-    @FXML
-    public Label hausnummerLabel;
-    @FXML
-    public Label stadtLabel;
-    @FXML
-    public Label plzLabel;
-    @FXML
-    private Label lehrstuhlOderMatrNrTextLabel;
-    @FXML
-    private Label forschungsgebietOderStudienfachTextLabel;
+    @FXML private Label strasseLabel;
+    @FXML private Label hausnummerLabel;
+    @FXML private Label stadtLabel;
+    @FXML private Label plzLabel;
+    @FXML private Label lehrstuhlOderMatrNrTextLabel;
+    @FXML private Label forschungsgebietOderStudienfachTextLabel;
     private Object vergleichNutzer;
     private Object eigenerNutzer;
-
     private Object user;
 
-    @FXML
-    public Button abmeldenButton;
-    @FXML
-    private AnchorPane pane;
-
+    @FXML private Button abmeldenButton;
+    @FXML private AnchorPane pane;
 
 
     public void initialize() {
@@ -251,12 +230,11 @@ public class UserprofilController {
         HttpRequest request = null;
 
         if (user instanceof Lehrender) {
-
             request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/meine/nutzerId=" + ((Lehrender) user).getNutzerId().getId())).build();
         }
         if (user instanceof Student) {
             request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/meine/nutzerId=" + ((Student) user).getNutzer().getId())).build();
-            System.out.println(((Student) user).getId());
+//            System.out.println(((Student) user).getId());
         }
         HttpResponse<String> response = null;
         try {
@@ -270,9 +248,7 @@ public class UserprofilController {
                 lehrveranstaltungen.add(teilnehmerListe1.getLehrveranstaltung());
             }
 
-
             myCourses.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("titel"));
-
 
 //            Angelehnt an: https://stackoverflow.com/questions/35562037/how-to-set-click-event-for-a-cell-of-a-table-column-in-a-tableview
             myCourses.setCellFactory(tablecell -> {
@@ -323,7 +299,7 @@ public class UserprofilController {
                     }
                 }
                 else {
-                    System.out.println("LehrveranstaltungsId   "+lehrveranstaltungId);
+//                    System.out.println("LehrveranstaltungsId   "+lehrveranstaltungId);
                     Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) courseCol.getScene().getWindow(),eigenerNutzer);
                     if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungBeitretenController){
                         ((LehrveranstaltungBeitretenController) lehrveranstaltungBeitreten.getController()).setLehrveranstaltung(lehrveranstaltung);

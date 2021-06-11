@@ -77,7 +77,6 @@ public class ProjektgruppeBeitretenController {
             try (CloseableHttpResponse response = client.execute(post)) {
                 HttpEntity responseEntity = response.getEntity();
                 String responseBody = EntityUtils.toString(responseEntity);
-                System.out.println(responseBody);
 
                 Layout projektgruppeUebersicht = new Layout("projektgruppeUebersicht.fxml", (Stage) beitreten_btn.getScene().getWindow(), nutzer);
                 if (projektgruppeUebersicht.getController() instanceof ProjektgruppenController) {
