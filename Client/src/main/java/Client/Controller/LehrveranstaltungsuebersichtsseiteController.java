@@ -99,6 +99,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
                                     rs.next();
                                     Blob datei = rs.getBlob("datei");
                                     IOUtils.write(datei.getBinaryStream().readAllBytes(),fo);
+                                    fo.close();
                                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                                     alert.setTitle("Erfolgreich heruntergladen!");
                                     alert.setHeaderText("Ihre Lehrmaterialien wurden erfolgreich heruntergeladen!");
