@@ -4,30 +4,39 @@ import Client.Layouts.Layout;
 import Client.Modell.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MIME;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
+import javax.swing.*;
+import java.beans.EventHandler;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProjektgruppenController {
@@ -58,6 +67,7 @@ public class ProjektgruppenController {
     private Object nutzer;
     private Lehrveranstaltung lehrveranstaltung;
     private Projektgruppe projektgruppe;
+    private List<Long> selectedStudentIds;
 
 
     public void setPageTitel(String titel) {
@@ -188,6 +198,8 @@ public class ProjektgruppenController {
                 ((ProjektgruppenController) neuePGerstellen.getController()).setErstellenLvTitel_label(lehrveranstaltung.getTitel());
                 ((ProjektgruppenController) neuePGerstellen.getController()).setNutzer(nutzer);
                 ((ProjektgruppenController) neuePGerstellen.getController()).setLehrveranstaltung(lehrveranstaltung);
+                ((ProjektgruppenController) neuePGerstellen.getController()).populateTeilnehmerTableView();
+                ((ProjektgruppenController) neuePGerstellen.getController()).selectedStudentIds = new ArrayList<>();
             }
         } else if (nutzer instanceof Student) {
             if (neuePGerstellen.getController() instanceof ProjektgruppenController) {
@@ -201,10 +213,84 @@ public class ProjektgruppenController {
         }
     }
 
+    public void populateTeilnehmerTableView() {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/projektgruppe/studteilnehmer/" + lehrveranstaltung.getId())).build();
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            ObjectMapper mapper = new ObjectMapper();
+            List<Student> students = mapper.readValue(response.body(), new TypeReference<List<Student>>() {});
+
+            addCheckBoxToTable();
+            checkbox_col.setVisible(false);
+            studentenliste_tableview.setEditable(true);
+            studentenname_col.setCellValueFactory(new PropertyValueFactory<Student, String>("NachnameVorname"));
+            matrnr_col.setCellValueFactory(new PropertyValueFactory<Student, Integer>("matrikelnummer"));
+
+            ObservableList<Student> obsStud = FXCollections.observableList(students);
+            studentenliste_tableview.setItems(obsStud);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addCheckBoxToTable() {
+        TableColumn<Student, Void> colBtn = new TableColumn("Selected");
+        Callback<TableColumn<Student, Void>, TableCell<Student, Void>> cellFactory = new Callback<TableColumn<Student, Void>, TableCell<Student, Void>>() {
+            @Override
+            public TableCell<Student, Void> call(final TableColumn<Student, Void> param) {
+                final TableCell<Student, Void> cell = new TableCell<Student, Void>() {
+                    private final CheckBox checkBox = new CheckBox();
+                    {
+                        checkBox.setOnAction((ActionEvent event) -> {
+                            Student student = getTableView().getItems().get(getIndex());
+                            if (checkBox.isSelected()) {        // wenn Häckchen gesetzt wird, füge Student zu der Liste der ausgewählten Studenten hinzu
+                                selectedStudentIds.add((long)student.getId());
+                            } else {                            // wenn Häckchen entfernt wird, entferne den Studenten von der Liste
+                                for (int i = 0; i < selectedStudentIds.size(); i++) {
+                                    if (selectedStudentIds.get(i) == student.getId()) {
+                                        selectedStudentIds.remove(i);
+                                    }
+                                }
+                            }
+                            System.out.println(selectedStudentIds);
+                        });
+                    }
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(checkBox);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+
+        colBtn.setCellFactory(cellFactory);
+        studentenliste_tableview.getColumns().add(colBtn);
+
+    }
+
     // anklicken von "Projektgruppe erstellen"-Button auf der Seite zur Erstellung einer neuen Projektgruppe
     public void erstellenPressedButton(ActionEvent actionEvent) {
+        System.out.println(selectedStudentIds);
         actionEvent.consume();
         String pgTitel = pgTitel_txtfield.getText().trim();
+        if (pgTitel.equals("")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Kein Titel vorhanden!");
+            alert.setHeaderText("Es wurde kein Titel für die neue Projektgruppe eingegeben!");
+            alert.setContentText("Geben Sie bitte einen Titel ein.");
+            alert.showAndWait();
+            return;
+        }
         long nutzerID = -1;
         if (nutzer instanceof Lehrender) {
             nutzerID = ((Lehrender) nutzer).getNutzerId().getId();
@@ -220,7 +306,14 @@ public class ProjektgruppenController {
             entity.addTextBody("titel", pgTitel, ContentType.create("text/plain", MIME.UTF8_CHARSET));
             entity.addTextBody("nutzer", String.valueOf(nutzerID), ContentType.create("text/plain", MIME.UTF8_CHARSET));
             entity.addTextBody("lehrveranstaltung", String.valueOf(lehrveranstaltung.getId()), ContentType.create("text/plain", MIME.UTF8_CHARSET));
-
+            if (selectedStudentIds.size() > 0) {
+                for (int i = 0; i < selectedStudentIds.size(); i++) {
+                    entity.addPart("studentId", new StringBody(selectedStudentIds.get(i).toString(), ContentType.create("text/plain", MIME.UTF8_CHARSET)));
+                }
+            } else {
+                System.out.println("ist im else-zweig angekommen");
+                entity.addPart("studentId", new StringBody(String.valueOf(-1), ContentType.create("text/plain", MIME.UTF8_CHARSET)));
+            }
             HttpEntity requestEntity = entity.build();
             post.setEntity(requestEntity);
 

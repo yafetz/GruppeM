@@ -2,8 +2,11 @@ package Server.Controller;
 
 import Server.Modell.*;
 import Server.Repository.*;
+import Server.Services.GruppenmitgliedService;
 import Server.Services.ProjektgruppenService;
+import Server.Services.TeilnehmerListeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +23,11 @@ public class ProjektgruppenController {
     private final StudentRepository studentRepository;
     private final NutzerRepository nutzerRepository;
     private final GruppenmitgliedRepository gruppenmitgliedRepository;
+    private final TeilnehmerListeRepository teilnehmerListeRepository;
+    private final GruppenmitgliedService gruppenmitgliedService;
 
     @Autowired
-    public ProjektgruppenController(ProjektgruppenRepository projektgruppenRepository, ProjektgruppenService projektgruppenService, LehrveranstaltungRepository lehrveranstaltungRepository, LehrenderRepository lehrenderRepository, StudentRepository studentRepository, NutzerRepository nutzerRepository, GruppenmitgliedRepository gruppenmitgliedRepository) {
+    public ProjektgruppenController(ProjektgruppenRepository projektgruppenRepository, ProjektgruppenService projektgruppenService, LehrveranstaltungRepository lehrveranstaltungRepository, LehrenderRepository lehrenderRepository, StudentRepository studentRepository, NutzerRepository nutzerRepository, GruppenmitgliedRepository gruppenmitgliedRepository, TeilnehmerListeService teilnehmerListeService, TeilnehmerListeRepository teilnehmerListeRepository, GruppenmitgliedService gruppenmitgliedService) {
         this.projektgruppenRepository = projektgruppenRepository;
         this.projektgruppenService = projektgruppenService;
         this.lehrveranstaltungRepository = lehrveranstaltungRepository;
@@ -30,19 +35,24 @@ public class ProjektgruppenController {
         this.studentRepository = studentRepository;
         this.nutzerRepository = nutzerRepository;
         this.gruppenmitgliedRepository = gruppenmitgliedRepository;
+        this.teilnehmerListeRepository = teilnehmerListeRepository;
+        this.gruppenmitgliedService = gruppenmitgliedService;
     }
 
     @PostMapping("/neu")
-    public ResponseEntity<Boolean> projektgruppeErstellen(@RequestParam("titel") String titel, @RequestParam("nutzer") Long nutzerID, @RequestParam("lehrveranstaltung") Long lvID) {
+    public ResponseEntity<Boolean> projektgruppeErstellen(@RequestParam("titel") String titel, @RequestParam("nutzer") long nutzerID,
+                                                          @RequestParam("lehrveranstaltung") long lvID, @RequestParam("studentId") List<Long> studentId) {
         Nutzer nutzer = nutzerRepository.findNutzerById(nutzerID);
         Projektgruppe projektgruppe = projektgruppenRepository.findProjektgruppeByTitel(titel);
         Lehrveranstaltung lehrveranstaltung = lehrveranstaltungRepository.findLehrveranstaltungById(lvID);
-        if (projektgruppe != null) {
-            // Projektgruppe mit diesem Titel bereits vorhanden
+        if (projektgruppe != null) {        // Projektgruppe mit diesem Titel bereits vorhanden
             return new ResponseEntity<>(false, null, HttpStatus.BAD_REQUEST);
-        } else {
-            // Projektgruppe noch nicht vorhanden
+        } else {                            // Projektgruppe noch nicht vorhanden
             projektgruppenService.createProjektgruppe(lehrveranstaltung, titel, nutzer);
+            if(studentId.get(0) != -1) {         // falls Studenten zum Hinzufügen ausgewählt wurden
+                projektgruppe = projektgruppenRepository.findProjektgruppeByTitel(titel);
+                gruppenmitgliedService.addMitglieder(projektgruppe, studentId);
+            }
             return new ResponseEntity<>(true, null, HttpStatus.OK);
         }
     }
@@ -80,5 +90,10 @@ public class ProjektgruppenController {
     @PostMapping("/suchen")
     public List<Projektgruppe> getAllByLehrveranstaltungAndKeyword(@RequestParam("lvID") Long lvID, @RequestParam("titel") String titel) {
         return projektgruppenRepository.getAllProjektgruppeByLehrveranstaltungAndKeyword(lvID, titel);
+    }
+
+    @GetMapping("/studteilnehmer/{lehrveranstaltungId}")
+    public List<Student> getAllStudByLehrveranstaltungId(@PathVariable long lehrveranstaltungId) {
+        return teilnehmerListeRepository.getAllStudByLehrveranstaltungId(lehrveranstaltungId);
     }
 }
