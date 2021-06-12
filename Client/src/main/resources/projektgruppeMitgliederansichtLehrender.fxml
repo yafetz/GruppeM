@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="635.0" prefWidth="1268.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.ProjektgruppenController">
+    <children>
+        <Label fx:id="MitgliederPGTitel_label" layoutX="40.0" layoutY="29.0" text="Projektgruppe ABC">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+        <Label fx:id="MitgliederLvTitel_label" layoutX="40.0" layoutY="82.0" text="Lehrveranstaltung XYZ">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+      <ScrollPane layoutX="41.0" layoutY="161.0" prefHeight="457.0" prefWidth="469.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="449.0" prefWidth="466.0">
+               <children>
+                  <TableView fx:id="vorhandene_TableView" prefHeight="457.0" prefWidth="469.0">
+                    <columns>
+                      <TableColumn fx:id="vorhandeneName_Col" prefWidth="290.66667687892914" text="Name, Vorname" />
+                      <TableColumn fx:id="vorhandeneMatr_Col" prefWidth="173.333251953125" text="Matrikelnummer" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+      <Label layoutX="41.0" layoutY="128.0" text="Gegenwärtige Mitglieder:" />
+      <Label layoutX="556.0" layoutY="128.0" text="Mitglieder zum Hinzufügen auswählen:" />
+      <Button fx:id="addMitgliederButton" layoutX="1105.0" layoutY="161.0" mnemonicParsing="false" onAction="#addMitgliederPressedButton" text="Hinzufügen" />
+      <ScrollPane layoutX="556.0" layoutY="161.0" prefHeight="457.0" prefWidth="469.0">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="449.0" prefWidth="466.0">
+               <children>
+                  <TableView fx:id="neue_TableView" prefHeight="457.0" prefWidth="469.0">
+                     <columns>
+                        <TableColumn fx:id="neueName_Col" prefWidth="242.66663110256195" text="Name, Vorname" />
+                        <TableColumn fx:id="neueMatr_Col" prefWidth="145.33323669433594" text="Matrikelnummer" />
+                     </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+         </content>
+      </ScrollPane>
+      <Button fx:id="mitgliederZurueckButton" layoutX="1054.0" layoutY="592.0" mnemonicParsing="false" onAction="#zurueckPressedButton" text="Zurück zur Projektgruppenliste" />
+    </children>
+</AnchorPane>

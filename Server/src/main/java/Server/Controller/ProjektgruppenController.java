@@ -5,12 +5,14 @@ import Server.Repository.*;
 import Server.Services.GruppenmitgliedService;
 import Server.Services.ProjektgruppenService;
 import Server.Services.TeilnehmerListeService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -95,5 +97,23 @@ public class ProjektgruppenController {
     @GetMapping("/studteilnehmer/{lehrveranstaltungId}")
     public List<Student> getAllStudByLehrveranstaltungId(@PathVariable long lehrveranstaltungId) {
         return teilnehmerListeRepository.getAllStudByLehrveranstaltungId(lehrveranstaltungId);
+    }
+
+    @GetMapping("/{projektgruppenId}/Mitglieder")
+    public List<Student> getAllGruppenmitglieder(@PathVariable long projektgruppenId) {
+        return gruppenmitgliedRepository.findAllStudentsByProjektgruppe(projektgruppenId);
+    }
+
+    @GetMapping("/{projektgruppenId}/moeglicheMitglieder/{lvId}")
+    public List<Student> getAllStudThatAreNotMitglied(@PathVariable long projektgruppenId, @PathVariable long lvId) {
+        System.out.println(gruppenmitgliedRepository.getAllStudWhoAreNotMitglied(lvId, projektgruppenId));
+        return gruppenmitgliedRepository.getAllStudWhoAreNotMitglied(lvId, projektgruppenId);
+
+    }
+
+    @PostMapping("/addMitglieder")
+    public void addMitglieder(@RequestParam("projektgruppenId") long projektgruppenId, @RequestParam("studentId") List<Long> studentId) {
+        Projektgruppe projektgruppe = projektgruppenRepository.findProjektgruppeById(projektgruppenId);
+        gruppenmitgliedService.addMitglieder(projektgruppe, studentId);
     }
 }
