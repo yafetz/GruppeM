@@ -49,6 +49,16 @@ public class TeilnehmerListeController {
     private Object nutzerId;
     private Lehrveranstaltung lehrveranstaltung;
 
+    private Layout layout;
+
+    public Layout getLayout() {
+        return layout;
+    }
+
+    public void setLayout(Layout layout) {
+        this.layout = layout;
+        setNutzerInstanz(layout.getNutzer());
+    }
 
     public void populateTableView(){
 
@@ -178,33 +188,33 @@ public class TeilnehmerListeController {
             ObjectMapper mapper = new ObjectMapper();
             if (response.body().contains("matrikelnummer")) {
                 Student vergleichNutzer = mapper.readValue(response.body(), Student.class);
-                Layout userprofil = new Layout("userprofile.fxml", (Stage) teilnehmerTabelle.getScene().getWindow(), nutzerId);
-
-                if (userprofil.getController() instanceof UserprofilController) {
+                layout.instanceLayout("userprofile.fxml");
+                ((UserprofilController) layout.getController()).setLayout(layout);
+                if (layout.getController() instanceof UserprofilController) {
                     if(nutzerId instanceof  Student){
                         if(((Student) nutzerId).getId() == vergleichNutzer.getId()){
-                            ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(nutzerId, nutzerId);
+                            ((UserprofilController) layout.getController()).nutzerprofilAufrufen(nutzerId, nutzerId);
                         }else{
-                            ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(nutzerId, vergleichNutzer);
+                            ((UserprofilController) layout.getController()).nutzerprofilAufrufen(nutzerId, vergleichNutzer);
                         }
                     }else{
-                        ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(nutzerId, vergleichNutzer);
+                        ((UserprofilController) layout.getController()).nutzerprofilAufrufen(nutzerId, vergleichNutzer);
                     }
                 }
 
             } else if (response.body().contains("forschungsgebiet")) {
                 Lehrender vergleichNutzer = mapper.readValue(response.body(), Lehrender.class);
-                Layout userprofil = new Layout("userprofile.fxml", (Stage) teilnehmerTabelle.getScene().getWindow(), nutzerId);
-
-                if (userprofil.getController() instanceof UserprofilController) {
+                layout.instanceLayout("userprofile.fxml");
+                ((UserprofilController) layout.getController()).setLayout(layout);
+                if (layout.getController() instanceof UserprofilController) {
                     if(nutzerId instanceof  Lehrender){
                         if(((Lehrender) nutzerId).getId() == vergleichNutzer.getId()){
-                            ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(nutzerId, nutzerId);
+                            ((UserprofilController) layout.getController()).nutzerprofilAufrufen(nutzerId, nutzerId);
                         }else{
-                            ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(nutzerId, vergleichNutzer);
+                            ((UserprofilController) layout.getController()).nutzerprofilAufrufen(nutzerId, vergleichNutzer);
                         }
                     }else{
-                        ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(nutzerId, vergleichNutzer);
+                        ((UserprofilController) layout.getController()).nutzerprofilAufrufen(nutzerId, vergleichNutzer);
                     }
                 }
             }

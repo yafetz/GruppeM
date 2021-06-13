@@ -77,7 +77,15 @@ public class UserprofilController {
     @FXML
     private AnchorPane pane;
 
+    private Layout layout;
 
+    public Layout getLayout() {
+        return layout;
+    }
+
+    public void setLayout(Layout layout) {
+        this.layout = layout;
+    }
 
     public void initialize() {
         profil.setVisible(false);
@@ -236,11 +244,8 @@ public class UserprofilController {
     public void profilBearbeiten(ActionEvent actionEvent) {
         Stage stage = (Stage) profil.getScene().getWindow();
         Layout editieren = null;
-        editieren = new Layout("Nutzerprofil_veraendern.fxml", stage,eigenerNutzer);
-        if (editieren.getController() instanceof EditierenController) {
-            ((EditierenController) editieren.getController()).setNutzer(eigenerNutzer);
-
-        }
+        layout.instanceLayout("Nutzerprofil_veraendern.fxml");
+        ((EditierenController) layout.getController()).setLayout(layout);
     }
 
 
@@ -317,18 +322,15 @@ public class UserprofilController {
                 memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
 
                 if(memberResponse.body().equals("true")){
-                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) courseCol.getScene().getWindow(),eigenerNutzer);
-                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
-                        ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(eigenerNutzer,lehrveranstaltung);
-                    }
+                    layout.instanceLayout("lehrveranstaltungsuebersichtsseite.fxml");
+                    ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).uebersichtsseiteAufrufen(eigenerNutzer,lehrveranstaltung);
+                    ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).setLayout(layout);
                 }
                 else {
                     System.out.println("LehrveranstaltungsId   "+lehrveranstaltungId);
-                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) courseCol.getScene().getWindow(),eigenerNutzer);
-                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungBeitretenController){
-                        ((LehrveranstaltungBeitretenController) lehrveranstaltungBeitreten.getController()).setLehrveranstaltung(lehrveranstaltung);
-                        ((LehrveranstaltungBeitretenController) lehrveranstaltungBeitreten.getController()).setNutzerInstanz(eigenerNutzer);
-                    }
+                    layout.instanceLayout("lehrveranstaltungBeitreten.fxml");
+                    ((LehrveranstaltungBeitretenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
+                    ((LehrveranstaltungBeitretenController) layout.getController()).setLayout(layout);
                 }
             }else if (eigenerNutzer instanceof Student) {
 
@@ -337,17 +339,14 @@ public class UserprofilController {
                 memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
 
                 if(memberResponse.body().equals("true")){
-                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) courseCol.getScene().getWindow(),eigenerNutzer);
-                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
-                        ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(eigenerNutzer,lehrveranstaltung);
-                    }
+                    layout.instanceLayout("lehrveranstaltungsuebersichtsseite.fxml");
+                    ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).uebersichtsseiteAufrufen(eigenerNutzer,lehrveranstaltung);
+                    ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).setLayout(layout);
                 }
                 else{
-                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) courseCol.getScene().getWindow(),eigenerNutzer);
-                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungBeitretenController){
-                        ((LehrveranstaltungBeitretenController) lehrveranstaltungBeitreten.getController()).setLehrveranstaltung(lehrveranstaltung);
-                        ((LehrveranstaltungBeitretenController) lehrveranstaltungBeitreten.getController()).setNutzerInstanz(eigenerNutzer);
-                    }
+                    layout.instanceLayout("lehrveranstaltungBeitreten.fxml");
+                    ((LehrveranstaltungBeitretenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
+                    ((LehrveranstaltungBeitretenController) layout.getController()).setLayout(layout);
                 }
             }
         } catch (Exception e) {
@@ -357,7 +356,9 @@ public class UserprofilController {
 
     public void abmeldenPressedButton(ActionEvent actionEvent) {
         actionEvent.consume();
-        Auth login = new Auth("login.fxml", (Stage) abmeldenButton.getScene().getWindow());
+        layout.instanceAuth("login.fxml");
+        layout.setNutzer(null);
+        ((LoginController) layout.getController()).setLayout(layout);
     }
 
 

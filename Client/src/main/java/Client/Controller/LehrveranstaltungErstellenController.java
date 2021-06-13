@@ -56,6 +56,16 @@ public class LehrveranstaltungErstellenController {
 
     ObservableList<String> options = FXCollections.observableArrayList("Vorlesung","Seminar");
 
+    private Layout layout;
+
+    public Layout getLayout() {
+        return layout;
+    }
+
+    public void setLayout(Layout layout) {
+        this.layout = layout;
+        setNutzerInstanz(layout.getNutzer());
+    }
 
     public void initialize() {
 
@@ -102,10 +112,8 @@ public class LehrveranstaltungErstellenController {
                 try (CloseableHttpResponse response1 = client1.execute(post)) {
                     HttpEntity responseEntity = response1.getEntity();
                     String result = EntityUtils.toString(responseEntity);
-                    Layout meineKurse = new Layout("meineKurse.fxml",(Stage) erstellen.getScene().getWindow(),nutzerInstanz);
-                    if(meineKurse.getController() instanceof MeineKurseController){
-                        ((MeineKurseController) meineKurse.getController()).setNutzerInstanz(nutzerInstanz);
-                    }
+                    layout.instanceLayout("meineKurse.fxml");
+                    ((MeineKurseController) layout.getController()).setLayout(layout);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -131,11 +139,9 @@ public class LehrveranstaltungErstellenController {
         }
 
     public void AddCsv(ActionEvent actionEvent) {
-        Layout erstellenmitCSV = new Layout("lehrmaterialUpload.fxml",(Stage) addCSV.getScene().getWindow(),nutzerInstanz);
-        if(erstellenmitCSV.getController() instanceof LehrmaterialController){
-            ((LehrmaterialController) erstellenmitCSV.getController()).setNutzerInstanz(nutzerInstanz);
-            ((LehrmaterialController) erstellenmitCSV.getController()).setModus("CSV");
-        }
+        layout.instanceLayout("lehrmaterialUpload.fxml");
+        ((LehrmaterialController) layout.getController()).setLayout(layout);
+        ((LehrmaterialController) layout.getController()).setModus("CSV");
     }
 }
 

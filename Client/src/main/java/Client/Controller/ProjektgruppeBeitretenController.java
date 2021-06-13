@@ -33,6 +33,16 @@ public class ProjektgruppeBeitretenController {
     private Lehrveranstaltung lehrveranstaltung;
     private Projektgruppe projektgruppe;
 
+    private Layout layout;
+
+    public Layout getLayout() {
+        return layout;
+    }
+
+    public void setLayout(Layout layout) {
+        this.layout = layout;
+    }
+
     public Object getNutzer() {
         return nutzer;
     }
@@ -79,13 +89,15 @@ public class ProjektgruppeBeitretenController {
                 String responseBody = EntityUtils.toString(responseEntity);
                 System.out.println(responseBody);
 
-                Layout projektgruppeUebersicht = new Layout("projektgruppeUebersicht.fxml", (Stage) beitreten_btn.getScene().getWindow(), nutzer);
-                if (projektgruppeUebersicht.getController() instanceof ProjektgruppenController) {
-                    ((ProjektgruppenController) projektgruppeUebersicht.getController()).setNutzer(nutzer);
-                    ((ProjektgruppenController) projektgruppeUebersicht.getController()).setLehrveranstaltung(lehrveranstaltung);
-                    ((ProjektgruppenController) projektgruppeUebersicht.getController()).setProjektgruppe(projektgruppe);
-                    ((ProjektgruppenController) projektgruppeUebersicht.getController()).setPGUebersichtLvTitel(lehrveranstaltung.getTitel());
-                    ((ProjektgruppenController) projektgruppeUebersicht.getController()).setPGUebersichtPGTitel(projektgruppe.getTitel());
+                //Layout projektgruppeUebersicht = new Layout("projektgruppeUebersicht.fxml", (Stage) beitreten_btn.getScene().getWindow(), nutzer);
+                layout.instanceLayout("projektgruppeUebersicht.fxml");
+                ((ProjektgruppenController) layout.getController()).setLayout(layout);
+                if (layout.getController() instanceof ProjektgruppenController) {
+                    ((ProjektgruppenController) layout.getController()).setNutzer(nutzer);
+                    ((ProjektgruppenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
+                    ((ProjektgruppenController) layout.getController()).setProjektgruppe(projektgruppe);
+                    ((ProjektgruppenController) layout.getController()).setPGUebersichtLvTitel(lehrveranstaltung.getTitel());
+                    ((ProjektgruppenController) layout.getController()).setPGUebersichtPGTitel(projektgruppe.getTitel());
                 }
             }
         } catch (IOException e) {
@@ -96,12 +108,14 @@ public class ProjektgruppeBeitretenController {
     // anklicken von "Zurück zur Projektgruppenliste"-Button auf der Projektgruppenbeitrittsseite
     public void zurueckPressedButton(ActionEvent actionEvent) {
         actionEvent.consume();
-        Layout projektgruppenliste = new Layout ("projektgruppenliste.fxml", (Stage) zurueck_btn.getScene().getWindow(), nutzer);
-        if (projektgruppenliste.getController() instanceof ProjektgruppenController) {
-            ((ProjektgruppenController) projektgruppenliste.getController()).setNutzer(nutzer);
-            ((ProjektgruppenController) projektgruppenliste.getController()).setLehrveranstaltung(lehrveranstaltung);
-            ((ProjektgruppenController) projektgruppenliste.getController()).populateTableView();
-            ((ProjektgruppenController) projektgruppenliste.getController()).setPGListeSeitentitel(lehrveranstaltung.getTitel());
+        //Layout projektgruppenliste = new Layout ("projektgruppenliste.fxml", (Stage) zurueck_btn.getScene().getWindow(), nutzer);
+        layout.instanceLayout("projektgruppenliste.fxml");
+        ((ProjektgruppenController) layout.getController()).setLayout(layout);
+        if (layout.getController() instanceof ProjektgruppenController) {
+            ((ProjektgruppenController) layout.getController()).setNutzer(nutzer);
+            ((ProjektgruppenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
+            ((ProjektgruppenController) layout.getController()).populateTableView();
+            ((ProjektgruppenController) layout.getController()).setPGListeSeitentitel(lehrveranstaltung.getTitel());
         }
     }
 }

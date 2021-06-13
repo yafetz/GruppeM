@@ -1,6 +1,8 @@
 package Client;
 
+import Client.Controller.LoginController;
 import Client.Layouts.Auth;
+import Client.Layouts.Layout;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,7 +16,10 @@ public class Client extends Application {
         try {
             stage.setTitle("SEP");
             FXMLLoader loader = new FXMLLoader();
-            Auth login = new Auth("login.fxml",stage);
+            Layout layout = new Layout();
+            layout.setStage(stage);
+            layout.instanceAuth("login.fxml");
+            ((LoginController) layout.getController()).setLayout(layout);
         }
         catch(Exception e)    {
             e.printStackTrace();

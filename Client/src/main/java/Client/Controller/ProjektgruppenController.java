@@ -4,6 +4,7 @@ import Client.Layouts.Layout;
 import Client.Modell.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,6 +30,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ProjektgruppenController {
     @FXML private Button suchenButton;
@@ -59,6 +62,16 @@ public class ProjektgruppenController {
     private Lehrveranstaltung lehrveranstaltung;
     private Projektgruppe projektgruppe;
 
+    private Layout layout;
+
+    public Layout getLayout() {
+        return layout;
+    }
+
+    public void setLayout(Layout layout) {
+        this.layout = layout;
+        setNutzer(nutzer);
+    }
 
     public void setPageTitel(String titel) {
         pglisteseitentitel_label.setText(titel);
@@ -150,26 +163,28 @@ public class ProjektgruppenController {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             ObjectMapper mapper = new ObjectMapper();
             Projektgruppe projektgruppe = mapper.readValue(response.body(), Projektgruppe.class);
-
+            System.out.println("Weiterleitung");
             if (nutzer instanceof Student) {        //nur Studenten dürfen Projektgruppen beitreten
                 long studentID = ((Student) nutzer).getId();
                 request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/projektgruppe/checkMember/" + id + "&" + studentID)).build();
                 HttpResponse<String> istGruppenmitgliedResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
                 if (istGruppenmitgliedResponse.body().equals("true")) {         //der Student ist bereits Mitglied dieser Projektgruppe -> Übersichtsseite
-                    Layout projektgruppeoverview = new Layout ("projektgruppeUebersicht.fxml", (Stage) pgListe_tableview.getScene().getWindow(), nutzer);
-                    if (projektgruppeoverview.getController() instanceof ProjektgruppenController) {
-                        ((ProjektgruppenController) projektgruppeoverview.getController()).setNutzer(nutzer);
-                        ((ProjektgruppenController) projektgruppeoverview.getController()).setProjektgruppe(projektgruppe);
-                        ((ProjektgruppenController) projektgruppeoverview.getController()).setLehrveranstaltung(lehrveranstaltung);
-                        ((ProjektgruppenController) projektgruppeoverview.getController()).setPGUebersichtLvTitel(lehrveranstaltung.getTitel());
-                        ((ProjektgruppenController) projektgruppeoverview.getController()).setPGUebersichtPGTitel(projektgruppe.getTitel());
+                    layout.instanceLayout("projektgruppeUebersicht.fxml");
+                    ((ProjektgruppenController) layout.getController()).setLayout(layout);
+                    ((ProjektgruppenController) layout.getController()).setNutzer(nutzer);
+                    if (layout.getController() instanceof ProjektgruppenController) {
+                        ((ProjektgruppenController) layout.getController()).setProjektgruppe(projektgruppe);
+                        ((ProjektgruppenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
+                        ((ProjektgruppenController) layout.getController()).setPGUebersichtLvTitel(lehrveranstaltung.getTitel());
+                        ((ProjektgruppenController) layout.getController()).setPGUebersichtPGTitel(projektgruppe.getTitel());
                     }
                 } else {        //Student ist noch nicht Mitglied -> Beitrittsseite
-                    Layout projektgruppebeitritt = new Layout("projektgruppenbeitritt.fxml", (Stage) pgListe_tableview.getScene().getWindow(), nutzer);
-                    if (projektgruppebeitritt.getController() instanceof ProjektgruppeBeitretenController) {
-                        ((ProjektgruppeBeitretenController) projektgruppebeitritt.getController()).setNutzer(nutzer);
-                        ((ProjektgruppeBeitretenController) projektgruppebeitritt.getController()).setProjektgruppe(projektgruppe);
-                        ((ProjektgruppeBeitretenController) projektgruppebeitritt.getController()).setLehrveranstaltung(lehrveranstaltung);
+                    layout.instanceLayout("projektgruppenbeitritt.fxml");
+                    ((ProjektgruppeBeitretenController) layout.getController()).setLayout(layout);
+                    if (layout.getController() instanceof ProjektgruppeBeitretenController) {
+                        ((ProjektgruppeBeitretenController) layout.getController()).setNutzer(nutzer);
+                        ((ProjektgruppeBeitretenController) layout.getController()).setProjektgruppe(projektgruppe);
+                        ((ProjektgruppeBeitretenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
                     }
                 }
             }
@@ -182,21 +197,22 @@ public class ProjektgruppenController {
     // anklicken von "Neue Projektgruppe erstellen"-Button auf der Seite der Projektgruppenliste
     public void pgListeErstellenPressedButton(ActionEvent actionEvent) {
         actionEvent.consume();
-        Layout neuePGerstellen = new Layout("projektgruppeErstellen.fxml", (Stage) pgErstellen_btn.getScene().getWindow(), nutzer);
+        layout.instanceLayout("projektgruppeErstellen.fxml");
+        ((ProjektgruppeBeitretenController) layout.getController()).setLayout(layout);
         if (nutzer instanceof Lehrender) {
-            if (neuePGerstellen.getController() instanceof ProjektgruppenController) {
-                ((ProjektgruppenController) neuePGerstellen.getController()).setErstellenLvTitel_label(lehrveranstaltung.getTitel());
-                ((ProjektgruppenController) neuePGerstellen.getController()).setNutzer(nutzer);
-                ((ProjektgruppenController) neuePGerstellen.getController()).setLehrveranstaltung(lehrveranstaltung);
+            if (layout.getController() instanceof ProjektgruppenController) {
+                ((ProjektgruppenController) layout.getController()).setErstellenLvTitel_label(lehrveranstaltung.getTitel());
+                ((ProjektgruppenController) layout.getController()).setNutzer(nutzer);
+                ((ProjektgruppenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
             }
         } else if (nutzer instanceof Student) {
-            if (neuePGerstellen.getController() instanceof ProjektgruppenController) {
-                ((ProjektgruppenController) neuePGerstellen.getController()).setErstellenLvTitel_label(lehrveranstaltung.getTitel());
-                ((ProjektgruppenController) neuePGerstellen.getController()).addStud_label.setVisible(false);
-                ((ProjektgruppenController) neuePGerstellen.getController()).studentenliste_tableview.setVisible(false);
-                ((ProjektgruppenController) neuePGerstellen.getController()).scrollpane.setVisible(false);
-                ((ProjektgruppenController) neuePGerstellen.getController()).setNutzer(nutzer);
-                ((ProjektgruppenController) neuePGerstellen.getController()).setLehrveranstaltung(lehrveranstaltung);
+            if (layout.getController() instanceof ProjektgruppenController) {
+                ((ProjektgruppenController) layout.getController()).setErstellenLvTitel_label(lehrveranstaltung.getTitel());
+                ((ProjektgruppenController) layout.getController()).addStud_label.setVisible(false);
+                ((ProjektgruppenController) layout.getController()).studentenliste_tableview.setVisible(false);
+                ((ProjektgruppenController) layout.getController()).scrollpane.setVisible(false);
+                ((ProjektgruppenController) layout.getController()).setNutzer(nutzer);
+                ((ProjektgruppenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
             }
         }
     }
@@ -235,11 +251,13 @@ public class ProjektgruppenController {
                     alert.setHeaderText("Ihre Projektgruppe wurde erfolgreich erstellt");
                     alert.setContentText("Zurück zur Projektgruppenliste");
                     alert.showAndWait();
-                    Layout projektgruppenliste = new Layout("projektgruppenliste.fxml", (Stage) erstellen_btn.getScene().getWindow(), nutzer);
-                    if (projektgruppenliste.getController() instanceof ProjektgruppenController) {
-                        ((ProjektgruppenController) projektgruppenliste.getController()).setNutzer(nutzer);
-                        ((ProjektgruppenController) projektgruppenliste.getController()).setLehrveranstaltung(lehrveranstaltung);
-                        ((ProjektgruppenController) projektgruppenliste.getController()).setPageTitel("Projektgruppen der Lehrveranstaltung " + lehrveranstaltung.getTitel());
+                   // Layout projektgruppenliste = new Layout("projektgruppenliste.fxml", (Stage) erstellen_btn.getScene().getWindow(), nutzer);
+                    layout.instanceLayout("projektgruppenliste.fxml");
+                    ((ProjektgruppeBeitretenController) layout.getController()).setLayout(layout);
+                    if (layout.getController() instanceof ProjektgruppenController) {
+                        ((ProjektgruppenController) layout.getController()).setNutzer(nutzer);
+                        ((ProjektgruppenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
+                        ((ProjektgruppenController) layout.getController()).setPageTitel("Projektgruppen der Lehrveranstaltung " + lehrveranstaltung.getTitel());
                     }
                 } else {        // Projektgruppe existiert bereits mit diesem Titel
                     Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -301,6 +319,12 @@ public class ProjektgruppenController {
     }
 
     public void chatPressedButton(ActionEvent actionEvent) {
+        layout.instanceLayout("chat.fxml");
+        ((ChatController) layout.getController()).setLayout(layout);
+        ((ChatController) layout.getController()).setChatraumid(1);
+        System.out.println(nutzer);
+        ((ChatController) layout.getController()).setNutzer(nutzer);
+        ((ChatController) layout.getController()).scheduler();
     }
 
     public void todoPressedButton(ActionEvent actionEvent) {

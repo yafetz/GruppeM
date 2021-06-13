@@ -52,6 +52,16 @@ public class AlleKurseController{
 
     private Object nutzerInstanz;
 
+    private Layout layout;
+
+    public Layout getLayout() {
+        return layout;
+    }
+
+    public void setLayout(Layout layout) {
+        this.layout = layout;
+        setNutzerInstanz(layout.getNutzer());
+    }
 
     public void initialize() {
     }
@@ -267,18 +277,16 @@ public class AlleKurseController{
                 request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/beitreten/check/"+ lehrveranstaltungId + "&"+lehrId)).build();
                 memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
                 if(memberResponse.body().equals("true")){
-                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
-                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
-                        ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(nutzerInstanz,lehrveranstaltung);
-                    }
+                    layout.instanceLayout("lehrveranstaltungsuebersichtsseite.fxml");
+                    ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).setLayout(layout);
+                    ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).uebersichtsseiteAufrufen(nutzerInstanz,lehrveranstaltung);
+
                 }
                 else {
-                    System.out.println("LehrveranstaltungsId   "+lehrveranstaltungId);
-                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
-                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungBeitretenController){
-                        ((LehrveranstaltungBeitretenController) lehrveranstaltungBeitreten.getController()).setLehrveranstaltung(lehrveranstaltung);
-                        ((LehrveranstaltungBeitretenController) lehrveranstaltungBeitreten.getController()).setNutzerInstanz(nutzerInstanz);
-                    }
+                    //System.out.println("LehrveranstaltungsId   "+lehrveranstaltungId);
+                    layout.instanceLayout("lehrveranstaltungBeitreten.fxml");
+                    ((LehrveranstaltungBeitretenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
+                    ((LehrveranstaltungBeitretenController) layout.getController()).setLayout(layout);
                 }
             }else if (nutzerInstanz instanceof Student) {
 
@@ -287,18 +295,15 @@ public class AlleKurseController{
                 memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
 
                 if(memberResponse.body().equals("true")){
-                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
-                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
-                        ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(nutzerInstanz,lehrveranstaltung);
-                    }
+                    layout.instanceLayout("lehrveranstaltungsuebersichtsseite.fxml");
+                    ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).setLayout(layout);
+                    ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).uebersichtsseiteAufrufen(nutzerInstanz,lehrveranstaltung);
+
                 }
                 else{
-                    Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungBeitreten.fxml", (Stage) alleLv.getScene().getWindow(),nutzerInstanz);
-                    if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungBeitretenController){
-                        System.out.println("Alle Kurse lehrveranstaltungsId   "+lehrveranstaltung.getId());
-                        ((LehrveranstaltungBeitretenController) lehrveranstaltungBeitreten.getController()).setLehrveranstaltung(lehrveranstaltung);
-                        ((LehrveranstaltungBeitretenController) lehrveranstaltungBeitreten.getController()).setNutzerInstanz(nutzerInstanz);
-                    }
+                    layout.instanceLayout("lehrveranstaltungBeitreten.fxml");
+                    ((LehrveranstaltungBeitretenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
+                    ((LehrveranstaltungBeitretenController) layout.getController()).setLayout(layout);
                 }
             }
         } catch (Exception e) {
