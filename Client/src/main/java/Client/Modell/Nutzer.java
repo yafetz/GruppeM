@@ -20,6 +20,7 @@ public class Nutzer {
     private int plz;
     private String stadt;
     private String rolle;
+    private int fa_code;
 
     public void addDataFromJson(JSONObject jsonObject) {
         int id = jsonObject.getInt("id");
@@ -53,6 +54,11 @@ public class Nutzer {
     public int getId() {
         return id;
     }
+
+    public int getFa_code() {
+        return fa_code;
+    }
+
 
     public void setId(int id) {
         this.id = id;
