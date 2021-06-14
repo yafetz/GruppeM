@@ -178,4 +178,10 @@ public class LehrveranstaltungsuebersichtsseiteController {
         ((ProjektgruppenController) layout.getController()).setPGListeSeitentitel(lehrveranstaltung.getTitel());
 
     }
+
+    public void quizPressed(ActionEvent actionEvent) {
+        layout.instanceLayout("quizUebersicht.fxml");
+        ((QuizUebersichtController) layout.getController()).setLayout(layout);
+        ((QuizUebersichtController) layout.getController()).quizSeiteAufrufen(nutzer,lehrveranstaltung);
+    }
 }

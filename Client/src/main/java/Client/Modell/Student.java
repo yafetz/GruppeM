@@ -1,5 +1,6 @@
 package Client.Modell;
 
+import Client.Controller.TeilnehmerListeController;
 import org.json.JSONObject;
 
 public class Student {
@@ -63,6 +64,7 @@ public class Student {
     public String getStudentNachname() {
         return nutzerId.getNachname();
     }
+
 
 
 }
