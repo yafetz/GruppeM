@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @RestController
-@RequestMapping("/kalender/")
+@RequestMapping("/kalender")
 public class KalenderController {
 
     private KalenderRepository kalenderRepository;
@@ -33,7 +33,7 @@ public class KalenderController {
         this.lehrveranstaltungRepository = lehrveranstaltungRepository;
     }
 
-    @PostMapping("neuerTermin")
+    @PostMapping("/neuerTermin")
     public String neuerTermin(@RequestParam("titel") String titel,
                               @RequestParam("von") String vonDateTime,
                               @RequestParam("bis") String bisDateTime,
@@ -59,7 +59,19 @@ public class KalenderController {
             termin.setNutzerId(nutzer);
             kalenderRepository.save(termin);
         }else if(lehrender != null){
-            //Füge Termin
+            //Füge Termin für sich selbst
+            Termin termin = new Termin();
+            termin.setTitel(titel);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            termin.setVon(LocalDateTime.parse(vonDateTime, formatter));
+            termin.setBis(LocalDateTime.parse(bisDateTime, formatter));
+            termin.setLehrveranstaltung(lehrveranstaltungRepository.findLehrveranstaltungById(lvId));
+            termin.setReminderValue(reminderValue);
+            termin.setReminderArt(reminderArt);
+            termin.setReminderShow(reminderShow);
+            termin.setNutzerId(nutzer);
+            kalenderRepository.save(termin);
+            //Füge Termin für alle anderen Teilnehmer der Lehrveranstaltung hinzu
         }
         return "Ok";
 
