@@ -32,6 +32,7 @@ public class Layout {
     private Object Controller;
     private Button meineKurse = new Button();
     private Button alleKurse = new Button();
+    private Button Kalender = new Button();
     private Hyperlink logo = new Hyperlink();
     private Hyperlink namenlink = new Hyperlink();
     private Object Nutzer;
@@ -96,6 +97,8 @@ public class Layout {
         hbox.getChildren().add(meineKurse);
         instanziateAlleKurseButton();
         hbox.getChildren().add(alleKurse);
+        instanziateKalenderButton();
+        hbox.getChildren().add(Kalender);
 
         instanziereLogo();
 
@@ -185,6 +188,24 @@ public class Layout {
         alleKurse.setFont(new Font("System Bold",12.0));
         alleKurse.setOnAction(alleKurseHandler);
         alleKurse.setAlignment(Pos.CENTER);
+    }
+
+    public void instanziateKalenderButton(){
+        Kalender.setText("Kalender");
+        Kalender.setId("kalender");
+        EventHandler<ActionEvent> KalenderHandler = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                event.consume();
+                instanceLayout("Calender.fxml");
+                ((CalenderController) getController()).setLayout(layout);
+                ((CalenderController) getController()).Initilaize();
+            }
+        };
+        Kalender.setCursor(Cursor.HAND);
+        Kalender.setFont(new Font("System Bold",12.0));
+        Kalender.setOnAction(KalenderHandler);
+        Kalender.setAlignment(Pos.CENTER);
     }
 
     public void instanziereLogo(){
