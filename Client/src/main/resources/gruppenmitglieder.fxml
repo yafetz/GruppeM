@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="762.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.GruppenmitgliederController">
+    <children>
+        <TableView fx:id="tabelle" layoutX="53.0" layoutY="86.0" prefHeight="488.0" prefWidth="585.0">
+            <columns>
+                <TableColumn fx:id="vorname" prefWidth="199.9999885559082" text="Vorname" />
+                <TableColumn fx:id="nachname" prefWidth="232.6666488647461" text="Nachname" />
+            </columns>
+        </TableView>
+        <Label layoutX="53.0" layoutY="31.0" text="Gruppenmitglieder">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+    </children>
+</AnchorPane>

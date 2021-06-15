@@ -333,6 +333,8 @@ public class ProjektgruppenController {
     }
 
     public void memberPressedButton(ActionEvent actionEvent) {
+        layout.instanceLayout("gruppenmitglieder.fxml");
+        ((GruppenmitgliederController) layout.getController()).setLayout(layout);
     }
 
 
