@@ -1,15 +1,50 @@
 package Client.Modell;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class Gruppenmitglied {
-    private Long id;
+    private int id;
     private Lehrveranstaltung lehrveranstaltung;
     private Student student;
 
-    public Long getId() {
+
+
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    private final StringProperty vorname = new SimpleStringProperty();
+
+    public final StringProperty vornameProperty() {
+        return vorname;
+    }
+
+    public final String getVorname() {
+        return vorname.get();
+    }
+
+    public final void setVorname(String value) {
+        vorname.set(value);
+    }
+
+    private final StringProperty nachname = new SimpleStringProperty();
+
+    public final StringProperty nachnameProperty() {
+        return nachname;
+    }
+
+    public final String getNachname() {
+        return nachname.get();
+    }
+
+    public final void setNachname(String value) {
+        nachname.set(value);
+    }
+
+    public void setId(int id) {
         this.id = id;
     }
 

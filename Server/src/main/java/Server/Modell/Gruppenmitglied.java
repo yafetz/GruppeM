@@ -1,9 +1,12 @@
 package Server.Modell;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "gruppenmitglied")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Gruppenmitglied {
 
     @Id
@@ -21,6 +24,9 @@ public class Gruppenmitglied {
     public Gruppenmitglied(Student student, Projektgruppe projektgruppe) {
         this.student = student;
         this.projektgruppe = projektgruppe;
+    }
+    public Gruppenmitglied() {
+
     }
 
     public Long getId() {

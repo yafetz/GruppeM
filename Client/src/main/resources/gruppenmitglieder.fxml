@@ -10,6 +10,7 @@
             <columns>
                 <TableColumn fx:id="vorname" prefWidth="199.9999885559082" text="Vorname" />
                 <TableColumn fx:id="nachname" prefWidth="232.6666488647461" text="Nachname" />
+            <TableColumn fx:id="rolle" prefWidth="151.20001220703125" text="Rolle" />
             </columns>
         </TableView>
         <Label layoutX="53.0" layoutY="31.0" text="Gruppenmitglieder">
