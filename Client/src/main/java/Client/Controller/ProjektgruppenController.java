@@ -327,6 +327,11 @@ public class ProjektgruppenController {
     }
 
     public void todoPressedButton(ActionEvent actionEvent) {
+        layout.instanceLayout("toDoListe.fxml");
+        ((ToDoListeController) layout.getController()).setLayout(layout);
+        ((ToDoListeController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
+        ((ToDoListeController) layout.getController()).setProjektgruppe(projektgruppe);
+        ((ToDoListeController) layout.getController()).populateTableView();
     }
 
     public void filesPressedButton(ActionEvent actionEvent) {
