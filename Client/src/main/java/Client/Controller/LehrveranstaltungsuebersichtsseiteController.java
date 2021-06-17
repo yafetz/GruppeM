@@ -20,6 +20,9 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.sql.*;
 public class LehrveranstaltungsuebersichtsseiteController {
+
+    @FXML
+    public Button projektgruppe_btn;
     @FXML
     private Label title;
     @FXML
@@ -96,6 +99,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
                                     rs.next();
                                     Blob datei = rs.getBlob("datei");
                                     IOUtils.write(datei.getBinaryStream().readAllBytes(),fo);
+                                    fo.close();
                                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                                     alert.setTitle("Erfolgreich heruntergladen!");
                                     alert.setHeaderText("Ihre Lehrmaterialien wurden erfolgreich heruntergeladen!");
@@ -138,13 +142,11 @@ public class LehrveranstaltungsuebersichtsseiteController {
             ((LehrmaterialController) uploadScreen.getController()).setLehrveranstaltung(lehrveranstaltung);
             ((LehrmaterialController) uploadScreen.getController()).setModus("Lehrmaterial");
         }
-
     }
 
     public void uebersichtsseiteAufrufen(Object nutzer, Lehrveranstaltung lehrveranstaltung) {
         this.nutzer = nutzer;
         this.lehrveranstaltung= lehrveranstaltung;
-
 
         if (nutzer !=null) {
             if (nutzer instanceof Lehrender) {
@@ -160,10 +162,18 @@ public class LehrveranstaltungsuebersichtsseiteController {
                 studentenliste.setVisible(false);
                 getMaterial((Lehrveranstaltung) lehrveranstaltung);
             }
-
         }
-//        System.out.println("hello2325");
+    }
 
+    public void projektgruppePressedButton(ActionEvent actionEvent) {
+        actionEvent.consume();
+        Layout projektgruppenliste = new Layout("projektgruppenliste.fxml", (Stage) projektgruppe_btn.getScene().getWindow(), nutzer);
+        if (projektgruppenliste.getController() instanceof ProjektgruppenController) {
+            ((ProjektgruppenController) projektgruppenliste.getController()).setNutzer(nutzer);
+            ((ProjektgruppenController) projektgruppenliste.getController()).setLehrveranstaltung(lehrveranstaltung);
+            ((ProjektgruppenController) projektgruppenliste.getController()).populateTableView();
+            ((ProjektgruppenController) projektgruppenliste.getController()).setPGListeSeitentitel(lehrveranstaltung.getTitel());
+        }
 
     }
 }
