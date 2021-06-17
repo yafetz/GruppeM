@@ -12,6 +12,6 @@
         <Label layoutX="165.0" layoutY="79.0" text="Titel" />
       <Label layoutX="98.0" layoutY="23.0" text="T" />
       <DatePicker fx:id="deadline" layoutX="149.0" layoutY="219.0" />
-      <ComboBox layoutX="161.0" layoutY="155.0" prefWidth="150.0" />
+      <ComboBox fx:id="gruppenmitglieder" layoutX="161.0" layoutY="155.0" prefWidth="150.0" />
     </children>
 </AnchorPane>

@@ -1,9 +1,47 @@
 package Client.Modell;
 
-import javafx.scene.control.DatePicker;
-
 public class ToDoItem {
+
+
+
     private Long id;
+
+    private String titel;
+
+    public String getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(String deadline) {
+        this.deadline = deadline;
+    }
+
+    private String deadline;
+
+    private String verantwortliche;
+
+    private boolean erledigt;
+    private Long nutzerId;
+    private Long projektgruppeId;
+
+    public Long getNutzerId() {
+        return nutzerId;
+    }
+
+    public void setNutzerId(Long nutzerId) {
+        this.nutzerId = nutzerId;
+    }
+
+    public Long getProjektgruppeId() {
+        return projektgruppeId;
+    }
+
+    public void setProjektgruppeId(Long projektgruppeId) {
+        this.projektgruppeId = projektgruppeId;
+    }
+
+
+
 
     public Long getId() {
         return id;
@@ -21,7 +59,7 @@ public class ToDoItem {
         this.titel = titel;
     }
 
-    public boolean isErledigt() {
+    public boolean getErledigt() {
         return erledigt;
     }
 
@@ -29,27 +67,25 @@ public class ToDoItem {
         this.erledigt = erledigt;
     }
 
-    public Student getVerantwortlich() {
-        return verantwortlich;
+    public String getVerantwortliche() {
+        return verantwortliche;
     }
 
-    public void setVerantwortlich(Student verantwortlich) {
-        this.verantwortlich = verantwortlich;
+    public void setVerantwortliche(String verantwortliche) {
+        this.verantwortliche = verantwortliche;
     }
 
-    private String titel;
-    private boolean erledigt;
-    private Student verantwortlich;
-    private DatePicker deadline;
+
 
 
 
     public ToDoItem(){}
-    public ToDoItem (Long id, String titel, boolean erledigt, Student verantwortlich) {
-        this.id= id;
+    public ToDoItem(String titel, String deadline, String verantwortliche) {
+
         this.titel= titel;
-        this.erledigt= erledigt;
-        this.verantwortlich=verantwortlich;
+        this.deadline = deadline;
+
+        this.verantwortliche=verantwortliche;
     }
 
 

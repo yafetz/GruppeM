@@ -21,6 +21,7 @@ public class Gruppenmitglied {
     @JoinColumn(name= "projektgruppe_Id", nullable = false)
     private Projektgruppe projektgruppe;
 
+
     public Gruppenmitglied(Student student, Projektgruppe projektgruppe) {
         this.student = student;
         this.projektgruppe = projektgruppe;

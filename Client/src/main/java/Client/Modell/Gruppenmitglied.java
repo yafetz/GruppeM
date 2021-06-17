@@ -9,6 +9,16 @@ public class Gruppenmitglied {
     private Lehrveranstaltung lehrveranstaltung;
     private Student student;
 
+    public Projektgruppe getProjektgruppe() {
+        return projektgruppe;
+    }
+
+    public void setProjektgruppe(Projektgruppe projektgruppe) {
+        this.projektgruppe = projektgruppe;
+    }
+
+    private Projektgruppe projektgruppe;
+
 
 
 
