@@ -1,6 +1,10 @@
 package Client.Controller;
+
 import Client.Layouts.Layout;
-import Client.Modell.*;
+import Client.Modell.Lehrender;
+import Client.Modell.Lehrveranstaltung;
+import Client.Modell.Quiz;
+import Client.Modell.Student;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,18 +14,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.LinkedList;
 import java.util.List;
 
 public class QuizUebersichtController {
@@ -60,7 +59,7 @@ public class QuizUebersichtController {
         }
     }
     public void quizzeAufrufen(Object user) {
-        this.user = user;
+         this.user = user;
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = null;
@@ -79,11 +78,9 @@ public class QuizUebersichtController {
 
             ObjectMapper mapper = new ObjectMapper();
             mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-            java.util.List<Quiz> quiz = mapper.readValue(response.body(), new TypeReference<java.util.List<Quiz>>() {});
-            List<Quiz> quizliste = new LinkedList<>();
-            for(Quiz quiztitel : quiz) {
-                quizliste.add(quiztitel.getTitel());
-            }
+            java.util.List<Quiz> quiz = mapper.readValue(response.body(), new TypeReference<>() {});
+
+
 
 
             quizTitel.setCellValueFactory(new PropertyValueFactory<Quiz,String>("titel"));
@@ -91,7 +88,7 @@ public class QuizUebersichtController {
 
 //            Angelehnt an: https://stackoverflow.com/questions/35562037/how-to-set-click-event-for-a-cell-of-a-table-column-in-a-tableview
             quizTitel.setCellFactory(tablecell -> {
-                TableCell<Quiz, String> cell = new TableCell<Lehrveranstaltung, String>(){
+                TableCell<Quiz, String> cell = new TableCell<>(){
                     @Override
                     protected void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty) ;
@@ -109,7 +106,7 @@ public class QuizUebersichtController {
             });
 
 //            ObservableList is required to populate the table alleLv using .setItems() :
-            ObservableList<Quiz> kursListe = FXCollections.observableList(quizliste);
+            ObservableList<Quiz> kursListe = FXCollections.observableList(quiz);
             quizTable.setItems(kursListe);
 
         } catch (IOException | InterruptedException e) {
