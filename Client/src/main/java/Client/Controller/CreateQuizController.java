@@ -85,13 +85,13 @@ public class CreateQuizController {
             } else {
                 Alert fehler = new Alert(Alert.AlertType.ERROR);
                 fehler.setTitle("Frage Eingabe ungültig!");
-                fehler.setContentText("Frage darf nicht leer sein und nicht { } , : entahlten!");
+                fehler.setContentText("Frage darf nicht leer sein und nicht { } , : enthalten!");
                 fehler.showAndWait();
             }
         }else{
             Alert fehler = new Alert(Alert.AlertType.ERROR);
             fehler.setTitle("Keine Antworten für die Frage gespeichert!");
-            fehler.setContentText("Sie müssen Antworten eingeben bevor Sie eine Neue Frage hinzufügen können! Achten s");
+            fehler.setContentText("Sie müssen Antworten eingeben bevor Sie eine Neue Frage hinzufügen können! ");
             fehler.showAndWait();
         }
 
@@ -147,7 +147,7 @@ public class CreateQuizController {
         }else{
             Alert fehler = new Alert(Alert.AlertType.ERROR);
             fehler.setTitle("Antwort Eingabe ungültig!");
-            fehler.setContentText("Antwort darf nicht leer sein und nicht { } , : entahlten!");
+            fehler.setContentText("Antwort darf nicht leer sein und nicht { } , : enthalten!");
             fehler.showAndWait();
         }
     }

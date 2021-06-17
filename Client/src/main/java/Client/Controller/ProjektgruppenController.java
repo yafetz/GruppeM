@@ -328,12 +328,24 @@ public class ProjektgruppenController {
     }
 
     public void todoPressedButton(ActionEvent actionEvent) {
+        layout.instanceLayout("toDoListe.fxml");
+        ((ToDoListeController) layout.getController()).setLayout(layout);
+        ((ToDoListeController) layout.getController()).setNutzerId(nutzer);
+        ((ToDoListeController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
+        ((ToDoListeController) layout.getController()).setProjektgruppe(projektgruppe);
+        ((ToDoListeController) layout.getController()).populateTableView();
     }
 
     public void filesPressedButton(ActionEvent actionEvent) {
     }
 
-    public void memberPressedButton(ActionEvent actionEvent) {
+    public void memberPressedButton(ActionEvent actionEvent) throws IOException, InterruptedException {
+        layout.instanceLayout("gruppenmitglieder.fxml");
+        ((GruppenmitgliederController) layout.getController()).setLayout(layout);
+        ((GruppenmitgliederController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
+        ((GruppenmitgliederController) layout.getController()).setProjektgruppe(projektgruppe);
+        ((GruppenmitgliederController) layout.getController()).populateTableView();
+
     }
 
 
