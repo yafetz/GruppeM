@@ -49,11 +49,12 @@ public class FreundesListeController {
             JSONArray jsonObject = new JSONArray(response.body());
             vorname.setCellValueFactory(new PropertyValueFactory<>("vorname"));
             nachname.setCellValueFactory(new PropertyValueFactory<>("nachname"));
+            System.out.println(" Freundesliste json "+jsonObject);
 
 
 
             for(int i=0;i<jsonObject.length();i++){
-                JSONObject nutzer= jsonObject.getJSONObject(i).getJSONObject("angefragter_nutzer");
+                JSONObject nutzer= jsonObject.getJSONObject(i).getJSONObject("anfragender_nutzer");
 
 
                 Nutzer nutzer1 = new Nutzer();

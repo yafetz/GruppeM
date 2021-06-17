@@ -80,6 +80,8 @@ public class UserprofilController {
     @FXML
     private Button Freundschaftsliste;
     @FXML
+    private Button meineAnfragen;
+    @FXML
     private Label forschungsgebietOderStudienfachTextLabel;
     private Object vergleichNutzer;
     private Object eigenerNutzer;
@@ -126,6 +128,7 @@ public class UserprofilController {
         if(eigenerNutzer == vergleichNutzer) {
             //Diese If-Bedingung tritt ein, wenn der Nutzer sich selbst aufruft
             anfrage.setVisible(false);
+            meineAnfragen.setVisible(true);
             Freundschaftsliste.setVisible(true);
             // Sicht eines Lehrenden auf sein eigenes Profil
             if (eigenerNutzer instanceof Lehrender) {
@@ -170,6 +173,7 @@ public class UserprofilController {
         // Diese else If tritt ein, wenn der Nutzer auf einen anderen Nutzer klickt
         else if (eigenerNutzer != vergleichNutzer) {
             Freundschaftsliste.setVisible(false);
+            meineAnfragen.setVisible(false);
             long nutzer_id =0;
             long profil_id =0;
 
@@ -248,10 +252,10 @@ public class UserprofilController {
                     try {
                         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
                         if(response.body().equals(true)){
-                            anfrage.setVisible(true);
+                            anfrage.setVisible(false);
                         }
                         else {
-                            anfrage.setVisible(false);
+                            anfrage.setVisible(true);
                         }
 
                     } catch (IOException e) {
@@ -447,8 +451,8 @@ public class UserprofilController {
         HttpPost post = new HttpPost(url);
         MultipartEntityBuilder entity = MultipartEntityBuilder.create();
         entity.setCharset(StandardCharsets.UTF_8);
-        entity.addTextBody("anfragender_id",String.valueOf(anfrage_id), ContentType.create("long/plain", MIME.UTF8_CHARSET));
-        entity.addTextBody("angefragter_id",String.valueOf(angefragter_id),ContentType.create("text/plain", MIME.UTF8_CHARSET));
+        entity.addTextBody("anfragender_id",String.valueOf(angefragter_id), ContentType.create("long/plain", MIME.UTF8_CHARSET));
+        entity.addTextBody("angefragter_id",String.valueOf(anfrage_id),ContentType.create("text/plain", MIME.UTF8_CHARSET));
 
         HttpEntity requestEntity = entity.build();
         post.setEntity(requestEntity);

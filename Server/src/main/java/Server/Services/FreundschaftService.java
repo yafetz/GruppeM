@@ -34,7 +34,7 @@ public class FreundschaftService {
     public Freundschaft getAnfrage(long id1, long id2){
         Nutzer angefragter_id = nutzerRepository.findNutzerById(id1);
         Nutzer anfragender_id = nutzerRepository.findNutzerById(id2);
-        freundschaftRepository.getFreundschaft(anfragender_id, angefragter_id);
+        freundschaftRepository.getFreundschaft(angefragter_id, anfragender_id);
         Freundschaft freundschaft = freundschaftRepository.getFreundschaft(anfragender_id,angefragter_id);
 
         return freundschaftRepository.getFreundschaft(anfragender_id, angefragter_id);

@@ -30,7 +30,7 @@ public class FreundschaftController {
     public Object anfrage(@RequestParam("anfragender_id") String anfragender_id, @RequestParam("angefragter_id") String angefragter_id){
         long anfrage_id =Long.valueOf(anfragender_id);
         long angefrate_id = Long.valueOf(angefragter_id);
-        return freundschaftService.anfrage_senden(anfrage_id, angefrate_id);
+        return freundschaftService.anfrage_senden(angefrate_id, anfrage_id);
 
     }
 
