@@ -44,7 +44,6 @@ public class TeilnehmerListeController {
 
     @FXML
     private TableColumn<Nutzer, Integer> teilnehmerid;
-
     long id;
     private Object nutzerId;
     private Lehrveranstaltung lehrveranstaltung;

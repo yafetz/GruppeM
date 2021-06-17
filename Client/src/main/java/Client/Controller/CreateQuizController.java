@@ -101,6 +101,7 @@ public class CreateQuizController {
 
         actionEvent.consume();
         if(questions.size() > 0){
+            System.out.println("Quiz erstellen");
             try (CloseableHttpClient client = HttpClients.createDefault()) {
 
                 String url = "http://localhost:8080/quiz/createQuiz";
@@ -121,6 +122,7 @@ public class CreateQuizController {
                 try (CloseableHttpResponse response = client.execute(post)) {
                     HttpEntity responseEntity = response.getEntity();
                     String result = EntityUtils.toString(responseEntity);
+                    System.out.println(result);
                 }
             } catch (IOException e) {
                 e.printStackTrace();

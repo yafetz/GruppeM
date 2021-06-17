@@ -105,4 +105,5 @@ public class Termin {
     public void setReminderShow(String reminderShow) {
         this.reminderShow = reminderShow;
     }
+    
 }

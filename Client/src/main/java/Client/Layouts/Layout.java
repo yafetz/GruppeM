@@ -163,6 +163,9 @@ public class Layout {
             @Override
             public void handle(ActionEvent event) {
                 event.consume();
+                if(getController() instanceof ChatController){
+                    ((ChatController) getController()).t.stop();
+                }
                 instanceLayout("meineKurse.fxml");
                 ((MeineKurseController) getController()).setLayout(layout);
             }

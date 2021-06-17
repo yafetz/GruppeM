@@ -5,8 +5,11 @@ import Client.Modell.Lehrender;
 import Client.Modell.Projektgruppe;
 import Client.Modell.Student;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -58,14 +61,19 @@ public class ChatController {
     private VBox chat;
 
     private int chatraumid;
-    
+
     private Object nutzer;
 
     private int lastMessage = 0;
     private Layout layout;
+    private boolean finished = true;
 
-    private Thread t;
+    private HttpClient client;
+    private HttpRequest request;
+    public boolean chatleft = true;
+    public Thread t;
     private boolean running = true;
+    private int currentLength = 0;
 
     public Layout getLayout() {
         return layout;
@@ -83,73 +91,95 @@ public class ChatController {
         this.chatraumid = chatraumid;
     }
 
-    public void setNutzer(Object nutzer){
+    public void setNutzer(Object nutzer) {
         this.nutzer = nutzer;
     }
 
-    public void scheduler(){
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
+    public void scheduler() {
+        System.out.println("Main : " + Thread.currentThread().getId());
+        Thread main = Thread.currentThread();
+        Task<Void> t = new Task<Void>() {
             @Override
-            public void run() {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        LadeNeueNachrichten();
-                    }
-                });
+            protected Void call() throws Exception {
+                boolean test = true;
+                while (test) {
+                    LadeNeueNachrichten();
+                    Thread.sleep(1000);
+                }
+                return null;
             }
-        }, 0, 1000);
+        };
+        this.t = new Thread(t);
+        this.t.start();
     }
 
-    public void LadeNeueNachrichten(){
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/chat/alleNachrichten/" + chatraumid)).build();
+    static JSONArray array = new JSONArray();
+
+    public void LadeNeueNachrichten() {
+        finished = false;
+        System.out.println("Start : " + System.currentTimeMillis());
+        if (client == null) {
+            client = HttpClient.newHttpClient();
+        }
+        if (request == null) {
+            request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/chat/alleNachrichten/" + chatraumid)).build();
+        }
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             //ObjectMapper mapper = new ObjectMapper();
-            JSONArray array = new JSONArray(response.body());
-            for(int i = 0; i < array.length(); i++){
-                //Check if this is a message which is not shown
-                if(toIntExact(array.getJSONObject(i).getLong("id")) > lastMessage){
-                    lastMessage = toIntExact(array.getJSONObject(i).getLong("id"));
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                    LocalDateTime dateTime = LocalDateTime.parse(array.getJSONObject(i).getString("datum").replace("T"," "), formatter);
-                    String datum = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss").format(dateTime);
-                    //Check if the Message was send by the user
-                    JSONObject nutzerObject = array.getJSONObject(i).getJSONObject("nutzer");
-                    if(nutzer instanceof Student){
-                        if(((Student) nutzer).getNutzer().getId() == toIntExact(nutzerObject.getLong("id"))){
-                            //Eigener Nutzer
-                            eigeneNachrichtAnzeigen(array.getJSONObject(i).getString("nachricht"),datum);
-                        }else{
-                            andereNachrichtAnzeigen(array.getJSONObject(i).getString("nachricht"),nutzerObject.getString("vorname")+" "+nutzerObject.getString("nachname"),datum);
-                        }
-                    }else if(nutzer instanceof Lehrender){
-                        if(((Lehrender) nutzer).getNutzerId().getId() == toIntExact(nutzerObject.getLong("id"))){
-                            //Eigener Nutzer
-                            eigeneNachrichtAnzeigen(array.getJSONObject(i).getString("nachricht"),datum);
-                        }else{
-                            andereNachrichtAnzeigen(array.getJSONObject(i).getString("nachricht"),nutzerObject.getString("vorname")+" "+nutzerObject.getString("nachname"),datum);
+            array = new JSONArray(response.body());
+            if (currentLength != array.length()) {
+                System.out.println("1");
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        System.out.println("2");
+                        for (int i = 0; i < array.length(); i++) {
+                            //Check if this is a message which is not shown
+                            if (toIntExact(array.getJSONObject(i).getLong("id")) > lastMessage) {
+                                lastMessage = toIntExact(array.getJSONObject(i).getLong("id"));
+                                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                                LocalDateTime dateTime = LocalDateTime.parse(array.getJSONObject(i).getString("datum").replace("T", " "), formatter);
+                                String datum = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss").format(dateTime);
+                                //Check if the Message was send by the user
+                                JSONObject nutzerObject = array.getJSONObject(i).getJSONObject("nutzer");
+                                if (nutzer instanceof Student) {
+                                    if (((Student) nutzer).getNutzer().getId() == toIntExact(nutzerObject.getLong("id"))) {
+                                        //Eigener Nutzer
+                                        eigeneNachrichtAnzeigen(array.getJSONObject(i).getString("nachricht"), datum);
+                                    } else {
+                                        andereNachrichtAnzeigen(array.getJSONObject(i).getString("nachricht"), nutzerObject.getString("vorname") + " " + nutzerObject.getString("nachname"), datum);
+                                    }
+                                } else if (nutzer instanceof Lehrender) {
+                                    if (((Lehrender) nutzer).getNutzerId().getId() == toIntExact(nutzerObject.getLong("id"))) {
+                                        //Eigener Nutzer
+                                        eigeneNachrichtAnzeigen(array.getJSONObject(i).getString("nachricht"), datum);
+                                    } else {
+                                        andereNachrichtAnzeigen(array.getJSONObject(i).getString("nachricht"), nutzerObject.getString("vorname") + " " + nutzerObject.getString("nachname"), datum);
+                                    }
+                                }
+                            }
                         }
                     }
-                }
+                });
+                currentLength = array.length();
             }
-            array = null;
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
+        System.out.println("End : " + System.currentTimeMillis());
+        finished = true;
     }
 
     public void sendeNachricht(ActionEvent actionEvent) {
-        if(nachricht.getText() != "") {
+        if (nachricht.getText() != "") {
             senden.setDisable(true);
             addNachrichtToDatabase();
             nachricht.setText("");
         }
     }
 
-    private void addNachrichtToDatabase(){
+    private void addNachrichtToDatabase() {
         try (CloseableHttpClient client1 = HttpClients.createDefault()) {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
             LocalDateTime now = LocalDateTime.now();
@@ -157,12 +187,12 @@ public class ChatController {
             HttpPost post = new HttpPost(url);
             MultipartEntityBuilder entity = MultipartEntityBuilder.create();
             entity.setCharset(StandardCharsets.UTF_8);
-            entity.addTextBody("chat_id", String.valueOf(chatraumid) );
+            entity.addTextBody("chat_id", String.valueOf(chatraumid));
             entity.addTextBody("nachricht", nachricht.getText());
             entity.addTextBody("datum", dtf.format(now));
-            if(nutzer instanceof Student){
+            if (nutzer instanceof Student) {
                 entity.addTextBody("nutzer_id", String.valueOf(((Student) nutzer).getNutzer().getId()));
-            }else if(nutzer instanceof Lehrender){
+            } else if (nutzer instanceof Lehrender) {
                 entity.addTextBody("nutzer_id", String.valueOf(((Lehrender) nutzer).getNutzerId().getId()));
             }
             HttpEntity requestEntity = entity.build();
@@ -175,22 +205,22 @@ public class ChatController {
                 if (result.equals("OK")) {
                     senden.setDisable(false);
                 }
-            }catch(IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        }
+    }
 
-    private void eigeneNachrichtAnzeigen(String text,String date){
+    private void eigeneNachrichtAnzeigen(String text, String date) {
         VBox meineNachricht = new VBox();
         meineNachricht.setAlignment(Pos.TOP_RIGHT);
-        meineNachricht.setPadding(new Insets(0,20,0,500));
+        meineNachricht.setPadding(new Insets(0, 20, 0, 500));
 
         Label person = new Label();
         person.setText("Ich");
-        person.setPadding(new Insets(2,10,2,10));
+        person.setPadding(new Insets(2, 10, 2, 10));
 
         Label nachrichtText = new Label();
         nachrichtText.setStyle("-fx-background-color: dodgerblue; -fx-background-radius: 10;");
@@ -204,7 +234,7 @@ public class ChatController {
 
         Label datum = new Label();
         datum.setText(date);
-        datum.setPadding(new Insets(2,10,2,10));
+        datum.setPadding(new Insets(2, 10, 2, 10));
 
         meineNachricht.getChildren().add(person);
         meineNachricht.getChildren().add(nachrichtText);
@@ -213,14 +243,14 @@ public class ChatController {
         chat.getChildren().add(meineNachricht);
     }
 
-    private void andereNachrichtAnzeigen(String text,String name,String date){
+    private void andereNachrichtAnzeigen(String text, String name, String date) {
         VBox meineNachricht = new VBox();
         meineNachricht.setAlignment(Pos.TOP_LEFT);
-        meineNachricht.setPadding(new Insets(0,500,0,20));
+        meineNachricht.setPadding(new Insets(0, 500, 0, 20));
 
         Label person = new Label();
         person.setText(name);
-        person.setPadding(new Insets(2,10,2,10));
+        person.setPadding(new Insets(2, 10, 2, 10));
 
         Label nachrichtText = new Label();
         nachrichtText.setStyle("-fx-background-color: lightgray; -fx-background-radius: 10;");
@@ -234,7 +264,7 @@ public class ChatController {
 
         Label datum = new Label();
         datum.setText(date);
-        datum.setPadding(new Insets(2,10,2,10));
+        datum.setPadding(new Insets(2, 10, 2, 10));
 
         meineNachricht.getChildren().add(person);
         meineNachricht.getChildren().add(nachrichtText);

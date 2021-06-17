@@ -226,17 +226,24 @@ public class CalenderController {
                             String VonDateTime = "";
                             String BisDateTime = "";
                             System.out.println(vonMinutes.getText().length() + " " + vonMinutes.getText());
-                            if(vonMinutes.getText().length() > 1){
-                                VonDateTime = von.getValue().toString() + " "+ vonHour.getText()+":"+ vonMinutes.getText() + ":00";
-                            }else{
-                                VonDateTime = von.getValue().toString() + " "+ vonHour.getText()+":"+ vonMinutes.getText() + "0:00";
+                            String vonM = vonMinutes.getText();
+                            String vonH = vonHour.getText();
+                            String bisM = bisMinutes.getText();
+                            String bisH = bisHour.getText();
+                            if(vonMinutes.getText().length() == 1){
+                                vonM += "0";
                             }
-
-                            if(bisMinutes.getText().length() > 1){
-                                BisDateTime = bis.getValue().toString() + " "+ bisHour.getText()+":"+ bisMinutes.getText() + ":00";
-                            }else{
-                                BisDateTime = bis.getValue().toString() + " "+ bisHour.getText()+":"+ bisMinutes.getText() + "0:00";
+                            if(vonHour.getText().length() == 1){
+                                vonH = "0"+vonH;
                             }
+                            VonDateTime = von.getValue().toString() + " "+ vonH+":"+ vonM + ":00";
+                            if(bisMinutes.getText().length() == 1){
+                                bisM += "0";
+                            }
+                            if(bisHour.getText().length() == 1){
+                                bisH = "0"+bisH;
+                            }
+                            BisDateTime = bis.getValue().toString() + " "+ bisH+":"+ bisM + ":00";
 
                             //System.out.println( ((Lehrender) layout.getNutzer()).getNutzerId().getId());
                             //Post Anfrage an den Server um den Termin zu erstellen
@@ -277,6 +284,7 @@ public class CalenderController {
             String url = "http://localhost:8080/kalender/neuerTermin";
             HttpPost post = new HttpPost(url);
             MultipartEntityBuilder entity = MultipartEntityBuilder.create();
+            System.out.println("von: " + von +" bis: "+ bis);
             entity.setCharset(StandardCharsets.UTF_8);
             entity.addTextBody("titel", titel );
             entity.addTextBody("von", von);

@@ -1,8 +1,10 @@
 package Client.Controller;
 import Client.Layouts.Layout;
 import Client.Modell.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -58,58 +60,42 @@ public class QuizUebersichtController {
             }
 
         }
+        quizzeAufrufen();
     }
-    public void quizzeAufrufen(Object user) {
-        this.user = user;
+    public void quizzeAufrufen() {
 
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = null;
-
-        if (user instanceof Lehrender) {
-
-            request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/meine/nutzerId=" + ((Lehrender) user).getNutzerId().getId())).build();
-        }
-        if (user instanceof Student) {
-            request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/meine/nutzerId=" + ((Student) user).getNutzer().getId())).build();
-            System.out.println(((Student) user).getId());
-        }
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/quiz/alle/"+ lehrveranstaltung.getId())).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
             ObjectMapper mapper = new ObjectMapper();
-            mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-            java.util.List<Quiz> quiz = mapper.readValue(response.body(), new TypeReference<java.util.List<Quiz>>() {});
-            List<Quiz> quizliste = new LinkedList<>();
-            for(Quiz quiztitel : quiz) {
-                quizliste.add(quiztitel.getTitel());
-            }
-
+            List<Quiz> quiz = mapper.readValue(response.body(), new TypeReference<List<Quiz>>() {});
 
             quizTitel.setCellValueFactory(new PropertyValueFactory<Quiz,String>("titel"));
 
+                quizTitel.setCellFactory(tablecell -> {
+                            TableCell<Quiz, String> cell = new TableCell<Quiz, String>() {
+                                @Override
+                                protected void updateItem(String item, boolean empty) {
+                                    super.updateItem(item, empty);
+                                    setText(empty ? null : item);
+                                }
+                            };
+                            cell.setCursor(Cursor.HAND);
+                            cell.setOnMouseClicked(e -> {
+                                if (!cell.isEmpty()) {
+                                    //Weiterleitung zu Quiz bearbeiten
+                                    layout.instanceLayout("quizBearbeiten.fxml");
+                                    ((QuizBearbeitenController)  layout.getController()).setQuiz(cell.getTableRow().getItem());
+                                    ((QuizBearbeitenController)  layout.getController()).setUpQuiz();
+                                }
+                            });
+                            return cell;
+                        });
 
-//            Angelehnt an: https://stackoverflow.com/questions/35562037/how-to-set-click-event-for-a-cell-of-a-table-column-in-a-tableview
-            quizTitel.setCellFactory(tablecell -> {
-                TableCell<Quiz, String> cell = new TableCell<Lehrveranstaltung, String>(){
-                    @Override
-                    protected void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty) ;
-                        setText(empty ? null : item);
-                    }
-                };
-                cell.setCursor(Cursor.HAND);
-                cell.setOnMouseClicked(e -> {
-                            if (!cell.isEmpty()) {
-
-                            }
-                        }
-                );
-                return cell;
-            });
-
-//            ObservableList is required to populate the table alleLv using .setItems() :
-            ObservableList<Quiz> kursListe = FXCollections.observableList(quizliste);
+            ObservableList<Quiz> kursListe = FXCollections.observableList(quiz);
             quizTable.setItems(kursListe);
 
         } catch (IOException | InterruptedException e) {

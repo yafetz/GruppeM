@@ -39,7 +39,7 @@ public class QuizAnswer {
         this.question = question;
     }
 
-    public boolean isCorrect() {
+    public boolean getisCorrect() {
         return isCorrect;
     }
 

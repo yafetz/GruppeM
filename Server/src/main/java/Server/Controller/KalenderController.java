@@ -60,7 +60,7 @@ public class KalenderController {
             termin.setReminderShow(reminderShow);
             termin.setNutzerId(nutzer);
             kalenderRepository.save(termin);
-        return "Ok";
+        return "OK";
 
     }
 

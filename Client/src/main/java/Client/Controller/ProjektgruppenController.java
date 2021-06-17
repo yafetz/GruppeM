@@ -324,6 +324,7 @@ public class ProjektgruppenController {
         System.out.println(nutzer);
         ((ChatController) layout.getController()).setNutzer(nutzer);
         ((ChatController) layout.getController()).scheduler();
+
     }
 
     public void todoPressedButton(ActionEvent actionEvent) {

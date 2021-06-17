@@ -9,15 +9,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/quiz/")
 
-public class CreateQuizController {
+public class QuizController {
 
     private LehrveranstaltungRepository lehrveranstaltungRepository;
     private LehrenderRepository lehrenderRepository;
@@ -26,7 +25,7 @@ public class CreateQuizController {
     private QuizAnswerRepository quizAnswerRepository;
 
     @Autowired
-    public CreateQuizController(LehrveranstaltungRepository lehrveranstaltungRepository, LehrenderRepository lehrenderRepository,QuizRepository quizRepository,QuizQuestionRepository quizQuestionRepository, QuizAnswerRepository quizAnswerRepository){
+    public QuizController(LehrveranstaltungRepository lehrveranstaltungRepository, LehrenderRepository lehrenderRepository, QuizRepository quizRepository, QuizQuestionRepository quizQuestionRepository, QuizAnswerRepository quizAnswerRepository){
         this.lehrveranstaltungRepository = lehrveranstaltungRepository;
         this.lehrenderRepository = lehrenderRepository;
         this.quizRepository = quizRepository;
@@ -72,10 +71,21 @@ public class CreateQuizController {
                 }
             }
         }
-        return "OK";
+        return questions;
     }
 
+@GetMapping("alle/{lvId}")
+    public List<Quiz> getAlleQuize(@PathVariable("lvId") long lvId){
+    return quizRepository.findAllByLehrveranstaltung(lehrveranstaltungRepository.findLehrveranstaltungById(lvId));
+}
 
+@GetMapping("alleFragen/{quizId}")
+public List<QuizQuestion> getAlleFragen(@PathVariable("quizId") long quizId){
+        return quizQuestionRepository.findAllByQuiz(quizRepository.findById(quizId));
+}
 
-
+@GetMapping("alleAntworten/{quizQuestionId}")
+public List<QuizAnswer> getAlleAntworten(@PathVariable("quizQuestionId") long quizQuestionId){
+        return quizAnswerRepository.findAllByQuestion(quizQuestionRepository.findById(quizQuestionId));
+}
 }
