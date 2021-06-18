@@ -72,12 +72,13 @@ public class FreundschaftsAnfragenController {
 
 
 
-            addButtonToTable("Akzeptieren");
-            addButtonToTable("Ablehnen");
+
 
                 anfragen_tabelle.getItems().add(nutzer1);
 
             }
+            addButtonToTable("Akzeptieren");
+            addButtonToTable("Ablehnen");
 
 
 

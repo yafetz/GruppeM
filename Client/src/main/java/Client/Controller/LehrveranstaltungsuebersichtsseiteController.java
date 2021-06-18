@@ -169,6 +169,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
         actionEvent.consume();
         Layout projektgruppenliste = new Layout("projektgruppenliste.fxml", (Stage) projektgruppe_btn.getScene().getWindow(), nutzer);
         if (projektgruppenliste.getController() instanceof ProjektgruppenController) {
+         //   (((ProjektgruppenController) projektgruppenliste.getController()).setGruppenid();)
             ((ProjektgruppenController) projektgruppenliste.getController()).setNutzer(nutzer);
             ((ProjektgruppenController) projektgruppenliste.getController()).setLehrveranstaltung(lehrveranstaltung);
             ((ProjektgruppenController) projektgruppenliste.getController()).populateTableView();
