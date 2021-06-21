@@ -1,5 +1,6 @@
 package Client.Controller;
 
+import Client.Layouts.Layout;
 import Client.Modell.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,6 +13,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -140,6 +142,14 @@ public class FreundschaftsAnfragenController {
                                   System.out.println("Akzeptieren response:    "+response.body());
 
 
+                                  Stage stage = (Stage) anfragen_tabelle.getScene().getWindow();
+
+                                  Layout anfragen = null;
+                                  anfragen = new Layout("freundschaftsAnfragen.fxml", stage,nutzerInstanz);
+                                  if (anfragen.getController() instanceof FreundschaftsAnfragenController) {
+                                      ((FreundschaftsAnfragenController) anfragen.getController()).setNutzerInstanz(nutzerInstanz);
+
+                                  }
 
 
                               } catch (IOException e) {
@@ -172,6 +182,15 @@ public class FreundschaftsAnfragenController {
                                     response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
                                     System.out.println("Ablehnen response:    "+response.body());
+
+                                    Stage stage = (Stage) anfragen_tabelle.getScene().getWindow();
+
+                                    Layout anfragen = null;
+                                    anfragen = new Layout("freundschaftsAnfragen.fxml", stage,nutzerInstanz);
+                                    if (anfragen.getController() instanceof FreundschaftsAnfragenController) {
+                                        ((FreundschaftsAnfragenController) anfragen.getController()).setNutzerInstanz(nutzerInstanz);
+
+                                    }
 
 
 

@@ -74,7 +74,7 @@ public class UserprofilController {
     @FXML
     public Label plzLabel;
     @FXML
-    public Button anfrage;
+    private Button anfrage;
     @FXML
     private Label lehrstuhlOderMatrNrTextLabel;
     @FXML
@@ -97,6 +97,7 @@ public class UserprofilController {
 
     public void initialize() {
         profil.setVisible(false);
+
     }
 
     public void nutzerprofilAufrufen (Object eigenerNutzer, Object vergleichNutzer) {

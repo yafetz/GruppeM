@@ -54,14 +54,39 @@ public class FreundesListeController {
 
 
             for(int i=0;i<jsonObject.length();i++){
+                long nutzerid= ((Student)nutzerInstanz).getNutzer().getId();
                 JSONObject nutzer= jsonObject.getJSONObject(i).getJSONObject("anfragender_nutzer");
+                JSONObject nutzer2= jsonObject.getJSONObject(i).getJSONObject("angefragter_nutzer");
+                JSONObject jsonObject1 = jsonObject.getJSONObject(0);
+                System.out.println("JSON OBJEKT1  "+jsonObject1);
+                if(jsonObject1.get("status").equals(true)){
+
+                    if(nutzer.getLong("id")==nutzerid){
+
+                        System.out.println("If abfrage");
+
+                        Nutzer nutzer_2 = new Nutzer();
+                        nutzer_2.setVorname(nutzer2.getString("vorname"));
+                        nutzer_2.setNachname(nutzer2.getString("nachname"));
+                        nutzer_2.setId(nutzer2.getInt("id"));
+                        freundeTabelle.getItems().add(nutzer_2);
+
+                    }
 
 
-                Nutzer nutzer1 = new Nutzer();
-                nutzer1.setVorname(nutzer.getString("vorname"));
-                nutzer1.setNachname(nutzer.getString("nachname"));
-                nutzer1.setId(nutzer.getInt("id"));
-                freundeTabelle.getItems().add(nutzer1);
+                    else{
+                        System.out.println("else abfrage");
+                        Nutzer nutzer1 = new Nutzer();
+                        nutzer1.setVorname(nutzer.getString("vorname"));
+                        nutzer1.setNachname(nutzer.getString("nachname"));
+                        nutzer1.setId(nutzer.getInt("id"));
+                        freundeTabelle.getItems().add(nutzer1);
+
+                    }
+
+                }
+
+
 
             }
             vorname.setCellFactory(tablecell -> {
