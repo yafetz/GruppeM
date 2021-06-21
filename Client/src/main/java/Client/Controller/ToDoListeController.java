@@ -37,6 +37,8 @@ public class ToDoListeController {
     @FXML
     private TableColumn<ToDoItem, String> deadline;
     @FXML
+    private TableColumn<ToDoItem, String> finished;
+    @FXML
     private TableView<ToDoItem> table;
     private Object nutzerId;
 
@@ -111,6 +113,7 @@ public class ToDoListeController {
             todo.setCellValueFactory(new PropertyValueFactory<ToDoItem,String>("titel"));
             responsibility.setCellValueFactory(new PropertyValueFactory<ToDoItem,String>("verantwortliche"));
             deadline.setCellValueFactory(new PropertyValueFactory<ToDoItem,String>("deadline"));
+            finished.setCellValueFactory(new PropertyValueFactory<ToDoItem,String>("erledigt"));
 
 
 //            Angelehnt an: https://stackoverflow.com/questions/35562037/how-to-set-click-event-for-a-cell-of-a-table-column-in-a-tableview

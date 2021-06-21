@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.TodoBearbeitenController">
     <children>
@@ -10,8 +11,12 @@
         <Label layoutX="164.0" layoutY="205.0" text="Deadline" />
         <TextField fx:id="todo_titel" layoutX="166.0" layoutY="104.0" text="ToDo eingeben" />
         <Label layoutX="165.0" layoutY="79.0" text="Titel" />
-        <Label layoutX="98.0" layoutY="23.0" text="T" />
+        <Label layoutX="161.0" layoutY="24.0" text="Todobearbeitung">
+            <font>
+                <Font size="27.0" />
+            </font></Label>
         <DatePicker fx:id="deadline" layoutX="149.0" layoutY="219.0" />
         <ComboBox fx:id="gruppenmitglieder" layoutX="161.0" layoutY="155.0" prefWidth="150.0" />
+        <CheckBox fx:id="done" layoutX="392.0" layoutY="172.0" mnemonicParsing="false" text="erledigt" />
     </children>
 </AnchorPane>

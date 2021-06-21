@@ -31,20 +31,23 @@ public class ErstelleToDoController {
     public String neueTodo(@RequestParam("datum") String deadline,
                            @RequestParam("titel") String titel,
                            @RequestParam("verantwortliche") String gruppenmitglieder,
+                           @RequestParam("erledigt") String done,
                            @RequestParam("projektgruppeId") long projektgruppeId,
                            @RequestParam("nutzerId") long nutzerId){
 
-       Nutzer nutzer = nutzerRepository.findNutzerById(nutzerId);
+
         ToDoItem toDoItem = new ToDoItem();
         toDoItem.setTitel(titel);
         toDoItem.setDeadline(deadline);
         toDoItem.setVerantwortliche(gruppenmitglieder);
-        toDoItem.setErledigt(false);
+        System.out.println(done);
+        toDoItem.setErledigt(done);
+        System.out.println(toDoItem.getErledigt());
         toDoItem.setProjektgruppeId(projektgruppeId);
         toDoItem.setNutzerId(nutzerId);
 
         todoListeRepository.save(toDoItem);
-        System.out.println("test");
+        System.out.println("created");
 
 
 
@@ -62,24 +65,29 @@ public class ErstelleToDoController {
 
 
     }
-    @PostMapping("update")
+    @PostMapping("update/")
     public String bearbeiteTodo(@RequestParam("datum") String deadline,
-                           @RequestParam("titel") String titel,
-                           @RequestParam("verantwortliche") String gruppenmitglieder,
-                           @RequestParam("projektgruppeId") long projektgruppeId,
-                           @RequestParam("nutzerId") long nutzerId){
+                                @RequestParam("titel") String titel,
+                                @RequestParam("verantwortliche") String gruppenmitglieder,
+                                @RequestParam("erledigt") String done,
+                                @RequestParam("projektgruppeId") long projektgruppeId,
+                                @RequestParam("todoItemId") long todoItemId,
+                                @RequestParam("nutzerId") Long nutzerId)
+    {
 
-        Nutzer nutzer = nutzerRepository.findNutzerById(nutzerId);
-        ToDoItem toDoItem = new ToDoItem();
+
+        ToDoItem toDoItem =todoListeRepository.findTodoItemById(todoItemId);
+
         toDoItem.setTitel(titel);
         toDoItem.setDeadline(deadline);
         toDoItem.setVerantwortliche(gruppenmitglieder);
-        toDoItem.setErledigt(false);
-        toDoItem.setProjektgruppeId(projektgruppeId);
+        toDoItem.setErledigt(done);
         toDoItem.setNutzerId(nutzerId);
+        toDoItem.setProjektgruppeId(projektgruppeId);
+
 
         todoListeRepository.save(toDoItem);
-        System.out.println("test");
+        System.out.println("update");
 
 
 
