@@ -251,6 +251,7 @@ public class UserprofilController {
 
                     try {
                         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
                         if(response.body().equals(true)){
                             anfrage.setVisible(false);
                         }
@@ -462,6 +463,15 @@ public class UserprofilController {
             HttpEntity responseEntity = response.getEntity();
             String result = EntityUtils.toString(responseEntity);
             System.out.println(result);
+            Stage stage = (Stage) profil.getScene().getWindow();
+            Layout freunde = null;
+            freunde = new Layout("userprofile.fxml", stage,eigenerNutzer);
+            if (freunde.getController() instanceof UserprofilController) {
+                ((UserprofilController) freunde.getController()).nutzerprofilAufrufen(eigenerNutzer, vergleichNutzer);
+
+
+            }
+
 
 
 
