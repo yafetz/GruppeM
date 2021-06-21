@@ -1,6 +1,9 @@
 package Client.Modell;
 
 import Client.Controller.TeilnehmerListeController;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.control.CheckBox;
 import org.json.JSONObject;
 
 public class Student {
@@ -9,6 +12,7 @@ public class Student {
     private int matrikelnummer;
     private String studienfach;
     private Nutzer nutzerId;
+    private ObservableValue<Boolean> checked;
 
     public void addDataFromJson(JSONObject jsonObject){
         setId(jsonObject.getInt("id"));
@@ -18,6 +22,10 @@ public class Student {
         JSONObject jsonNutzer = (JSONObject) jsonObject.get("nutzerId");
         nutzer.addDataFromJson(jsonNutzer);
         setNutzerId(nutzer);
+    }
+
+    public Student() {
+        this.checked = new SimpleBooleanProperty(false);
     }
 
     public int getId() {
@@ -65,6 +73,11 @@ public class Student {
         return nutzerId.getNachname();
     }
 
+    public String getNachnameVorname() {
+        return nutzerId.getNachname() + ", " + nutzerId.getVorname();
+    }
 
-
+    public ObservableValue<Boolean> checkedProperty() {
+        return checked;
+    }
 }

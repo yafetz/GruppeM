@@ -13,27 +13,46 @@ import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.util.Callback;
+import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MIME;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class ProjektgruppenController {
+    @FXML private Button mitgliederZurueckButton;
+    @FXML private Label MitgliederPGTitel_label;
+    @FXML private Label MitgliederLvTitel_label;
+    @FXML private TableView<Student> vorhandene_TableView;
+    @FXML private TableColumn<Student, String> vorhandeneName_Col;
+    @FXML private TableColumn<Student, Integer> vorhandeneMatr_Col;
+    @FXML private Button addMitgliederButton;
+    @FXML private TableView<Student> neue_TableView;
+    @FXML private TableColumn<Student, String> neueName_Col;
+    @FXML private TableColumn<Student, Integer> neueMatr_Col;
     @FXML private Button suchenButton;
     @FXML private Label addStud_label;
     @FXML private ScrollPane scrollpane;
@@ -58,9 +77,26 @@ public class ProjektgruppenController {
     @FXML private TableColumn<Student, Integer> matrnr_col;
     @FXML private Button erstellen_btn;
 
+    @FXML
+    private TableView<Gruppenmaterial> MaterialListe;
+    @FXML
+    private TableColumn<Gruppenmaterial, String> gruppenmaterial;
+
+    public long getGruppenid() {
+        return gruppenid;
+    }
+
+    public void setGruppenid(long gruppenid) {
+        this.gruppenid = gruppenid;
+    }
+
+    long gruppenid;
+
+
     private Object nutzer;
     private Lehrveranstaltung lehrveranstaltung;
     private Projektgruppe projektgruppe;
+    private List<Long> selectedStudentIds;
 
     private Layout layout;
 
@@ -87,6 +123,8 @@ public class ProjektgruppenController {
 
     public void setNutzer(Object nutzer) {
         this.nutzer = nutzer;
+
+
     }
 
     public Lehrveranstaltung getLehrveranstaltung() {
@@ -102,7 +140,7 @@ public class ProjektgruppenController {
     }
 
     public void setPGUebersichtLvTitel(String titelLehrveranstaltung) {
-         uebersichtLvTitel_label.setText("der Lehrveranstaltung " + titelLehrveranstaltung);
+        uebersichtLvTitel_label.setText("der Lehrveranstaltung " + titelLehrveranstaltung);
     }
 
     public void setPGUebersichtPGTitel(String titelProjektgruppe) {
@@ -127,6 +165,8 @@ public class ProjektgruppenController {
             ObjectMapper mapper = new ObjectMapper();
             List<Projektgruppe> projektgruppen = mapper.readValue(response.body(), new TypeReference<List<Projektgruppe>>() {});
 
+
+
             pgTitel_col.setCellValueFactory(new PropertyValueFactory<Projektgruppe,String>("titel"));
             pgId_col.setCellValueFactory(new PropertyValueFactory<Projektgruppe,Long>("id"));
 
@@ -142,6 +182,7 @@ public class ProjektgruppenController {
                 cell.setOnMouseClicked(e -> {
                             if (!cell.isEmpty()) {
                                 redirectToProjektgruppe(cell.getTableRow().getItem().getId());
+
                             }
                         }
                 );
@@ -150,6 +191,7 @@ public class ProjektgruppenController {
 
             ObservableList<Projektgruppe> obsPG = FXCollections.observableList(projektgruppen);
             pgListe_tableview.setItems(obsPG);
+
 
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -191,7 +233,6 @@ public class ProjektgruppenController {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-
     }
 
     // anklicken von "Neue Projektgruppe erstellen"-Button auf der Seite der Projektgruppenliste
@@ -217,10 +258,151 @@ public class ProjektgruppenController {
         }
     }
 
+    public void populateTeilnehmerTableView() {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/projektgruppe/studteilnehmer/" + lehrveranstaltung.getId())).build();
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            ObjectMapper mapper = new ObjectMapper();
+            List<Student> students = mapper.readValue(response.body(), new TypeReference<List<Student>>() {});
+
+            addCheckBoxToTable("teilnehmer");
+            checkbox_col.setVisible(false);
+            studentenliste_tableview.setEditable(true);
+            studentenname_col.setCellValueFactory(new PropertyValueFactory<Student, String>("NachnameVorname"));
+            matrnr_col.setCellValueFactory(new PropertyValueFactory<Student, Integer>("matrikelnummer"));
+
+            ObservableList<Student> obsStud = FXCollections.observableList(students);
+            studentenliste_tableview.setItems(obsStud);
+
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    public void populateMaterialTable() {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/gruppenmaterial/" + projektgruppe.getId())).build();
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            //JSONArray jsonObject = new JSONArray(response.body());
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            System.out.println("Objectmapper " +response.body());
+            List<Gruppenmaterial> gruppenmaterials = objectMapper.readValue(response.body(), new TypeReference<List<Gruppenmaterial>>(){});
+
+
+            System.out.println("JSON Objekt " + gruppenmaterials.get(0).getTitel());
+
+
+            gruppenmaterial.setCellValueFactory(new PropertyValueFactory<>("Titel"));
+            gruppenmaterial.setCellFactory(tablecell -> {
+                TableCell<Gruppenmaterial, String> cell = new TableCell<Gruppenmaterial, String>(){
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty) ;
+                        setText(empty ? null : item);
+                    }
+                };
+                cell.setCursor(Cursor.HAND);
+                cell.setOnMouseClicked(e -> {
+                            if (!cell.isEmpty()) {
+                                long id=cell.getTableRow().getItem().getId();
+                                try {
+                                    Connection connection= DriverManager.getConnection("jdbc:mysql://localhost:3306/sep","root","");
+                                    PreparedStatement pstmt = connection.prepareStatement("select datei from gruppenmaterial WHERE id LIKE "+id);
+                                    ResultSet rs = pstmt.executeQuery();
+                                    String home = System.getProperty("user.home");
+                                    File file = new File(home+"/Downloads/" + cell.getTableRow().getItem().getTitel().replace(" ","_").replace("?",""));
+                                    FileOutputStream fo = new FileOutputStream(file);
+                                    rs.next();
+                                    Blob datei = rs.getBlob("datei");
+                                    IOUtils.write(datei.getBinaryStream().readAllBytes(),fo);
+                                    fo.close();
+                                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                                    alert.setTitle("Erfolgreich heruntergladen!");
+                                    alert.setHeaderText("Ihre Datei wurden erfolgreich heruntergeladen!");
+                                    alert.setContentText("Sie können Ihre Datei unter ihrem Downloads Ordner finden! Sie müssen das Programm schließen bevor Sie ihre Datei öffnen können. Sonst kann es passieren das ihr Betriebssystem ihnen Probleme macht!");
+                                    alert.showAndWait();
+
+                                } catch (IOException | SQLException exception) {
+                                    exception.printStackTrace();
+                                }
+                            }
+                        }
+                );
+                return cell;
+            });
+            ObservableList<Gruppenmaterial> obsLv = FXCollections.observableList(gruppenmaterials);
+            MaterialListe.setItems(obsLv);
+
+
+
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    private void addCheckBoxToTable(String table) {
+        TableColumn<Student, Void> colBtn = new TableColumn("Selected");
+        Callback<TableColumn<Student, Void>, TableCell<Student, Void>> cellFactory = new Callback<TableColumn<Student, Void>, TableCell<Student, Void>>() {
+            @Override
+            public TableCell<Student, Void> call(final TableColumn<Student, Void> param) {
+                final TableCell<Student, Void> cell = new TableCell<Student, Void>() {
+                    private final CheckBox checkBox = new CheckBox();
+                    {
+                        checkBox.setOnAction((ActionEvent event) -> {
+                            Student student = getTableView().getItems().get(getIndex());
+                            if (checkBox.isSelected()) {        // wenn Häckchen gesetzt wird, füge Student zu der Liste der ausgewählten Studenten hinzu
+                                selectedStudentIds.add((long)student.getId());
+                            } else {                            // wenn Häckchen entfernt wird, entferne den Studenten von der Liste
+                                for (int i = 0; i < selectedStudentIds.size(); i++) {
+                                    if (selectedStudentIds.get(i) == student.getId()) {
+                                        selectedStudentIds.remove(i);
+                                    }
+                                }
+                            }
+                            System.out.println(selectedStudentIds);
+                        });
+                    }
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(checkBox);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+
+        colBtn.setCellFactory(cellFactory);
+        if (table.equals("teilnehmer")) {
+            studentenliste_tableview.getColumns().add(colBtn);
+        }
+        if (table.equals("neue")) {
+            neue_TableView.getColumns().add(colBtn);
+        }
+    }
+
     // anklicken von "Projektgruppe erstellen"-Button auf der Seite zur Erstellung einer neuen Projektgruppe
     public void erstellenPressedButton(ActionEvent actionEvent) {
+        System.out.println("student id     "+selectedStudentIds);
         actionEvent.consume();
         String pgTitel = pgTitel_txtfield.getText().trim();
+        if (pgTitel.equals("")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Kein Titel vorhanden!");
+            alert.setHeaderText("Es wurde kein Titel für die neue Projektgruppe eingegeben!");
+            alert.setContentText("Geben Sie bitte einen Titel ein.");
+            alert.showAndWait();
+            return;
+        }
         long nutzerID = -1;
         if (nutzer instanceof Lehrender) {
             nutzerID = ((Lehrender) nutzer).getNutzerId().getId();
@@ -236,7 +418,13 @@ public class ProjektgruppenController {
             entity.addTextBody("titel", pgTitel, ContentType.create("text/plain", MIME.UTF8_CHARSET));
             entity.addTextBody("nutzer", String.valueOf(nutzerID), ContentType.create("text/plain", MIME.UTF8_CHARSET));
             entity.addTextBody("lehrveranstaltung", String.valueOf(lehrveranstaltung.getId()), ContentType.create("text/plain", MIME.UTF8_CHARSET));
-
+            if (selectedStudentIds.size() > 0) {
+                for (int i = 0; i < selectedStudentIds.size(); i++) {
+                    entity.addPart("studentId", new StringBody(selectedStudentIds.get(i).toString(), ContentType.create("text/plain", MIME.UTF8_CHARSET)));
+                }
+            } else {
+                entity.addPart("studentId", new StringBody(String.valueOf(-1), ContentType.create("text/plain", MIME.UTF8_CHARSET)));
+            }
             HttpEntity requestEntity = entity.build();
             post.setEntity(requestEntity);
 
@@ -245,6 +433,7 @@ public class ProjektgruppenController {
                 String responseBody = EntityUtils.toString(responseEntity);
 
                 if(responseBody.contentEquals("true")) {     // Projektgruppe wurde erstellt
+                    selectedStudentIds.clear();
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                     alert.setTitle("Projektgruppe erfolgreich erstellt!");
                     alert.setHeaderText("Ihre Projektgruppe wurde erfolgreich erstellt");
@@ -317,6 +506,78 @@ public class ProjektgruppenController {
         }
     }
 
+    public void populateVorhandeneTableView() {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/projektgruppe/" + projektgruppe.getId() + "/Mitglieder")).build();
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            ObjectMapper mapper = new ObjectMapper();
+            List<Student> students = mapper.readValue(response.body(), new TypeReference<List<Student>>() {});
+
+            vorhandeneName_Col.setCellValueFactory(new PropertyValueFactory<Student, String>("NachnameVorname"));
+            vorhandeneMatr_Col.setCellValueFactory(new PropertyValueFactory<Student, Integer>("matrikelnummer"));
+
+            ObservableList<Student> obsStud = FXCollections.observableList(students);
+            vorhandene_TableView.setItems(obsStud);
+
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void populateNeueTableView() {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/projektgruppe/" + projektgruppe.getId() + "/moeglicheMitglieder/" + lehrveranstaltung.getId())).build();
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            ObjectMapper mapper = new ObjectMapper();
+            List<Student> students = mapper.readValue(response.body(), new TypeReference<List<Student>>() {});
+
+            neue_TableView.setEditable(true);
+            neueName_Col.setCellValueFactory(new PropertyValueFactory<Student, String>("NachnameVorname"));
+            neueMatr_Col.setCellValueFactory(new PropertyValueFactory<Student, Integer>("matrikelnummer"));
+
+            ObservableList<Student> obsStud = FXCollections.observableList(students);
+            neue_TableView.setItems(obsStud);
+
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addMitgliederPressedButton(ActionEvent actionEvent) {
+        actionEvent.consume();
+        try(CloseableHttpClient client = HttpClients.createDefault()) {
+            String url = "http://localhost:8080/projektgruppe/addMitglieder";
+            HttpPost post = new HttpPost(url);
+            MultipartEntityBuilder entity = MultipartEntityBuilder.create();
+            entity.setCharset(StandardCharsets.UTF_8);
+            entity.addTextBody("projektgruppenId", String.valueOf(projektgruppe.getId()), ContentType.create("text/plain", MIME.UTF8_CHARSET));
+            if (selectedStudentIds.size() > 0) {
+                for (int i = 0; i < selectedStudentIds.size(); i++) {
+                    entity.addPart("studentId", new StringBody(selectedStudentIds.get(i).toString(), ContentType.create("text/plain", MIME.UTF8_CHARSET)));
+                }
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Keine Studenten ausgewählt!");
+                alert.setHeaderText("Es wurden keine Studenten zum Hinzufügen zu dieser Projektgruppe ausgewählt!");
+                alert.setContentText("Wählen Sie bitte Studenten aus, die hinzugefügt werden sollen.");
+                alert.showAndWait();
+                return;
+            }
+            HttpEntity requestEntity = entity.build();
+            post.setEntity(requestEntity);
+
+            try (CloseableHttpResponse response = client.execute(post)) {
+                selectedStudentIds.clear();
+                populateVorhandeneTableView();
+                populateNeueTableView();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void chatPressedButton(ActionEvent actionEvent) {
         layout.instanceLayout("chat.fxml");
         ((ChatController) layout.getController()).setLayout(layout);
@@ -337,6 +598,15 @@ public class ProjektgruppenController {
     }
 
     public void filesPressedButton(ActionEvent actionEvent) {
+        actionEvent.consume();
+        Layout upload = new Layout ("gruppenUpload.fxml", (Stage) filesButton.getScene().getWindow(), nutzer);
+        if (upload.getController() instanceof GruppenUploadController) {
+            ((GruppenUploadController) upload.getController()).setNutzerInstanz(nutzer);
+            ((GruppenUploadController) upload.getController()).setProjektgruppe(projektgruppe);
+
+        }
+
+
     }
 
     public void memberPressedButton(ActionEvent actionEvent) throws IOException, InterruptedException {
@@ -347,6 +617,81 @@ public class ProjektgruppenController {
         ((GruppenmitgliederController) layout.getController()).populateTableView();
 
     }
+    public void getMaterial(Projektgruppe projektgruppe) {
+        this.projektgruppe=projektgruppe;
+        long id = projektgruppe.getId();
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/gruppenmaterial/" + id)).build();
+        HttpResponse<String> response;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            ObjectMapper mapper = new ObjectMapper();
+            JSONArray allegruppenmaterialien = new JSONArray(response.body());
+            System.out.println("PRojekt gruppen JSON MATERIAL" + allegruppenmaterialien);
+            //List<Lehrmaterial> lehrmaterial = mapper.readValue(response.body(), new TypeReference<List<Lehrmaterial>>() {});
+            gruppenmaterial.setCellValueFactory(new PropertyValueFactory<>("titel"));
+            gruppenmaterial.setCellFactory(tablecell -> {
+                TableCell<Gruppenmaterial, String> cell = new TableCell<Gruppenmaterial, String>(){
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty) ;
+                        setText(empty ? null : item);
+                    }
+                };
+                cell.setCursor(Cursor.HAND);
+                cell.setOnMouseClicked(e -> {
+                            if (!cell.isEmpty()) {
+                                int lehrmaterialId = cell.getTableRow().getItem().getId().intValue();
+                                try {
+                                    Connection connection= DriverManager.getConnection("jdbc:mysql://localhost:3306/sep","root","");
+                                    PreparedStatement pstmt = connection.prepareStatement("select datei from lehrmaterial WHERE id LIKE "+lehrmaterialId);
+                                    ResultSet rs = pstmt.executeQuery();
+                                    String home = System.getProperty("user.home");
+                                    File file = new File(home+"/Downloads/" + allegruppenmaterialien.getJSONObject(cell.getTableRow().getIndex()).getString("titel").replace(" ","_").replace("?",""));
+                                    FileOutputStream fo = new FileOutputStream(file);
+                                    rs.next();
+                                    Blob datei = rs.getBlob("datei");
+                                    IOUtils.write(datei.getBinaryStream().readAllBytes(),fo);
+                                    fo.close();
+                                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                                    alert.setTitle("Erfolgreich heruntergladen!");
+                                    alert.setHeaderText("Ihre Lehrmaterialien wurden erfolgreich heruntergeladen!");
+                                    alert.setContentText("Sie können Ihr Lernmaterial unter ihrem Downloads Ordner finden! Sie müssen das Programm schließen bevor Sie ihre Datei öffnen können. Sonst kann es passieren das ihr Betriebssystem ihnen Probleme macht!");
+                                    alert.showAndWait();
+
+                                } catch (IOException | SQLException exception) {
+                                    exception.printStackTrace();
+                                }
+                            }
+                        }
+                );
+                return cell;
+            });
+
+//            ObservableList is required to populate the table alleLv using .setItems() :
+            for(int i = 0; i < allegruppenmaterialien.length(); i++){
+                Gruppenmaterial l = new Gruppenmaterial();
+                l.setId(allegruppenmaterialien.getJSONObject(i).getLong("id"));
+                l.setTitel(allegruppenmaterialien.getJSONObject(i).getString("titel"));
+                MaterialListe.getItems().add(l);
+            }
+
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
 
+    public void zurueckPressedButton(ActionEvent actionEvent) {
+        actionEvent.consume();
+        Layout projektgruppenliste = new Layout ("projektgruppenliste.fxml", (Stage) mitgliederZurueckButton.getScene().getWindow(), nutzer);
+        if (projektgruppenliste.getController() instanceof ProjektgruppenController) {
+            ((ProjektgruppenController) projektgruppenliste.getController()).setNutzer(nutzer);
+            ((ProjektgruppenController) projektgruppenliste.getController()).setLehrveranstaltung(lehrveranstaltung);
+            ((ProjektgruppenController) projektgruppenliste.getController()).populateTableView();
+            ((ProjektgruppenController) projektgruppenliste.getController()).setPGListeSeitentitel(lehrveranstaltung.getTitel());
+        }
+    }
 }
