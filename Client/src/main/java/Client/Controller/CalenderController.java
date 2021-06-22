@@ -7,6 +7,8 @@ import com.calendarfx.view.CalendarView;
 import com.calendarfx.view.DateControl;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -20,6 +22,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
+import javafx.util.Duration;
 import javafx.util.StringConverter;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -34,8 +37,10 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.sql.Array;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -46,6 +51,8 @@ public class CalenderController {
     private Layout layout;
     private Object nutzer;
     private int selectedLvId;
+    private List<Termin> alleTermine;
+    private List<Termin> reminder = new ArrayList<>();
 
     public void setNutzer(Object nutzer){
         this.nutzer = nutzer;
@@ -54,6 +61,73 @@ public class CalenderController {
     public void Initilaize(){
         LadeAlleTermine();
         ChangeEreignisPopUp();
+        ReminderPopUp();
+    }
+
+
+    public void ReminderPopUp(){
+        Timeline timer = new Timeline(
+                new KeyFrame(Duration.seconds(5),
+                        new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent event) {
+                                LocalDateTime jetzt = LocalDateTime.now();
+                                for(int i = 0; i < reminder.size(); i++){
+                                    if(reminder.get(i).getReminderArt().equalsIgnoreCase("Minuten")) {
+                                        if (reminder.get(i).getVon().minusMinutes(reminder.get(i).getReminderValue()).getMinute() == jetzt.getMinute()
+                                                && reminder.get(i).getVon().minusMinutes(reminder.get(i).getReminderValue()).getHour() == jetzt.getHour()
+                                                && reminder.get(i).getVon().minusMinutes(reminder.get(i).getReminderValue()).getDayOfMonth() == jetzt.getDayOfMonth()
+                                                && reminder.get(i).getVon().minusMinutes(reminder.get(i).getReminderValue()).getMonth().equals(jetzt.getMonth())
+                                                && reminder.get(i).getVon().minusMinutes(reminder.get(i).getReminderValue()).getYear() == jetzt.getYear()) {
+                                                Alert fehler = new Alert(Alert.AlertType.INFORMATION);
+                                                fehler.setTitle("Ihr Termin steht an !");
+                                                fehler.setHeaderText("Ihr Termin steht an !");
+                                                fehler.setContentText("In "+reminder.get(i).getReminderValue() + " Minuten haben Sie einen Termin: "+ reminder.get(i).getTitel());
+                                                fehler.show();
+                                                reminder.remove(i);
+                                        }
+                                    }else if(reminder.get(i).getReminderArt().equalsIgnoreCase("Stunden")){
+                                        if (reminder.get(i).getVon().minusHours(reminder.get(i).getReminderValue()).getHour() == jetzt.getHour()
+                                                && reminder.get(i).getVon().minusHours(reminder.get(i).getReminderValue()).getDayOfMonth() == jetzt.getDayOfMonth()
+                                                && reminder.get(i).getVon().minusHours(reminder.get(i).getReminderValue()).getMonth().equals(jetzt.getMonth())
+                                                && reminder.get(i).getVon().minusHours(reminder.get(i).getReminderValue()).getYear() == jetzt.getYear()) {
+                                                Alert fehler = new Alert(Alert.AlertType.INFORMATION);
+                                                fehler.setTitle("Ihr Termin steht an !");
+                                                fehler.setHeaderText("Ihr Termin steht an !");
+                                                fehler.setContentText("In "+reminder.get(i).getReminderValue() + " Stunden haben Sie einen Termin: "+ reminder.get(i).getTitel());
+                                                fehler.show();
+                                                reminder.remove(i);
+                                        }
+                                    }else if(reminder.get(i).getReminderArt().equalsIgnoreCase("Tage")){
+                                        if (reminder.get(i).getVon().minusDays(reminder.get(i).getReminderValue()).getDayOfMonth() == jetzt.getDayOfMonth()
+                                                && reminder.get(i).getVon().minusDays(reminder.get(i).getReminderValue()).getMonth().equals(jetzt.getMonth())
+                                                && reminder.get(i).getVon().minusDays(reminder.get(i).getReminderValue()).getYear() == jetzt.getYear()) {
+                                            Alert fehler = new Alert(Alert.AlertType.INFORMATION);
+                                            fehler.setTitle("Ihr Termin steht an !");
+                                            fehler.setHeaderText("Ihr Termin steht an !");
+                                            fehler.setContentText("In "+reminder.get(i).getReminderValue() + " Tagen haben Sie einen Termin: "+ reminder.get(i).getTitel());
+                                            fehler.show();
+                                            reminder.remove(i);
+                                        }
+                                    }
+                                }
+                            }
+                        }));
+        timer.setCycleCount(Timeline.INDEFINITE);
+        timer.play();
+    }
+
+    public boolean checkIfTerminInAlleTermine(Termin termin){
+        boolean output = false;
+
+        for(int i = 0; i < alleTermine.size(); i++){
+            if(alleTermine.get(i).getId().equals(termin.getId())){
+                output = true;
+                break;
+            }
+        }
+
+        return output;
     }
 
     private void LadeAlleTermine() {
@@ -72,14 +146,37 @@ public class CalenderController {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
             ObjectMapper mapper = new ObjectMapper();
             List<Termin> termine = mapper.readValue(response.body(), new TypeReference<List<Termin>>() {});
+            if(alleTermine == null){
+                alleTermine = new ArrayList<>();
+            }
             for(int i = 0; i < termine.size(); i++){
-                Entry e = cv.createEntryAt(termine.get(i).getVon().atZone(ZoneId.systemDefault()));
-                e.setTitle(termine.get(i).getTitel());
-                LocalDate endDate = LocalDate.of(termine.get(i).getBis().getYear(),termine.get(i).getBis().getMonth(),termine.get(i).getBis().getDayOfMonth());
-                LocalTime endTime = LocalTime.of(termine.get(i).getBis().getHour(),termine.get(i).getBis().getMinute());
-                e.changeEndDate(endDate);
-                e.changeEndTime(endTime);
-                e.setUserObject(termine.get(i));
+                if(!checkIfTerminInAlleTermine(termine.get(i))) {
+                    LocalDateTime StartTermin = termine.get(i).getVon();
+                    Entry e = cv.createEntryAt(StartTermin.atZone(ZoneId.systemDefault()));
+                    e.setTitle(termine.get(i).getTitel());
+                    LocalDate endDate = LocalDate.of(termine.get(i).getBis().getYear(), termine.get(i).getBis().getMonth(), termine.get(i).getBis().getDayOfMonth());
+                    LocalTime endTime = LocalTime.of(termine.get(i).getBis().getHour(), termine.get(i).getBis().getMinute());
+                    e.changeEndDate(endDate);
+                    e.changeEndTime(endTime);
+                    e.setUserObject(termine.get(i));
+                    alleTermine.add(termine.get(i));
+                    LocalDateTime jetzt = LocalDateTime.now();
+                    if(StartTermin.isAfter(jetzt) && termine.get(i).getReminderShow().equalsIgnoreCase("PopUp")){
+                        if(termine.get(i).getReminderArt().equalsIgnoreCase("Minuten")){
+                          if(StartTermin.minusMinutes(termine.get(i).getReminderValue()).isAfter(jetzt)){
+                                reminder.add(termine.get(i));
+                            }
+                        }else if(termine.get(i).getReminderArt().equalsIgnoreCase("Stunden")){
+                            if(StartTermin.minusHours(termine.get(i).getReminderValue()).isAfter(jetzt)){
+                                reminder.add(termine.get(i));
+                            }
+                        }else if(termine.get(i).getReminderArt().equalsIgnoreCase("Tage")){
+                            if(StartTermin.minusDays(termine.get(i).getReminderValue()).isAfter(jetzt)){
+                                reminder.add(termine.get(i));
+                            }
+                        }
+                    }
+                }
             }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -126,11 +223,11 @@ public class CalenderController {
 
                 TextField bisHour = new TextField();
                 makeTextFieldOnlyNumbers(bisHour);
-                bisHour.setText(String.valueOf(param.getEntry().getStartTime().getHour()) );
+                bisHour.setText(String.valueOf(param.getEntry().getEndTime().getHour()) );
 
                 TextField bisMinutes = new TextField();
                 makeTextFieldOnlyNumbers(bisMinutes);
-                bisMinutes.setText(String.valueOf(param.getEntry().getStartTime().getMinute()) );
+                bisMinutes.setText(String.valueOf(param.getEntry().getEndTime().getMinute()) );
 
                 DatePicker bis = new DatePicker();
                 bis.setPadding(new Insets(10,10,10,10));
@@ -305,8 +402,8 @@ public class CalenderController {
                 String result = EntityUtils.toString(responseEntity);
                 System.out.println("Sende Nachricht");
                 if (result.equals("OK")) {
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                    cv.createEntryAt(ZonedDateTime.from(LocalDateTime.parse(von, formatter)));
+                    LadeAlleTermine();
+
                 }
             }catch(IOException e){
                 e.printStackTrace();
