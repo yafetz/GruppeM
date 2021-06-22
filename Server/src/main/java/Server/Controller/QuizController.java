@@ -21,9 +21,10 @@ public class QuizController {
     private QuizAnswerRepository quizAnswerRepository;
     private QuizBearbeitetRepository quizBearbeitet;
     private QuizBearbeitetQuestionRepository quizBearbeitetQuestionRepository;
+    private TeilnehmerListeRepository teilnehmerListeRepository;
 
     @Autowired
-    public QuizController(LehrveranstaltungRepository lehrveranstaltungRepository, LehrenderRepository lehrenderRepository, QuizRepository quizRepository, QuizQuestionRepository quizQuestionRepository, QuizAnswerRepository quizAnswerRepository, QuizBearbeitetRepository quizBearbeitet, QuizBearbeitetQuestionRepository quizBearbeitetQuestionRepository){
+    public QuizController(LehrveranstaltungRepository lehrveranstaltungRepository, LehrenderRepository lehrenderRepository, QuizRepository quizRepository, QuizQuestionRepository quizQuestionRepository, QuizAnswerRepository quizAnswerRepository, QuizBearbeitetRepository quizBearbeitet, QuizBearbeitetQuestionRepository quizBearbeitetQuestionRepository, TeilnehmerListeRepository teilnehmerListeRepository){
         this.lehrveranstaltungRepository = lehrveranstaltungRepository;
         this.lehrenderRepository = lehrenderRepository;
         this.quizRepository = quizRepository;
@@ -31,6 +32,7 @@ public class QuizController {
         this.quizAnswerRepository = quizAnswerRepository;
         this.quizBearbeitet = quizBearbeitet;
         this.quizBearbeitetQuestionRepository = quizBearbeitetQuestionRepository;
+        this.teilnehmerListeRepository=teilnehmerListeRepository;
     }
 
     @GetMapping("alleStudenten/{quizId}")
@@ -43,9 +45,14 @@ public class QuizController {
         return quizBearbeitet.getAllStudentPassed(quizId);
     }
 
-    @GetMapping("versuche/{quizId}/{nutzer_id}")
-    public List<Integer> alleStudentenVersuche(@PathVariable long quizId, @PathVariable long nutzer_id){
-        return quizBearbeitet.getAllStudentVersuche(quizId, nutzer_id);
+    @GetMapping("versuche/{quizId}")
+    public List<Object[]> alleStudentenVersuche(@PathVariable long quizId){
+        return quizBearbeitet.getAllStudentVersuche(quizId);
+    }
+
+    @GetMapping("alleTeilnehmer/{lehrveranstaltungId}")
+    public int alleTeilnehmer(@PathVariable long lehrveranstaltungId){
+        return teilnehmerListeRepository.getAllStudents(lehrveranstaltungId);
     }
 
     @GetMapping("korrekt/{quizId}")

@@ -26,5 +26,8 @@ public interface TeilnehmerListeRepository extends JpaRepository<TeilnehmerListe
     List<Student> findAllStudentsByKeywordMatrikelnummer(long id,int keyword);
     Boolean existsByLehrveranstaltungAndNutzerId(Lehrveranstaltung lehrveranstaltung, Nutzer nutzer);
 
+    @Query(value = "SELECT COUNT(*) FROM Student student JOIN Teilnehmerliste teilnehmerliste ON teilnehmerliste.nutzerId = student.nutzerId AND teilnehmerliste.lehrveranstaltung.id = ?1 ", nativeQuery = true)
+   int getAllStudents(long id);
+
 }
 
