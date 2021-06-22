@@ -1,9 +1,7 @@
 package Server.Controller;
 
 
-import Server.Modell.Quiz;
-import Server.Modell.QuizAnswer;
-import Server.Modell.QuizQuestion;
+import Server.Modell.*;
 import Server.Repository.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +19,38 @@ public class QuizController {
     private QuizRepository quizRepository;
     private QuizQuestionRepository quizQuestionRepository;
     private QuizAnswerRepository quizAnswerRepository;
+    private QuizBearbeitetRepository quizBearbeitet;
+    private QuizBearbeitetQuestionRepository quizBearbeitetQuestionRepository;
 
     @Autowired
-    public QuizController(LehrveranstaltungRepository lehrveranstaltungRepository, LehrenderRepository lehrenderRepository, QuizRepository quizRepository, QuizQuestionRepository quizQuestionRepository, QuizAnswerRepository quizAnswerRepository){
+    public QuizController(LehrveranstaltungRepository lehrveranstaltungRepository, LehrenderRepository lehrenderRepository, QuizRepository quizRepository, QuizQuestionRepository quizQuestionRepository, QuizAnswerRepository quizAnswerRepository, QuizBearbeitetRepository quizBearbeitet, QuizBearbeitetQuestionRepository quizBearbeitetQuestionRepository){
         this.lehrveranstaltungRepository = lehrveranstaltungRepository;
         this.lehrenderRepository = lehrenderRepository;
         this.quizRepository = quizRepository;
         this.quizQuestionRepository = quizQuestionRepository;
         this.quizAnswerRepository = quizAnswerRepository;
+        this.quizBearbeitet = quizBearbeitet;
+        this.quizBearbeitetQuestionRepository = quizBearbeitetQuestionRepository;
+    }
+
+    @GetMapping("alleStudenten/{quizId}")
+    public int alleStudenten(@PathVariable long quizId){
+        return quizBearbeitet.getAllStudent(quizId);
+    }
+
+    @GetMapping("bestehensquote/{quizId}")
+    public int bestanden(@PathVariable long quizId){
+        return quizBearbeitet.getAllStudentPassed(quizId);
+    }
+
+    @GetMapping("versuche/{quizId}/{nutzer_id}")
+    public List<Integer> alleStudentenVersuche(@PathVariable long quizId, @PathVariable long nutzer_id){
+        return quizBearbeitet.getAllStudentVersuche(quizId, nutzer_id);
+    }
+
+    @GetMapping("korrekt/{quizId}")
+    public List<Integer> alleKorrekteFragen(@PathVariable long quizId){
+        return quizBearbeitetQuestionRepository.getAllStudentRichtigeAntwort(quizId);
     }
 
     @PostMapping("createQuiz")

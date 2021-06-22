@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="663.0" prefWidth="840.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Statistik">
+   <children>
+      <BarChart layoutX="171.0" layoutY="332.0" prefHeight="211.0" prefWidth="306.0" title="Anzahl der Versuche">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis label="Versuche" side="LEFT" />
+        </yAxis>
+      </BarChart>
+      <PieChart layoutX="478.0" layoutY="46.0" prefHeight="261.0" prefWidth="340.0" title="Bestehensquote">
+      </PieChart>
+      <TableView layoutX="527.0" layoutY="338.0" prefHeight="200.0" prefWidth="290.0">
+        <columns>
+          <TableColumn prefWidth="147.0" text="Frage" />
+          <TableColumn prefWidth="143.4000244140625" text="Anzahl der korrekten Antworten" />
+        </columns>
+      </TableView>
+      <Label layoutX="188.0" layoutY="67.0" prefHeight="50.0" prefWidth="166.0" text="Statistiken">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Label>
+      <Label fx:id="beteiligung" layoutX="188.0" layoutY="131.0" prefHeight="167.0" prefWidth="290.0" text="beteiligung" />
+   </children>
+</AnchorPane>
