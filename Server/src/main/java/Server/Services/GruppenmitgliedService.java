@@ -39,9 +39,10 @@ public class GruppenmitgliedService {
             Gruppenmitglied neu = new Gruppenmitglied(student, projektgruppe);
             gruppenmitgliedRepository.save(neu);
         }
+    }
     public List<Gruppenmitglied> mitglied(long projektgruppeId){
 
-        return gruppenmitgliedRepository.findAllByProjektgruppe(ProjektgruppenRepository.findProjektgruppeById(projektgruppeId));
+        return gruppenmitgliedRepository.findAllByProjektgruppe(projektgruppenRepository.findProjektgruppeById(projektgruppeId));
 
     }
 }

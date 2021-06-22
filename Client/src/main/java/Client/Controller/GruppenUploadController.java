@@ -44,6 +44,16 @@ public class GruppenUploadController {
     private Object nutzerInstanz;
     private String modus;
 
+    private Layout layout;
+
+    public Layout getLayout() {
+        return layout;
+    }
+
+    public void setLayout(Layout layout) {
+        this.layout = layout;
+    }
+
     public void initialize() {
 
     }
@@ -90,10 +100,10 @@ public class GruppenUploadController {
                         alert.setHeaderText("Ihre Lehrmaterialien wurden erfolgreich zum Server hochgeladen!");
                         alert.setContentText("Sie werden nun zur Übersichtsseite weitergeleitet.");
                         alert.showAndWait();
-                        Layout lehrveranstaltungBeitreten = new Layout("projektGruppeUebersicht.fxml", (Stage) btn_upload.getScene().getWindow(),nutzerInstanz);
+                        /*Layout lehrveranstaltungBeitreten = new Layout("projektGruppeUebersicht.fxml", (Stage) btn_upload.getScene().getWindow(),nutzerInstanz);
                         if(lehrveranstaltungBeitreten.getController() instanceof ProjektgruppenController){
                           //  ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(nutzerInstanz,projektgruppe);
-                        }
+                        }*/
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

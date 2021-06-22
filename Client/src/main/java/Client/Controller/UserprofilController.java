@@ -310,9 +310,10 @@ public class UserprofilController {
     public void freundschaftsAnfrageWeiterleitung(ActionEvent actionEvent){
         Stage stage = (Stage) profil.getScene().getWindow();
         Layout anfragen = null;
-        anfragen = new Layout("freundschaftsAnfragen.fxml", stage,eigenerNutzer);
-        if (anfragen.getController() instanceof FreundschaftsAnfragenController) {
-            ((FreundschaftsAnfragenController) anfragen.getController()).setNutzerInstanz(eigenerNutzer);
+        layout.instanceLayout("freundschaftsAnfragen.fxml");
+        if (layout.getController() instanceof FreundschaftsAnfragenController) {
+            ((FreundschaftsAnfragenController) layout.getController()).setLayout(layout);
+            ((FreundschaftsAnfragenController) layout.getController()).setNutzerInstanz(eigenerNutzer);
 
         }
 
@@ -321,9 +322,10 @@ public class UserprofilController {
     public void FreundeslisteWeiterleitung(ActionEvent actionEvent){
         Stage stage = (Stage) profil.getScene().getWindow();
         Layout freunde = null;
-        freunde = new Layout("freundesListe.fxml", stage,eigenerNutzer);
-        if (freunde.getController() instanceof FreundesListeController) {
-            ((FreundesListeController) freunde.getController()).setNutzerInstanz(eigenerNutzer);
+        layout.instanceLayout("freundesliste.fxml");
+        if (layout.getController() instanceof FreundesListeController) {
+            ((FreundesListeController) layout.getController()).setLayout(layout);
+            ((FreundesListeController) layout.getController()).setNutzerInstanz(eigenerNutzer);
 
         }
 
@@ -462,18 +464,9 @@ public class UserprofilController {
             HttpEntity responseEntity = response.getEntity();
             String result = EntityUtils.toString(responseEntity);
             System.out.println(result);
-            Stage stage = (Stage) profil.getScene().getWindow();
-            Layout freunde = null;
-            freunde = new Layout("userprofile.fxml", stage,eigenerNutzer);
-            if (freunde.getController() instanceof UserprofilController) {
-                ((UserprofilController) freunde.getController()).nutzerprofilAufrufen(eigenerNutzer, vergleichNutzer);
-
-
-            }
-
-
-
-
+            layout.instanceLayout("userprofile.fxml");
+            ((UserprofilController) layout.getController()).setLayout(layout);
+            ((UserprofilController) layout.getController()).nutzerprofilAufrufen(eigenerNutzer,vergleichNutzer);
 
         } catch (IOException e) {
             System.out.println("Freundschaftsanfrage fehlgeschlagen");

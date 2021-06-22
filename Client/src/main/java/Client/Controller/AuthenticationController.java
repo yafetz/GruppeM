@@ -6,6 +6,7 @@ import Client.Modell.Lehrveranstaltung;
 import Client.Modell.Student;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -27,6 +28,7 @@ public class AuthenticationController {
     private Button cancelbutton;
 
     private Object nutzerInstanz;
+    private Layout layout;
 
 
     String code=null;
@@ -66,19 +68,18 @@ public class AuthenticationController {
 
     @FXML
     private void submit(ActionEvent event){
-
-        Stage stage = (Stage) submitbutton.getScene().getWindow();
         user_code=authfield.getText();
         if(user_code.equals(code)){
-            Layout homeScreen = new Layout("homescreen.fxml", stage, nutzerInstanz);
-
-
-            if (homeScreen.getController() instanceof HomescreenController) {
-                ((HomescreenController) homeScreen.getController()).setNutzerInstanz(nutzerInstanz);
-            }
+            layout.instanceLayout("homescreen.fxml");
+            ((HomescreenController) layout.getController()).setLayout(layout);
+            ((HomescreenController) layout.getController()).setNutzerInstanz(nutzerInstanz);
         }
         else{
-            System.out.println("Code falsch");
+            Alert fehler = new Alert(Alert.AlertType.ERROR);
+            fehler.setTitle("Falscher Code!");
+            fehler.setContentText("Sie haben einen falschen Code eingegeben! Sie finden ihren Code in ihrer Email!");
+            fehler.setHeaderText("Falscher Code!");
+            fehler.showAndWait();
             System.out.println("Usercode " +user_code);
             System.out.println("Code "+code);
         }
@@ -86,8 +87,13 @@ public class AuthenticationController {
 
     }
 
+    public Layout getLayout() {
+        return layout;
+    }
 
-
+    public void setLayout(Layout layout) {
+        this.layout = layout;
+    }
 
     public void setNutzerInstanz(Object nutzerInstanz) {
         this.nutzerInstanz = nutzerInstanz;

@@ -599,10 +599,11 @@ public class ProjektgruppenController {
 
     public void filesPressedButton(ActionEvent actionEvent) {
         actionEvent.consume();
-        Layout upload = new Layout ("gruppenUpload.fxml", (Stage) filesButton.getScene().getWindow(), nutzer);
-        if (upload.getController() instanceof GruppenUploadController) {
-            ((GruppenUploadController) upload.getController()).setNutzerInstanz(nutzer);
-            ((GruppenUploadController) upload.getController()).setProjektgruppe(projektgruppe);
+        layout.instanceLayout("gruppenUpload.fxml");
+        if (layout.getController() instanceof GruppenUploadController) {
+            ((GruppenUploadController) layout.getController()).setLayout(layout);
+            ((GruppenUploadController) layout.getController()).setNutzerInstanz(nutzer);
+            ((GruppenUploadController) layout.getController()).setProjektgruppe(projektgruppe);
 
         }
 
@@ -686,12 +687,13 @@ public class ProjektgruppenController {
 
     public void zurueckPressedButton(ActionEvent actionEvent) {
         actionEvent.consume();
-        Layout projektgruppenliste = new Layout ("projektgruppenliste.fxml", (Stage) mitgliederZurueckButton.getScene().getWindow(), nutzer);
-        if (projektgruppenliste.getController() instanceof ProjektgruppenController) {
-            ((ProjektgruppenController) projektgruppenliste.getController()).setNutzer(nutzer);
-            ((ProjektgruppenController) projektgruppenliste.getController()).setLehrveranstaltung(lehrveranstaltung);
-            ((ProjektgruppenController) projektgruppenliste.getController()).populateTableView();
-            ((ProjektgruppenController) projektgruppenliste.getController()).setPGListeSeitentitel(lehrveranstaltung.getTitel());
+        layout.instanceLayout("projektgruppenliste.fxml");
+        if (layout.getController() instanceof ProjektgruppenController) {
+            ((ProjektgruppenController) layout.getController()).setLayout(layout);
+            ((ProjektgruppenController) layout.getController()).setNutzer(nutzer);
+            ((ProjektgruppenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
+            ((ProjektgruppenController) layout.getController()).populateTableView();
+            ((ProjektgruppenController) layout.getController()).setPGListeSeitentitel(lehrveranstaltung.getTitel());
         }
     }
 }

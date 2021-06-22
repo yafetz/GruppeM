@@ -42,6 +42,15 @@ public class FreundschaftsAnfragenController {
 
     private Object nutzerInstanz;
 
+    private Layout layout;
+
+    public Layout getLayout() {
+        return layout;
+    }
+
+    public void setLayout(Layout layout) {
+        this.layout = layout;
+    }
 
     public void populateTableView() {
         long id = 0;
@@ -144,10 +153,10 @@ public class FreundschaftsAnfragenController {
 
                                   Stage stage = (Stage) anfragen_tabelle.getScene().getWindow();
 
-                                  Layout anfragen = null;
-                                  anfragen = new Layout("freundschaftsAnfragen.fxml", stage,nutzerInstanz);
-                                  if (anfragen.getController() instanceof FreundschaftsAnfragenController) {
-                                      ((FreundschaftsAnfragenController) anfragen.getController()).setNutzerInstanz(nutzerInstanz);
+                                  layout.instanceLayout("freundschaftsAnfragen.fxml");
+                                  if (layout.getController() instanceof FreundschaftsAnfragenController) {
+                                      ((FreundschaftsAnfragenController) layout.getController()).setLayout(layout);
+                                      ((FreundschaftsAnfragenController) layout.getController()).setNutzerInstanz(nutzerInstanz);
 
                                   }
 
@@ -186,14 +195,12 @@ public class FreundschaftsAnfragenController {
                                     Stage stage = (Stage) anfragen_tabelle.getScene().getWindow();
 
                                     Layout anfragen = null;
-                                    anfragen = new Layout("freundschaftsAnfragen.fxml", stage,nutzerInstanz);
-                                    if (anfragen.getController() instanceof FreundschaftsAnfragenController) {
-                                        ((FreundschaftsAnfragenController) anfragen.getController()).setNutzerInstanz(nutzerInstanz);
+                                    layout.instanceLayout("freundschaftsAnfragen.fxml");
+                                    if (layout.getController() instanceof FreundschaftsAnfragenController) {
+                                        ((FreundschaftsAnfragenController) layout.getController()).setLayout(layout);
+                                        ((FreundschaftsAnfragenController) layout.getController()).setNutzerInstanz(nutzerInstanz);
 
                                     }
-
-
-
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 } catch (InterruptedException e) {
