@@ -1,5 +1,6 @@
 package Client.Controller;
 
+import Client.Layouts.Auth;
 import Client.Layouts.Layout;
 import Client.Modell.Lehrender;
 import Client.Modell.Lehrveranstaltung;
@@ -85,6 +86,10 @@ public class AuthenticationController {
         }
 
 
+    }
+    public void cancelPressedButton(ActionEvent actionEvent) {
+        actionEvent.consume();
+        Auth login = new Auth("login.fxml", (Stage) cancelbutton.getScene().getWindow());
     }
 
     public Layout getLayout() {

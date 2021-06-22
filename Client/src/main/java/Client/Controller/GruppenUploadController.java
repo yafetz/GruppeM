@@ -100,10 +100,15 @@ public class GruppenUploadController {
                         alert.setHeaderText("Ihre Lehrmaterialien wurden erfolgreich zum Server hochgeladen!");
                         alert.setContentText("Sie werden nun zur Übersichtsseite weitergeleitet.");
                         alert.showAndWait();
-                        /*Layout lehrveranstaltungBeitreten = new Layout("projektGruppeUebersicht.fxml", (Stage) btn_upload.getScene().getWindow(),nutzerInstanz);
-                        if(lehrveranstaltungBeitreten.getController() instanceof ProjektgruppenController){
-                          //  ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(nutzerInstanz,projektgruppe);
-                        }*/
+                        layout.instanceLayout("projektgruppeUebersicht.fxml");
+                        if (layout.getController() instanceof ProjektgruppenController) {
+                            ((ProjektgruppenController) layout.getController()).setNutzer(nutzerInstanz);
+                            ((ProjektgruppenController) layout.getController()).setProjektgruppe(projektgruppe);
+                            ((ProjektgruppenController) layout.getController()).setLehrveranstaltung(projektgruppe.getLehrveranstaltung());
+                            ((ProjektgruppenController) layout.getController()).setPGUebersichtLvTitel(projektgruppe.getLehrveranstaltung().getTitel());
+                            ((ProjektgruppenController) layout.getController()).setPGUebersichtPGTitel(projektgruppe.getTitel());
+                            ((ProjektgruppenController) layout.getController()).populateMaterialTable();
+                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

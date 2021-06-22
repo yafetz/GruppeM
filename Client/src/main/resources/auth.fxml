@@ -10,6 +10,6 @@
       <TextField fx:id="authfield" layoutX="212.0" layoutY="105.0" />
       <Text layoutX="128.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="AuthCode" />
       <Button fx:id="submitbutton" layoutX="113.0" layoutY="200.0" mnemonicParsing="false" onAction="#submit" text="Submit" />
-      <Button fx:id="cancelbutton" layoutX="361.0" layoutY="200.0" mnemonicParsing="false" text="Cancel" />
+      <Button fx:id="cancelbutton" layoutX="361.0" layoutY="200.0" mnemonicParsing="false" onAction="#cancelPressedButton" text="Cancel" />
    </children>
 </AnchorPane>
