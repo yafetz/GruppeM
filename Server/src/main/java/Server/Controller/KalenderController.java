@@ -81,4 +81,32 @@ public class KalenderController {
 
     }
 
+    @PostMapping("/Terminbearbeiten")
+    public String TerminBearbeiten(
+                              @RequestParam("id") long id,
+                              @RequestParam("titel") String titel,
+                              @RequestParam("von") String vonDateTime,
+                              @RequestParam("bis") String bisDateTime,
+                              @RequestParam("lehrveranstaltungsId") long lvId,
+                              @RequestParam("reminderValue") int reminderValue,
+                              @RequestParam("reminderArt") String reminderArt,
+                              @RequestParam("reminderShow") String reminderShow,
+                              @RequestParam("nutzer") long nutzerId){
+        Nutzer nutzer = nutzerRepository.findNutzerById(nutzerId);
+        //Füge Termin nur für sich selber hinzu
+        Termin termin = kalenderRepository.findTerminById(id);
+        termin.setTitel(titel);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        termin.setVon(LocalDateTime.parse(vonDateTime, formatter));
+        termin.setBis(LocalDateTime.parse(bisDateTime, formatter));
+        termin.setLehrveranstaltung(lehrveranstaltungRepository.findLehrveranstaltungById(lvId));
+        termin.setReminderValue(reminderValue);
+        termin.setReminderArt(reminderArt);
+        termin.setReminderShow(reminderShow);
+        termin.setNutzerId(nutzer);
+        kalenderRepository.save(termin);
+        return "OK";
+
+    }
+
 }
