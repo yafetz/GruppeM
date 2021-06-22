@@ -253,10 +253,13 @@ public class UserprofilController {
                     try {
                         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-                        if(response.body().equals(true)){
+                        System.out.println(response.body());
+                        if(response.body().equals("true")){
+                            System.out.println("If statement");
                             anfrage.setVisible(false);
                         }
                         else {
+                            System.out.println("Else Statement");
                             anfrage.setVisible(true);
                         }
 
