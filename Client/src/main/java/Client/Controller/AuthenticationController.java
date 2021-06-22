@@ -89,7 +89,7 @@ public class AuthenticationController {
     }
     public void cancelPressedButton(ActionEvent actionEvent) {
         actionEvent.consume();
-        Auth login = new Auth("login.fxml", (Stage) cancelbutton.getScene().getWindow());
+        layout.instanceAuth("login.fxml");
     }
 
     public Layout getLayout() {
