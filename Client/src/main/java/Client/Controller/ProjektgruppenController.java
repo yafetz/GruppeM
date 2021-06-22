@@ -96,7 +96,7 @@ public class ProjektgruppenController {
     private Object nutzer;
     private Lehrveranstaltung lehrveranstaltung;
     private Projektgruppe projektgruppe;
-    private List<Long> selectedStudentIds;
+    private List<Long> selectedStudentIds = new ArrayList<>();
 
     private Layout layout;
 
@@ -153,7 +153,7 @@ public class ProjektgruppenController {
 
     public void setProjektgruppe(Projektgruppe projektgruppe) {
         this.projektgruppe = projektgruppe;
-        uebersichtPGTitel_label.setText(projektgruppe.getTitel());
+        //uebersichtPGTitel_label.setText(projektgruppe.getTitel());
     }
 
     public void populateTableView() {
@@ -229,6 +229,21 @@ public class ProjektgruppenController {
                         ((ProjektgruppeBeitretenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
                     }
                 }
+            }else if (nutzer instanceof Lehrender) {
+                layout.instanceLayout("projektgruppeMitgliederansichtLehrender.fxml");
+                if (layout.getController() instanceof ProjektgruppenController) {
+                    ((ProjektgruppenController) layout.getController()).setLayout(layout);
+                    ((ProjektgruppenController) layout.getController()).setNutzer(nutzer);
+                    ((ProjektgruppenController) layout.getController()).setProjektgruppe(projektgruppe);
+                    ((ProjektgruppenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
+                    ((ProjektgruppenController) layout.getController()).MitgliederPGTitel_label.setText(projektgruppe.getTitel());
+                    ((ProjektgruppenController) layout.getController()).MitgliederLvTitel_label.setText("der Lehrveranstaltung " + lehrveranstaltung.getTitel());
+                    ((ProjektgruppenController) layout.getController()).populateVorhandeneTableView();
+                    ((ProjektgruppenController) layout.getController()).populateNeueTableView();
+                    ((ProjektgruppenController) layout.getController()).addCheckBoxToTable("neue");
+                    ((ProjektgruppenController) layout.getController()).selectedStudentIds = new ArrayList<>();
+
+                }
             }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -239,12 +254,13 @@ public class ProjektgruppenController {
     public void pgListeErstellenPressedButton(ActionEvent actionEvent) {
         actionEvent.consume();
         layout.instanceLayout("projektgruppeErstellen.fxml");
-        ((ProjektgruppeBeitretenController) layout.getController()).setLayout(layout);
+        ((ProjektgruppenController) layout.getController()).setLayout(layout);
         if (nutzer instanceof Lehrender) {
             if (layout.getController() instanceof ProjektgruppenController) {
                 ((ProjektgruppenController) layout.getController()).setErstellenLvTitel_label(lehrveranstaltung.getTitel());
                 ((ProjektgruppenController) layout.getController()).setNutzer(nutzer);
                 ((ProjektgruppenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
+                ((ProjektgruppenController) layout.getController()).populateTeilnehmerTableView();
             }
         } else if (nutzer instanceof Student) {
             if (layout.getController() instanceof ProjektgruppenController) {
@@ -441,11 +457,12 @@ public class ProjektgruppenController {
                     alert.showAndWait();
                    // Layout projektgruppenliste = new Layout("projektgruppenliste.fxml", (Stage) erstellen_btn.getScene().getWindow(), nutzer);
                     layout.instanceLayout("projektgruppenliste.fxml");
-                    ((ProjektgruppeBeitretenController) layout.getController()).setLayout(layout);
+                    ((ProjektgruppenController) layout.getController()).setLayout(layout);
                     if (layout.getController() instanceof ProjektgruppenController) {
                         ((ProjektgruppenController) layout.getController()).setNutzer(nutzer);
                         ((ProjektgruppenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
                         ((ProjektgruppenController) layout.getController()).setPageTitel("Projektgruppen der Lehrveranstaltung " + lehrveranstaltung.getTitel());
+                        ((ProjektgruppenController) layout.getController()).populateTableView();
                     }
                 } else {        // Projektgruppe existiert bereits mit diesem Titel
                     Alert alert = new Alert(Alert.AlertType.ERROR);
