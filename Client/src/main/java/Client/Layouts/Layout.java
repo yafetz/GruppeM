@@ -171,6 +171,8 @@ public class Layout {
                 ((MeineKurseController) getController()).setLayout(layout);
             }
         };
+        meineKurse.setPrefHeight(67.00);
+        meineKurse.setPrefWidth(100.00);
         meineKurse.setCursor(Cursor.HAND);
         meineKurse.setFont(new Font("System Bold",12.0));
         meineKurse.setOnAction(buttonHandler);
@@ -188,6 +190,8 @@ public class Layout {
                 ((AlleKurseController) getController()).setLayout(layout);
             }
         };
+        alleKurse.setPrefHeight(67.00);
+        alleKurse.setPrefWidth(100.00);
         alleKurse.setCursor(Cursor.HAND);
         alleKurse.setFont(new Font("System Bold",12.0));
         alleKurse.setOnAction(alleKurseHandler);
@@ -206,6 +210,8 @@ public class Layout {
                 ((CalenderController) getController()).Initilaize();
             }
         };
+        Kalender.setPrefHeight(67.00);
+        Kalender.setPrefWidth(100.00);
         Kalender.setCursor(Cursor.HAND);
         Kalender.setFont(new Font("System Bold",12.0));
         Kalender.setOnAction(KalenderHandler);

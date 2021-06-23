@@ -69,8 +69,8 @@ public class LoginController {
             Stage stage = (Stage) register.getScene().getWindow();
             if(Serverantwort.equals("")){
                 Alert fehler = new Alert(Alert.AlertType.ERROR);
-                fehler.setTitle("Falsche Anmelde Daten!");
-                fehler.setContentText("Ungültige Login Daten!");
+                fehler.setTitle("Falsche Anmeldedaten!");
+                fehler.setContentText("Ungültige Logindaten!");
                 fehler.showAndWait();
             }else {
                 try {

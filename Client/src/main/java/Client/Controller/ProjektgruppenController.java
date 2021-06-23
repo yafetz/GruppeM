@@ -186,6 +186,21 @@ public class ProjektgruppenController {
                 return cell;
             });
 
+            if (nutzer instanceof Student) {
+                for (Projektgruppe pg : projektgruppen) {
+                    request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/projektgruppe/checkMember/" + pg.getId() + "&" + ((Student) nutzer).getId())).build();
+                    try {
+                        HttpResponse<String> istGruppenmitgliedResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
+                        if (istGruppenmitgliedResponse.body().equals("true")) {
+                            pg.setTitel(pg.getTitel() + " (beigetreten)");
+                        }
+                    } catch (IOException | InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+
             ObservableList<Projektgruppe> obsPG = FXCollections.observableList(projektgruppen);
             pgListe_tableview.setItems(obsPG);
 

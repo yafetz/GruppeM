@@ -82,16 +82,15 @@ public class LehrveranstaltungBeitretenController implements Initializable {
 
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response);
-            System.out.println(nutzerId);
+//            System.out.println(response);
+//            System.out.println(nutzerId);
+//            System.out.println("LehrveranstaltungsId           "+lehrveranstaltungsId);
+//            System.out.println("NutzerId       "+nutzerId);
+//            System.out.println("Success");
 
-
-            System.out.println("LehrveranstaltungsId           "+lehrveranstaltungsId);
-            System.out.println("NutzerId       "+nutzerId);
-            System.out.println("Success");
             layout.instanceLayout("lehrveranstaltungsuebersichtsseite.fxml");
-                ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).uebersichtsseiteAufrufen(nutzerInstanz, lehrveranstaltung);
-
+            ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).setLayout(layout);
+            ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).uebersichtsseiteAufrufen(nutzerInstanz, lehrveranstaltung);
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -15,12 +15,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/todo/")
-public class ErstelleToDoController {
+public class ToDoController {
     private NutzerRepository nutzerRepository;
     private TodoListeService todoListeService;
     private TodoListeRepository todoListeRepository;
 
-    public ErstelleToDoController( NutzerRepository nutzerRepository,TodoListeService todoListeService, TodoListeRepository todoListeRepository) {
+    public ToDoController(NutzerRepository nutzerRepository, TodoListeService todoListeService, TodoListeRepository todoListeRepository) {
         this.nutzerRepository=nutzerRepository;
         this.todoListeService=todoListeService;
         this.todoListeRepository=todoListeRepository;
@@ -55,20 +55,20 @@ public class ErstelleToDoController {
     @GetMapping("{projektgruppeId}")
     public List<ToDoItem> getAlleTodoItem(@PathVariable long projektgruppeId){
 
-        List<ToDoItem> todo= todoListeService.todos(projektgruppeId);
-
-
+        List<ToDoItem> todo = todoListeService.todos(projektgruppeId);
         return todo;
 
 
     }
     @PostMapping("update")
     public String bearbeiteTodo(@RequestParam("datum") String deadline,
-                           @RequestParam("titel") String titel,
-                           @RequestParam("verantwortliche") String gruppenmitglieder,
-                           @RequestParam("projektgruppeId") long projektgruppeId,
-                           @RequestParam("nutzerId") long nutzerId){
+                                @RequestParam("titel") String titel,
+                                @RequestParam("verantwortliche") String gruppenmitglieder,
+                                @RequestParam("projektgruppeId") long projektgruppeId,
+                                @RequestParam("nutzerId") long nutzerId,
+                                @RequestParam("oldToDoId") long oldToDoId){
 
+        todoListeRepository.deleteById(oldToDoId);
         Nutzer nutzer = nutzerRepository.findNutzerById(nutzerId);
         ToDoItem toDoItem = new ToDoItem();
         toDoItem.setTitel(titel);
@@ -80,9 +80,6 @@ public class ErstelleToDoController {
 
         todoListeRepository.save(toDoItem);
         System.out.println("test");
-
-
-
 
         return "Ok";
     }
