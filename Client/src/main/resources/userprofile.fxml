@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="581.0" prefWidth="840.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.UserprofilController">
+<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="581.0" prefWidth="840.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.UserprofilController">
    <children>
       <Label fx:id="username" layoutX="221.0" layoutY="56.0" prefHeight="67.0" text="Name">
          <font>
@@ -38,5 +38,8 @@
       <Label fx:id="lehrstuhlOderMatrNrTextLabel" layoutX="213.0" layoutY="283.0" text="SetLehrstuhlOderMatrikelnummer" />
       <Label fx:id="forschungsgebietOderStudienfachTextLabel" layoutX="213.0" layoutY="316.0" text="SetForschungsgebietOderStudienfach" />
       <Button fx:id="abmeldenButton" layoutX="705.0" layoutY="529.0" mnemonicParsing="false" onAction="#abmeldenPressedButton" text="Abmelden" />
+      <Button fx:id="anfrage" layoutX="689.0" layoutY="304.0" mnemonicParsing="false" onAction="#freunschafts_anfrage" text="Freunschaft anfragen" />
+      <Button fx:id="Freundschaftsliste" layoutX="727.0" layoutY="401.0" mnemonicParsing="false" onAction="#FreundeslisteWeiterleitung" text="Meine Freunde" />
+      <Button fx:id="meineAnfragen" layoutX="715.0" layoutY="486.0" mnemonicParsing="false" onAction="#freundschaftsAnfrageWeiterleitung" text="Meine Freundschaftsanfragen" />
    </children>
 </AnchorPane>

@@ -40,27 +40,29 @@ public class LehrveranstaltungsuebersichtsseiteController {
     @FXML
     private Button studentenliste;
 
+    private Layout layout;
+
+    public Layout getLayout() {
+        return layout;
+    }
+
+    public void setLayout(Layout layout) {
+        this.layout = layout;
+    }
+
     public void Studenliste(ActionEvent actionEvent) {
-        Layout lehrveranstaltungBeitreten = new Layout("studentenListe.fxml", (Stage) teilnehmerListe.getScene().getWindow(),nutzer);
-        if(lehrveranstaltungBeitreten.getController() instanceof StudentenListeController){
-
-            ((StudentenListeController) lehrveranstaltungBeitreten.getController()).setNutzerInstanz(nutzer);
-            ((StudentenListeController) lehrveranstaltungBeitreten.getController()).setLehrveranstaltung(lehrveranstaltung);
-
-        }
+        layout.instanceLayout("studentenListe.fxml");
+        ((StudentenListeController) layout.getController()).setLayout(layout);
+        ((StudentenListeController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
     }
 
     @FXML
     private void teilnehmerListe(ActionEvent event){
-
-        Layout lehrveranstaltungBeitreten = new Layout("teilnehmerListe.fxml", (Stage) teilnehmerListe.getScene().getWindow(),nutzer);
-        if(lehrveranstaltungBeitreten.getController() instanceof TeilnehmerListeController){
+            layout.instanceLayout("teilnehmerListe.fxml");
             long veranstaltungId = ((Lehrveranstaltung) lehrveranstaltung).getId();
-
-            ((TeilnehmerListeController) lehrveranstaltungBeitreten.getController()).setId(veranstaltungId);
-            ((TeilnehmerListeController) lehrveranstaltungBeitreten.getController()).setNutzerInstanz(nutzer);
-            ((TeilnehmerListeController)  lehrveranstaltungBeitreten.getController()).setLehrveranstaltung(((Lehrveranstaltung) lehrveranstaltung));
-        }
+            ((TeilnehmerListeController) layout.getController()).setId(veranstaltungId);
+            ((TeilnehmerListeController) layout.getController()).setLayout(layout);
+            ((TeilnehmerListeController)  layout.getController()).setLehrveranstaltung(((Lehrveranstaltung) lehrveranstaltung));
     }
 
     public void getMaterial(Lehrveranstaltung lehrkurs) {
@@ -134,19 +136,17 @@ public class LehrveranstaltungsuebersichtsseiteController {
     @FXML
     private void materialUploadPressedButton(ActionEvent event) {
         event.consume();
-        Stage stage = (Stage) materialUpload.getScene().getWindow();
-        Layout uploadScreen = null;
-        uploadScreen = new Layout("lehrmaterialUpload.fxml", stage,nutzer);
-        if (uploadScreen.getController() instanceof LehrmaterialController) {
-            ((LehrmaterialController) uploadScreen.getController()).setNutzerInstanz(nutzer);
-            ((LehrmaterialController) uploadScreen.getController()).setLehrveranstaltung(lehrveranstaltung);
-            ((LehrmaterialController) uploadScreen.getController()).setModus("Lehrmaterial");
-        }
+        layout.instanceLayout("lehrmaterialUpload.fxml");
+        ((LehrmaterialController) layout.getController()).setLayout(layout);
+        ((LehrmaterialController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
+        ((LehrmaterialController) layout.getController()).setModus("Lehrmaterial");
+
     }
 
     public void uebersichtsseiteAufrufen(Object nutzer, Lehrveranstaltung lehrveranstaltung) {
         this.nutzer = nutzer;
         this.lehrveranstaltung= lehrveranstaltung;
+
 
         if (nutzer !=null) {
             if (nutzer instanceof Lehrender) {
@@ -162,18 +162,27 @@ public class LehrveranstaltungsuebersichtsseiteController {
                 studentenliste.setVisible(false);
                 getMaterial((Lehrveranstaltung) lehrveranstaltung);
             }
+
         }
+
+
+
     }
 
     public void projektgruppePressedButton(ActionEvent actionEvent) {
         actionEvent.consume();
-        Layout projektgruppenliste = new Layout("projektgruppenliste.fxml", (Stage) projektgruppe_btn.getScene().getWindow(), nutzer);
-        if (projektgruppenliste.getController() instanceof ProjektgruppenController) {
-            ((ProjektgruppenController) projektgruppenliste.getController()).setNutzer(nutzer);
-            ((ProjektgruppenController) projektgruppenliste.getController()).setLehrveranstaltung(lehrveranstaltung);
-            ((ProjektgruppenController) projektgruppenliste.getController()).populateTableView();
-            ((ProjektgruppenController) projektgruppenliste.getController()).setPGListeSeitentitel(lehrveranstaltung.getTitel());
-        }
+        layout.instanceLayout("projektgruppenliste.fxml");
+        ((ProjektgruppenController) layout.getController()).setLayout(layout);
+        ((ProjektgruppenController) layout.getController()).setNutzer(nutzer);
+        ((ProjektgruppenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
+        ((ProjektgruppenController) layout.getController()).populateTableView();
+        ((ProjektgruppenController) layout.getController()).setPGListeSeitentitel(lehrveranstaltung.getTitel());
 
+    }
+
+    public void quizPressed(ActionEvent actionEvent) {
+        layout.instanceLayout("quizUebersicht.fxml");
+        ((QuizUebersichtController) layout.getController()).setLayout(layout);
+        ((QuizUebersichtController) layout.getController()).quizSeiteAufrufen(nutzer,lehrveranstaltung);
     }
 }

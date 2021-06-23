@@ -1,5 +1,11 @@
 package Server.Services;
 
+
+import Server.Modell.Gruppenmitglied;
+import Server.Modell.TeilnehmerListe;
+import Server.Repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import Server.Modell.Gruppenmitglied;
 import Server.Modell.Projektgruppe;
 import Server.Modell.Student;
@@ -33,5 +39,10 @@ public class GruppenmitgliedService {
             Gruppenmitglied neu = new Gruppenmitglied(student, projektgruppe);
             gruppenmitgliedRepository.save(neu);
         }
+    }
+    public List<Gruppenmitglied> mitglied(long projektgruppeId){
+
+        return gruppenmitgliedRepository.findAllByProjektgruppe(projektgruppenRepository.findProjektgruppeById(projektgruppeId));
+
     }
 }

@@ -63,4 +63,15 @@ public class Lehrveranstaltung {
     public void setLehrender(Lehrender lehrender) {
         this.lehrender = lehrender;
     }
+
+    @Override
+    public String toString() {
+        return "Lehrveranstaltung{" +
+                "id=" + id +
+                ", titel='" + titel + '\'' +
+                ", art='" + art + '\'' +
+                ", semester='" + semester + '\'' +
+                ", lehrender=" + lehrender +
+                '}';
+    }
 }

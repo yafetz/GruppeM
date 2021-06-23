@@ -31,6 +31,18 @@ public class LoginController {
     @FXML
     private Button register;
 
+    private Layout layout;
+    //If 0 then deactivate 2 Faktor, if 1 activate
+    private int auth = 0;
+
+    public Layout getLayout() {
+        return layout;
+    }
+
+    public void setLayout(Layout layout) {
+        this.layout = layout;
+    }
+
     // called by the FXML loader after the labels declared above are injected:
     public void initialize() {
 
@@ -38,8 +50,8 @@ public class LoginController {
 
     @FXML
     private void registerPressedButton(ActionEvent event) {
-        Stage stage = (Stage) register.getScene().getWindow();
-        Auth login = new Auth("Registrieren_Student.fxml",stage);
+        layout.instanceAuth("Registrieren_Student.fxml");
+        ((RegistrierenController) layout.getController()).setLayout(layout);
     }
 
     @FXML
@@ -64,28 +76,34 @@ public class LoginController {
                 try {
                     JSONObject jsonObject = new JSONObject(Serverantwort);
                     if (jsonObject.has("matrikelnummer")) {
-//                        System.out.println(jsonObject);
                         Student student = new Student();
 
                         student.addDataFromJson(jsonObject);
                         //Change View
-
-                        Layout homeScreen = new Layout("homescreen.fxml", stage, student);
-
-
-                        if (homeScreen.getController() instanceof HomescreenController) {
-                            ((HomescreenController) homeScreen.getController()).setNutzerInstanz(student);
+                        layout.setNutzer(student);
+                        if(auth == 1) {
+                            layout.instanceAuth("auth.fxml");
+                            ((AuthenticationController) layout.getController()).setLayout(layout);
+                            ((AuthenticationController) layout.getController()).setNutzerInstanz(student);
+                        }else if(auth == 0){
+                            layout.instanceLayout("homescreen.fxml");
+                            ((HomescreenController) layout.getController()).setLayout(layout);
+                            ((HomescreenController) layout.getController()).setNutzerInstanz(student);
                         }
+
                     } else if (jsonObject.has("lehrstuhl")) {
                         Lehrender lehrender = new Lehrender();
                         lehrender.addDataFromJson(jsonObject);
-
-
-                        Layout homeScreen = new Layout("homescreen.fxml", stage, lehrender);
-
-
-                        if (homeScreen.getController() instanceof HomescreenController) {
-                            ((HomescreenController) homeScreen.getController()).setNutzerInstanz(lehrender);
+                        //Change View
+                        layout.setNutzer(lehrender);
+                        if(auth == 1) {
+                            layout.instanceAuth("auth.fxml");
+                            ((AuthenticationController) layout.getController()).setLayout(layout);
+                            ((AuthenticationController) layout.getController()).setNutzerInstanz(lehrender);
+                        }else if(auth == 0){
+                            layout.instanceLayout("homescreen.fxml");
+                            ((HomescreenController) layout.getController()).setLayout(layout);
+                            ((HomescreenController) layout.getController()).setNutzerInstanz(lehrender);
                         }
                     }
 
@@ -93,12 +111,8 @@ public class LoginController {
                     err.printStackTrace();
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-
-
     }
 }

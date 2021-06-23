@@ -65,6 +65,17 @@ public class EditierenController {
 
     private File profil;
 
+    private Layout layout;
+
+    public Layout getLayout() {
+        return layout;
+    }
+
+    public void setLayout(Layout layout) {
+        this.layout = layout;
+        setNutzer(layout.getNutzer());
+    }
+
     public void initialize(){
         profilbild.setCursor(Cursor.HAND);
         profilbild.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
@@ -160,13 +171,9 @@ public class EditierenController {
                         if(profil != null) {
                             ((Lehrender) Nutzer).getNutzerId().setProfilbild(FileUtils.readFileToByteArray(profil));
                         }
-                        Stage stage = (Stage) aktualisieren.getScene().getWindow();
-                        Layout userprofil = null;
-                        userprofil = new Layout("userprofile.fxml", stage, Nutzer);
-
-                        if (userprofil.getController() instanceof UserprofilController) {
-                            ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(Nutzer, Nutzer);
-                        }
+                        layout.instanceLayout("userprofile.fxml");
+                        ((UserprofilController) layout.getController()).setLayout(layout);
+                        ((UserprofilController) layout.getController()).nutzerprofilAufrufen(Nutzer, Nutzer);
                     }
                 }
             } catch (IOException e) {
@@ -213,13 +220,9 @@ public class EditierenController {
                             ((Student) Nutzer).getNutzer().setProfilbild(FileUtils.readFileToByteArray(profil));
                         }
                         //Weiterleitung zur Nutzerprofil Seite
-                        Stage stage = (Stage) aktualisieren.getScene().getWindow();
-                        Layout userprofil = null;
-                        userprofil = new Layout("userprofile.fxml",stage,Nutzer);
-
-                        if(userprofil.getController() instanceof UserprofilController){
-                            ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(Nutzer,Nutzer);
-                        }
+                        layout.instanceLayout("userprofile.fxml");
+                        ((UserprofilController) layout.getController()).setLayout(layout);
+                        ((UserprofilController) layout.getController()).nutzerprofilAufrufen(Nutzer, Nutzer);
                     }
                 }
             } catch (IOException e) {
@@ -230,12 +233,8 @@ public class EditierenController {
 
     public void Abbrechen(ActionEvent actionEvent) {
         //Weiterleitung zur Nutzerprofil Seite
-        Stage stage = (Stage) abbrechen.getScene().getWindow();
-        Layout userprofil = null;
-            userprofil = new Layout("userprofile.fxml",stage,Nutzer);
-
-            if(userprofil.getController() instanceof UserprofilController){
-                ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(Nutzer,Nutzer);
-            }
+        layout.instanceLayout("userprofile.fxml");
+        ((UserprofilController) layout.getController()).setLayout(layout);
+        ((UserprofilController) layout.getController()).nutzerprofilAufrufen(Nutzer, Nutzer);
     }
 }

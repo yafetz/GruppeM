@@ -42,6 +42,17 @@ public class LehrmaterialController {
     private Object nutzerInstanz;
     private String modus;
 
+    private Layout layout;
+
+    public Layout getLayout() {
+        return layout;
+    }
+
+    public void setLayout(Layout layout) {
+        this.layout = layout;
+        setNutzerInstanz(layout.getNutzer());
+    }
+
     public void initialize() {
 
     }
@@ -88,10 +99,10 @@ public class LehrmaterialController {
                         alert.setHeaderText("Ihre Lehrmaterialien wurden erfolgreich zum Server hochgeladen!");
                         alert.setContentText("Sie werden nun zur Übersichtsseite weitergeleitet.");
                         alert.showAndWait();
-                        Layout lehrveranstaltungBeitreten = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) btn_upload.getScene().getWindow(),nutzerInstanz);
-                        if(lehrveranstaltungBeitreten.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
-                            ((LehrveranstaltungsuebersichtsseiteController) lehrveranstaltungBeitreten.getController()).uebersichtsseiteAufrufen(nutzerInstanz,lehrveranstaltung);
-                        }
+                        layout.instanceLayout("lehrveranstaltungsuebersichtsseite.fxml");
+                        ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).setLayout(layout);
+                        ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).uebersichtsseiteAufrufen(nutzerInstanz,lehrveranstaltung);
+
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -126,10 +137,8 @@ public class LehrmaterialController {
                         alert.setHeaderText("Ihre CSV Datei wurde erfolgreich zum Server hochgeladen!");
                         alert.setContentText("Die extrahierten Lehrveranstaltungen sind nun vorhanden!");
                         alert.showAndWait();
-                        Layout meineKurse = new Layout("meineKurse.fxml",(Stage) btn_upload.getScene().getWindow(),nutzerInstanz);
-                        if(meineKurse.getController() instanceof MeineKurseController){
-                            ((MeineKurseController) meineKurse.getController()).setNutzerInstanz(nutzerInstanz);
-                        }
+                        layout.instanceLayout("meineKurse.fxml");
+                        ((MeineKurseController) layout.getController()).setLayout(layout);
                     }
                     }
                 } catch (IOException e) {
@@ -142,17 +151,14 @@ public class LehrmaterialController {
     public void abbrechenPressedButton(ActionEvent actionEvent) {
         actionEvent.consume();
         Stage stage = (Stage) btn_abbrechen.getScene().getWindow();
-        Layout homeScreen = null;
         if (modus.equals("Lehrmaterial")) {
-            homeScreen = new Layout("lehrveranstaltungsuebersichtsseite.fxml", stage, nutzerInstanz);
-            if (homeScreen.getController() instanceof LehrveranstaltungsuebersichtsseiteController) {
-                ((LehrveranstaltungsuebersichtsseiteController) homeScreen.getController()).uebersichtsseiteAufrufen(nutzerInstanz, lehrveranstaltung);
-            }
+            layout.instanceLayout("lehrveranstaltungsuebersichtsseite.fxml");
+            ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).setLayout(layout);
+            ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).uebersichtsseiteAufrufen(nutzerInstanz,lehrveranstaltung);
+
         } else if (modus.equals("CSV")) {
-            homeScreen = new Layout("meineKurse.fxml", stage, nutzerInstanz);
-            if (homeScreen.getController() instanceof MeineKurseController) {
-                ((MeineKurseController) homeScreen.getController()).setNutzerInstanz(nutzerInstanz);
-            }
+            layout.instanceLayout("meineKurse.fxml");
+            ((MeineKurseController) layout.getController()).setLayout(layout);
         }
     }
 

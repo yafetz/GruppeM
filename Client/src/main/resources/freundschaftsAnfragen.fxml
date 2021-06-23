@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.FreundschaftsAnfragenController">
+   <children>
+      <TableView fx:id="anfragen_tabelle" layoutX="183.0" layoutY="66.0" prefHeight="200.0" prefWidth="341.0">
+        <columns>
+          <TableColumn fx:id="vornamen_column" prefWidth="75.0" text="Vorname" />
+          <TableColumn fx:id="nachnamen_column" prefWidth="75.0" text="Nachname" />
+
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

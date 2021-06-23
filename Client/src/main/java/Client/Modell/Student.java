@@ -1,5 +1,6 @@
 package Client.Modell;
 
+import Client.Controller.TeilnehmerListeController;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.CheckBox;

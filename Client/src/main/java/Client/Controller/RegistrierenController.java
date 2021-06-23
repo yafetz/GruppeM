@@ -1,5 +1,6 @@
 package Client.Controller;
 import Client.Layouts.Auth;
+import Client.Layouts.Layout;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -66,6 +67,16 @@ public class RegistrierenController {
 
     private File profil;
 
+    private Layout layout;
+
+    public Layout getLayout() {
+        return layout;
+    }
+
+    public void setLayout(Layout layout) {
+        this.layout = layout;
+    }
+
     public void initialize() throws URISyntaxException {
         profilbild.setCursor(Cursor.HAND);
         profilbild.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
@@ -85,20 +96,20 @@ public class RegistrierenController {
 
     public void Rollenwechsel(ActionEvent actionEvent) {
         actionEvent.consume();
-        Stage stage = (Stage) registrieren_lehrender.getScene().getWindow();
-        Auth register_lehrender = new Auth("Registrieren_Lehrender.fxml",stage);
+        layout.instanceAuth("Registrieren_Lehrender.fxml");
+        ((RegistrierenController) layout.getController()).setLayout(layout);
     }
 
     public void Registrieren_Student(ActionEvent actionEvent) {
         actionEvent.consume();
-        Stage stage = (Stage) registrieren_student.getScene().getWindow();
-        Auth register_student = new Auth("Registrieren_Student.fxml",stage);
+        layout.instanceAuth("Registrieren_Student.fxml");
+        ((RegistrierenController) layout.getController()).setLayout(layout);
     }
 
     public void Zuruek(ActionEvent actionEvent) {
         actionEvent.consume();
-        Stage stage = (Stage) zuruek.getScene().getWindow();
-        Auth login = new Auth("login.fxml",stage);
+        layout.instanceAuth("login.fxml");
+        ((LoginController) layout.getController()).setLayout(layout);
     }
 
     public void Registrieren(ActionEvent actionEvent) {
@@ -198,8 +209,8 @@ public class RegistrierenController {
                 try (CloseableHttpResponse response = client.execute(post)) {
                     HttpEntity responseEntity = response.getEntity();
                     String result = EntityUtils.toString(responseEntity);
-                    System.out.println(result);
-                    Auth login = new Auth("login.fxml",(Stage) registrieren.getScene().getWindow());
+                    layout.instanceAuth("login.fxml");
+                    ((LoginController) layout.getController()).setLayout(layout);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -243,8 +254,8 @@ public class RegistrierenController {
                 try (CloseableHttpResponse response = client.execute(post)) {
                     HttpEntity responseEntity = response.getEntity();
                     String result = EntityUtils.toString(responseEntity);
-                    System.out.println(result);
-                    Auth login = new Auth("login.fxml",(Stage) registrieren.getScene().getWindow());
+                    layout.instanceAuth("login.fxml");
+                    ((LoginController) layout.getController()).setLayout(layout);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
