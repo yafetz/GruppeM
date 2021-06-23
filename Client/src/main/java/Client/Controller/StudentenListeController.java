@@ -67,7 +67,16 @@ public class StudentenListeController {
     private Lehrveranstaltung lehrveranstaltung;
     private Object nutzerInstanz;
 
+    private Layout layout;
 
+    public Layout getLayout() {
+        return layout;
+    }
+
+    public void setLayout(Layout layout) {
+        this.layout = layout;
+        setNutzerInstanz(layout.getNutzer());
+    }
 
     public void initialize() {
 
@@ -261,15 +270,11 @@ public class StudentenListeController {
             try (CloseableHttpResponse response1 = client1.execute(post)) {
                 HttpEntity responseEntity = response1.getEntity();
                 String result = EntityUtils.toString(responseEntity);
-
-                Layout teilnehmerListeView = new Layout("teilnehmerListe.fxml", (Stage) tabelle.getScene().getWindow(),nutzerInstanz);
-                if(teilnehmerListeView.getController() instanceof TeilnehmerListeController){
-                    long veranstaltungId = ((Lehrveranstaltung) lehrveranstaltung).getId();
-
-                    ((TeilnehmerListeController) teilnehmerListeView.getController()).setId(veranstaltungId);
-                    ((TeilnehmerListeController) teilnehmerListeView.getController()).setNutzerInstanz(nutzerInstanz);
-                    ((TeilnehmerListeController)  teilnehmerListeView.getController()).setLehrveranstaltung(((Lehrveranstaltung) lehrveranstaltung));
-                }
+                layout.instanceLayout("teilnehmerListe.fxml");
+                long veranstaltungId = ((Lehrveranstaltung) lehrveranstaltung).getId();
+                ((TeilnehmerListeController) layout.getController()).setId(veranstaltungId);
+                ((TeilnehmerListeController) layout.getController()).setLayout(layout);
+                ((TeilnehmerListeController)  layout.getController()).setLehrveranstaltung(((Lehrveranstaltung) lehrveranstaltung));
             }
         } catch (IOException e1) {
             e1.printStackTrace();

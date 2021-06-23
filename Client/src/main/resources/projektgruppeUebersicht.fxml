@@ -18,7 +18,7 @@
         </Label>
       <HBox layoutX="41.0" layoutY="119.0" prefHeight="35.0" prefWidth="568.0">
          <children>
-            <Button fx:id="chatButton" mnemonicParsing="false" onAction="#chatPressedButton" prefHeight="74.0" prefWidth="97.0" text="Chat" />
+            <Button fx:id="chatButton"  mnemonicParsing="false" onAction="#chatPressedButton" prefHeight="74.0" prefWidth="97.0" text="Chat" />
             <Button fx:id="todoButton" mnemonicParsing="false" onAction="#todoPressedButton" prefHeight="74.0" prefWidth="97.0" text="ToDo" />
             <Button fx:id="filesButton" mnemonicParsing="false" onAction="#filesPressedButton" prefHeight="74.0" prefWidth="97.0" text="Datei hochladen" />
             <Button fx:id="memberButton" mnemonicParsing="false" onAction="#memberPressedButton" prefHeight="74.0" prefWidth="97.0" text="Mitglieder" />

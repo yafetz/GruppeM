@@ -39,7 +39,16 @@ public class LehrveranstaltungBeitretenController implements Initializable {
     private Object nutzerInstanz;
     private long lehrveranstaltungsId;
 
+    private Layout layout;
 
+    public Layout getLayout() {
+        return layout;
+    }
+
+    public void setLayout(Layout layout) {
+        this.layout = layout;
+        setNutzerInstanz(layout.getNutzer());
+    }
 
 
     @Override
@@ -80,14 +89,8 @@ public class LehrveranstaltungBeitretenController implements Initializable {
             System.out.println("LehrveranstaltungsId           "+lehrveranstaltungsId);
             System.out.println("NutzerId       "+nutzerId);
             System.out.println("Success");
-            //System.out.println("Student instanz   "+((Student) nutzerInstanz).getId());
-           // System.out.println("Lehrender instanz     "+((Lehrender) nutzerInstanz).getNutzerId().getId());
-
-            Layout uebersicht= new Layout("lehrveranstaltungsuebersichtsseite.fxml",(Stage) beitreten.getScene().getWindow(),nutzerInstanz);
-            if(uebersicht.getController() instanceof LehrveranstaltungsuebersichtsseiteController){
-                ((LehrveranstaltungsuebersichtsseiteController) uebersicht.getController()).uebersichtsseiteAufrufen(nutzerInstanz, lehrveranstaltung);
-
-            }
+            layout.instanceLayout("lehrveranstaltungsuebersichtsseite.fxml");
+                ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).uebersichtsseiteAufrufen(nutzerInstanz, lehrveranstaltung);
 
 
         } catch (IOException e) {

@@ -1,10 +1,11 @@
 package Client.Layouts;
 
-import Client.Controller.AlleKurseController;
-import Client.Controller.MeineKurseController;
-import Client.Controller.UserprofilController;
+import Client.Controller.*;
 import Client.Modell.Lehrender;
 import Client.Modell.Student;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -18,25 +19,68 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Layout {
 
     private Object Controller;
     private Button meineKurse = new Button();
     private Button alleKurse = new Button();
+    private Button Kalender = new Button();
     private Hyperlink logo = new Hyperlink();
     private Hyperlink namenlink = new Hyperlink();
     private Object Nutzer;
     private Stage stage;
+    private AnchorPane container;
+    private Pane guiPanel;
+    private AnchorPane gui;
+    private final Layout layout = this;
 
-    public Layout(String view_path, Stage stage, Object Nutzer){
+    public void setNutzer(Object Nutzer){
         this.Nutzer = Nutzer;
+    }
+
+    public void setStage(Stage stage){
         this.stage = stage;
-        AnchorPane container = new AnchorPane();
+    }
+
+
+    public void instanceAuth(String view_path){
+        container = new AnchorPane();
+        container.setStyle("-fx-background-color: linear-gradient(to left bottom, #bfe3e5, #7ebed2, #4797c5, #2e6db2, #413e92);");
+        ChangeFxml(view_path);
+        show();
+    }
+
+    private void show(){
+        Scene scene = new Scene(container);
+        stage.setScene(scene);
+        stage.setMaximized(true);
+        stage.setFullScreen(true);
+        stage.show();
+    }
+
+    private void ChangeFxml(String view_path){
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getClassLoader().getResource(view_path));
+        try {
+            gui = (AnchorPane) loader.load();
+            gui.setBackground(Background.EMPTY);
+            container.getChildren().setAll(gui);
+            Controller = loader.getController();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void instanceLayout(String view_path){
+        container = new AnchorPane();
         container.setStyle("-fx-background-color: linear-gradient(to left bottom, #bfe3e5, #7ebed2, #4797c5, #2e6db2, #413e92);");
 
         HBox hbox = new HBox();
@@ -49,28 +93,14 @@ public class Layout {
         vbox.prefHeight(780.00);
         vbox.prefWidth(200.00);
 
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getClassLoader().getResource(view_path));
-        AnchorPane gui = null;
-        try {
-            gui = (AnchorPane) loader.load();
-        Controller = loader.getController();
-        gui.setBackground(Background.EMPTY);
-
         instanziateMeineKurseButton();
         hbox.getChildren().add(meineKurse);
         instanziateAlleKurseButton();
         hbox.getChildren().add(alleKurse);
+        instanziateKalenderButton();
+        hbox.getChildren().add(Kalender);
 
         instanziereLogo();
-
-        Pane guiPanel = new Pane();
-        guiPanel.setLayoutX(200.0);
-        guiPanel.setLayoutY(67.0);
-        guiPanel.setPrefHeight(1009.0);
-        guiPanel.setPrefWidth(1721.0);
-        guiPanel.setStyle("-fx-background-color: white; -fx-background-radius: 10 10 10 10;");
-        guiPanel.getChildren().add(gui);
 
         Pane nutzer = new Pane();
         nutzer.setLayoutX(1090.0);
@@ -85,11 +115,20 @@ public class Layout {
         }else if(Nutzer instanceof Lehrender){
             profilbild = ((Lehrender) Nutzer).getNutzerId().getProfilbild();
         }
-            Image img = new Image(new ByteArrayInputStream(profilbild),50,50,true,true);
+        Image img = new Image(new ByteArrayInputStream(profilbild),50,50,true,true);
         ImageView imgView = new ImageView(img);
         imgView.setLayoutX(1030.00);
         imgView.setLayoutY(10.00);
         nutzer.getChildren().add(namenlink);
+
+        ChangeFxml(view_path);
+        guiPanel = new Pane();
+        guiPanel.setLayoutX(200.0);
+        guiPanel.setLayoutY(67.0);
+        guiPanel.setPrefHeight(1009.0);
+        guiPanel.setPrefWidth(1721.0);
+        guiPanel.setStyle("-fx-background-color: white; -fx-background-radius: 10 10 10 10;");
+        guiPanel.getChildren().add(gui);
 
         container.getChildren().add(hbox);
         container.getChildren().add(vbox);
@@ -97,15 +136,24 @@ public class Layout {
         container.getChildren().add(guiPanel);
         container.getChildren().add(nutzer);
         container.getChildren().add(imgView);
-        Scene scene = new Scene(container);
-        scene.getStylesheets().add("css/layout.css");
-        stage.setScene(scene);
-        stage.setMaximized(true);
-        stage.setFullScreen(true);
-        stage.show();
-        }catch(IOException e){
-            e.printStackTrace();
-        }
+
+        show();;
+    }
+
+    public Layout(){
+    }
+
+    public void startChatSchedule(ChatController chatController){
+        Timeline timer = new Timeline(
+                new KeyFrame(Duration.seconds(1),
+                        new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent event) {
+                                chatController.LadeNeueNachrichten();
+                            }
+                        }));
+        timer.setCycleCount(Timeline.INDEFINITE);
+        timer.play();
     }
 
     public void instanziateMeineKurseButton(){
@@ -115,10 +163,11 @@ public class Layout {
             @Override
             public void handle(ActionEvent event) {
                 event.consume();
-                Layout meineKurse = new Layout("meineKurse.fxml",stage,Nutzer);
-                if(meineKurse.getController() instanceof MeineKurseController){
-                    ((MeineKurseController) meineKurse.getController()).setNutzerInstanz(Nutzer);
+                if(getController() instanceof ChatController){
+                    ((ChatController) getController()).t.stop();
                 }
+                instanceLayout("meineKurse.fxml");
+                ((MeineKurseController) getController()).setLayout(layout);
             }
         };
         meineKurse.setCursor(Cursor.HAND);
@@ -134,16 +183,32 @@ public class Layout {
             @Override
             public void handle(ActionEvent event) {
                 event.consume();
-                Layout alleKurse = new Layout("alleKurse.fxml",stage,Nutzer);
-                if(alleKurse.getController() instanceof AlleKurseController){
-                    ((AlleKurseController) alleKurse.getController()).setNutzerInstanz(Nutzer);
-                }
+                instanceLayout("alleKurse.fxml");
+                ((AlleKurseController) getController()).setLayout(layout);
             }
         };
         alleKurse.setCursor(Cursor.HAND);
         alleKurse.setFont(new Font("System Bold",12.0));
         alleKurse.setOnAction(alleKurseHandler);
         alleKurse.setAlignment(Pos.CENTER);
+    }
+
+    public void instanziateKalenderButton(){
+        Kalender.setText("Kalender");
+        Kalender.setId("kalender");
+        EventHandler<ActionEvent> KalenderHandler = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                event.consume();
+                instanceLayout("Calender.fxml");
+                ((CalenderController) getController()).setLayout(layout);
+                ((CalenderController) getController()).Initilaize();
+            }
+        };
+        Kalender.setCursor(Cursor.HAND);
+        Kalender.setFont(new Font("System Bold",12.0));
+        Kalender.setOnAction(KalenderHandler);
+        Kalender.setAlignment(Pos.CENTER);
     }
 
     public void instanziereLogo(){
@@ -157,7 +222,8 @@ public class Layout {
             @Override
             public void handle(ActionEvent event) {
                 event.consume();
-                Layout homescreen = new Layout("homescreen.fxml",stage,Nutzer);
+                instanceLayout("homescreen.fxml");
+                ((HomescreenController) getController()).setLayout(layout);
             }
         };
         logo.setOnAction(logoHandler);
@@ -177,10 +243,9 @@ public class Layout {
             @Override
             public void handle(ActionEvent event) {
                 event.consume();
-                Layout userprofil = new Layout("userprofile.fxml",stage,Nutzer);
-                if(userprofil.getController() instanceof UserprofilController){
-                    ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(Nutzer,Nutzer);
-                }
+                instanceLayout("userprofile.fxml");
+                ((UserprofilController) getController()).setLayout(layout);
+                ((UserprofilController) getController()).nutzerprofilAufrufen(Nutzer,Nutzer);
             }
         };
         namenlink.setOnAction(nutzerHandler);
@@ -192,5 +257,9 @@ public class Layout {
 
     public void setController(Object controller) {
         Controller = controller;
+    }
+
+    public Object getNutzer() {
+        return Nutzer;
     }
 }

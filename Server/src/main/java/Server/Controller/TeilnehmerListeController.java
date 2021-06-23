@@ -1,6 +1,7 @@
 package Server.Controller;
 
 
+import Server.Modell.Lehrveranstaltung;
 import Server.Modell.Nutzer;
 import Server.Modell.Student;
 import Server.Modell.TeilnehmerListe;
@@ -73,6 +74,9 @@ public class TeilnehmerListeController {
     }
 
 
-
+@GetMapping("/allelehrveranstaltungen/{nutzerId}")
+        public List<TeilnehmerListe> alleLehrveranstaltungen(@PathVariable long nutzerId){
+            return teilnehmerListeRepository.findAllByNutzerId(nutzerRepository.findNutzerById(nutzerId));
+        }
 
 }

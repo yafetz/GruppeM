@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="762.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.ToDoListeController">
+    <children>
+        <TableView fx:id="table" layoutX="53.0" layoutY="86.0" prefHeight="488.0" prefWidth="692.0">
+            <columns>
+                <TableColumn fx:id="todo" prefWidth="251.1999969482422" text="ToDO" />
+                <TableColumn fx:id="responsibility" prefWidth="182.4000244140625" text="Zuständigkeit" />
+                <TableColumn fx:id="deadline" prefWidth="151.20001220703125" text="Deadline" />
+            </columns>
+        </TableView>
+        <Label layoutX="53.0" layoutY="31.0" text="ToDo-Liste">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+      <Button fx:id="createTodo" layoutX="496.0" layoutY="36.0" mnemonicParsing="false" onAction="#pressedCreateTodo" text="ToDo-Erstellen" />
+    </children>
+</AnchorPane>
