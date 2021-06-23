@@ -123,8 +123,6 @@ public class ProjektgruppenController {
 
     public void setNutzer(Object nutzer) {
         this.nutzer = nutzer;
-
-
     }
 
     public Lehrveranstaltung getLehrveranstaltung() {
@@ -362,15 +360,10 @@ public class ProjektgruppenController {
             });
             ObservableList<Gruppenmaterial> obsLv = FXCollections.observableList(gruppenmaterials);
             MaterialListe.setItems(obsLv);
-
-
-
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
-
-
 
     private void addCheckBoxToTable(String table) {
         TableColumn<Student, Void> colBtn = new TableColumn("Selected");
@@ -600,6 +593,8 @@ public class ProjektgruppenController {
                 selectedStudentIds.clear();
                 populateVorhandeneTableView();
                 populateNeueTableView();
+                neue_TableView.getColumns().remove(2);
+                addCheckBoxToTable("neue");
             }
         } catch (IOException e) {
             e.printStackTrace();
