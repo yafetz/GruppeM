@@ -7,6 +7,8 @@ import com.calendarfx.view.CalendarView;
 import com.calendarfx.view.DateControl;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -20,6 +22,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
+import javafx.util.Duration;
 import javafx.util.StringConverter;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -34,8 +37,10 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.sql.Array;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -46,6 +51,8 @@ public class CalenderController {
     private Layout layout;
     private Object nutzer;
     private int selectedLvId;
+    private List<Termin> alleTermine;
+    private List<Termin> reminder = new ArrayList<>();
 
     public void setNutzer(Object nutzer){
         this.nutzer = nutzer;
@@ -54,6 +61,73 @@ public class CalenderController {
     public void Initilaize(){
         LadeAlleTermine();
         ChangeEreignisPopUp();
+        ReminderPopUp();
+    }
+
+
+    public void ReminderPopUp(){
+        Timeline timer = new Timeline(
+                new KeyFrame(Duration.seconds(5),
+                        new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent event) {
+                                LocalDateTime jetzt = LocalDateTime.now();
+                                for(int i = 0; i < reminder.size(); i++){
+                                    if(reminder.get(i).getReminderArt().equalsIgnoreCase("Minuten")) {
+                                        if (reminder.get(i).getVon().minusMinutes(reminder.get(i).getReminderValue()).getMinute() == jetzt.getMinute()
+                                                && reminder.get(i).getVon().minusMinutes(reminder.get(i).getReminderValue()).getHour() == jetzt.getHour()
+                                                && reminder.get(i).getVon().minusMinutes(reminder.get(i).getReminderValue()).getDayOfMonth() == jetzt.getDayOfMonth()
+                                                && reminder.get(i).getVon().minusMinutes(reminder.get(i).getReminderValue()).getMonth().equals(jetzt.getMonth())
+                                                && reminder.get(i).getVon().minusMinutes(reminder.get(i).getReminderValue()).getYear() == jetzt.getYear()) {
+                                                Alert fehler = new Alert(Alert.AlertType.INFORMATION);
+                                                fehler.setTitle("Ihr Termin steht an !");
+                                                fehler.setHeaderText("Ihr Termin steht an !");
+                                                fehler.setContentText("In "+reminder.get(i).getReminderValue() + " Minuten haben Sie einen Termin: "+ reminder.get(i).getTitel());
+                                                fehler.show();
+                                                reminder.remove(i);
+                                        }
+                                    }else if(reminder.get(i).getReminderArt().equalsIgnoreCase("Stunden")){
+                                        if (reminder.get(i).getVon().minusHours(reminder.get(i).getReminderValue()).getHour() == jetzt.getHour()
+                                                && reminder.get(i).getVon().minusHours(reminder.get(i).getReminderValue()).getDayOfMonth() == jetzt.getDayOfMonth()
+                                                && reminder.get(i).getVon().minusHours(reminder.get(i).getReminderValue()).getMonth().equals(jetzt.getMonth())
+                                                && reminder.get(i).getVon().minusHours(reminder.get(i).getReminderValue()).getYear() == jetzt.getYear()) {
+                                                Alert fehler = new Alert(Alert.AlertType.INFORMATION);
+                                                fehler.setTitle("Ihr Termin steht an !");
+                                                fehler.setHeaderText("Ihr Termin steht an !");
+                                                fehler.setContentText("In "+reminder.get(i).getReminderValue() + " Stunden haben Sie einen Termin: "+ reminder.get(i).getTitel());
+                                                fehler.show();
+                                                reminder.remove(i);
+                                        }
+                                    }else if(reminder.get(i).getReminderArt().equalsIgnoreCase("Tage")){
+                                        if (reminder.get(i).getVon().minusDays(reminder.get(i).getReminderValue()).getDayOfMonth() == jetzt.getDayOfMonth()
+                                                && reminder.get(i).getVon().minusDays(reminder.get(i).getReminderValue()).getMonth().equals(jetzt.getMonth())
+                                                && reminder.get(i).getVon().minusDays(reminder.get(i).getReminderValue()).getYear() == jetzt.getYear()) {
+                                            Alert fehler = new Alert(Alert.AlertType.INFORMATION);
+                                            fehler.setTitle("Ihr Termin steht an !");
+                                            fehler.setHeaderText("Ihr Termin steht an !");
+                                            fehler.setContentText("In "+reminder.get(i).getReminderValue() + " Tagen haben Sie einen Termin: "+ reminder.get(i).getTitel());
+                                            fehler.show();
+                                            reminder.remove(i);
+                                        }
+                                    }
+                                }
+                            }
+                        }));
+        timer.setCycleCount(Timeline.INDEFINITE);
+        timer.play();
+    }
+
+    public boolean checkIfTerminInAlleTermine(Termin termin){
+        boolean output = false;
+
+        for(int i = 0; i < alleTermine.size(); i++){
+            if(alleTermine.get(i).getId().equals(termin.getId())){
+                output = true;
+                break;
+            }
+        }
+
+        return output;
     }
 
     private void LadeAlleTermine() {
@@ -72,14 +146,40 @@ public class CalenderController {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
             ObjectMapper mapper = new ObjectMapper();
             List<Termin> termine = mapper.readValue(response.body(), new TypeReference<List<Termin>>() {});
+            if(alleTermine == null){
+                alleTermine = new ArrayList<>();
+            }
             for(int i = 0; i < termine.size(); i++){
-                Entry e = cv.createEntryAt(termine.get(i).getVon().atZone(ZoneId.systemDefault()));
-                e.setTitle(termine.get(i).getTitel());
-                LocalDate endDate = LocalDate.of(termine.get(i).getBis().getYear(),termine.get(i).getBis().getMonth(),termine.get(i).getBis().getDayOfMonth());
-                LocalTime endTime = LocalTime.of(termine.get(i).getBis().getHour(),termine.get(i).getBis().getMinute());
-                e.changeEndDate(endDate);
-                e.changeEndTime(endTime);
-                e.setUserObject(termine.get(i));
+                    LocalDateTime StartTermin = termine.get(i).getVon();
+                    Entry e = cv.createEntryAt(StartTermin.atZone(ZoneId.systemDefault()));
+                    e.setTitle(termine.get(i).getTitel());
+                    LocalDate endDate = LocalDate.of(termine.get(i).getBis().getYear(), termine.get(i).getBis().getMonth(), termine.get(i).getBis().getDayOfMonth());
+                    LocalTime endTime = LocalTime.of(termine.get(i).getBis().getHour(), termine.get(i).getBis().getMinute());
+
+                    LocalDate startDate = LocalDate.of(StartTermin.getYear(), StartTermin.getMonth(), StartTermin.getDayOfMonth());
+                    LocalTime startTime = LocalTime.of(StartTermin.getHour(), StartTermin.getMinute());
+                    e.changeStartDate(startDate);
+                    e.changeStartTime(startTime);
+                    e.changeEndDate(endDate);
+                    e.changeEndTime(endTime);
+                    e.setUserObject(termine.get(i));
+                    alleTermine.add(termine.get(i));
+                    LocalDateTime jetzt = LocalDateTime.now();
+                    if(StartTermin.isAfter(jetzt) && termine.get(i).getReminderShow().equalsIgnoreCase("PopUp")){
+                        if(termine.get(i).getReminderArt().equalsIgnoreCase("Minuten")){
+                          if(StartTermin.minusMinutes(termine.get(i).getReminderValue()).isAfter(jetzt)){
+                                reminder.add(termine.get(i));
+                            }
+                        }else if(termine.get(i).getReminderArt().equalsIgnoreCase("Stunden")){
+                            if(StartTermin.minusHours(termine.get(i).getReminderValue()).isAfter(jetzt)){
+                                reminder.add(termine.get(i));
+                            }
+                        }else if(termine.get(i).getReminderArt().equalsIgnoreCase("Tage")){
+                            if(StartTermin.minusDays(termine.get(i).getReminderValue()).isAfter(jetzt)){
+                                reminder.add(termine.get(i));
+                            }
+                        }
+                    }
             }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -94,28 +194,43 @@ public class CalenderController {
         cv.setEntryDetailsPopOverContentCallback(new Callback<DateControl.EntryDetailsPopOverContentParameter, Node>() {
             @Override
             public Node call(DateControl.EntryDetailsPopOverContentParameter param) {
-                Object termin = param.getEntry().getUserObject();
+                Termin termin = (Termin) param.getEntry().getUserObject();
                 VBox panel = new VBox();
                 TextField terminName = new TextField();
-                terminName.setText(param.getEntry().getTitle());
+                if(termin != null){
+                    terminName.setText(termin.getTitel());
+                }else {
+                    terminName.setText(param.getEntry().getTitle());
+                }
                 terminName.setPadding(new Insets(10,10,10,10));
 
                 HBox vonDateTime = new HBox();
 
                 TextField vonHour = new TextField();
                 makeTextFieldOnlyNumbers(vonHour);
-                vonHour.setText(String.valueOf(param.getEntry().getStartTime().getHour()) );
-
+                if(termin != null){
+                    vonHour.setText(String.valueOf(termin.getVon().getHour()));
+                }else {
+                    vonHour.setText(String.valueOf(param.getEntry().getStartTime().getHour()));
+                }
                 Label divider = new Label();
                 divider.setText(":");
 
                 TextField vonMinutes = new TextField();
                 makeTextFieldOnlyNumbers(vonMinutes);
-                vonMinutes.setText(String.valueOf(param.getEntry().getStartTime().getMinute()) );
+                if(termin != null){
+                    vonMinutes.setText(String.valueOf(termin.getVon().getMinute()));
+                }else {
+                    vonMinutes.setText(String.valueOf(param.getEntry().getStartTime().getMinute()));
+                }
 
                 DatePicker von = new DatePicker();
                 von.setPadding(new Insets(10,10,10,10));
-                von.setValue(param.getEntry().getStartDate());
+                if(termin != null){
+                    von.setValue(termin.getVon().toLocalDate());
+                }else {
+                    von.setValue(param.getEntry().getStartDate());
+                }
 
                 vonDateTime.getChildren().add(von);
                 vonDateTime.getChildren().add(vonHour);
@@ -126,15 +241,27 @@ public class CalenderController {
 
                 TextField bisHour = new TextField();
                 makeTextFieldOnlyNumbers(bisHour);
-                bisHour.setText(String.valueOf(param.getEntry().getStartTime().getHour()) );
+                if(termin != null){
+                    bisHour.setText(String.valueOf(termin.getBis().getHour()));
+                }else {
+                    bisHour.setText(String.valueOf(param.getEntry().getEndTime().getHour()));
+                }
 
                 TextField bisMinutes = new TextField();
                 makeTextFieldOnlyNumbers(bisMinutes);
-                bisMinutes.setText(String.valueOf(param.getEntry().getStartTime().getMinute()) );
+                if(termin != null){
+                    bisMinutes.setText(String.valueOf(termin.getBis().getMinute()));
+                }else {
+                    bisMinutes.setText(String.valueOf(param.getEntry().getEndTime().getMinute()));
+                }
 
                 DatePicker bis = new DatePicker();
                 bis.setPadding(new Insets(10,10,10,10));
-                bis.setValue(param.getEntry().getEndDate());
+                if(termin != null){
+                    bis.setValue(termin.getBis().toLocalDate());
+                }else {
+                    bis.setValue(param.getEntry().getEndDate());
+                }
 
                 bisDateTime.getChildren().add(bis);
                 bisDateTime.getChildren().add(bisHour);
@@ -167,34 +294,23 @@ public class CalenderController {
                 ComboBox lehveranstaltungen = new ComboBox();
 
                 ladeLehrveranstaltungen(lehveranstaltungen);
-                if(termin instanceof Termin){
                     if(termin != null){
                         lehveranstaltungen.setValue(((Termin) termin).getLehrveranstaltung());
-                    }
                 }
                 TextField ReminderValue = new TextField();
 
                 makeTextFieldOnlyNumbers(ReminderValue);
-                if(termin instanceof Termin){
                     if(termin != null){
                         ReminderValue.setText(String.valueOf(((Termin) termin).getReminderValue()));
                     }else{
                         ReminderValue.setText("0");
                     }
-                }else{
-                    ReminderValue.setText("0");
-                }
-                ReminderValue.setText("0");
                 ComboBox reminderDropdown = new ComboBox();
-                if(termin instanceof Termin){
                     if(termin != null){
                         reminderDropdown.setValue(((Termin) termin).getReminderArt());
                     }else{
                         reminderDropdown.setValue("Kein");
                     }
-                }else{
-                    reminderDropdown.setValue("Kein");
-                }
                 reminderDropdown.getItems().add("Kein");
                 reminderDropdown.getItems().add("Minuten");
                 reminderDropdown.getItems().add("Stunden");
@@ -203,15 +319,11 @@ public class CalenderController {
 
                 ComboBox reminderShow = new ComboBox();
 
-                if(termin instanceof Termin){
                   if(termin != null){
                       reminderShow.setValue(((Termin) termin).getReminderShow());
                   }else{
                       reminderShow.setValue("Email");
                   }
-                }else{
-                    reminderShow.setValue("Email");
-                }
 
                 reminderShow.getItems().add("Email");
                 reminderShow.getItems().add("PopUp");
@@ -247,7 +359,12 @@ public class CalenderController {
 
                             //System.out.println( ((Lehrender) layout.getNutzer()).getNutzerId().getId());
                             //Post Anfrage an den Server um den Termin zu erstellen
-                            neuenTerminhinzufügen(terminName.getText(),VonDateTime,BisDateTime,ReminderValue.getText(),reminderDropdown.getValue().toString(),reminderShow.getValue().toString());
+                            if(termin == null) {
+                                neuenTerminhinzufügen(terminName.getText(), VonDateTime, BisDateTime, ReminderValue.getText(), reminderDropdown.getValue().toString(), reminderShow.getValue().toString());
+                            }else{
+                                //Bearbeiten
+                                TerminBearbeiten(String.valueOf(termin.getId()),terminName.getText(), VonDateTime, BisDateTime, ReminderValue.getText(), reminderDropdown.getValue().toString(), reminderShow.getValue().toString());
+                            }
                             param.getEntry().removeFromCalendar();
                         }else{
                             Alert fehler = new Alert(Alert.AlertType.ERROR);
@@ -305,8 +422,47 @@ public class CalenderController {
                 String result = EntityUtils.toString(responseEntity);
                 System.out.println("Sende Nachricht");
                 if (result.equals("OK")) {
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                    cv.createEntryAt(ZonedDateTime.from(LocalDateTime.parse(von, formatter)));
+                    LadeAlleTermine();
+
+                }
+            }catch(IOException e){
+                e.printStackTrace();
+                System.out.println("Fehler!");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Fehler 2!");
+        }
+    }
+
+    private void TerminBearbeiten(String id,String titel, String von, String bis, String reminderValue, String reminderArt, String reminderShow){
+        try (CloseableHttpClient client1 = HttpClients.createDefault()) {
+            String url = "http://localhost:8080/kalender/Terminbearbeiten";
+            HttpPost post = new HttpPost(url);
+            MultipartEntityBuilder entity = MultipartEntityBuilder.create();
+            entity.setCharset(StandardCharsets.UTF_8);
+            entity.addTextBody("id", id );
+            entity.addTextBody("titel", titel );
+            entity.addTextBody("von", von);
+            entity.addTextBody("bis", bis);
+            entity.addTextBody("lehrveranstaltungsId", String.valueOf(selectedLvId) );
+            entity.addTextBody("reminderValue", reminderValue );
+            entity.addTextBody("reminderArt", reminderArt);
+            entity.addTextBody("reminderShow", reminderShow);
+            if(layout.getNutzer() instanceof Student){
+                entity.addTextBody("nutzer", String.valueOf(((Student) layout.getNutzer()).getNutzer().getId()));
+            }else if(layout.getNutzer() instanceof Lehrender){
+                entity.addTextBody("nutzer", String.valueOf(((Lehrender) layout.getNutzer()).getNutzerId().getId()));
+            }
+            HttpEntity requestEntity = entity.build();
+            post.setEntity(requestEntity);
+            try (CloseableHttpResponse response = client1.execute(post)) {
+                HttpEntity responseEntity = response.getEntity();
+                String result = EntityUtils.toString(responseEntity);
+                System.out.println("Sende Nachricht");
+                if (result.equals("OK")) {
+                    LadeAlleTermine();
+
                 }
             }catch(IOException e){
                 e.printStackTrace();
