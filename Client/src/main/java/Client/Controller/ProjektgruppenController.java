@@ -351,6 +351,7 @@ public class ProjektgruppenController {
                         ((ProjektgruppenController) projektgruppenliste.getController()).setNutzer(nutzer);
                         ((ProjektgruppenController) projektgruppenliste.getController()).setLehrveranstaltung(lehrveranstaltung);
                         ((ProjektgruppenController) projektgruppenliste.getController()).setPageTitel("Projektgruppen der Lehrveranstaltung " + lehrveranstaltung.getTitel());
+                        ((ProjektgruppenController) projektgruppenliste.getController()).populateTableView();
                     }
                 } else {        // Projektgruppe existiert bereits mit diesem Titel
                     Alert alert = new Alert(Alert.AlertType.ERROR);
