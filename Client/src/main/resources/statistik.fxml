@@ -9,7 +9,7 @@
    <children>
       <PieChart fx:id="passed" layoutX="478.0" layoutY="46.0" prefHeight="261.0" prefWidth="340.0" title="Bestehensquote">
       </PieChart>
-      <TableView fx:id="table_korrekt" layoutX="527.0" layoutY="338.0" prefHeight="200.0" prefWidth="290.0">
+      <TableView fx:id="table_korrekt" layoutX="631.0" layoutY="370.0" prefHeight="200.0" prefWidth="290.0">
         <columns>
           <TableColumn fx:id="frage" prefWidth="147.0" text="Frage" />
           <TableColumn fx:id="antwort" prefWidth="143.4000244140625" text="Anzahl der korrekten Antworten" />
@@ -20,8 +20,8 @@
             <Font size="29.0" />
          </font>
       </Label>
-      <Label fx:id="beteiligung" layoutX="188.0" layoutY="131.0" prefHeight="167.0" prefWidth="290.0" text="beteiligung" />
-      <TableView fx:id="table_versuch" layoutX="153.0" layoutY="347.0" prefHeight="200.0" prefWidth="309.0">
+      <Label fx:id="beteiligung" layoutX="105.0" layoutY="131.0" prefHeight="167.0" prefWidth="357.0" text="beteiligung" />
+      <TableView fx:id="table_versuch" layoutX="64.0" layoutY="380.0" prefHeight="200.0" prefWidth="309.0">
         <columns>
           <TableColumn fx:id="student" prefWidth="154.20001220703125" text="Student" />
           <TableColumn fx:id="versuch" prefWidth="154.60000610351562" text="Versuche" />

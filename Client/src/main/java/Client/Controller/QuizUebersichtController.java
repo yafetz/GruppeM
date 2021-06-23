@@ -98,6 +98,7 @@ public class QuizUebersichtController {
                                         ((TeststatistikController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
                                         ((TeststatistikController) layout.getController()).teilnahme();
                                         ((TeststatistikController) layout.getController()).showPieChart();
+                                        ((TeststatistikController) layout.getController()).populateTableviewVersuch();
 
                                     }
                                 }

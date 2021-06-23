@@ -9,6 +9,7 @@ public class Student {
     private int matrikelnummer;
     private String studienfach;
     private Nutzer nutzerId;
+    private int versuche;
 
     public void addDataFromJson(JSONObject jsonObject){
         setId(jsonObject.getInt("id"));
@@ -66,5 +67,11 @@ public class Student {
     }
 
 
+    public int getVersuche() {
+        return versuche;
+    }
 
+    public void setVersuche(int versuche) {
+        this.versuche = versuche;
+    }
 }

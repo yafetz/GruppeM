@@ -2,6 +2,8 @@ package Client.Controller;
 
 import Client.Modell.*;
 import com.fasterxml.jackson.annotation.JacksonInject;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,13 +13,19 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class TeststatistikController {
     @FXML
@@ -31,7 +39,7 @@ public class TeststatistikController {
     @FXML
     public TableView table_versuch;
     @FXML
-    public TableColumn student;
+    public TableColumn<QuizBearbeitet, String> student;
     @FXML
     public TableColumn versuch;
     @FXML
@@ -69,7 +77,7 @@ public class TeststatistikController {
         HttpResponse<String> response;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.body());
+
             int bestanden = Integer.parseInt(response.body());
             int gesamt = gesamteAnzahl();
             int durchgefallen = gesamt - bestanden;
@@ -117,7 +125,7 @@ public class TeststatistikController {
             int teilgenommen = Integer.parseInt(response.body());
             int alle = alleStudentenDesKurses();
 
-            beteiligung.setText("Es haben ingesamt "+teilgenommen+" von" + alle+ " an den Tests teilgenommen.");
+            beteiligung.setText("Es haben ingesamt "+teilgenommen+" von " + alle+ " an den Tests teilgenommen.");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -130,7 +138,7 @@ public class TeststatistikController {
     public int alleStudentenDesKurses(){
         HttpClient client = HttpClient.newHttpClient();
 
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/quiz/bestehensquote/"+ quiz.getId())).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/quiz/alleTeilnehmer/"+ lehrveranstaltung.getId())).build();
         HttpResponse<String> response= null;
 
         try {
@@ -144,10 +152,47 @@ public class TeststatistikController {
 
         return Integer.parseInt(response.body());
     }
+    public void test(JSONObject help) {
+
+
+            String a = String.valueOf(help.get("vorname"));
+            System.out.println(a);
+
+
+    }
 
 
     public void populateTableviewVersuch() {
+        HttpClient client = HttpClient.newHttpClient();
 
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/quiz/versuche/"+ quiz.getId())).build();
+        HttpResponse<String> response1 = null;
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            response1 = client.send(request, HttpResponse.BodyHandlers.ofString());
+            java.util.List<Object[]> objects = mapper.readValue(response1.body(), new TypeReference<List<Object[]>>() {});
+            List<Student> studentenliste = new ArrayList<>();
+            JSONArray neu = new JSONArray(response1.body());
+            /*for(Object[] array : objects) {
+                //System.out.println(array[1]);
+
+                Student student = new Student();
+                student.setNutzerId((Nutzer) array[0]);
+                student.setVersuche((Integer) array[1]);
+                studentenliste.add(student);
+            }
+            System.out.println(studentenliste.get(1).getVersuche());*/
+            System.out.println(neu.getJSONObject(0));
+
+
+
+           // ObservableList<QuizBearbeitet> obsLv = FXCollections.observableList(todos);
+            //table_versuch.setItems(obsLv);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public int gesamteAnzahl(){
