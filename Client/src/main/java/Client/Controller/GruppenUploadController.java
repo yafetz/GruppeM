@@ -44,6 +44,16 @@ public class GruppenUploadController {
     private Object nutzerInstanz;
     private String modus;
 
+    private Layout layout;
+
+    public Layout getLayout() {
+        return layout;
+    }
+
+    public void setLayout(Layout layout) {
+        this.layout = layout;
+    }
+
     public void initialize() {
 
     }
@@ -90,14 +100,14 @@ public class GruppenUploadController {
                         alert.setHeaderText("Ihre Lehrmaterialien wurden erfolgreich zum Server hochgeladen!");
                         alert.setContentText("Sie werden nun zur Übersichtsseite weitergeleitet.");
                         alert.showAndWait();
-                        Layout projektgruppeoverview = new Layout ("projektgruppeUebersicht.fxml", (Stage) uploadSeiteLabel.getScene().getWindow(), nutzerInstanz);
-                        if (projektgruppeoverview.getController() instanceof ProjektgruppenController) {
-                            ((ProjektgruppenController) projektgruppeoverview.getController()).setNutzer(nutzerInstanz);
-                            ((ProjektgruppenController) projektgruppeoverview.getController()).setProjektgruppe(projektgruppe);
-                            ((ProjektgruppenController) projektgruppeoverview.getController()).setLehrveranstaltung(projektgruppe.getLehrveranstaltung());
-                            ((ProjektgruppenController) projektgruppeoverview.getController()).setPGUebersichtLvTitel(projektgruppe.getLehrveranstaltung().getTitel());
-                            ((ProjektgruppenController) projektgruppeoverview.getController()).setPGUebersichtPGTitel(projektgruppe.getTitel());
-                            ((ProjektgruppenController) projektgruppeoverview.getController()).populateMaterialTable();
+                        layout.instanceLayout("projektgruppeUebersicht.fxml");
+                        if (layout.getController() instanceof ProjektgruppenController) {
+                            ((ProjektgruppenController) layout.getController()).setNutzer(nutzerInstanz);
+                            ((ProjektgruppenController) layout.getController()).setProjektgruppe(projektgruppe);
+                            ((ProjektgruppenController) layout.getController()).setLehrveranstaltung(projektgruppe.getLehrveranstaltung());
+                            ((ProjektgruppenController) layout.getController()).setPGUebersichtLvTitel(projektgruppe.getLehrveranstaltung().getTitel());
+                            ((ProjektgruppenController) layout.getController()).setPGUebersichtPGTitel(projektgruppe.getTitel());
+                            ((ProjektgruppenController) layout.getController()).populateMaterialTable();
                         }
                     }
                 } catch (IOException e) {

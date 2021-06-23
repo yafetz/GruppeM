@@ -33,8 +33,17 @@ public class FreundesListeController {
     private TableColumn<Nutzer, String> nachname;
 
     private Object nutzerInstanz;
+    private Layout layout;
 
     long id=0;
+
+    public Layout getLayout() {
+        return layout;
+    }
+
+    public void setLayout(Layout layout) {
+        this.layout = layout;
+    }
 
     public void populateTableView(){
         if(nutzerInstanz instanceof Student){
@@ -159,33 +168,31 @@ public class FreundesListeController {
             ObjectMapper mapper = new ObjectMapper();
             if (response.body().contains("matrikelnummer")) {
                 Student vergleichNutzer = mapper.readValue(response.body(), Student.class);
-                Layout userprofil = new Layout("userprofile.fxml", (Stage) freundeTabelle.getScene().getWindow(), nutzerInstanz);
-
-                if (userprofil.getController() instanceof UserprofilController) {
+                layout.instanceLayout("userprofile.fxml");
+                if (layout.getController() instanceof UserprofilController) {
                     if(nutzerInstanz instanceof  Student){
                         if(((Student) nutzerInstanz).getId() == vergleichNutzer.getId()){
-                            ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(nutzerInstanz, nutzerInstanz);
+                            ((UserprofilController) layout.getController()).nutzerprofilAufrufen(nutzerInstanz, nutzerInstanz);
                         }else{
-                            ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(nutzerInstanz, vergleichNutzer);
+                            ((UserprofilController) layout.getController()).nutzerprofilAufrufen(nutzerInstanz, vergleichNutzer);
                         }
                     }else{
-                        ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(nutzerInstanz, vergleichNutzer);
+                        ((UserprofilController) layout.getController()).nutzerprofilAufrufen(nutzerInstanz, vergleichNutzer);
                     }
                 }
 
             } else if (response.body().contains("forschungsgebiet")) {
                 Lehrender vergleichNutzer = mapper.readValue(response.body(), Lehrender.class);
-                Layout userprofil = new Layout("userprofile.fxml", (Stage) freundeTabelle.getScene().getWindow(), nutzerInstanz);
-
-                if (userprofil.getController() instanceof UserprofilController) {
+                layout.instanceLayout("userprofile.fxml");
+                if (layout.getController() instanceof UserprofilController) {
                     if(nutzerInstanz instanceof  Lehrender){
                         if(((Lehrender) nutzerInstanz).getId() == vergleichNutzer.getId()){
-                            ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(nutzerInstanz, nutzerInstanz);
+                            ((UserprofilController) layout.getController()).nutzerprofilAufrufen(nutzerInstanz, nutzerInstanz);
                         }else{
-                            ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(nutzerInstanz, vergleichNutzer);
+                            ((UserprofilController) layout.getController()).nutzerprofilAufrufen(nutzerInstanz, vergleichNutzer);
                         }
                     }else{
-                        ((UserprofilController) userprofil.getController()).nutzerprofilAufrufen(nutzerInstanz, vergleichNutzer);
+                        ((UserprofilController) layout.getController()).nutzerprofilAufrufen(nutzerInstanz, vergleichNutzer);
                     }
                 }
             }
