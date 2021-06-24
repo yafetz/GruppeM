@@ -1,15 +1,18 @@
 package Client.Controller;
 
+import Client.Layouts.Layout;
 import Client.Modell.*;
 import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -48,7 +51,19 @@ public class TeststatistikController {
     @FXML
     public Label failed;
     @FXML
+    public Button back;
+    @FXML
     private Label beteiligung;
+
+    public Object getNutzer() {
+        return nutzer;
+    }
+
+    public void setNutzer(Object nutzer) {
+        this.nutzer = nutzer;
+    }
+
+    private Object nutzer;
 
     public Lehrveranstaltung getLehrveranstaltung() {
         return lehrveranstaltung;
@@ -69,6 +84,16 @@ public class TeststatistikController {
     }
 
     private Quiz quiz;
+
+    public Layout getLayout() {
+        return layout;
+    }
+
+    public void setLayout(Layout layout) {
+        this.layout = layout;
+    }
+
+    private Layout layout;
 
 
     public void showPieChart() {
@@ -252,7 +277,7 @@ public class TeststatistikController {
             for (int q = 0; q < answerArray.length; q++) {
 
                 boolean drin = vorhandenChecker(RichtigeListe, answerArray[q]);
-                // System.out.println(drin+ " " + RichtigeListe+ " " +  answerArray[q]);
+
                 if (drin == false) {
                     RichtigeListe.add(answerArray[q]);
                 }
@@ -275,7 +300,6 @@ public class TeststatistikController {
     public boolean vorhandenChecker(List<String> hilfsListe,String string) {
         int counter =0;
         for (int h =0; h< hilfsListe.size(); h++) {
-            //System.out.println(hilfsListe.get(h) + " " +string);
             if(string.equals(hilfsListe.get(h))) {
                 counter++;
             }
@@ -312,5 +336,13 @@ public class TeststatistikController {
     }
 
 
+    public void pressedBack(ActionEvent actionEvent) {
+        actionEvent.consume();
 
+        layout.instanceLayout("quizUebersicht.fxml");
+        ((QuizUebersichtController) layout.getController()).setLayout(layout);
+        ((QuizUebersichtController) layout.getController()).quizSeiteAufrufen(nutzer, lehrveranstaltung);
+
+
+    }
 }

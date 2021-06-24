@@ -124,6 +124,10 @@ public class CreateQuizController {
                 HttpEntity requestEntity = entity.build();
                 post.setEntity(requestEntity);
 
+                layout.instanceLayout("quizUebersicht.fxml");
+                ((QuizUebersichtController) layout.getController()).setLayout(layout);
+                ((QuizUebersichtController) layout.getController()).quizSeiteAufrufen(nutzer, lehrveranstaltung);
+
                 try (CloseableHttpResponse response = client.execute(post)) {
                     HttpEntity responseEntity = response.getEntity();
                     String result = EntityUtils.toString(responseEntity);

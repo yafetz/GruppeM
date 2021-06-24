@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="663.0" prefWidth="1213.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.TeststatistikController">
+<AnchorPane prefHeight="836.0" prefWidth="1213.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.TeststatistikController">
    <children>
       <PieChart fx:id="passed" layoutX="478.0" layoutY="46.0" prefHeight="261.0" prefWidth="340.0" title="Bestehensquote">
       </PieChart>
@@ -31,5 +31,6 @@
       <Label layoutX="825.0" layoutY="206.0" text="Durchgefallen:" />
       <Label fx:id="erfolg" layoutX="825.0" layoutY="123.0" prefHeight="18.0" prefWidth="259.0" text="success" />
       <Label fx:id="failed" layoutX="825.0" layoutY="235.0" prefHeight="18.0" prefWidth="259.0" text="failed" />
+      <Button fx:id="back" layoutX="955.0" layoutY="743.0" mnemonicParsing="false" onAction="#pressedBack" prefHeight="37.0" prefWidth="108.0" text="Zurück" />
    </children>
 </AnchorPane>

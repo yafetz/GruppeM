@@ -96,11 +96,13 @@ public class QuizUebersichtController {
                                         layout.instanceLayout("statistik.fxml");
                                         ((TeststatistikController) layout.getController()).setQuiz(cell.getTableRow().getItem());
                                         ((TeststatistikController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
+                                        ((TeststatistikController) layout.getController()).setNutzer(nutzer);
+                                        ((TeststatistikController) layout.getController()).setLayout(layout);
                                         ((TeststatistikController) layout.getController()).teilnahme();
                                         ((TeststatistikController) layout.getController()).showPieChart();
                                         ((TeststatistikController) layout.getController()).populateTableviewVersuch();
                                         ((TeststatistikController) layout.getController()).populateTableviewKorrekt();
-                                        ((TeststatistikController) layout.getController()).stelleFragenDar();
+
 
                                     }
                                 }
