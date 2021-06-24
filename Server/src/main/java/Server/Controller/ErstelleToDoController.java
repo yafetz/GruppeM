@@ -49,9 +49,6 @@ public class ErstelleToDoController {
         todoListeRepository.save(toDoItem);
         System.out.println("created");
 
-
-
-
         return "Ok";
     }
 

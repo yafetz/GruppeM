@@ -30,8 +30,6 @@ public class GruppenmitgliederController {
     @FXML
     private TableColumn<Nutzer, String> nachname;
     @FXML
-    private TableColumn<Nutzer, String> rolle;
-    @FXML
     private TableView<Nutzer> tabelle;
 
     private Projektgruppe projektgruppe;
@@ -158,7 +156,6 @@ public class GruppenmitgliederController {
         }
     }
     public void populateTableView() throws IOException, InterruptedException {
-        rolle.setVisible(false);
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/gruppenmitglieder/"+projektgruppe.getId())).build();
@@ -172,7 +169,6 @@ public class GruppenmitgliederController {
 
             vorname.setCellValueFactory(new PropertyValueFactory<>("vorname"));
             nachname.setCellValueFactory(new PropertyValueFactory<>("nachname"));
-            rolle.setCellValueFactory(new PropertyValueFactory<>("rolle"));
 
 
 
@@ -221,25 +217,6 @@ public class GruppenmitgliederController {
                 return cell;
             });
             nachname.setCellFactory(tablecell -> {
-                TableCell<Nutzer, String> cell = new TableCell<Nutzer, String>(){
-                    @Override
-                    protected void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty) ;
-                        setText(empty ? null : item);
-                    }
-                };
-                cell.setCursor(Cursor.HAND);
-                cell.setOnMouseClicked(e -> {
-                            if (!cell.isEmpty()) {
-                                redirectToUserprofile(cell.getTableRow().getItem().getId());
-//                                System.out.println("id vom angeklickten nutzer aus tabelle: " + cell.getTableRow().getItem().getId());
-                            }
-                        }
-                );
-
-                return cell;
-            });
-            rolle.setCellFactory(tablecell -> {
                 TableCell<Nutzer, String> cell = new TableCell<Nutzer, String>(){
                     @Override
                     protected void updateItem(String item, boolean empty) {

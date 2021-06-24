@@ -15,11 +15,5 @@
       <CheckBox fx:id="correct" layoutX="327.0" layoutY="231.0" mnemonicParsing="false" onAction="#isCorrect" text="Korrekt" />
       <TextField fx:id="quiz_titel" layoutX="166.0" layoutY="104.0" text="Quiztitel" />
       <Label layoutX="165.0" layoutY="79.0" text="Titel" />
-      <TableView layoutX="426.0" layoutY="322.0" prefHeight="200.0" prefWidth="300.0">
-        <columns>
-          <TableColumn fx:id="frage" prefWidth="156.39999389648438" text="Frage" />
-          <TableColumn fx:id="antwort" prefWidth="142.79998779296875" text="Antworten" />
-        </columns>
-      </TableView>
    </children>
 </AnchorPane>

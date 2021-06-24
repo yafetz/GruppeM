@@ -42,13 +42,8 @@ public class CreateQuizController {
     @FXML
     private CheckBox correct;
     @FXML
-    private Button quizButtonUE;
-    @FXML
     private TextField quiz_titel;
-    @FXML
-    private TableColumn<String,String> frage;
-    @FXML
-    private TableColumn<QuizAnswer,String> antwort;
+
 
     private HashMap<String, Boolean> answers;
     private HashMap<String, HashMap<String, Boolean>> questions;
