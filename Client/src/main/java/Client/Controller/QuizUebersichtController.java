@@ -99,6 +99,8 @@ public class QuizUebersichtController {
                                         ((TeststatistikController) layout.getController()).teilnahme();
                                         ((TeststatistikController) layout.getController()).showPieChart();
                                         ((TeststatistikController) layout.getController()).populateTableviewVersuch();
+                                        ((TeststatistikController) layout.getController()).populateTableviewKorrekt();
+                                        ((TeststatistikController) layout.getController()).stelleFragenDar();
 
                                     }
                                 }

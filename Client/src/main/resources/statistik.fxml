@@ -5,14 +5,14 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="663.0" prefWidth="1108.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.TeststatistikController">
+<AnchorPane prefHeight="663.0" prefWidth="1213.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.TeststatistikController">
    <children>
       <PieChart fx:id="passed" layoutX="478.0" layoutY="46.0" prefHeight="261.0" prefWidth="340.0" title="Bestehensquote">
       </PieChart>
-      <TableView fx:id="table_korrekt" layoutX="631.0" layoutY="370.0" prefHeight="200.0" prefWidth="290.0">
+      <TableView fx:id="table_korrekt" layoutX="631.0" layoutY="370.0" prefHeight="200.0" prefWidth="473.0">
         <columns>
-          <TableColumn fx:id="frage" prefWidth="147.0" text="Frage" />
-          <TableColumn fx:id="antwort" prefWidth="143.4000244140625" text="Anzahl der korrekten Antworten" />
+          <TableColumn fx:id="frage" prefWidth="282.20001220703125" text="Frage" />
+          <TableColumn fx:id="korrekteAnzahl" prefWidth="190.5999755859375" text="Anzahl der korrekten Antworten" />
         </columns>
       </TableView>
       <Label layoutX="188.0" layoutY="67.0" prefHeight="50.0" prefWidth="166.0" text="Statistiken">

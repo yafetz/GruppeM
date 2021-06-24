@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.DataInput;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -31,17 +32,17 @@ public class TeststatistikController {
     @FXML
     public PieChart passed;
     @FXML
-    public TableView table_korrekt;
+    public TableView<QuizQuestion> table_korrekt;
     @FXML
-    public TableColumn frage;
+    public TableColumn<QuizQuestion, String> korrekteAnzahl;
     @FXML
-    public TableColumn antwort;
+    public TableColumn<QuizQuestion, String> frage;
     @FXML
-    public TableView table_versuch;
+    public TableView<Nutzer> table_versuch;
     @FXML
-    public TableColumn<QuizBearbeitet, String> student;
+    public TableColumn<Nutzer, String> student;
     @FXML
-    public TableColumn versuch;
+    public TableColumn<Nutzer, String> versuch;
     @FXML
     public Label erfolg;
     @FXML
@@ -152,14 +153,6 @@ public class TeststatistikController {
 
         return Integer.parseInt(response.body());
     }
-    public void test(JSONObject help) {
-
-
-            String a = String.valueOf(help.get("vorname"));
-            System.out.println(a);
-
-
-    }
 
 
     public void populateTableviewVersuch() {
@@ -171,28 +164,133 @@ public class TeststatistikController {
             ObjectMapper mapper = new ObjectMapper();
             response1 = client.send(request, HttpResponse.BodyHandlers.ofString());
             java.util.List<Object[]> objects = mapper.readValue(response1.body(), new TypeReference<List<Object[]>>() {});
-            List<Student> studentenliste = new ArrayList<>();
+            List<Nutzer> nutzerliste = new ArrayList<>();
             JSONArray neu = new JSONArray(response1.body());
-            /*for(Object[] array : objects) {
-                //System.out.println(array[1]);
+           for(int i =0; i <neu.length(); i++) {
 
-                Student student = new Student();
-                student.setNutzerId((Nutzer) array[0]);
-                student.setVersuche((Integer) array[1]);
-                studentenliste.add(student);
-            }
-            System.out.println(studentenliste.get(1).getVersuche());*/
-            System.out.println(neu.getJSONObject(0));
+               JSONObject json= neu.getJSONArray(i).getJSONObject(0);
+               int versuche = neu.getJSONArray(i).getInt(1);
 
+               Nutzer nutzer = new Nutzer();
+               nutzer.addDataFromJson(json);
+               nutzer.setVersuche(versuche);
+               nutzerliste.add(nutzer);
+           }
 
-
-           // ObservableList<QuizBearbeitet> obsLv = FXCollections.observableList(todos);
-            //table_versuch.setItems(obsLv);
+            student.setCellValueFactory(new PropertyValueFactory<>("name"));
+            versuch.setCellValueFactory(new PropertyValueFactory<>("versuche"));
+           ObservableList<Nutzer> obsLv = FXCollections.observableList(nutzerliste);
+            table_versuch.setItems(obsLv);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void populateTableviewKorrekt() {
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/quiz/anzahl/"+ quiz.getId())).build();
+        HttpResponse<String> response1 = null;
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            response1 = client.send(request, HttpResponse.BodyHandlers.ofString());
+            java.util.List<Integer> objects = mapper.readValue(response1.body(), new TypeReference<List<Integer>>() {});
+            List<QuizQuestion> count =  new ArrayList<>();
+            List<String> kurse = stelleFragenDar();
+
+            for(int i =0; i< objects.size(); i++) {
+                QuizQuestion quizquestion = new QuizQuestion();
+               quizquestion.setAnzahlKorrekt(objects.get(i));
+               quizquestion.setQuestion(kurse.get(i));
+               count.add(quizquestion);
+
+
+            }
+
+
+
+
+
+            frage.setCellValueFactory(new PropertyValueFactory<>("question"));
+            korrekteAnzahl.setCellValueFactory(new PropertyValueFactory<>("anzahlKorrekt"));
+            ObservableList<QuizQuestion> obsLv = FXCollections.observableList(count);
+            table_korrekt.setItems(obsLv);
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<String> stelleFragenDar() {
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/quiz/anzahlKorrekt/" + quiz.getId())).build();
+        HttpResponse<String> response2 = null;
+
+        ObjectMapper mapper = new ObjectMapper();
+        List<String> RichtigeListe = null;
+        try {
+            response2 = client.send(request, HttpResponse.BodyHandlers.ofString());
+            java.util.List<Object[]> objekt = mapper.readValue(response2.body(), new TypeReference<List<Object[]>>() {
+            });
+            List<QuizQuestion> liste = new ArrayList<>();
+            JSONArray neu = new JSONArray(response2.body());
+            String[] answerArray = new String[neu.length()];
+            for (int j = 0; j < neu.length(); j++) {
+
+                answerArray[j] = String.valueOf(neu.get(j));
+            }
+
+            RichtigeListe = new ArrayList<>();
+            RichtigeListe.add(answerArray[0]);
+
+            for (int q = 0; q < answerArray.length; q++) {
+
+                boolean drin = vorhandenChecker(RichtigeListe, answerArray[q]);
+                // System.out.println(drin+ " " + RichtigeListe+ " " +  answerArray[q]);
+                if (drin == false) {
+                    RichtigeListe.add(answerArray[q]);
+                }
+
+            }
+                List<String> endListe = new ArrayList<>();
+            for (int j=0; j<RichtigeListe.size(); j++) {
+                String string =RichtigeListe.get(j).replace("[","").replace("]", "");
+                endListe.add(string);
+            }
+            RichtigeListe = endListe;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return RichtigeListe;
+    }
+    public boolean vorhandenChecker(List<String> hilfsListe,String string) {
+        int counter =0;
+        for (int h =0; h< hilfsListe.size(); h++) {
+            //System.out.println(hilfsListe.get(h) + " " +string);
+            if(string.equals(hilfsListe.get(h))) {
+                counter++;
+            }
+
+        }
+
+        if (counter== 0) {
+            return false;
+        }
+
+
+
+
+
+       return true;
     }
 
     public int gesamteAnzahl(){

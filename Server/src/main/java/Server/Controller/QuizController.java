@@ -55,9 +55,13 @@ public class QuizController {
         return teilnehmerListeRepository.getAllStudents(lehrveranstaltungId);
     }
 
-    @GetMapping("korrekt/{questionId}")
-    public List<Integer> alleKorrekteFragen(@PathVariable long questionId){
-        return quizBearbeitetQuestionRepository.getAllStudentRichtigeAntwort(questionId);
+    @GetMapping("anzahlKorrekt/{quiz_Id}")
+    public List<Object[]> alleKorrekteFragen(@PathVariable long quiz_Id){
+        return quizBearbeitetQuestionRepository.getAllStudentRichtigeAntwort(quiz_Id);
+    }
+    @GetMapping("anzahl/{quiz_Id}")
+    public List<Integer> alleKorrekteFragens(@PathVariable long quiz_Id){
+        return quizBearbeitetQuestionRepository.getAllStudentRichtigeAntworten(quiz_Id);
     }
 
     @PostMapping("createQuiz")

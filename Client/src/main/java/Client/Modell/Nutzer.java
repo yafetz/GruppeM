@@ -21,6 +21,16 @@ public class Nutzer {
     private String stadt;
     private String rolle;
 
+    public int getVersuche() {
+        return versuche;
+    }
+
+    public void setVersuche(int versuche) {
+        this.versuche = versuche;
+    }
+
+    private int versuche;
+
     public void addDataFromJson(JSONObject jsonObject) {
         int id = jsonObject.getInt("id");
         setId(id);
