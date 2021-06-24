@@ -3,10 +3,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.CreateQuizController">
+<AnchorPane prefHeight="569.0" prefWidth="744.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.CreateQuizController">
    <children>
-      <Button fx:id="newQuestion" layoutX="440.0" layoutY="187.0" mnemonicParsing="false" onAction="#pressedNewQuestion" text="Neue Frage hinzufügen" />
-      <Button fx:id="create" layoutX="492.0" layoutY="285.0" mnemonicParsing="false" onAction="#pressedCreate" text="Erstellen" />
+      <Button fx:id="newQuestion" layoutX="163.0" layoutY="322.0" mnemonicParsing="false" onAction="#pressedNewQuestion" text="Neue Frage hinzufügen" />
+      <Button fx:id="create" layoutX="158.0" layoutY="462.0" mnemonicParsing="false" onAction="#pressedCreate" text="Erstellen" />
       <Label layoutX="164.0" layoutY="137.0" text="Frage" />
       <TextField fx:id="questionField" layoutX="167.0" layoutY="155.0" prefHeight="26.0" prefWidth="179.0" text="Bitte Geben Sie eine Fragen ein" />
       <TextField fx:id="answerField" layoutX="167.0" layoutY="227.0" text="Antwort" />

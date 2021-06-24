@@ -8,9 +8,8 @@
     <children>
         <TableView fx:id="tabelle" layoutX="53.0" layoutY="86.0" prefHeight="488.0" prefWidth="585.0">
             <columns>
-                <TableColumn fx:id="vorname" prefWidth="199.9999885559082" text="Vorname" />
-                <TableColumn fx:id="nachname" prefWidth="232.6666488647461" text="Nachname" />
-            <TableColumn fx:id="rolle" prefWidth="151.20001220703125" text="Rolle" />
+                <TableColumn fx:id="vorname" prefWidth="292.99998474121094" text="Vorname" />
+                <TableColumn fx:id="nachname" prefWidth="292.60003662109375" text="Nachname" />
             </columns>
         </TableView>
         <Label layoutX="53.0" layoutY="31.0" text="Gruppenmitglieder">

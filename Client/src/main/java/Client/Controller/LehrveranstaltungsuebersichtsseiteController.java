@@ -62,7 +62,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
             long veranstaltungId = ((Lehrveranstaltung) lehrveranstaltung).getId();
             ((TeilnehmerListeController) layout.getController()).setId(veranstaltungId);
             ((TeilnehmerListeController) layout.getController()).setLayout(layout);
-            ((TeilnehmerListeController)  layout.getController()).setLehrveranstaltung(((Lehrveranstaltung) lehrveranstaltung));
+            ((TeilnehmerListeController) layout.getController()).setLehrveranstaltung(((Lehrveranstaltung) lehrveranstaltung));
     }
 
     public void getMaterial(Lehrveranstaltung lehrkurs) {
@@ -101,6 +101,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
                                     rs.next();
                                     Blob datei = rs.getBlob("datei");
                                     IOUtils.write(datei.getBinaryStream().readAllBytes(),fo);
+                                    fo.close();
                                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                                     alert.setTitle("Erfolgreich heruntergladen!");
                                     alert.setHeaderText("Ihre Lehrmaterialien wurden erfolgreich heruntergeladen!");
@@ -147,7 +148,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
         this.lehrveranstaltung= lehrveranstaltung;
 
 
-        if (nutzer !=null) {
+        if (nutzer != null) {
             if (nutzer instanceof Lehrender) {
                 title.setText(((Lehrveranstaltung) lehrveranstaltung).getTitel());
                // materialUpload.setText("Lehrmaterial hochladen")

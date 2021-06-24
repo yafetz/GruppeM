@@ -20,7 +20,15 @@ public class ToDoItem {
 
     private String verantwortliche;
 
-    private boolean erledigt;
+    public String getErledigt() {
+        return erledigt;
+    }
+
+    public void setErledigt(String erledigt) {
+        this.erledigt = erledigt;
+    }
+
+    private String erledigt;
     private Long nutzerId;
     private Long projektgruppeId;
 
@@ -59,13 +67,7 @@ public class ToDoItem {
         this.titel = titel;
     }
 
-    public boolean getErledigt() {
-        return erledigt;
-    }
 
-    public void setErledigt(boolean erledigt) {
-        this.erledigt = erledigt;
-    }
 
     public String getVerantwortliche() {
         return verantwortliche;

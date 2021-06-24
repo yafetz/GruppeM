@@ -87,9 +87,24 @@ public class QuizUebersichtController {
                             cell.setOnMouseClicked(e -> {
                                 if (!cell.isEmpty()) {
                                     //Weiterleitung zu Quiz bearbeiten
-                                    layout.instanceLayout("quizBearbeiten.fxml");
-                                    ((QuizBearbeitenController)  layout.getController()).setQuiz(cell.getTableRow().getItem());
-                                    ((QuizBearbeitenController)  layout.getController()).setUpQuiz();
+                                    if(nutzer instanceof Student) {
+                                        layout.instanceLayout("quizBearbeiten.fxml");
+                                        ((QuizBearbeitenController) layout.getController()).setQuiz(cell.getTableRow().getItem());
+                                        ((QuizBearbeitenController) layout.getController()).setUpQuiz();
+                                    }
+                                    else if(nutzer instanceof Lehrender) {
+                                        layout.instanceLayout("statistik.fxml");
+                                        ((TeststatistikController) layout.getController()).setQuiz(cell.getTableRow().getItem());
+                                        ((TeststatistikController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
+                                        ((TeststatistikController) layout.getController()).setNutzer(nutzer);
+                                        ((TeststatistikController) layout.getController()).setLayout(layout);
+                                        ((TeststatistikController) layout.getController()).teilnahme();
+                                        ((TeststatistikController) layout.getController()).showPieChart();
+                                        ((TeststatistikController) layout.getController()).populateTableviewVersuch();
+                                        ((TeststatistikController) layout.getController()).populateTableviewKorrekt();
+
+
+                                    }
                                 }
                             });
                             return cell;

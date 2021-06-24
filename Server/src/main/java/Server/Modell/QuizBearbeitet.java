@@ -24,7 +24,7 @@ public class QuizBearbeitet {
     private Nutzer nutzer;
 
     @JsonProperty("bestanden")
-    private boolean bestanden;
+    private Boolean bestanden;
 
     public Long getId() {
         return id;

@@ -97,6 +97,7 @@ public class ProjektgruppeBeitretenController {
                     ((ProjektgruppenController) layout.getController()).setProjektgruppe(projektgruppe);
                     ((ProjektgruppenController) layout.getController()).setPGUebersichtLvTitel(lehrveranstaltung.getTitel());
                     ((ProjektgruppenController) layout.getController()).setPGUebersichtPGTitel(projektgruppe.getTitel());
+                    ((ProjektgruppenController) layout.getController()).setChautraumId((int) projektgruppe.getChat().getId());
                 }
             }
         } catch (IOException e) {

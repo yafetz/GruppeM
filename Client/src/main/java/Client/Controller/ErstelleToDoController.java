@@ -44,6 +44,8 @@ public class ErstelleToDoController {
     private TextField todo_titel;
     @FXML
     private Button createTodo;
+    @FXML
+    private CheckBox done;
 
 
     private Object nutzer;
@@ -77,8 +79,6 @@ public class ErstelleToDoController {
 
 
     public void pressedCreateTodo(ActionEvent actionEvent) {
-
-
         try (CloseableHttpClient client = HttpClients.createDefault()) {
 
             String url = "http://localhost:8080/todo/create";
@@ -87,15 +87,19 @@ public class ErstelleToDoController {
 
             ObjectMapper mapper = new ObjectMapper();
 
-
-
-
-
             entity.addTextBody("datum", deadline.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
             entity.addTextBody("titel", todo_titel.getText());
             entity.addTextBody("verantwortliche", String.valueOf(gruppenmitglieder.getSelectionModel().getSelectedItem().getStudent().getVorname()));
+
             entity.addTextBody("projektgruppeId",String.valueOf(projektgruppe.getId()));
             entity.addTextBody("nutzerId",String.valueOf(( gruppenmitglieder.getSelectionModel().getSelectedItem().getId() )));
+
+            if (done.isSelected()== true) {
+                entity.addTextBody("erledigt", "fertig");
+            }
+            else if((done.isSelected()== false)) {
+                entity.addTextBody("erledigt", "in Bearbeitung");
+            }
 
 
             HttpEntity requestEntity = entity.build();

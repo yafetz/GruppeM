@@ -17,8 +17,17 @@ public class ToDoItem {
     private String deadline;
     @Column(nullable = false)
     private String verantwortliche;
+
+    public String getErledigt() {
+        return erledigt;
+    }
+
+    public void setErledigt(String erledigt) {
+        this.erledigt = erledigt;
+    }
+
     @Column(nullable = false)
-    private boolean erledigt;
+    private String erledigt;
     @Column(nullable = false)
     private Long projektgruppeId;
 
@@ -59,13 +68,7 @@ public class ToDoItem {
         this.titel = titel;
     }
 
-    public boolean isErledigt() {
-        return erledigt;
-    }
 
-    public void setErledigt(boolean erledigt) {
-        this.erledigt = erledigt;
-    }
 
 
 
@@ -99,10 +102,6 @@ public class ToDoItem {
         this.verantwortliche= verantwortliche;
 
     }
-
-
-
-
 
 
 

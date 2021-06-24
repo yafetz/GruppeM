@@ -32,16 +32,12 @@ public class TeilnehmerListeController {
 
     @FXML
     private TableView<Nutzer> teilnehmerTabelle;
-
     @FXML
     private TableColumn<Nutzer, String> Vorname;
-
     @FXML
     private TableColumn<Nutzer, String> Nachname;
-
     @FXML
     private TableColumn<Nutzer, String> Rolle;
-
     @FXML
     private TableColumn<Nutzer, Integer> teilnehmerid;
     long id;
@@ -71,24 +67,18 @@ public class TeilnehmerListeController {
 
             JSONArray jsonObject = new JSONArray(response.body());
 
-
             Vorname.setCellValueFactory(new PropertyValueFactory<>("vorname"));
             Nachname.setCellValueFactory(new PropertyValueFactory<>("nachname"));
             teilnehmerid.setCellValueFactory(new PropertyValueFactory<>("id"));
             Rolle.setCellValueFactory(new PropertyValueFactory<>("rolle"));
 
-
-
-
             for(int i=0;i<jsonObject.length();i++){
                 JSONObject nutzer= jsonObject.getJSONObject(i).getJSONObject("nutzerId");
-
 
                 Nutzer nutzer1 = new Nutzer();
                 if (nutzerId instanceof Lehrender){
                     if(nutzer.get("vorname").equals(((Lehrender)nutzerId).getVorname()) && nutzer.get("nachname").equals(((Lehrender)nutzerId).getNachname())){
                         nutzer1.setRolle(nutzer.getString("rolle")+" (Ich)");
-
                     }
                     else{
                         nutzer1.setRolle(nutzer.getString("rolle"));
@@ -169,6 +159,7 @@ public class TeilnehmerListeController {
 
                 return cell;
             });
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
