@@ -54,8 +54,10 @@ public class ChatControllerTest {
 
         this.mockMvc.perform(post("http://localhost:8080/chat/neueNachricht").param("chat_id", "1").param("nachricht", "Test Nachricht").param("datum",dtf.format(now)).param("nutzer_id","1")).andDo(print()).andExpect(status().isOk()).andExpect(content().string("OK"));
 
+    }
 
-
+    @AfterTestClass
+    void afterrun(){
 
     }
 
