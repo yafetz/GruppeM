@@ -21,6 +21,7 @@ public class ChatController {
     private final ChatNachrichtenRepository chatNachrichtenRepository;
     private final ChatRaumRepository chatRaumRepository;
 
+
     @Autowired
     public ChatController(NutzerRepository nutzerRepository, StudentRepository studentRepository, LehrenderRepository lehrenderRepository, ChatNachrichtenRepository chatNachrichtenRepository, ChatRaumRepository chatRaumRepository) {
         this.nutzerRepository = nutzerRepository;
@@ -29,6 +30,7 @@ public class ChatController {
         this.chatNachrichtenRepository = chatNachrichtenRepository;
         this.chatRaumRepository = chatRaumRepository;
     }
+
 
     @PostMapping("/neueNachricht")
     public String neueNachricht(@RequestParam("chat_id") long chat_id, @RequestParam("nachricht") String nachricht,@RequestParam("datum") String datum,@RequestParam("nutzer_id") long nutzer_id) throws ParseException {
