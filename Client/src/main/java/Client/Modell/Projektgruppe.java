@@ -5,6 +5,7 @@ public class Projektgruppe {
     private Long id;
     private String titel;
     private Lehrveranstaltung lehrveranstaltung;
+    private Chat chatRaum;
 
     public Long getId() {
         return id;
@@ -28,5 +29,13 @@ public class Projektgruppe {
 
     public void setLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) {
         this.lehrveranstaltung = lehrveranstaltung;
+    }
+
+    public Chat getChatRaum() {
+        return chatRaum;
+    }
+
+    public void setChatRaum(Chat chatRaum) {
+        this.chatRaum = chatRaum;
     }
 }

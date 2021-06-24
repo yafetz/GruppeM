@@ -15,14 +15,19 @@ public class Projektgruppe {
     //@JsonProperty("id")
     private Long id;
 
+    @Column(nullable = false)
+    //@JsonProperty("titel")
+    private String titel;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name= "lehrveranstaltungs_Id", nullable = false)
     //@JsonProperty("lehrveranstaltung")
     private Lehrveranstaltung lehrveranstaltung;
 
-    @Column(nullable = false)
-    //@JsonProperty("titel")
-    private String titel;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name= "chatraum", nullable = false)
+    //@JsonProperty("chatRaum")
+    private ChatRaum chatRaum;
 
     public Projektgruppe() {
     }
@@ -50,6 +55,14 @@ public class Projektgruppe {
 
     public void setTitel(String titel) {
         this.titel = titel;
+    }
+
+    public ChatRaum getChatRaum() {
+        return chatRaum;
+    }
+
+    public void setChatRaum(ChatRaum chatRaum) {
+        this.chatRaum = chatRaum;
     }
 
     @Override
