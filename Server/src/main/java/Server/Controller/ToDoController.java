@@ -15,12 +15,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/todo/")
-public class ToDoController {
+public class ErstelleToDoController {
     private NutzerRepository nutzerRepository;
     private TodoListeService todoListeService;
     private TodoListeRepository todoListeRepository;
 
-    public ToDoController(NutzerRepository nutzerRepository, TodoListeService todoListeService, TodoListeRepository todoListeRepository) {
+    public ErstelleToDoController( NutzerRepository nutzerRepository,TodoListeService todoListeService, TodoListeRepository todoListeRepository) {
         this.nutzerRepository=nutzerRepository;
         this.todoListeService=todoListeService;
         this.todoListeRepository=todoListeRepository;
@@ -31,23 +31,23 @@ public class ToDoController {
     public String neueTodo(@RequestParam("datum") String deadline,
                            @RequestParam("titel") String titel,
                            @RequestParam("verantwortliche") String gruppenmitglieder,
+                           @RequestParam("erledigt") String done,
                            @RequestParam("projektgruppeId") long projektgruppeId,
                            @RequestParam("nutzerId") long nutzerId){
 
-       Nutzer nutzer = nutzerRepository.findNutzerById(nutzerId);
+
         ToDoItem toDoItem = new ToDoItem();
         toDoItem.setTitel(titel);
         toDoItem.setDeadline(deadline);
         toDoItem.setVerantwortliche(gruppenmitglieder);
-        toDoItem.setErledigt(false);
+        System.out.println(done);
+        toDoItem.setErledigt(done);
+        System.out.println(toDoItem.getErledigt());
         toDoItem.setProjektgruppeId(projektgruppeId);
         toDoItem.setNutzerId(nutzerId);
 
         todoListeRepository.save(toDoItem);
-        System.out.println("test");
-
-
-
+        System.out.println("created");
 
         return "Ok";
     }
@@ -55,31 +55,39 @@ public class ToDoController {
     @GetMapping("{projektgruppeId}")
     public List<ToDoItem> getAlleTodoItem(@PathVariable long projektgruppeId){
 
-        List<ToDoItem> todo = todoListeService.todos(projektgruppeId);
+        List<ToDoItem> todo= todoListeService.todos(projektgruppeId);
+
+
         return todo;
 
 
     }
-    @PostMapping("update")
+    @PostMapping("update/")
     public String bearbeiteTodo(@RequestParam("datum") String deadline,
                                 @RequestParam("titel") String titel,
                                 @RequestParam("verantwortliche") String gruppenmitglieder,
+                                @RequestParam("erledigt") String done,
                                 @RequestParam("projektgruppeId") long projektgruppeId,
-                                @RequestParam("nutzerId") long nutzerId,
-                                @RequestParam("oldToDoId") long oldToDoId){
+                                @RequestParam("todoItemId") long todoItemId,
+                                @RequestParam("nutzerId") Long nutzerId)
+    {
 
-        todoListeRepository.deleteById(oldToDoId);
-        Nutzer nutzer = nutzerRepository.findNutzerById(nutzerId);
-        ToDoItem toDoItem = new ToDoItem();
+
+        ToDoItem toDoItem =todoListeRepository.findTodoItemById(todoItemId);
+
         toDoItem.setTitel(titel);
         toDoItem.setDeadline(deadline);
         toDoItem.setVerantwortliche(gruppenmitglieder);
-        toDoItem.setErledigt(false);
-        toDoItem.setProjektgruppeId(projektgruppeId);
+        toDoItem.setErledigt(done);
         toDoItem.setNutzerId(nutzerId);
+        toDoItem.setProjektgruppeId(projektgruppeId);
+
 
         todoListeRepository.save(toDoItem);
-        System.out.println("test");
+        System.out.println("update");
+
+
+
 
         return "Ok";
     }

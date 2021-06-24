@@ -12,6 +12,7 @@ public class Student {
     private int matrikelnummer;
     private String studienfach;
     private Nutzer nutzerId;
+    private int versuche;
     private ObservableValue<Boolean> checked;
 
     public void addDataFromJson(JSONObject jsonObject){
@@ -79,5 +80,12 @@ public class Student {
 
     public ObservableValue<Boolean> checkedProperty() {
         return checked;
+    }
+    public int getVersuche() {
+        return versuche;
+    }
+
+    public void setVersuche(int versuche) {
+        this.versuche = versuche;
     }
 }
