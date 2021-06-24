@@ -26,7 +26,7 @@ public class ProjektgruppenService {
         Projektgruppe projektgruppe = new Projektgruppe(lehrveranstaltung, titel);
         ChatRaum chat = new ChatRaum();
         chatRaumRepository.save(chat);
-        projektgruppe.setChatRaum(chat);
+        projektgruppe.setChat(chat);
         projektgruppenRepository.save(projektgruppe);
         Student student = studentRepository.findStudentByNutzerId(nutzer);
         if (student != null) {

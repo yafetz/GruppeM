@@ -238,7 +238,7 @@ public class ProjektgruppenController {
                         ((ProjektgruppenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
                         ((ProjektgruppenController) layout.getController()).setPGUebersichtLvTitel(lehrveranstaltung.getTitel());
                         ((ProjektgruppenController) layout.getController()).setPGUebersichtPGTitel(projektgruppe.getTitel());
-                        ((ProjektgruppenController) layout.getController()).setChautraumId((int) projektgruppe.getChatRaum().getId());
+                        ((ProjektgruppenController) layout.getController()).setChautraumId((int) projektgruppe.getChat().getId());
                     }
                 } else {        //Student ist noch nicht Mitglied -> Beitrittsseite
                     layout.instanceLayout("projektgruppenbeitritt.fxml");
@@ -616,7 +616,6 @@ public class ProjektgruppenController {
         layout.instanceLayout("chat.fxml");
         ((ChatController) layout.getController()).setLayout(layout);
         ((ChatController) layout.getController()).setChatraumid(chautraumId);
-        System.out.println(nutzer);
         ((ChatController) layout.getController()).setNutzer(nutzer);
         ((ChatController) layout.getController()).scheduler();
 
