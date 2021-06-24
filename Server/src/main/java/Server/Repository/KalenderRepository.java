@@ -10,4 +10,5 @@ import java.util.List;
 public interface KalenderRepository extends JpaRepository<Termin, Long> {
     Termin findTerminById(long id);
     List<Termin> findAllByNutzerId(Nutzer nutzer);
+    List<Termin> findAll();
 }
