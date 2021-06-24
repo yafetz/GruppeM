@@ -15,7 +15,7 @@ public class TodoListeService {
     private final StudentRepository studentRepository;
     private final TodoListeRepository todoListeRepository;
 
-   @Autowired
+    @Autowired
     public TodoListeService(ProjektgruppenRepository projektgruppenRepositoryepository, StudentRepository studentRepository, TodoListeRepository todoListeRepository) {
         this.projektgruppenRepositoryepository = projektgruppenRepositoryepository;
         this.studentRepository = studentRepository;

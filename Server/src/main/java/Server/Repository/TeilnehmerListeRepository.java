@@ -27,5 +27,9 @@ public interface TeilnehmerListeRepository extends JpaRepository<TeilnehmerListe
     Boolean existsByLehrveranstaltungAndNutzerId(Lehrveranstaltung lehrveranstaltung, Nutzer nutzer);
     @Query("SELECT student FROM Student student INNER JOIN TeilnehmerListe teilnehmerliste ON teilnehmerliste.nutzerId = student.nutzerId AND teilnehmerliste.lehrveranstaltung.id = ?1 ")
     List<Student> getAllStudByLehrveranstaltungId (Long lehrveranstaltungId);
+
+    @Query("SELECT COUNT(student) FROM Student student JOIN TeilnehmerListe teilnehmerliste ON teilnehmerliste.nutzerId = student.nutzerId AND teilnehmerliste.lehrveranstaltung.id = ?1")
+   int getAllStudents(long id);
+
 }
 

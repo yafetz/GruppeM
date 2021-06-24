@@ -12,4 +12,5 @@ import java.util.List;
 @Repository
 public interface TodoListeRepository extends JpaRepository<ToDoItem,Long> {
     List<ToDoItem> findAllByProjektgruppeId(long projektgruppeId);
+    ToDoItem findTodoItemById(long ToDoItemId);
 }

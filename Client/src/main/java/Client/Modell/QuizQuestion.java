@@ -8,6 +8,16 @@ public class QuizQuestion {
     private String question;
     private Quiz quiz;
 
+    public int getAnzahlKorrekt() {
+        return anzahlKorrekt;
+    }
+
+    public void setAnzahlKorrekt(int anzahlKorrekt) {
+        this.anzahlKorrekt = anzahlKorrekt;
+    }
+
+    private int anzahlKorrekt;
+
     public Long getId() {
         return id;
     }

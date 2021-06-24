@@ -10,7 +10,8 @@
             <columns>
                 <TableColumn fx:id="todo" prefWidth="251.1999969482422" text="ToDO" />
                 <TableColumn fx:id="responsibility" prefWidth="182.4000244140625" text="Zuständigkeit" />
-                <TableColumn fx:id="deadline" prefWidth="151.20001220703125" text="Deadline" />
+                <TableColumn fx:id="deadline" prefWidth="105.0" text="Deadline" />
+            <TableColumn fx:id="finished" prefWidth="151.79998779296875" text="Status" />
             </columns>
         </TableView>
         <Label layoutX="53.0" layoutY="31.0" text="ToDo-Liste">
@@ -18,6 +19,6 @@
                 <Font size="24.0" />
             </font>
         </Label>
-      <Button fx:id="createTodo" layoutX="496.0" layoutY="36.0" mnemonicParsing="false" onAction="#pressedCreateTodo" text="ToDo-Erstellen" />
+        <Button fx:id="createTodo" layoutX="496.0" layoutY="36.0" mnemonicParsing="false" onAction="#pressedCreateTodo" text="ToDo-Erstellen" />
     </children>
 </AnchorPane>

@@ -28,19 +28,22 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class TodoBearbeitenController {
 
     @FXML
-    public Button bearbeiten;
+    private Button bearbeiten;
     @FXML
-    public TextField todo_titel;
+    private TextField todo_titel;
     @FXML
-    public DatePicker deadline;
+    private DatePicker deadline;
     @FXML
     public ComboBox<Gruppenmitglied> gruppenmitglieder;
+    @FXML
+    private CheckBox done;
     @FXML public Label zustaendigkeitLabel;
     @FXML public Label deadlineLabel;
     private Object nutzer;
@@ -67,6 +70,9 @@ public class TodoBearbeitenController {
         todo_titel.setText(toDoItem.getTitel());
         zustaendigkeitLabel.setText("Zuständigkeit (aktuell: " + toDoItem.getVerantwortliche() + ")");
         deadlineLabel.setText("Deadline (aktuell: " + toDoItem.getDeadline() + ")");
+        System.out.println(toDoItem.getId());
+
+
     }
 
     public Layout getLayout() {
@@ -139,7 +145,7 @@ public class TodoBearbeitenController {
     public void bearbeiteTodo(ActionEvent actionEvent) {
         try (CloseableHttpClient client1 = HttpClients.createDefault()) {
 
-            String url = "http://localhost:8080/todo/update";
+            String url = "http://localhost:8080/todo/update/";
             HttpPost post = new HttpPost(url);
             MultipartEntityBuilder entity = MultipartEntityBuilder.create();
             entity.addTextBody("datum", deadline.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
@@ -148,6 +154,14 @@ public class TodoBearbeitenController {
             entity.addTextBody("projektgruppeId",String.valueOf(projektgruppe.getId()));
             entity.addTextBody("nutzerId",String.valueOf(gruppenmitglieder.getSelectionModel().getSelectedItem().getId()));
             entity.addTextBody("oldToDoId", String.valueOf(toDoItem.getId()));
+            entity.addTextBody("todoItemId",String.valueOf(toDoItem.getId()));
+            entity.addTextBody("nutzerId",String.valueOf(( gruppenmitglieder.getSelectionModel().getSelectedItem().getId() )));
+            if (done.isSelected()== true) {
+                entity.addTextBody("erledigt", "fertig");
+            }
+            else if((done.isSelected()== false)) {
+                entity.addTextBody("erledigt", "in Bearbeitung");
+            }
 
             HttpEntity requestEntity = entity.build();
             post.setEntity(requestEntity);
@@ -169,6 +183,11 @@ public class TodoBearbeitenController {
                 } else {
                     System.out.println("result: " + result);
                 }
+                layout.instanceLayout("toDoListe.fxml");
+                ((ToDoListeController) layout.getController()).setLayout(layout);
+                ((ToDoListeController) layout.getController()).setProjektgruppe(projektgruppe);
+                ((ToDoListeController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
+                ((ToDoListeController) layout.getController()).populateTableView();
             }
         } catch (IOException e) {
             e.printStackTrace();

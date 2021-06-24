@@ -3,13 +3,13 @@ package Client.Controller;
 import Client.Layouts.Layout;
 import Client.Modell.Lehrender;
 import Client.Modell.Lehrveranstaltung;
+import Client.Modell.QuizAnswer;
+import Client.Modell.QuizQuestion;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -42,9 +42,8 @@ public class CreateQuizController {
     @FXML
     private CheckBox correct;
     @FXML
-    private Button quizButtonUE;
-    @FXML
     private TextField quiz_titel;
+
 
     private HashMap<String, Boolean> answers;
     private HashMap<String, HashMap<String, Boolean>> questions;
@@ -80,6 +79,7 @@ public class CreateQuizController {
                 answerField.setText("");
                 correct.setSelected(false);
                 questions.put(questionField.getText(), answers);
+
                 questionField.setText("");
                 answers = new HashMap<>();
             } else {
@@ -118,6 +118,10 @@ public class CreateQuizController {
 
                 HttpEntity requestEntity = entity.build();
                 post.setEntity(requestEntity);
+
+                layout.instanceLayout("quizUebersicht.fxml");
+                ((QuizUebersichtController) layout.getController()).setLayout(layout);
+                ((QuizUebersichtController) layout.getController()).quizSeiteAufrufen(nutzer, lehrveranstaltung);
 
                 try (CloseableHttpResponse response = client.execute(post)) {
                     HttpEntity responseEntity = response.getEntity();
