@@ -31,6 +31,10 @@ import java.nio.charset.StandardCharsets;
 
 public class RegistrierenController {
     @FXML
+    private PasswordField passwortcheck;
+    @FXML
+    private TextField emailcheck;
+    @FXML
     private TextField email;
     @FXML
     private Button registrieren_lehrender;
@@ -127,6 +131,9 @@ public class RegistrierenController {
         String newPasswort = passwortText.trim();
         newPasswort = newPasswort.replaceAll(" ", "");
 
+        String emailTextCheck = emailcheck.getText();
+        String passwortTextCheck = passwortcheck.getText();
+
         String fehlermeldung = "";
         if(!newEmail.contains("@") || !newEmail.contains(".")){
             fehlermeldung += "Email ungültig bitte in Form von: name@gmail.de \n";
@@ -139,7 +146,12 @@ public class RegistrierenController {
            hausnummer.getText().equals("")){
             fehlermeldung += "Es darf nichts leer sein!";
         }
-
+        if ( !emailText.equals(emailTextCheck)) {
+            fehlermeldung += "E-Mail-Angaben stimmen nicht überein! \n";
+        }
+        if ( !passwortText.equals(passwortTextCheck)) {
+            fehlermeldung += "Passwortangaben stimmen nicht überein! \n";
+        }
         if(!fehlermeldung.equals("")){
             Alert fehler = new Alert(Alert.AlertType.ERROR);
             fehler.setTitle("Eingegebene Daten sind falsch");

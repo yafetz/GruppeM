@@ -12,16 +12,16 @@ public class Projektgruppe {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty("id")
+    //@JsonProperty("id")
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name= "lehrveranstaltungs_Id", nullable = false)
-    @JsonProperty("lehrveranstaltung")
+    //@JsonProperty("lehrveranstaltung")
     private Lehrveranstaltung lehrveranstaltung;
 
     @Column(nullable = false)
-    @JsonProperty("titel")
+    //@JsonProperty("titel")
     private String titel;
 
     public Projektgruppe() {
@@ -50,5 +50,14 @@ public class Projektgruppe {
 
     public void setTitel(String titel) {
         this.titel = titel;
+    }
+
+    @Override
+    public String toString() {
+        return "Projektgruppe{" +
+                "id=" + id +
+                ", lehrveranstaltung=" + lehrveranstaltung +
+                ", titel='" + titel + '\'' +
+                '}';
     }
 }

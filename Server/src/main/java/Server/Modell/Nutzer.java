@@ -35,6 +35,9 @@ public class Nutzer {
     private String stadt;
     @Column(nullable = false)
     private String rolle;
+    @Column(nullable = true)
+    private String fa_code;
+
 
     public String getRolle() {
         return rolle;
@@ -123,4 +126,15 @@ public class Nutzer {
     public void setStadt(String stadt) {
         this.stadt = stadt;
     }
+
+    public String getFa_code() {
+        return fa_code;
+    }
+
+    public void setFa_code(String fa_code) {
+        this.fa_code = fa_code;
+    }
+
+
+
 }

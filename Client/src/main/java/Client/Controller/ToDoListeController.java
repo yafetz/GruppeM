@@ -50,10 +50,6 @@ public class ToDoListeController {
         this.nutzerId = nutzerId;
     }
 
-
-
-
-
     private Lehrveranstaltung lehrveranstaltung;
     private Layout layout;
     private Projektgruppe projektgruppe;
@@ -76,8 +72,6 @@ public class ToDoListeController {
 
     public void setLayout(Layout layout) {
         this.layout = layout;
-
-
     }
 
     public void setProjektgruppe(Projektgruppe projektgruppe) {
@@ -128,9 +122,7 @@ public class ToDoListeController {
                 cell.setCursor(javafx.scene.Cursor.HAND);
                 cell.setOnMouseClicked(e -> {
                             if (!cell.isEmpty()) {
-
                                 bearbeiten(cell.getTableRow().getItem());
-
                             }
                         }
                 );
@@ -180,9 +172,7 @@ public class ToDoListeController {
         }
     }
 
-
     public void bearbeiten(ToDoItem todoitem) {
-
         layout.instanceLayout("todoBearbeiten.fxml");
         ((TodoBearbeitenController) layout.getController()).setLayout(layout);
         ((TodoBearbeitenController) layout.getController()).setToDoItem(todoitem);
@@ -190,7 +180,5 @@ public class ToDoListeController {
         ((TodoBearbeitenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
         ((TodoBearbeitenController) layout.getController()).setProjektgruppe(projektgruppe);
         ((TodoBearbeitenController) layout.getController()).ladeGruppenmitglieder();
-
-
     }
 }

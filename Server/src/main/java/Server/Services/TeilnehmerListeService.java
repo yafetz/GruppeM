@@ -23,12 +23,9 @@ public class TeilnehmerListeService {
         this.studentRepository = studentRepository;
         this.teilnehmerListeRepository=teilnehmerListeRepository;
     }
+
     public List<TeilnehmerListe> teilnehmer(long lehrveranstaltungsId){
-
-     return teilnehmerListeRepository.findAllByLehrveranstaltung(lehrveranstaltungRepository.findAllById(lehrveranstaltungsId));
-
+        return teilnehmerListeRepository.findAllByLehrveranstaltung(lehrveranstaltungRepository.findAllById(lehrveranstaltungsId));
     }
-
-
 
 }

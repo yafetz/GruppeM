@@ -8,5 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface KalenderRepository extends JpaRepository<Termin, Long> {
+    Termin findTerminById(long id);
     List<Termin> findAllByNutzerId(Nutzer nutzer);
 }

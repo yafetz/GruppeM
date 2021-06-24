@@ -202,11 +202,6 @@ public class MeineKurseController {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
             ObjectMapper mapper = new ObjectMapper();
             Lehrveranstaltung lehrveranstaltung = mapper.readValue(response.body(), Lehrveranstaltung.class);
-//            TODO Weiterleitung zu Übersichtsseite des Kurses
-            //  HttpRequest requestisMember = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/"+lehrveranstaltungId)).build();
-            //Layout layout = new Layout("lehrveranstaltungsuebersichtsseite.fxml", (Stage) namenLink.getScene().getWindow());
-
-//            Platzhalter bis dahin:
             HttpResponse<String> memberResponse;
             if (nutzerInstanz instanceof Lehrender) {
                 long lehrId = ((Lehrender) nutzerInstanz).getNutzerId().getId();
@@ -215,7 +210,7 @@ public class MeineKurseController {
 
                 System.out.println("Instanz Lehrender "+memberResponse.body());
 
-                if(memberResponse.body().equals("true")){
+                if(memberResponse.body().equals("true")) {
                         layout.instanceLayout("lehrveranstaltungsuebersichtsseite.fxml");
                         ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).setLayout(layout);
                         ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).uebersichtsseiteAufrufen(nutzerInstanz,lehrveranstaltung);

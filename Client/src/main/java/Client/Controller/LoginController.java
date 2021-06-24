@@ -32,6 +32,8 @@ public class LoginController {
     private Button register;
 
     private Layout layout;
+    //If 0 then deactivate 2 Faktor, if 1 activate
+    private int auth = 0;
 
     public Layout getLayout() {
         return layout;
@@ -67,8 +69,8 @@ public class LoginController {
             Stage stage = (Stage) register.getScene().getWindow();
             if(Serverantwort.equals("")){
                 Alert fehler = new Alert(Alert.AlertType.ERROR);
-                fehler.setTitle("Falsche Anmelde Daten!");
-                fehler.setContentText("Ungültige Login Daten!");
+                fehler.setTitle("Falsche Anmeldedaten!");
+                fehler.setContentText("Ungültige Logindaten!");
                 fehler.showAndWait();
             }else {
                 try {
@@ -79,16 +81,30 @@ public class LoginController {
                         student.addDataFromJson(jsonObject);
                         //Change View
                         layout.setNutzer(student);
-                        layout.instanceLayout("homescreen.fxml");
-                        ((HomescreenController) layout.getController()).setLayout(layout);
+                        if(auth == 1) {
+                            layout.instanceAuth("auth.fxml");
+                            ((AuthenticationController) layout.getController()).setLayout(layout);
+                            ((AuthenticationController) layout.getController()).setNutzerInstanz(student);
+                        }else if(auth == 0){
+                            layout.instanceLayout("homescreen.fxml");
+                            ((HomescreenController) layout.getController()).setLayout(layout);
+                            ((HomescreenController) layout.getController()).setNutzerInstanz(student);
+                        }
 
                     } else if (jsonObject.has("lehrstuhl")) {
                         Lehrender lehrender = new Lehrender();
                         lehrender.addDataFromJson(jsonObject);
                         //Change View
                         layout.setNutzer(lehrender);
-                        layout.instanceLayout("homescreen.fxml");
-                        ((HomescreenController) layout.getController()).setLayout(layout);
+                        if(auth == 1) {
+                            layout.instanceAuth("auth.fxml");
+                            ((AuthenticationController) layout.getController()).setLayout(layout);
+                            ((AuthenticationController) layout.getController()).setNutzerInstanz(lehrender);
+                        }else if(auth == 0){
+                            layout.instanceLayout("homescreen.fxml");
+                            ((HomescreenController) layout.getController()).setLayout(layout);
+                            ((HomescreenController) layout.getController()).setNutzerInstanz(lehrender);
+                        }
                     }
 
                 } catch (JSONException err) {
