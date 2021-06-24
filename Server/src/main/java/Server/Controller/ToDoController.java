@@ -15,12 +15,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/todo/")
-public class ErstelleToDoController {
+public class ToDoController {
     private NutzerRepository nutzerRepository;
     private TodoListeService todoListeService;
     private TodoListeRepository todoListeRepository;
 
-    public ErstelleToDoController( NutzerRepository nutzerRepository,TodoListeService todoListeService, TodoListeRepository todoListeRepository) {
+    public ToDoController(NutzerRepository nutzerRepository, TodoListeService todoListeService, TodoListeRepository todoListeRepository) {
         this.nutzerRepository=nutzerRepository;
         this.todoListeService=todoListeService;
         this.todoListeRepository=todoListeRepository;
