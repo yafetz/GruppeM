@@ -10,10 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.util.StringConverter;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -44,8 +41,14 @@ public class TodoBearbeitenController {
     public DatePicker deadline;
     @FXML
     public ComboBox<Gruppenmitglied> gruppenmitglieder;
+    @FXML public Label zustaendigkeitLabel;
+    @FXML public Label deadlineLabel;
     private Object nutzer;
     private Layout layout;
+    private ToDoItem toDoItem;
+    private Lehrveranstaltung lehrveranstaltung;
+    private Projektgruppe projektgruppe;
+    private int selectedGruppenmitglied= 0;
 
     public ToDoItem getToDoItem() {
         return toDoItem;
@@ -55,23 +58,19 @@ public class TodoBearbeitenController {
         this.toDoItem = toDoItem;
     }
 
-    private ToDoItem toDoItem;
-
-
     public Object getNutzer() {
         return nutzer;
     }
 
     public void setNutzer(Object nutzer) {
-
         this.nutzer = nutzer;
         todo_titel.setText(toDoItem.getTitel());
-
+        zustaendigkeitLabel.setText("Zuständigkeit (aktuell: " + toDoItem.getVerantwortliche() + ")");
+        deadlineLabel.setText("Deadline (aktuell: " + toDoItem.getDeadline() + ")");
     }
 
     public Layout getLayout() {
         return layout;
-
     }
 
     public void setLayout(Layout layout) {
@@ -93,13 +92,6 @@ public class TodoBearbeitenController {
     public void setProjektgruppe(Projektgruppe projektgruppe) {
         this.projektgruppe = projektgruppe;
     }
-
-    private Lehrveranstaltung lehrveranstaltung;
-    private Projektgruppe projektgruppe;
-    private int selectedGruppenmitglied= 0;
-
-
-
 
     public void ladeGruppenmitglieder() {
         HttpClient client = HttpClient.newHttpClient();
@@ -145,7 +137,6 @@ public class TodoBearbeitenController {
     }
 
     public void bearbeiteTodo(ActionEvent actionEvent) {
-        System.out.println("bearbeiten klappt");
         try (CloseableHttpClient client1 = HttpClients.createDefault()) {
 
             String url = "http://localhost:8080/todo/update";
@@ -155,7 +146,8 @@ public class TodoBearbeitenController {
             entity.addTextBody("titel", todo_titel.getText());
             entity.addTextBody("verantwortliche", String.valueOf(gruppenmitglieder.getSelectionModel().getSelectedItem().getStudent().getVorname()));
             entity.addTextBody("projektgruppeId",String.valueOf(projektgruppe.getId()));
-            entity.addTextBody("nutzerId",String.valueOf(( gruppenmitglieder.getSelectionModel().getSelectedItem().getId() )));;
+            entity.addTextBody("nutzerId",String.valueOf(gruppenmitglieder.getSelectionModel().getSelectedItem().getId()));
+            entity.addTextBody("oldToDoId", String.valueOf(toDoItem.getId()));
 
             HttpEntity requestEntity = entity.build();
             post.setEntity(requestEntity);
@@ -163,17 +155,19 @@ public class TodoBearbeitenController {
             try (CloseableHttpResponse response = client1.execute(post)) {
                 HttpEntity responseEntity = response.getEntity();
                 String result = EntityUtils.toString(responseEntity);
-                if (result.equals("OK")) {
+                if (result.equals("Ok")) {
 
                     toDoItem.setTitel(todo_titel.getText());
                     toDoItem.setDeadline(deadline.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
                     toDoItem.setVerantwortliche( String.valueOf(gruppenmitglieder.getSelectionModel().getSelectedItem().getStudent().getVorname()));
 
-                    layout.instanceLayout("userprofile.fxml");
+                    layout.instanceLayout("toDoListe.fxml");
                     ((ToDoListeController) layout.getController()).setLayout(layout);
                     ((ToDoListeController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
                     ((ToDoListeController) layout.getController()).setProjektgruppe(projektgruppe);
                     ((ToDoListeController) layout.getController()).populateTableView();
+                } else {
+                    System.out.println("result: " + result);
                 }
             }
         } catch (IOException e) {

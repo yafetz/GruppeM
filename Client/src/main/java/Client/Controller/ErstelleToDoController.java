@@ -45,7 +45,6 @@ public class ErstelleToDoController {
     @FXML
     private Button createTodo;
 
-
     private Object nutzer;
     private Layout layout;
 
@@ -77,8 +76,6 @@ public class ErstelleToDoController {
 
 
     public void pressedCreateTodo(ActionEvent actionEvent) {
-
-
         try (CloseableHttpClient client = HttpClients.createDefault()) {
 
             String url = "http://localhost:8080/todo/create";
@@ -86,10 +83,6 @@ public class ErstelleToDoController {
             MultipartEntityBuilder entity = MultipartEntityBuilder.create();
 
             ObjectMapper mapper = new ObjectMapper();
-
-
-
-
 
             entity.addTextBody("datum", deadline.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
             entity.addTextBody("titel", todo_titel.getText());

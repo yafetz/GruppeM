@@ -62,7 +62,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
             long veranstaltungId = ((Lehrveranstaltung) lehrveranstaltung).getId();
             ((TeilnehmerListeController) layout.getController()).setId(veranstaltungId);
             ((TeilnehmerListeController) layout.getController()).setLayout(layout);
-            ((TeilnehmerListeController)  layout.getController()).setLehrveranstaltung(((Lehrveranstaltung) lehrveranstaltung));
+            ((TeilnehmerListeController) layout.getController()).setLehrveranstaltung(((Lehrveranstaltung) lehrveranstaltung));
     }
 
     public void getMaterial(Lehrveranstaltung lehrkurs) {
@@ -148,7 +148,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
         this.lehrveranstaltung= lehrveranstaltung;
 
 
-        if (nutzer !=null) {
+        if (nutzer != null) {
             if (nutzer instanceof Lehrender) {
                 title.setText(((Lehrveranstaltung) lehrveranstaltung).getTitel());
                // materialUpload.setText("Lehrmaterial hochladen")

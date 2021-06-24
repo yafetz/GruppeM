@@ -1,10 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.HomescreenController">
+
+<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.HomescreenController">
+   <children>
+      <ScrollPane hbarPolicy="NEVER" layoutX="48.0" layoutY="135.0" prefHeight="526.0" prefWidth="923.0" vbarPolicy="AS_NEEDED">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="519.0" prefWidth="921.0">
+               <children>
+                  <TableView fx:id="meineLv" prefHeight="526.0" prefWidth="923.0" AnchorPane.bottomAnchor="-7.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="0.0">
+                     <columns>
+                        <TableColumn fx:id="col_LvId" text="LvID" visible="false" />
+                        <TableColumn fx:id="col_LvTitel" prefWidth="486.66667687892914" text="Titel der Lehrveranstaltung" />
+                        <TableColumn fx:id="col_LvSemester" minWidth="0.0" prefWidth="115.33340454101562" text="Semester" />
+                        <TableColumn fx:id="col_LvArt" prefWidth="154.0" text="Art der Lehrveranstaltung" />
+                        <TableColumn fx:id="col_LvLehrende" prefWidth="161.3333740234375" text="Lehrende" />
+                     </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+         </content>
+      </ScrollPane>
+      <Label layoutX="48.0" layoutY="68.0" text="Meine Lehrveranstaltungen">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Button fx:id="addCourseBtn" layoutX="601.0" layoutY="73.0" mnemonicParsing="false" onAction="#addCourse" text="Lehrveranstaltung hinzufügen" />
+      <ScrollPane layoutX="1062.0" layoutY="135.0" prefHeight="526.0" prefWidth="297.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="522.0" prefWidth="293.0">
+               <children>
+                  <TableView fx:id="freundeTabelle" prefHeight="526.0" prefWidth="297.0">
+                     <columns>
+                        <TableColumn fx:id="vorname" prefWidth="146.66663110256195" text="Vorname" />
+                        <TableColumn fx:id="nachname" prefWidth="150.00010681152344" text="Nachname" />
+                     </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+      <Label layoutX="1062.0" layoutY="68.0" text="Meine Freunde">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+   </children>
 </AnchorPane>

@@ -98,6 +98,16 @@ public class ProjektgruppenController {
     private Projektgruppe projektgruppe;
     private List<Long> selectedStudentIds = new ArrayList<>();
 
+    private int chautraumId;
+
+    public int getChautraumId() {
+        return chautraumId;
+    }
+
+    public void setChautraumId(int chautraumId) {
+        this.chautraumId = chautraumId;
+    }
+
     private Layout layout;
 
     public Layout getLayout() {
@@ -123,8 +133,6 @@ public class ProjektgruppenController {
 
     public void setNutzer(Object nutzer) {
         this.nutzer = nutzer;
-
-
     }
 
     public Lehrveranstaltung getLehrveranstaltung() {
@@ -165,8 +173,6 @@ public class ProjektgruppenController {
             ObjectMapper mapper = new ObjectMapper();
             List<Projektgruppe> projektgruppen = mapper.readValue(response.body(), new TypeReference<List<Projektgruppe>>() {});
 
-
-
             pgTitel_col.setCellValueFactory(new PropertyValueFactory<Projektgruppe,String>("titel"));
             pgId_col.setCellValueFactory(new PropertyValueFactory<Projektgruppe,Long>("id"));
 
@@ -182,16 +188,29 @@ public class ProjektgruppenController {
                 cell.setOnMouseClicked(e -> {
                             if (!cell.isEmpty()) {
                                 redirectToProjektgruppe(cell.getTableRow().getItem().getId());
-
                             }
                         }
                 );
                 return cell;
             });
 
+            if (nutzer instanceof Student) {
+                for (Projektgruppe pg : projektgruppen) {
+                    request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/projektgruppe/checkMember/" + pg.getId() + "&" + ((Student) nutzer).getId())).build();
+                    try {
+                        HttpResponse<String> istGruppenmitgliedResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
+                        if (istGruppenmitgliedResponse.body().equals("true")) {
+                            pg.setTitel(pg.getTitel() + " (beigetreten)");
+                        }
+                    } catch (IOException | InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+
             ObservableList<Projektgruppe> obsPG = FXCollections.observableList(projektgruppen);
             pgListe_tableview.setItems(obsPG);
-
 
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -219,6 +238,7 @@ public class ProjektgruppenController {
                         ((ProjektgruppenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
                         ((ProjektgruppenController) layout.getController()).setPGUebersichtLvTitel(lehrveranstaltung.getTitel());
                         ((ProjektgruppenController) layout.getController()).setPGUebersichtPGTitel(projektgruppe.getTitel());
+                        ((ProjektgruppenController) layout.getController()).setChautraumId((int) projektgruppe.getChatRaum().getId());
                     }
                 } else {        //Student ist noch nicht Mitglied -> Beitrittsseite
                     layout.instanceLayout("projektgruppenbeitritt.fxml");
@@ -351,15 +371,10 @@ public class ProjektgruppenController {
             });
             ObservableList<Gruppenmaterial> obsLv = FXCollections.observableList(gruppenmaterials);
             MaterialListe.setItems(obsLv);
-
-
-
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
-
-
 
     private void addCheckBoxToTable(String table) {
         TableColumn<Student, Void> colBtn = new TableColumn("Selected");
@@ -589,6 +604,8 @@ public class ProjektgruppenController {
                 selectedStudentIds.clear();
                 populateVorhandeneTableView();
                 populateNeueTableView();
+                neue_TableView.getColumns().remove(2);
+                addCheckBoxToTable("neue");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -598,7 +615,7 @@ public class ProjektgruppenController {
     public void chatPressedButton(ActionEvent actionEvent) {
         layout.instanceLayout("chat.fxml");
         ((ChatController) layout.getController()).setLayout(layout);
-        ((ChatController) layout.getController()).setChatraumid(1);
+        ((ChatController) layout.getController()).setChatraumid(chautraumId);
         System.out.println(nutzer);
         ((ChatController) layout.getController()).setNutzer(nutzer);
         ((ChatController) layout.getController()).scheduler();
