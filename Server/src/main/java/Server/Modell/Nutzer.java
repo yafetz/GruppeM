@@ -38,7 +38,6 @@ public class Nutzer {
     @Column(nullable = true)
     private String fa_code;
 
-
     public String getRolle() {
         return rolle;
     }
@@ -134,7 +133,5 @@ public class Nutzer {
     public void setFa_code(String fa_code) {
         this.fa_code = fa_code;
     }
-
-
 
 }

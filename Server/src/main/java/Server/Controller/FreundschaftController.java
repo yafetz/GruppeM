@@ -1,7 +1,8 @@
 package Server.Controller;
 
+import Server.Modell.ChatRaum;
 import Server.Modell.Freundschaft;
-import Server.Modell.Nutzer;
+import Server.Repository.ChatRaumRepository;
 import Server.Repository.FreundschaftRepository;
 import Server.Repository.NutzerRepository;
 import Server.Services.FreundschaftService;
@@ -18,12 +19,14 @@ public class FreundschaftController {
     private final FreundschaftService freundschaftService;
     private final NutzerRepository nutzerRepository;
     private final FreundschaftRepository freundschaftRepository;
+    private final ChatRaumRepository chatRaumRepository;
 
     @Autowired
-    public FreundschaftController(FreundschaftService freundschaftService, NutzerRepository nutzerRepository, FreundschaftRepository freundschaftRepository) {
+    public FreundschaftController(FreundschaftService freundschaftService, NutzerRepository nutzerRepository, FreundschaftRepository freundschaftRepository, ChatRaumRepository chatRaumRepository) {
         this.freundschaftService = freundschaftService;
         this.nutzerRepository = nutzerRepository;
         this.freundschaftRepository = freundschaftRepository;
+        this.chatRaumRepository = chatRaumRepository;
     }
 
     @PostMapping("/anfrage")
@@ -70,6 +73,9 @@ public class FreundschaftController {
     public ResponseEntity<String> acceptAnfrage(@PathVariable("angefragter_id") long angefragter_id, @PathVariable("anfragender_id") long anfragender_id){
         Freundschaft freundschaft = freundschaftService.getAnfrage(angefragter_id, anfragender_id);
         freundschaft.setStatus(true);
+        ChatRaum chat = new ChatRaum();
+        chatRaumRepository.save(chat);
+        freundschaft.setChat(chat);
         freundschaftRepository.save(freundschaft);
         return new ResponseEntity<>("Freundschaft akzeptiert", HttpStatus.OK);
     }
