@@ -124,8 +124,8 @@ public class TeststatistikController {
 
             ObservableList<PieChart.Data> pieChartData =
                     FXCollections.observableArrayList(
-                            new PieChart.Data("Bestanden",36),
-                            new PieChart.Data("Durchgefallen", 64)
+                            new PieChart.Data("Bestanden",bestanden),
+                            new PieChart.Data("Durchgefallen", durchgefallen)
                     );
 
 
