@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.Map;
 
 
 public class CreateQuizController {
@@ -101,17 +102,11 @@ public class CreateQuizController {
 
         actionEvent.consume();
         if(questions.size() > 0){
-            System.out.println("Quiz erstellen");
             try (CloseableHttpClient client = HttpClients.createDefault()) {
 
                 String url = "http://localhost:8080/quiz/createQuiz";
                 HttpPost post = new HttpPost(url);
                 MultipartEntityBuilder entity = MultipartEntityBuilder.create();
-
-                ObjectMapper mapper = new ObjectMapper();
-                String questionsJson = mapper.writeValueAsString(questions);
-
-                entity.addTextBody("questions", questionsJson);
                 entity.addTextBody("titel", quiz_titel.getText());
                 entity.addTextBody("lehrenderId", String.valueOf(((Lehrender) nutzer).getId()));
                 entity.addTextBody("lehrveranstaltungsId", String.valueOf(lehrveranstaltung.getId()));
@@ -119,14 +114,47 @@ public class CreateQuizController {
                 HttpEntity requestEntity = entity.build();
                 post.setEntity(requestEntity);
 
-                layout.instanceLayout("quizUebersicht.fxml");
-                ((QuizUebersichtController) layout.getController()).setLayout(layout);
-                ((QuizUebersichtController) layout.getController()).quizSeiteAufrufen(nutzer, lehrveranstaltung);
-
                 try (CloseableHttpResponse response = client.execute(post)) {
                     HttpEntity responseEntity = response.getEntity();
                     String result = EntityUtils.toString(responseEntity);
                     System.out.println(result);
+                    if(result.contains("OK:")) {
+                        try (CloseableHttpClient client1 = HttpClients.createDefault()) {
+
+                            String url1 = "http://localhost:8080/quiz/createQuestion";
+                            HttpPost post1 = new HttpPost(url1);
+                            MultipartEntityBuilder entity1 = MultipartEntityBuilder.create();
+                            entity1.addTextBody("quiz", result.split(":")[1]);
+
+                            for(Map.Entry<String, HashMap<String, Boolean>> entry : questions.entrySet()) {
+                                String question = entry.getKey();
+                                HashMap<String, Boolean> answers = entry.getValue();
+                                String frage = question+";";
+                                for(Map.Entry<String, Boolean> entry1 : answers.entrySet()){
+                                    frage += entry1.getKey()+";"+entry1.getValue();
+                                }
+                                entity1.addTextBody("question", frage);
+                            }
+
+                            HttpEntity requestEntity1 = entity1.build();
+                            post1.setEntity(requestEntity1);
+
+                            try (CloseableHttpResponse response1 = client1.execute(post1)) {
+                                HttpEntity responseEntity1 = response1.getEntity();
+                                String result1 = EntityUtils.toString(responseEntity1);
+                                System.out.println("Fragen gesendet!");
+                                if(result1.contains("OK")) {
+
+                                    layout.instanceLayout("quizUebersicht.fxml");
+                                    ((QuizUebersichtController) layout.getController()).setLayout(layout);
+                                    ((QuizUebersichtController) layout.getController()).quizSeiteAufrufen(nutzer, lehrveranstaltung);
+
+                                }
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();

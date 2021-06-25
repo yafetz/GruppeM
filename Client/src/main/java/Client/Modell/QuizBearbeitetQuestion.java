@@ -1,4 +1,4 @@
-package Client.Controller;
+package Client.Modell;
 
 import Client.Modell.Nutzer;
 import Client.Modell.QuizQuestion;
