@@ -25,9 +25,9 @@ public class Projektgruppe {
     private Lehrveranstaltung lehrveranstaltung;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name= "chatraum", nullable = false)
+    @JoinColumn(name= "chat_id", nullable = false)
     //@JsonProperty("chatRaum")
-    private ChatRaum chatRaum;
+    private ChatRaum chat;
 
     public Projektgruppe() {
     }
@@ -57,12 +57,12 @@ public class Projektgruppe {
         this.titel = titel;
     }
 
-    public ChatRaum getChatRaum() {
-        return chatRaum;
+    public ChatRaum getChat() {
+        return chat;
     }
 
-    public void setChatRaum(ChatRaum chatRaum) {
-        this.chatRaum = chatRaum;
+    public void setChat(ChatRaum chat) {
+        this.chat = chat;
     }
 
     @Override
