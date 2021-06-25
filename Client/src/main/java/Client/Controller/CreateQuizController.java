@@ -41,10 +41,6 @@ public class CreateQuizController {
     @FXML
     private Button create;
     @FXML
-    private TextField questionField;
-    @FXML
-    private TextField answerField;
-    @FXML
     private Button newAnswer;
     @FXML
     private CheckBox correct;
