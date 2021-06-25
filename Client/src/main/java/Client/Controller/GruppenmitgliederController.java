@@ -45,6 +45,14 @@ public class GruppenmitgliederController {
         this.lehrveranstaltung = lehrveranstaltung;
     }
 
+    public Object getNutzerId() {
+        return nutzerId;
+    }
+
+    public void setNutzerId(Object nutzerId) {
+        this.nutzerId = nutzerId;
+    }
+
     @JsonIgnoreProperties(ignoreUnknown = true)
     public void zeigeMitglieder(){
 
@@ -120,16 +128,23 @@ public class GruppenmitgliederController {
             ObjectMapper mapper = new ObjectMapper();
             if (response.body().contains("matrikelnummer")) {
                 Student vergleichNutzer = mapper.readValue(response.body(), Student.class);
+                System.out.println("vergleichnutzer: " + vergleichNutzer.getVorname() + vergleichNutzer.getNachname());
                 layout.instanceLayout("userprofile.fxml");
                 ((UserprofilController) layout.getController()).setLayout(layout);
                 if (layout.getController() instanceof UserprofilController) {
+
                     if(nutzerId instanceof  Student){
-                        if(((Student) nutzerId).getId() == vergleichNutzer.getId()){
+
+                        System.out.println("nutzerId instanceof  Student : true");
+                        if ( ((Student) nutzerId).getId() == vergleichNutzer.getId() ) {
+                            System.out.println("((Student) nutzerId).getId() == vergleichNutzer.getId() : true");
                             ((UserprofilController) layout.getController()).nutzerprofilAufrufen(nutzerId, nutzerId);
-                        }else{
+                        } else {
+                            System.out.println("layout.getController() instanceof UserprofilController : false");
                             ((UserprofilController) layout.getController()).nutzerprofilAufrufen(nutzerId, vergleichNutzer);
                         }
-                    }else{
+                    } else {
+                        System.out.println("nutzerId instanceof  Student : false" );
                         ((UserprofilController) layout.getController()).nutzerprofilAufrufen(nutzerId, vergleichNutzer);
                     }
                 }
