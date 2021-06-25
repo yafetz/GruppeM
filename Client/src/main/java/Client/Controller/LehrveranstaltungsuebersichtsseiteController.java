@@ -177,5 +177,6 @@ public class LehrveranstaltungsuebersichtsseiteController {
         layout.instanceLayout("quizUebersicht.fxml");
         ((QuizUebersichtController) layout.getController()).setLayout(layout);
         ((QuizUebersichtController) layout.getController()).quizSeiteAufrufen(nutzer,lehrveranstaltung);
+        ((QuizUebersichtController) layout.getController()).quizerstellen_LvTitel_Label.setText("Lehrveranstaltung " + lehrveranstaltung.getTitel() );
     }
 }
