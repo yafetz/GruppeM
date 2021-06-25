@@ -87,7 +87,7 @@ public class LoginController {
                         }else if(auth == 0){
                             layout.instanceLayout("homescreen.fxml");
                             ((HomescreenController) layout.getController()).setLayout(layout);
-                            ((HomescreenController) layout.getController()).setNutzerInstanz(student);
+
                         }
 
                     } else if (jsonObject.has("lehrstuhl")) {
@@ -102,7 +102,7 @@ public class LoginController {
                         }else if(auth == 0){
                             layout.instanceLayout("homescreen.fxml");
                             ((HomescreenController) layout.getController()).setLayout(layout);
-                            ((HomescreenController) layout.getController()).setNutzerInstanz(lehrender);
+
                         }
                     }
 
