@@ -124,13 +124,6 @@ public class QuizController {
                     qa.setAnswer(line.replace("<AntwortC>","").replace("</AntwortC>",""));
                     qaList.add(qa);
                 }
-                if(line.contains("<AntwortC>")){
-                    QuizAnswer qa = new QuizAnswer();
-                    qa.setQuestion(qq);
-                    qa.setCorrect(false);
-                    qa.setAnswer(line.replace("<AntwortC>","").replace("</AntwortC>",""));
-                    qaList.add(qa);
-                }
                 if(line.contains("<AntwortD>")){
                     QuizAnswer qa = new QuizAnswer();
                     qa.setQuestion(qq);
