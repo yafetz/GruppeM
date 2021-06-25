@@ -130,13 +130,13 @@ public class CreateQuizController {
                             HttpPost post1 = new HttpPost(url1);
                             MultipartEntityBuilder entity1 = MultipartEntityBuilder.create();
                             entity1.addTextBody("quiz", result.split(":")[1]);
-
+                            int index = 0;
                             for(Map.Entry<String, HashMap<String, Boolean>> entry : questions.entrySet()) {
                                 String question = entry.getKey();
                                 HashMap<String, Boolean> answers = entry.getValue();
                                 String frage = question+";";
                                 for(Map.Entry<String, Boolean> entry1 : answers.entrySet()){
-                                    frage += entry1.getKey()+";"+entry1.getValue();
+                                    frage += entry1.getKey()+";"+entry1.getValue()+";";
                                 }
                                 entity1.addTextBody("question", frage);
                             }

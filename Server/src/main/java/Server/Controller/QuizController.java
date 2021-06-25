@@ -76,7 +76,9 @@ public class QuizController {
 
     @PostMapping("createQuestion")
     public String createQuizQuestionAndAnswers(@RequestParam("quiz")  long quiz,@RequestParam("question") List<String> question) throws JsonProcessingException {
-        System.out.println(question.toArray().toString());
+        for(int j = 0; j < question.size(); j++){
+            System.out.println(question.get(j));
+        }
         for(int i = 0; i < question.size(); i++) {
            QuizQuestion qq = new QuizQuestion();
            qq.setQuiz(quizRepository.findById(quiz));
