@@ -68,7 +68,7 @@ public class QuizController {
     public String createQuiz(@RequestParam("titel") String titel ,@RequestParam("lehrenderId") long lehrenderId, @RequestParam("lehrveranstaltungsId") long lehrveranstaltungsId) throws JsonProcessingException {
         Quiz quiz = new Quiz();
         quiz.setTitel(titel);
-        quiz.setLehrveranstaltung(lehrveranstaltungRepository.findLehrveranstaltungById(lehrenderId));
+        quiz.setLehrveranstaltung(lehrveranstaltungRepository.findLehrveranstaltungById(lehrveranstaltungsId));
         quiz.setLehrender(lehrenderRepository.findLehrenderById(lehrenderId));
         quizRepository.save(quiz);
         return "OK: "+quiz.getId();

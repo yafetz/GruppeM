@@ -114,7 +114,7 @@ public class QuizBearbeitenController {
         check.setStyle("-fx-padding: 25 25 25 25; -fx-background-color: white; -fx-background-radius: 10.0;");
         check.setWrapText(true);
         check.setText(answer);
-        check.setFont(new Font(40.0));
+        check.setFont(new Font(24.0));
         answers.setPadding(new Insets(20,0,20,0));
         answers.getChildren().add(check);
         checkboxanswers.add(check);
@@ -162,8 +162,8 @@ public class QuizBearbeitenController {
         }
         if (!mindestenseinCheckBoxausgewählt) {
             Alert fehler = new Alert(Alert.AlertType.ERROR);
-            fehler.setTitle("Sie können nicht zur nächsten Frage wechseln!");
-            fehler.setContentText("Sie müssen mindestens eine Antwort auswählen!");
+            fehler.setTitle("Sie können nicht zur nächsten Frage wechseln");
+            fehler.setContentText("Sie müssen mindestens eine Antwort auswählen");
             fehler.showAndWait();
         } else {
             //Check ob Aufgabe richtig gelöst wurde
@@ -175,9 +175,9 @@ public class QuizBearbeitenController {
                 }
             }
             if (correct) {
-                Feedback.add("Die " + (quizIndex + 1) + ". Frage wurde richtig beantwortet!");
+                Feedback.add("Die " + (quizIndex + 1) + ". Frage wurde richtig beantwortet");
             } else {
-                Feedback.add("Die " + (quizIndex + 1) + ". Frage wurde falsch beantwortet!");
+                Feedback.add("Die " + (quizIndex + 1) + ". Frage wurde falsch beantwortet");
             }
         }
     }
@@ -192,14 +192,14 @@ public class QuizBearbeitenController {
                 checkboxanswers.clear();
                 LoadAnswers();
                 if (nextQuestIndex + 1 == fragen.size()) {
-                    nextQuestion.setText("Quiz Beenden");
+                    nextQuestion.setText("Quiz beenden");
                     nextQuestion.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent actionEvent) {
                             CheckAntwort();
                             panel.getChildren().clear();
                             panel.getChildren().add(quizTitel);
-                            Question.setText("Feedback zu Ihren Abgaben!");
+                            Question.setText("Feedback zu Ihren Abgaben");
                             for(int h = 0; h < Feedback.size(); h++){
                                 Text FeedbackText = new Text();
                                 FeedbackText.setText(Feedback.get(h));

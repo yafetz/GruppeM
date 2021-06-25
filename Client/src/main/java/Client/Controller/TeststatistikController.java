@@ -54,6 +54,8 @@ public class TeststatistikController {
     @FXML
     public Button back;
     @FXML
+    public Label quizname_Label;
+    @FXML
     private Label beteiligung;
 
     public Object getNutzer() {
@@ -325,6 +327,7 @@ public class TeststatistikController {
         layout.instanceLayout("quizUebersicht.fxml");
         ((QuizUebersichtController) layout.getController()).setLayout(layout);
         ((QuizUebersichtController) layout.getController()).quizSeiteAufrufen(nutzer, lehrveranstaltung);
+        ((QuizUebersichtController) layout.getController()).quizerstellen_LvTitel_Label.setText("Lehrveranstaltung " + lehrveranstaltung.getTitel() );
 
 
     }

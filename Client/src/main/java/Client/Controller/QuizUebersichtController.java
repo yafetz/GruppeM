@@ -28,6 +28,8 @@ import java.util.List;
 
 public class QuizUebersichtController {
     @FXML
+    public Label quizerstellen_LvTitel_Label;
+    @FXML
     private Label title;
     @FXML
     private Button createQuizButton;
@@ -93,6 +95,7 @@ public class QuizUebersichtController {
                                         layout.instanceLayout("statistik.fxml");
                                         ((TeststatistikController) layout.getController()).setQuiz(cell.getTableRow().getItem());
                                         ((TeststatistikController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
+                                        ((TeststatistikController) layout.getController()).quizname_Label.setText("\"" + cell.getTableRow().getItem().getTitel() + "\"");
                                         ((TeststatistikController) layout.getController()).setNutzer(nutzer);
                                         ((TeststatistikController) layout.getController()).setLayout(layout);
                                         ((TeststatistikController) layout.getController()).teilnahme();
