@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.HomescreenController">
    <children>
       <ScrollPane hbarPolicy="NEVER" layoutX="48.0" layoutY="135.0" prefHeight="526.0" prefWidth="923.0" vbarPolicy="AS_NEEDED">
@@ -40,8 +39,8 @@
                <children>
                   <TableView fx:id="freundeTabelle" prefHeight="526.0" prefWidth="297.0">
                      <columns>
-                        <TableColumn fx:id="vorname" prefWidth="146.66663110256195" text="Vorname" />
-                        <TableColumn fx:id="nachname" prefWidth="150.00010681152344" text="Nachname" />
+                        <TableColumn fx:id="vorname" prefWidth="118.66674554347992" text="Vorname" />
+                        <TableColumn fx:id="nachname" prefWidth="109.99988555908203" text="Nachname" />
                      </columns>
                   </TableView>
                </children>
