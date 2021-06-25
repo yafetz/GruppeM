@@ -25,10 +25,8 @@ public class FreundesListeController {
 
     @FXML
     private TableView<Nutzer> freundeTabelle;
-
     @FXML
     private TableColumn<Nutzer, String> vorname;
-
     @FXML
     private TableColumn<Nutzer, String> nachname;
 
@@ -58,45 +56,35 @@ public class FreundesListeController {
             JSONArray jsonObject = new JSONArray(response.body());
             vorname.setCellValueFactory(new PropertyValueFactory<>("vorname"));
             nachname.setCellValueFactory(new PropertyValueFactory<>("nachname"));
-            System.out.println(" Freundesliste json "+jsonObject);
-
-
+//            System.out.println(" Freundesliste json "+jsonObject);
 
             for(int i=0;i<jsonObject.length();i++){
                 long nutzerid= ((Student)nutzerInstanz).getNutzer().getId();
                 JSONObject nutzer= jsonObject.getJSONObject(i).getJSONObject("anfragender_nutzer");
                 JSONObject nutzer2= jsonObject.getJSONObject(i).getJSONObject("angefragter_nutzer");
                 JSONObject jsonObject1 = jsonObject.getJSONObject(0);
-                System.out.println("JSON OBJEKT1  "+jsonObject1);
+//                System.out.println("JSON OBJEKT1  "+jsonObject1);
                 if(jsonObject1.get("status").equals(true)){
 
                     if(nutzer.getLong("id")==nutzerid){
 
-                        System.out.println("If abfrage");
+//                        System.out.println("If abfrage");
 
                         Nutzer nutzer_2 = new Nutzer();
                         nutzer_2.setVorname(nutzer2.getString("vorname"));
                         nutzer_2.setNachname(nutzer2.getString("nachname"));
                         nutzer_2.setId(nutzer2.getInt("id"));
                         freundeTabelle.getItems().add(nutzer_2);
-
                     }
-
-
                     else{
-                        System.out.println("else abfrage");
+//                        System.out.println("else abfrage");
                         Nutzer nutzer1 = new Nutzer();
                         nutzer1.setVorname(nutzer.getString("vorname"));
                         nutzer1.setNachname(nutzer.getString("nachname"));
                         nutzer1.setId(nutzer.getInt("id"));
                         freundeTabelle.getItems().add(nutzer1);
-
                     }
-
                 }
-
-
-
             }
             vorname.setCellFactory(tablecell -> {
                 TableCell<Nutzer, String> cell = new TableCell<Nutzer, String>(){
@@ -110,7 +98,7 @@ public class FreundesListeController {
                 cell.setOnMouseClicked(e -> {
                             if (!cell.isEmpty()) {
                                 redirectToUserprofile(cell.getTableRow().getItem().getId());
-                                System.out.println("id vom angeklickten nutzer aus tabelle: " + cell.getTableRow().getItem().getId());
+//                                System.out.println("id vom angeklickten nutzer aus tabelle: " + cell.getTableRow().getItem().getId());
                             }
                         }
                 );
@@ -129,29 +117,22 @@ public class FreundesListeController {
                 cell.setOnMouseClicked(e -> {
                             if (!cell.isEmpty()) {
                                 redirectToUserprofile(cell.getTableRow().getItem().getId());
-                                System.out.println("id vom angeklickten nutzer aus tabelle: " + cell.getTableRow().getItem().getId());
+//                                System.out.println("id vom angeklickten nutzer aus tabelle: " + cell.getTableRow().getItem().getId());
                             }
                         }
                 );
-
                 return cell;
             });
-
-
-
             } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-
     }
 
     public void setNutzerInstanz (Object nutzerInstanz){
         this.nutzerInstanz = nutzerInstanz;
         populateTableView();
-
     }
 
 

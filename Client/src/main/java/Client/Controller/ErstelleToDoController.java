@@ -161,7 +161,7 @@ public class ErstelleToDoController {
                 public void changed(ObservableValue observable, Object oldValue, Object newValue) {
                     if(newValue != null){
                         selectedGruppenmitglied = ((Gruppenmitglied) newValue).getId();
-                        System.out.println(selectedGruppenmitglied);
+//                        System.out.println(selectedGruppenmitglied);
                     }
                 }
             });

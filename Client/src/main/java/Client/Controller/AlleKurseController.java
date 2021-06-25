@@ -282,7 +282,6 @@ public class AlleKurseController{
 
                 }
                 else {
-                    //System.out.println("LehrveranstaltungsId   "+lehrveranstaltungId);
                     layout.instanceLayout("lehrveranstaltungBeitreten.fxml");
                     ((LehrveranstaltungBeitretenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
                     ((LehrveranstaltungBeitretenController) layout.getController()).setLayout(layout);
