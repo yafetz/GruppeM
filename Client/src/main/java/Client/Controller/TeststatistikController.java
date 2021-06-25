@@ -134,6 +134,7 @@ public class TeststatistikController {
             passed.setTitle("Bestehensquote");
             passed.getData().get(0).getNode().setStyle("-fx-pie-color: green");
             passed.getData().get(1).getNode().setStyle("-fx-pie-color: red");
+            passed.setLegendVisible(false);
 
 
 
