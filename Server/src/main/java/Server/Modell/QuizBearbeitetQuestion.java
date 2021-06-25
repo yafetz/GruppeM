@@ -26,6 +26,30 @@ public class QuizBearbeitetQuestion {
     @JoinColumn(name= "nutzer_Id", nullable = false)
     private Nutzer nutzer;
 
+    public Boolean getKorrekt() {
+        return korrekt;
+    }
+
+    public void setKorrekt(Boolean korrekt) {
+        this.korrekt = korrekt;
+    }
+
+    public QuizQuestion getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(QuizQuestion question) {
+        this.question = question;
+    }
+
+    public Nutzer getNutzer() {
+        return nutzer;
+    }
+
+    public void setNutzer(Nutzer nutzer) {
+        this.nutzer = nutzer;
+    }
+
     @Override
     public String toString() {
         return "QuizBearbeitetQuestion{" +

@@ -13,7 +13,7 @@ import java.util.List;
 public interface QuizBearbeitetRepository extends JpaRepository<QuizBearbeitet,Long> {
     @Query("SELECT COUNT( DISTINCT qb.nutzer) FROM QuizBearbeitet qb WHERE qb.quiz.id LIKE ?1 ")
     int getAllStudent(long quiz_id);
-    @Query("SELECT COUNT(DISTINCT qb.nutzer) FROM QuizBearbeitet qb WHERE qb.bestanden LIKE true and qb.quiz.id LIKE ?1  ")
+    @Query("SELECT COUNT(DISTINCT qb.nutzer) FROM QuizBearbeitet qb WHERE qb.bestanden LIKE TRUE and qb.quiz.id LIKE ?1  ")
     int getAllStudentPassed(long quiz_id);
 
     @Query("SELECT qb.nutzer,  COUNT( qb.nutzer) as Anzahl FROM QuizBearbeitet qb WHERE qb.quiz.id LIKE ?1  GROUP BY qb.nutzer.id ")

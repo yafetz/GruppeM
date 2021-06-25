@@ -50,7 +50,7 @@ public class QuizBearbeitet {
         this.nutzer = nutzer;
     }
 
-    public boolean isBestanden() {
+    public Boolean getBestanden() {
         return bestanden;
     }
 
