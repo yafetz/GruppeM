@@ -152,7 +152,7 @@ public class QuizBearbeitenController {
         this.quiz = quiz;
     }
 
-    public void CheckAntwort(){
+    public boolean CheckAntwort(){
         boolean mindestenseinCheckBoxausgewählt = false;
         for (int i = 0; i < checkboxanswers.size(); i++) {
             if (checkboxanswers.get(i).isSelected()) {
@@ -165,6 +165,7 @@ public class QuizBearbeitenController {
             fehler.setTitle("Sie können nicht zur nächsten Frage wechseln");
             fehler.setContentText("Sie müssen mindestens eine Antwort auswählen");
             fehler.showAndWait();
+            return false;
         } else {
             //Check ob Aufgabe richtig gelöst wurde
             boolean correct = true;
@@ -180,35 +181,37 @@ public class QuizBearbeitenController {
                 Feedback.add("Die " + (quizIndex + 1) + ". Frage wurde falsch beantwortet");
             }
         }
+        return true;
     }
 
     public void nextQuestionMethod(ActionEvent actionEvent) {
-            CheckAntwort();
-            int nextQuestIndex = quizIndex + 1;
-            if (nextQuestIndex < fragen.size()) {
-                quizIndex++;
-                antworten = new ArrayList<>();
-                answers.getChildren().clear();
-                checkboxanswers.clear();
-                LoadAnswers();
-                if (nextQuestIndex + 1 == fragen.size()) {
-                    nextQuestion.setText("Quiz beenden");
-                    nextQuestion.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent actionEvent) {
-                            CheckAntwort();
-                            panel.getChildren().clear();
-                            panel.getChildren().add(quizTitel);
-                            Question.setText("Feedback zu Ihren Abgaben");
-                            for(int h = 0; h < Feedback.size(); h++){
-                                Text FeedbackText = new Text();
-                                FeedbackText.setText(Feedback.get(h));
-                                FeedbackText.setFont(new Font(40.0));
-                                questionVbox.getChildren().add(FeedbackText);
+            if(CheckAntwort()) {
+                int nextQuestIndex = quizIndex + 1;
+                if (nextQuestIndex < fragen.size()) {
+                    quizIndex++;
+                    antworten = new ArrayList<>();
+                    answers.getChildren().clear();
+                    checkboxanswers.clear();
+                    LoadAnswers();
+                    if (nextQuestIndex + 1 == fragen.size()) {
+                        nextQuestion.setText("Quiz beenden");
+                        nextQuestion.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent actionEvent) {
+                                CheckAntwort();
+                                panel.getChildren().clear();
+                                panel.getChildren().add(quizTitel);
+                                Question.setText("Feedback zu Ihren Abgaben");
+                                for (int h = 0; h < Feedback.size(); h++) {
+                                    Text FeedbackText = new Text();
+                                    FeedbackText.setText(Feedback.get(h));
+                                    FeedbackText.setFont(new Font(40.0));
+                                    questionVbox.getChildren().add(FeedbackText);
+                                }
+                                panel.getChildren().add(questionVbox);
                             }
-                            panel.getChildren().add(questionVbox);
-                        }
-                    });
+                        });
+                    }
                 }
             }
     }
