@@ -65,44 +65,33 @@ public class QuizController {
     }
 
     @PostMapping("createQuiz")
-    public String createQuiz(@RequestParam("questions") String questions, @RequestParam("titel") String titel ,@RequestParam("lehrenderId") long lehrenderId, @RequestParam("lehrveranstaltungsId") long lehrveranstaltungsId) throws JsonProcessingException {
-        if(questions.contains("},")){
-            String[] question = questions.split("},");
-            Quiz quiz = new Quiz();
-            quiz.setTitel(titel);
-            quiz.setLehrveranstaltung(lehrveranstaltungRepository.findLehrveranstaltungById(lehrveranstaltungsId));
-            quiz.setLehrender(lehrenderRepository.findLehrenderById(lehrenderId));
-            quizRepository.save(quiz);
-            for(int i = 0; i < question.length; i++){
-                String clearQuestion = question[i].replace("{","").replace("}","").replace("\"","").replace(",",":");
-                String[] questionAndAnswer = clearQuestion.split(":");
-                QuizQuestion qq = new QuizQuestion();
-                qq.setQuiz(quiz);
-                qq.setQuestion(questionAndAnswer[0]);
-                quizQuestionRepository.save(qq);
-                QuizAnswer qa = new QuizAnswer();
-                qa.setQuestion(qq);
-                int index = 0;
-                for(int j = 1; j < questionAndAnswer.length; j++){
-                    if(j%2 == 0){
-                        //isCorrect
-                        qa.setCorrect(Boolean.parseBoolean(questionAndAnswer[j]) );
-                        index++;
-                    }else{
-                        //Antwort
-                        qa.setAnswer(questionAndAnswer[j]);
-                        index++;
-                    }
-                    if(index == 2){
-                        quizAnswerRepository.save(qa);
-                        qa = new QuizAnswer();
-                        qa.setQuestion(qq);
-                        index = 0;
-                    }
-                }
-            }
-        }
-        return questions;
+    public String createQuiz(@RequestParam("titel") String titel ,@RequestParam("lehrenderId") long lehrenderId, @RequestParam("lehrveranstaltungsId") long lehrveranstaltungsId) throws JsonProcessingException {
+        Quiz quiz = new Quiz();
+        quiz.setTitel(titel);
+        quiz.setLehrveranstaltung(lehrveranstaltungRepository.findLehrveranstaltungById(lehrenderId));
+        quiz.setLehrender(lehrenderRepository.findLehrenderById(lehrenderId));
+        quizRepository.save(quiz);
+        return "OK: "+quiz.getId();
+    }
+
+    @PostMapping("createQuestion")
+    public String createQuizQuestionAndAnswers(@RequestParam("quiz")  long quiz,@RequestParam("question") List<String> question) throws JsonProcessingException {
+        System.out.println(question.toArray().toString());
+        for(int i = 0; i < question.size(); i++) {
+           QuizQuestion qq = new QuizQuestion();
+           qq.setQuiz(quizRepository.findById(quiz));
+           qq.setQuestion(question.get(i).split(";")[0]);
+           quizQuestionRepository.save(qq);
+           String[] answers = question.get(i).split(";");
+           for(int j = 1; j < answers.length; j+= 2){
+               QuizAnswer qa = new QuizAnswer();
+               qa.setQuestion(qq);
+               qa.setAnswer(answers[j]);
+               qa.setCorrect(Boolean.parseBoolean(answers[j+1]));
+               quizAnswerRepository.save(qa);
+           }
+       }
+        return "OK";
     }
 
 @GetMapping("alle/{lvId}")
