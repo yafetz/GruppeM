@@ -77,6 +77,7 @@ public class TeilnehmerListeController {
 
                 Nutzer nutzer1 = new Nutzer();
                 if (nutzerId instanceof Lehrender){
+
                     if(nutzer.get("vorname").equals(((Lehrender)nutzerId).getVorname()) && nutzer.get("nachname").equals(((Lehrender)nutzerId).getNachname())){
                         nutzer1.setRolle(nutzer.getString("rolle")+" (Ich)");
                     }

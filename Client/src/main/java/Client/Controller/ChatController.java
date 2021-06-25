@@ -99,7 +99,7 @@ public class ChatController {
 
     static JSONArray array = new JSONArray();
 
-    public void LadeNeueNachrichten() {
+    public String LadeNeueNachrichten() {
         finished = false;
         System.out.println("Start : " + System.currentTimeMillis() +" chat ID: "+ chatraumid);
         if (client == null) {
@@ -146,13 +146,19 @@ public class ChatController {
                     }
                 });
                 currentLength = array.length();
+                return "Nachrichten geladen";
             }
+
+
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
         System.out.println("End : " + System.currentTimeMillis());
         finished = true;
+        return "Nachrichten konnten nicht geladen";
     }
+
+
 
     public void sendeNachricht(ActionEvent actionEvent) {
         if (nachricht.getText() != "") {
@@ -162,7 +168,9 @@ public class ChatController {
         }
     }
 
-    private void addNachrichtToDatabase() {
+
+
+    private String addNachrichtToDatabase() {
         try (CloseableHttpClient client1 = HttpClients.createDefault()) {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
             LocalDateTime now = LocalDateTime.now();
@@ -187,6 +195,7 @@ public class ChatController {
                 //Weiterleitung zur Nutzerprofil Seite
                 if (result.equals("OK")) {
                     senden.setDisable(false);
+                    return "Senden erfolgreich";
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -194,6 +203,7 @@ public class ChatController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return "Senden fehlgeschlagen";
     }
 
     private void eigeneNachrichtAnzeigen(String text, String date) {
