@@ -28,6 +28,8 @@ import java.util.List;
 
 public class QuizUebersichtController {
     @FXML
+    public Button XMLQuizButton;
+    @FXML
     private Label title;
     @FXML
     private Button createQuizButton;
@@ -126,5 +128,12 @@ public class QuizUebersichtController {
 
     public void setLayout(Layout layout) {
         this.layout = layout;
+    }
+
+    public void pressedXMLQuiz(ActionEvent actionEvent) {
+        layout.instanceLayout("quizXMLUpload.fxml");
+        ((QuizXMLUploadController) layout.getController()).setLayout(layout);
+        ((QuizXMLUploadController) layout.getController()).setNutzerInstanz(nutzer);
+        ((QuizXMLUploadController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
     }
 }

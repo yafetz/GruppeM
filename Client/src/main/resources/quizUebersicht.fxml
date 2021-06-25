@@ -11,6 +11,7 @@
           <TableColumn fx:id="quizTitel" prefWidth="400.7999969482422" text="Quizname" />
         </columns>
       </TableView>
-      <Button fx:id="createQuizButton" layoutX="451.0" layoutY="88.0" mnemonicParsing="false" onAction="#pressedCreateQuizButton" text="Quiz erstellen" />
+      <Button fx:id="createQuizButton" layoutX="377.0" layoutY="88.0" mnemonicParsing="false" onAction="#pressedCreateQuizButton" text="Quiz erstellen" />
+       <Button fx:id="XMLQuizButton" layoutX="505.0" layoutY="88.0" mnemonicParsing="false" onAction="#pressedXMLQuiz" text="Quiz erstellen via XML" />
    </children>
 </AnchorPane>
