@@ -15,7 +15,7 @@ public class QuizBearbeitetQuestion {
     private Long id;
 
     @JsonProperty("korrekt")
-    private Boolean korrekt;
+    private boolean korrekt;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name= "question_id", nullable = false)
@@ -26,7 +26,7 @@ public class QuizBearbeitetQuestion {
     @JoinColumn(name= "nutzer_Id", nullable = false)
     private Nutzer nutzer;
 
-    public Boolean getKorrekt() {
+    public boolean getKorrekt() {
         return korrekt;
     }
 
