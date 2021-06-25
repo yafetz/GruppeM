@@ -116,7 +116,7 @@ public class ChatController {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        System.out.println("2");
+//                        System.out.println("2");
                         for (int i = 0; i < array.length(); i++) {
                             //Check if this is a message which is not shown
                             if (toIntExact(array.getJSONObject(i).getLong("id")) > lastMessage) {
@@ -180,7 +180,7 @@ public class ChatController {
             }
             HttpEntity requestEntity = entity.build();
             post.setEntity(requestEntity);
-            System.out.println("Sende Nachricht");
+//            System.out.println("Sende Nachricht");
             try (CloseableHttpResponse response = client1.execute(post)) {
                 HttpEntity responseEntity = response.getEntity();
                 String result = EntityUtils.toString(responseEntity);

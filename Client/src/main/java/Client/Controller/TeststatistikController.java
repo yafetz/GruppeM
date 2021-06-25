@@ -129,16 +129,13 @@ public class TeststatistikController {
             passed.setData(pieChartData);
             passed.setTitle("Bestehensquote");
 
-
-
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-
     }
+
     public void teilnahme() {
         HttpClient client = HttpClient.newHttpClient();
 
@@ -157,8 +154,6 @@ public class TeststatistikController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-
     }
 
     public int alleStudentenDesKurses(){
@@ -174,8 +169,6 @@ public class TeststatistikController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-
         return Integer.parseInt(response.body());
     }
 
@@ -230,14 +223,11 @@ public class TeststatistikController {
                quizquestion.setAnzahlKorrekt(objects.get(i));
                quizquestion.setQuestion(kurse.get(i));
                count.add(quizquestion);
-
-
             }
             frage.setCellValueFactory(new PropertyValueFactory<>("question"));
             korrekteAnzahl.setCellValueFactory(new PropertyValueFactory<>("anzahlKorrekt"));
             ObservableList<QuizQuestion> obsLv = FXCollections.observableList(count);
             table_korrekt.setItems(obsLv);
-
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -298,17 +288,10 @@ public class TeststatistikController {
             if(string.equals(hilfsListe.get(h))) {
                 counter++;
             }
-
         }
-
         if (counter== 0) {
             return false;
         }
-
-
-
-
-
        return true;
     }
 
@@ -317,7 +300,6 @@ public class TeststatistikController {
 
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/quiz/alleStudenten/"+ quiz.getId())).build();
         HttpResponse<String> response1 = null;
-      
 
         try {
             response1 = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -330,10 +312,8 @@ public class TeststatistikController {
         return Integer.parseInt(response1.body());
     }
 
-
     public void pressedBack(ActionEvent actionEvent) {
         actionEvent.consume();
-
         layout.instanceLayout("quizUebersicht.fxml");
         ((QuizUebersichtController) layout.getController()).setLayout(layout);
         ((QuizUebersichtController) layout.getController()).quizSeiteAufrufen(nutzer, lehrveranstaltung);

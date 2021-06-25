@@ -67,7 +67,7 @@ public class LehrmaterialController {
             obsFileList = FXCollections.observableList(fileList);
             listview_upload.setItems(obsFileList);
         } catch (Exception e) {
-            System.out.println("Dateiauswahl wurde abgebrochen.");
+//            System.out.println("Dateiauswahl wurde abgebrochen.");
         }
 
     }
@@ -108,7 +108,7 @@ public class LehrmaterialController {
                     e.printStackTrace();
                 }
             } else {
-                System.out.println("Keine Datei zum Hochladen ausgewählt!");
+//                System.out.println("Keine Datei zum Hochladen ausgewählt!");
             }
         } else if (modus.equals("CSV")) {
             if (fileList != null) {
@@ -121,7 +121,7 @@ public class LehrmaterialController {
                 for (File file : fileList) {
                     if(FilenameUtils.getExtension(file.getName()).equalsIgnoreCase("csv")){
                         entity.addPart("files", new FileBody(file));
-                        System.out.println(file.getName());
+//                        System.out.println(file.getName());
                         countCsv++;
                     }
                 }

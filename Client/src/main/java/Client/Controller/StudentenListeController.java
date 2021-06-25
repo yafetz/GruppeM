@@ -46,19 +46,14 @@ public class StudentenListeController {
 
     @FXML
     private TableView<Student> tabelle;
-
     @FXML
     private TableColumn<Student, String> Vorname;
-
     @FXML
     private TableColumn<Student, String> Nachname;
-
     @FXML
     private TableColumn<Student, Integer> matrNr;
-
     @FXML
     private TableColumn<Student, Integer> studentenId;
-
     @FXML
     private TextField suchtext;
     @FXML
@@ -79,7 +74,6 @@ public class StudentenListeController {
     }
 
     public void initialize() {
-
     }
 
     public Lehrveranstaltung getLehrveranstaltung() {
@@ -246,10 +240,10 @@ public class StudentenListeController {
             ObservableList<Student> obsLv = FXCollections.observableList(studenten);
             tabelle.setItems(obsLv);
         } catch (IOException e) {
-            System.out.println("ERROR HIER");
+//            System.out.println("ERROR HIER");
             e.printStackTrace();
         } catch (InterruptedException e) {
-            System.out.println("ERROR DA"); // xD
+//            System.out.println("ERROR DA");
             e.printStackTrace();
         }
     }

@@ -128,23 +128,17 @@ public class GruppenmitgliederController {
             ObjectMapper mapper = new ObjectMapper();
             if (response.body().contains("matrikelnummer")) {
                 Student vergleichNutzer = mapper.readValue(response.body(), Student.class);
-                System.out.println("vergleichnutzer: " + vergleichNutzer.getVorname() + vergleichNutzer.getNachname());
                 layout.instanceLayout("userprofile.fxml");
                 ((UserprofilController) layout.getController()).setLayout(layout);
                 if (layout.getController() instanceof UserprofilController) {
 
                     if(nutzerId instanceof  Student){
-
-                        System.out.println("nutzerId instanceof  Student : true");
                         if ( ((Student) nutzerId).getId() == vergleichNutzer.getId() ) {
-                            System.out.println("((Student) nutzerId).getId() == vergleichNutzer.getId() : true");
                             ((UserprofilController) layout.getController()).nutzerprofilAufrufen(nutzerId, nutzerId);
                         } else {
-                            System.out.println("layout.getController() instanceof UserprofilController : false");
                             ((UserprofilController) layout.getController()).nutzerprofilAufrufen(nutzerId, vergleichNutzer);
                         }
                     } else {
-                        System.out.println("nutzerId instanceof  Student : false" );
                         ((UserprofilController) layout.getController()).nutzerprofilAufrufen(nutzerId, vergleichNutzer);
                     }
                 }
@@ -243,7 +237,6 @@ public class GruppenmitgliederController {
                 cell.setOnMouseClicked(e -> {
                             if (!cell.isEmpty()) {
                                 redirectToUserprofile(cell.getTableRow().getItem().getId());
-//                                System.out.println("id vom angeklickten nutzer aus tabelle: " + cell.getTableRow().getItem().getId());
                             }
                         }
                 );

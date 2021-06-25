@@ -34,7 +34,6 @@ public class LehrveranstaltungBeitretenController implements Initializable {
     @FXML
     Button beitreten;
 
-
     private Lehrveranstaltung lehrveranstaltung;
     private Object nutzerInstanz;
     private long lehrveranstaltungsId;
@@ -53,7 +52,6 @@ public class LehrveranstaltungBeitretenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
     }
 
     public void lehrveranstaltungBeitreten(){
@@ -94,10 +92,10 @@ public class LehrveranstaltungBeitretenController implements Initializable {
 
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Hier");
+//            System.out.println("Hier");
         } catch (InterruptedException e) {
             e.printStackTrace();
-            System.out.println("Hier");
+//            System.out.println("Hier");
         }
         ;
     }
