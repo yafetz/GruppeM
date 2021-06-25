@@ -51,4 +51,7 @@ public class ChatController {
     public List<ChatNachrichten> alleNachrichten(@PathVariable long chat_id){
         return chatNachrichtenRepository.findChatNachrichtenByChat(chatRaumRepository.findChatRaumById(chat_id));
     }
+
+
+
 }

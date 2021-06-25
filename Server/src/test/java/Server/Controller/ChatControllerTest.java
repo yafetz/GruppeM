@@ -1,8 +1,11 @@
 package Server.Controller;
 
+import Server.Modell.ChatRaum;
+import Server.Modell.Freundschaft;
 import Server.Modell.Gruppenmitglied;
+import Server.Modell.Nutzer;
 import org.aspectj.lang.annotation.Before;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -39,9 +42,12 @@ public class ChatControllerTest {
 
 
 
-    @BeforeTestClass
+    @BeforeEach
     public void setUp() throws Exception{
-        this.mockMvc.perform(get("http://localhost:8080/chat/alleNachrichten/1")).andDo(print()).andExpect(status().isOk());
+
+
+
+    this.mockMvc.perform(get("http://localhost:8080/chat/alleNachrichten/1")).andDo(print()).andExpect(status().isOk());
 
     }
 
@@ -52,21 +58,19 @@ public class ChatControllerTest {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
 
-        this.mockMvc.perform(post("http://localhost:8080/chat/neueNachricht").param("chat_id", "1").param("nachricht", "Test Nachricht").param("datum",dtf.format(now)).param("nutzer_id","1")).andDo(print()).andExpect(status().isOk()).andExpect(content().string("OK"));
+
+
+        this.mockMvc.perform(post("http://localhost:8080/chat/neueNachricht").param("chat_id", "1").param("nachricht", "Test Nachricht").param("datum",dtf.format(now)).param("nutzer_id", "2")).andDo(print()).andExpect(status().isOk()).andExpect(content().string("OK"));
 
     }
 
-    @AfterTestClass
-    void afterrun(){
 
-    }
 
-    @Test
+    @AfterEach
     void alleNachrichten() throws Exception {
         this.mockMvc.perform(get("http://localhost:8080/chat/alleNachrichten/1")).andDo(print()).andExpect(status().isOk());
 
     }
-
 
 
 
