@@ -78,14 +78,14 @@ public class Student {
         return nutzerId.getNachname() + ", " + nutzerId.getVorname();
     }
 
+    public ObservableValue<Boolean> checkedProperty() {
+        return checked;
+    }
     public int getVersuche() {
         return versuche;
     }
 
     public void setVersuche(int versuche) {
         this.versuche = versuche;
-    }
-    public ObservableValue<Boolean> checkedProperty() {
-        return checked;
     }
 }

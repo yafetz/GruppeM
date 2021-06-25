@@ -14,6 +14,8 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import javafx.util.Callback;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -34,9 +36,9 @@ public class HomescreenController {
     @FXML private TableColumn<Lehrveranstaltung, String> col_LvArt;
     @FXML private TableColumn<Lehrveranstaltung, String> col_LvLehrende;
     @FXML public Button addCourseBtn;
-    @FXML private TableView<Nutzer> freundeTabelle;
-    @FXML private TableColumn<Nutzer, String> vorname;
-    @FXML private TableColumn<Nutzer, String> nachname;
+    @FXML private TableView<Freundschaft> freundeTabelle;
+    @FXML private TableColumn<Freundschaft, String> vorname;
+    @FXML private TableColumn<Freundschaft, String> nachname;
 
     private Object nutzerInstanz;
     private long nutzerId;
@@ -256,6 +258,8 @@ public class HomescreenController {
             e.printStackTrace();
         }
     }
+
+
     public void addCourse(ActionEvent actionEvent) {
         layout.instanceLayout("lehrveranstaltungErstellen.fxml");
         ((LehrveranstaltungErstellenController) layout.getController()).setLayout(layout);
@@ -271,41 +275,30 @@ public class HomescreenController {
 
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            JSONArray jsonObject = new JSONArray(response.body());
-            vorname.setCellValueFactory(new PropertyValueFactory<>("vorname"));
-            nachname.setCellValueFactory(new PropertyValueFactory<>("nachname"));
-//            System.out.println(" Freundesliste json "+jsonObject);
+            ObjectMapper mapper = new ObjectMapper();
+            List<Freundschaft> freundschaften = mapper.readValue(response.body(), new TypeReference<List<Freundschaft>>() {});
 
-            for(int i=0;i<jsonObject.length();i++){
+            for(int i=0;i<freundschaften.size();i++){
                 long nutzerid= ((Student)nutzerInstanz).getNutzer().getId();
-                JSONObject nutzer= jsonObject.getJSONObject(i).getJSONObject("anfragender_nutzer");
-                JSONObject nutzer2= jsonObject.getJSONObject(i).getJSONObject("angefragter_nutzer");
-                JSONObject jsonObject1 = jsonObject.getJSONObject(0);
-//                System.out.println("JSON OBJEKT1  "+jsonObject1);
-                if(jsonObject1.get("status").equals(true)){
+                if(freundschaften.get(i).isStatus()){
 
-                    if(nutzer.getLong("id")==nutzerid){
-
-//                        System.out.println("If abfrage");
-
-                        Nutzer nutzer_2 = new Nutzer();
-                        nutzer_2.setVorname(nutzer2.getString("vorname"));
-                        nutzer_2.setNachname(nutzer2.getString("nachname"));
-                        nutzer_2.setId(nutzer2.getInt("id"));
-                        freundeTabelle.getItems().add(nutzer_2);
+                    if(freundschaften.get(i).getAnfragender_nutzer().getId()==nutzerid){
+                        vorname.setCellValueFactory(new PropertyValueFactory<>("angefragter_nutzer_vorname"));
+                        nachname.setCellValueFactory(new PropertyValueFactory<>("angefragter_nutzer_nachname"));
+                        freundeTabelle.getItems().add(freundschaften.get(i));
                     }
                     else {
-//                        System.out.println("else abfrage");
-                        Nutzer nutzer1 = new Nutzer();
-                        nutzer1.setVorname(nutzer.getString("vorname"));
-                        nutzer1.setNachname(nutzer.getString("nachname"));
-                        nutzer1.setId(nutzer.getInt("id"));
-                        freundeTabelle.getItems().add(nutzer1);
+                        vorname.setCellValueFactory(new PropertyValueFactory<>("anfragender_nutzer_vorname"));
+                        nachname.setCellValueFactory(new PropertyValueFactory<>("anfragender_nutzer_nachname"));
+                        freundeTabelle.getItems().add(freundschaften.get(i));
                     }
                 }
             }
+
+            addButtonToTable("Chat");
+
             vorname.setCellFactory(tablecell -> {
-                TableCell<Nutzer, String> cell = new TableCell<Nutzer, String>(){
+                TableCell<Freundschaft, String> cell = new TableCell<Freundschaft, String>(){
                     @Override
                     protected void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty) ;
@@ -315,7 +308,13 @@ public class HomescreenController {
                 cell.setCursor(Cursor.HAND);
                 cell.setOnMouseClicked(e -> {
                             if (!cell.isEmpty()) {
-                                redirectToUserprofile(cell.getTableRow().getItem().getId());
+                                Freundschaft f = cell.getTableRow().getItem();
+                                long nutzerid= ((Student)nutzerInstanz).getNutzer().getId();
+                                if(f.getAnfragender_nutzer().getId() == nutzerid) {
+                                    redirectToUserprofile(f.getAngefragter_nutzer().getId());
+                                }else{
+                                    redirectToUserprofile(f.getAnfragender_nutzer().getId());
+                                }
 //                                System.out.println("id vom angeklickten nutzer aus tabelle: " + cell.getTableRow().getItem().getId());
                             }
                         }
@@ -324,7 +323,7 @@ public class HomescreenController {
                 return cell;
             });
             nachname.setCellFactory(tablecell -> {
-                TableCell<Nutzer, String> cell = new TableCell<Nutzer, String>(){
+                TableCell<Freundschaft, String> cell = new TableCell<Freundschaft, String>(){
                     @Override
                     protected void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty) ;
@@ -334,8 +333,13 @@ public class HomescreenController {
                 cell.setCursor(Cursor.HAND);
                 cell.setOnMouseClicked(e -> {
                             if (!cell.isEmpty()) {
-                                redirectToUserprofile(cell.getTableRow().getItem().getId());
-//                                System.out.println("id vom angeklickten nutzer aus tabelle: " + cell.getTableRow().getItem().getId());
+                                Freundschaft f = cell.getTableRow().getItem();
+                                long nutzerid= ((Student)nutzerInstanz).getNutzer().getId();
+                                if(f.getAnfragender_nutzer().getId() == nutzerid) {
+                                    redirectToUserprofile(f.getAngefragter_nutzer().getId());
+                                }else{
+                                    redirectToUserprofile(f.getAnfragender_nutzer().getId());
+                                }
                             }
                         }
                 );
@@ -348,6 +352,50 @@ public class HomescreenController {
             e.printStackTrace();
         }
     }
+
+
+    private void addButtonToTable(String methode) {
+        TableColumn<Freundschaft, Void> colBtn = new TableColumn(methode);
+
+        Callback<TableColumn<Freundschaft, Void>, TableCell<Freundschaft, Void>> cellFactory = new Callback<TableColumn<Freundschaft, Void>, TableCell<Freundschaft, Void>>() {
+            @Override
+            public TableCell<Freundschaft, Void> call(final TableColumn<Freundschaft, Void> param) {
+                final TableCell<Freundschaft, Void> cell = new TableCell<Freundschaft, Void>() {
+
+                    private final Button btn = new Button(methode);
+
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                            //Weiterleiten zum Chat
+                            long chatId = getTableRow().getItem().getChat().getId();
+                            layout.instanceLayout("chat.fxml");
+                            ((ChatController) layout.getController()).setLayout(layout);
+                            ((ChatController) layout.getController()).setChatraumid((int) chatId);
+                            ((ChatController) layout.getController()).setNutzer(nutzerInstanz);
+                            ((ChatController) layout.getController()).scheduler();
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+
+        colBtn.setCellFactory(cellFactory);
+
+        freundeTabelle.getColumns().add(colBtn);
+
+    }
+
 
     public void redirectToUserprofile(Integer teilnehmerId) {
         HttpClient client = HttpClient.newHttpClient();

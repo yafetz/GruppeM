@@ -20,6 +20,11 @@ public class Freundschaft {
     @JoinColumn(name="angefragter_id", nullable=false)
     private Nutzer angefragter_nutzer;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name= "chat_id", nullable = true)
+    //@JsonProperty("chatRaum")
+    private ChatRaum chat;
+
     @JoinColumn(name = "status", nullable = true )
     private boolean status;
 
@@ -53,5 +58,13 @@ public class Freundschaft {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public ChatRaum getChat() {
+        return chat;
+    }
+
+    public void setChat(ChatRaum chat) {
+        this.chat = chat;
     }
 }

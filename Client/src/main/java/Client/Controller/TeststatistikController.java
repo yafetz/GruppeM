@@ -240,11 +240,6 @@ public class TeststatistikController {
 
 
             }
-
-
-
-
-
             frage.setCellValueFactory(new PropertyValueFactory<>("question"));
             korrekteAnzahl.setCellValueFactory(new PropertyValueFactory<>("anzahlKorrekt"));
             ObservableList<QuizQuestion> obsLv = FXCollections.observableList(count);

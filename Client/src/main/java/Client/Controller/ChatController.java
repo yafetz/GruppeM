@@ -2,14 +2,9 @@ package Client.Controller;
 
 import Client.Layouts.Layout;
 import Client.Modell.Lehrender;
-import Client.Modell.Projektgruppe;
 import Client.Modell.Student;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -17,25 +12,18 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.OverrunStyle;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
-import javafx.util.Duration;
-import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.mime.MIME;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -44,11 +32,7 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import javafx.concurrent.*;
-
 import static java.lang.Math.toIntExact;
 
 public class ChatController {
@@ -117,7 +101,7 @@ public class ChatController {
 
     public void LadeNeueNachrichten() {
         finished = false;
-        System.out.println("Start : " + System.currentTimeMillis());
+        System.out.println("Start : " + System.currentTimeMillis() +" chat ID: "+ chatraumid);
         if (client == null) {
             client = HttpClient.newHttpClient();
         }
@@ -129,7 +113,6 @@ public class ChatController {
             //ObjectMapper mapper = new ObjectMapper();
             array = new JSONArray(response.body());
             if (currentLength != array.length()) {
-                System.out.println("1");
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {

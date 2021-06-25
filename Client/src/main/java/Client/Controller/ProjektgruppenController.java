@@ -98,6 +98,16 @@ public class ProjektgruppenController {
     private Projektgruppe projektgruppe;
     private List<Long> selectedStudentIds = new ArrayList<>();
 
+    private int chautraumId;
+
+    public int getChautraumId() {
+        return chautraumId;
+    }
+
+    public void setChautraumId(int chautraumId) {
+        this.chautraumId = chautraumId;
+    }
+
     private Layout layout;
 
     public Layout getLayout() {
@@ -228,6 +238,7 @@ public class ProjektgruppenController {
                         ((ProjektgruppenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
                         ((ProjektgruppenController) layout.getController()).setPGUebersichtLvTitel(lehrveranstaltung.getTitel());
                         ((ProjektgruppenController) layout.getController()).setPGUebersichtPGTitel(projektgruppe.getTitel());
+                        ((ProjektgruppenController) layout.getController()).setChautraumId((int) projektgruppe.getChat().getId());
                     }
                 } else {        //Student ist noch nicht Mitglied -> Beitrittsseite
                     layout.instanceLayout("projektgruppenbeitritt.fxml");
@@ -604,8 +615,7 @@ public class ProjektgruppenController {
     public void chatPressedButton(ActionEvent actionEvent) {
         layout.instanceLayout("chat.fxml");
         ((ChatController) layout.getController()).setLayout(layout);
-        ((ChatController) layout.getController()).setChatraumid(1);
-        System.out.println(nutzer);
+        ((ChatController) layout.getController()).setChatraumid(chautraumId);
         ((ChatController) layout.getController()).setNutzer(nutzer);
         ((ChatController) layout.getController()).scheduler();
 

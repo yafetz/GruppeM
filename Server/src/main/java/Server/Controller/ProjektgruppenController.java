@@ -5,14 +5,11 @@ import Server.Repository.*;
 import Server.Services.GruppenmitgliedService;
 import Server.Services.ProjektgruppenService;
 import Server.Services.TeilnehmerListeService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -27,9 +24,10 @@ public class ProjektgruppenController {
     private final GruppenmitgliedRepository gruppenmitgliedRepository;
     private final TeilnehmerListeRepository teilnehmerListeRepository;
     private final GruppenmitgliedService gruppenmitgliedService;
+    private final ChatRaumRepository chatRaumRepository;
 
     @Autowired
-    public ProjektgruppenController(ProjektgruppenRepository projektgruppenRepository, ProjektgruppenService projektgruppenService, LehrveranstaltungRepository lehrveranstaltungRepository, LehrenderRepository lehrenderRepository, StudentRepository studentRepository, NutzerRepository nutzerRepository, GruppenmitgliedRepository gruppenmitgliedRepository, TeilnehmerListeService teilnehmerListeService, TeilnehmerListeRepository teilnehmerListeRepository, GruppenmitgliedService gruppenmitgliedService) {
+    public ProjektgruppenController(ProjektgruppenRepository projektgruppenRepository, ProjektgruppenService projektgruppenService, LehrveranstaltungRepository lehrveranstaltungRepository, LehrenderRepository lehrenderRepository, StudentRepository studentRepository, NutzerRepository nutzerRepository, GruppenmitgliedRepository gruppenmitgliedRepository, TeilnehmerListeService teilnehmerListeService, TeilnehmerListeRepository teilnehmerListeRepository, GruppenmitgliedService gruppenmitgliedService, ChatRaumRepository chatRaumRepository) {
         this.projektgruppenRepository = projektgruppenRepository;
         this.projektgruppenService = projektgruppenService;
         this.lehrveranstaltungRepository = lehrveranstaltungRepository;
@@ -39,6 +37,7 @@ public class ProjektgruppenController {
         this.gruppenmitgliedRepository = gruppenmitgliedRepository;
         this.teilnehmerListeRepository = teilnehmerListeRepository;
         this.gruppenmitgliedService = gruppenmitgliedService;
+        this.chatRaumRepository = chatRaumRepository;
     }
 
     @PostMapping("/neu")

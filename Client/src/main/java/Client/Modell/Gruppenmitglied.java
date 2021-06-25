@@ -8,50 +8,10 @@ public class Gruppenmitglied {
     private int id;
     private Lehrveranstaltung lehrveranstaltung;
     private Student student;
-
-    public Projektgruppe getProjektgruppe() {
-        return projektgruppe;
-    }
-
-    public void setProjektgruppe(Projektgruppe projektgruppe) {
-        this.projektgruppe = projektgruppe;
-    }
-
     private Projektgruppe projektgruppe;
 
-
-
-
-    public Integer getId() {
+    public int getId() {
         return id;
-    }
-
-    private final StringProperty vorname = new SimpleStringProperty();
-
-    public final StringProperty vornameProperty() {
-        return vorname;
-    }
-
-    public final String getVorname() {
-        return vorname.get();
-    }
-
-    public final void setVorname(String value) {
-        vorname.set(value);
-    }
-
-    private final StringProperty nachname = new SimpleStringProperty();
-
-    public final StringProperty nachnameProperty() {
-        return nachname;
-    }
-
-    public final String getNachname() {
-        return nachname.get();
-    }
-
-    public final void setNachname(String value) {
-        nachname.set(value);
     }
 
     public void setId(int id) {
@@ -72,5 +32,13 @@ public class Gruppenmitglied {
 
     public void setStudent(Student student) {
         this.student = student;
+    }
+
+    public Projektgruppe getProjektgruppe() {
+        return projektgruppe;
+    }
+
+    public void setProjektgruppe(Projektgruppe projektgruppe) {
+        this.projektgruppe = projektgruppe;
     }
 }
