@@ -117,7 +117,7 @@ public class CreateQuizController {
                 try (CloseableHttpResponse response = client.execute(post)) {
                     HttpEntity responseEntity = response.getEntity();
                     String result = EntityUtils.toString(responseEntity);
-                    System.out.println(result);
+//                    System.out.println(result);
                     if(result.contains("OK:")) {
                         try (CloseableHttpClient client1 = HttpClients.createDefault()) {
 
@@ -142,7 +142,7 @@ public class CreateQuizController {
                             try (CloseableHttpResponse response1 = client1.execute(post1)) {
                                 HttpEntity responseEntity1 = response1.getEntity();
                                 String result1 = EntityUtils.toString(responseEntity1);
-                                System.out.println("Fragen gesendet!");
+//                                System.out.println("Fragen gesendet!");
                                 if(result1.contains("OK")) {
 
                                     layout.instanceLayout("quizUebersicht.fxml");

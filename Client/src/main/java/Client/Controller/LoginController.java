@@ -45,7 +45,6 @@ public class LoginController {
 
     // called by the FXML loader after the labels declared above are injected:
     public void initialize() {
-
     }
 
     @FXML

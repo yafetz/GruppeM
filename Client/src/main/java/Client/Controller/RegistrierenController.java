@@ -162,6 +162,7 @@ public class RegistrierenController {
             return true;
         }
     }
+
     public void registrieren(){
         String vornameText = vorname.getText();
         String nachnameText = nachname.getText();

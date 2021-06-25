@@ -135,7 +135,7 @@ public class CalenderController {
         long nutzerId = 0;
         if( layout.getNutzer() instanceof Lehrender ){
             nutzerId = ((Lehrender) layout.getNutzer()).getNutzerId().getId();
-            System.out.println(nutzerId);
+//            System.out.println(nutzerId);
         }else if(layout.getNutzer() instanceof Student){
             nutzerId = ((Student) layout.getNutzer()).getNutzer().getId();
         }
@@ -337,7 +337,7 @@ public class CalenderController {
                         if(selectedLvId != 0) {
                             String VonDateTime = "";
                             String BisDateTime = "";
-                            System.out.println(vonMinutes.getText().length() + " " + vonMinutes.getText());
+//                            System.out.println(vonMinutes.getText().length() + " " + vonMinutes.getText());
                             String vonM = vonMinutes.getText();
                             String vonH = vonHour.getText();
                             String bisM = bisMinutes.getText();
@@ -401,7 +401,7 @@ public class CalenderController {
             String url = "http://localhost:8080/kalender/neuerTermin";
             HttpPost post = new HttpPost(url);
             MultipartEntityBuilder entity = MultipartEntityBuilder.create();
-            System.out.println("von: " + von +" bis: "+ bis);
+//            System.out.println("von: " + von +" bis: "+ bis);
             entity.setCharset(StandardCharsets.UTF_8);
             entity.addTextBody("titel", titel );
             entity.addTextBody("von", von);
@@ -420,7 +420,7 @@ public class CalenderController {
             try (CloseableHttpResponse response = client1.execute(post)) {
                 HttpEntity responseEntity = response.getEntity();
                 String result = EntityUtils.toString(responseEntity);
-                System.out.println("Sende Nachricht");
+//                System.out.println("Sende Nachricht");
                 if (result.equals("OK")) {
                     LadeAlleTermine();
 
@@ -459,7 +459,7 @@ public class CalenderController {
             try (CloseableHttpResponse response = client1.execute(post)) {
                 HttpEntity responseEntity = response.getEntity();
                 String result = EntityUtils.toString(responseEntity);
-                System.out.println("Sende Nachricht");
+//                System.out.println("Sende Nachricht");
                 if (result.equals("OK")) {
                     LadeAlleTermine();
 
@@ -479,7 +479,7 @@ public class CalenderController {
         long nutzerId = 0;
         if( layout.getNutzer() instanceof Lehrender ){
             nutzerId = ((Lehrender) layout.getNutzer()).getNutzerId().getId();
-            System.out.println(nutzerId);
+//            System.out.println(nutzerId);
         }else if(layout.getNutzer() instanceof Student){
             nutzerId = ((Student) layout.getNutzer()).getNutzer().getId();
         }
@@ -531,7 +531,7 @@ public class CalenderController {
                         }else if(newValue instanceof Lehrveranstaltung) {
                             selectedLvId = ((Lehrveranstaltung) newValue).getId();
                         }
-                        System.out.println(selectedLvId);
+//                        System.out.println(selectedLvId);
                     }
                 }
             });

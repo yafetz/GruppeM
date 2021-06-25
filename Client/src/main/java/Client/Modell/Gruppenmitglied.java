@@ -1,5 +1,5 @@
 package Client.Modell;
-
+import Client.Modell.Student;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;

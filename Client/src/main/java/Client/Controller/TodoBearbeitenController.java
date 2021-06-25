@@ -74,8 +74,6 @@ public class TodoBearbeitenController {
         deadlineLabel.setText("Deadline (aktuell: " + toDoItem.getDeadline() + ")");
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         deadline.setValue(LocalDate.parse(toDoItem.getDeadline(),dtf));
-
-
     }
 
     public Layout getLayout() {
@@ -187,7 +185,7 @@ public class TodoBearbeitenController {
                     ((ToDoListeController) layout.getController()).setProjektgruppe(projektgruppe);
                     ((ToDoListeController) layout.getController()).populateTableView();
                 } else {
-                    System.out.println("result: " + result);
+//                    System.out.println("result: " + result);
                 }
                 layout.instanceLayout("toDoListe.fxml");
                 ((ToDoListeController) layout.getController()).setLayout(layout);

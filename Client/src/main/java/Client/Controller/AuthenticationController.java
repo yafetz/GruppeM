@@ -31,7 +31,6 @@ public class AuthenticationController {
     private Object nutzerInstanz;
     private Layout layout;
 
-
     String code=null;
     String user_code= null;
 
@@ -51,20 +50,13 @@ public class AuthenticationController {
 
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println("ID "+id);
-            System.out.println("RESPONSE ABFRAGE         "+response.body());
             code= response.body();
-
-
-
-
 
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
     }
 
     @FXML
@@ -81,12 +73,11 @@ public class AuthenticationController {
             fehler.setContentText("Sie haben einen falschen Code eingegeben! Sie finden ihren Code in ihrer Email!");
             fehler.setHeaderText("Falscher Code!");
             fehler.showAndWait();
-            System.out.println("Usercode " +user_code);
-            System.out.println("Code "+code);
+//            System.out.println("Usercode " +user_code);
+//            System.out.println("Code "+code);
         }
-
-
     }
+
     public void cancelPressedButton(ActionEvent actionEvent) {
         actionEvent.consume();
         layout.instanceAuth("login.fxml");
@@ -102,8 +93,6 @@ public class AuthenticationController {
 
     public void setNutzerInstanz(Object nutzerInstanz) {
         this.nutzerInstanz = nutzerInstanz;
-
-
         sendMail();
     }
 }

@@ -32,12 +32,10 @@ public class QuizUebersichtController {
     @FXML
     private Button createQuizButton;
     private Object nutzer;
-
     @FXML
     private TableView<Quiz> quizTable;
     @FXML
     public TableColumn<Quiz, String> quizTitel;
-
 
     private Lehrveranstaltung lehrveranstaltung;
     private Layout layout;
@@ -62,6 +60,7 @@ public class QuizUebersichtController {
         }
         quizzeAufrufen();
     }
+
     public void quizzeAufrufen() {
 
         HttpClient client = HttpClient.newHttpClient();
@@ -102,8 +101,6 @@ public class QuizUebersichtController {
                                         ((TeststatistikController) layout.getController()).showPieChart();
                                         ((TeststatistikController) layout.getController()).populateTableviewVersuch();
                                         ((TeststatistikController) layout.getController()).populateTableviewKorrekt();
-
-
                                     }
                                 }
                             });
@@ -118,16 +115,15 @@ public class QuizUebersichtController {
         }
     }
 
+    public void setNutzer (Object nutzer){
+    }
 
-        public void setNutzer (Object nutzer){
-        }
-
-        public void pressedCreateQuizButton (ActionEvent actionEvent) {
-            actionEvent.consume();
-            layout.instanceLayout("createQuiz.fxml");
-            ((CreateQuizController) layout.getController()).setLayout(layout);
-            ((CreateQuizController) layout.getController()).setNutzer(nutzer,lehrveranstaltung);
-        }
+    public void pressedCreateQuizButton (ActionEvent actionEvent) {
+        actionEvent.consume();
+        layout.instanceLayout("createQuiz.fxml");
+        ((CreateQuizController) layout.getController()).setLayout(layout);
+        ((CreateQuizController) layout.getController()).setNutzer(nutzer,lehrveranstaltung);
+    }
 
     public void setLayout(Layout layout) {
         this.layout = layout;

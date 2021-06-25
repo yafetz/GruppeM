@@ -55,7 +55,6 @@ public class GruppenUploadController {
     }
 
     public void initialize() {
-
     }
 
     public void durchsuchenPressedButton(ActionEvent actionEvent) {
@@ -68,9 +67,8 @@ public class GruppenUploadController {
             obsFileList = FXCollections.observableList(fileList);
             listview_upload.setItems(obsFileList);
         } catch (Exception e) {
-            System.out.println("Dateiauswahl wurde abgebrochen.");
+//            System.out.println("Dateiauswahl wurde abgebrochen.");
         }
-
     }
 
     public void hochladenPressedButton(ActionEvent actionEvent) {
@@ -107,6 +105,7 @@ public class GruppenUploadController {
                             ((ProjektgruppenController) layout.getController()).setLehrveranstaltung(projektgruppe.getLehrveranstaltung());
                             ((ProjektgruppenController) layout.getController()).setPGUebersichtLvTitel(projektgruppe.getLehrveranstaltung().getTitel());
                             ((ProjektgruppenController) layout.getController()).setPGUebersichtPGTitel(projektgruppe.getTitel());
+                            ((ProjektgruppenController) layout.getController()).setLayout(layout);
                             ((ProjektgruppenController) layout.getController()).populateMaterialTable();
                         }
                     }
@@ -114,9 +113,8 @@ public class GruppenUploadController {
                     e.printStackTrace();
                 }
             } else {
-                System.out.println("Keine Datei zum Hochladen ausgewählt!");
+//                System.out.println("Keine Datei zum Hochladen ausgewählt!");
             }
-
     }
 
     public void abbrechenPressedButton(ActionEvent actionEvent) {

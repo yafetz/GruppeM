@@ -92,7 +92,6 @@ public class ProjektgruppenController {
 
     long gruppenid;
 
-
     private Object nutzer;
     private Lehrveranstaltung lehrveranstaltung;
     private Projektgruppe projektgruppe;
@@ -208,7 +207,6 @@ public class ProjektgruppenController {
                 }
             }
 
-
             ObservableList<Projektgruppe> obsPG = FXCollections.observableList(projektgruppen);
             pgListe_tableview.setItems(obsPG);
 
@@ -224,7 +222,6 @@ public class ProjektgruppenController {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             ObjectMapper mapper = new ObjectMapper();
             Projektgruppe projektgruppe = mapper.readValue(response.body(), Projektgruppe.class);
-            System.out.println("Weiterleitung");
             if (nutzer instanceof Student) {        //nur Studenten dürfen Projektgruppen beitreten
                 long studentID = ((Student) nutzer).getId();
                 request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/projektgruppe/checkMember/" + id + "&" + studentID)).build();
@@ -233,12 +230,15 @@ public class ProjektgruppenController {
                     layout.instanceLayout("projektgruppeUebersicht.fxml");
                     ((ProjektgruppenController) layout.getController()).setLayout(layout);
                     ((ProjektgruppenController) layout.getController()).setNutzer(nutzer);
+
+
                     if (layout.getController() instanceof ProjektgruppenController) {
                         ((ProjektgruppenController) layout.getController()).setProjektgruppe(projektgruppe);
                         ((ProjektgruppenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
                         ((ProjektgruppenController) layout.getController()).setPGUebersichtLvTitel(lehrveranstaltung.getTitel());
                         ((ProjektgruppenController) layout.getController()).setPGUebersichtPGTitel(projektgruppe.getTitel());
                         ((ProjektgruppenController) layout.getController()).setChautraumId((int) projektgruppe.getChat().getId());
+                        ((ProjektgruppenController) layout.getController()).populateMaterialTable();
                     }
                 } else {        //Student ist noch nicht Mitglied -> Beitrittsseite
                     layout.instanceLayout("projektgruppenbeitritt.fxml");
@@ -262,7 +262,6 @@ public class ProjektgruppenController {
                     ((ProjektgruppenController) layout.getController()).populateNeueTableView();
                     ((ProjektgruppenController) layout.getController()).addCheckBoxToTable("neue");
                     ((ProjektgruppenController) layout.getController()).selectedStudentIds = new ArrayList<>();
-
                 }
             }
         } catch (IOException | InterruptedException e) {
@@ -324,12 +323,7 @@ public class ProjektgruppenController {
             //JSONArray jsonObject = new JSONArray(response.body());
 
             ObjectMapper objectMapper = new ObjectMapper();
-            System.out.println("Objectmapper " +response.body());
             List<Gruppenmaterial> gruppenmaterials = objectMapper.readValue(response.body(), new TypeReference<List<Gruppenmaterial>>(){});
-
-
-            System.out.println("JSON Objekt " + gruppenmaterials.get(0).getTitel());
-
 
             gruppenmaterial.setCellValueFactory(new PropertyValueFactory<>("Titel"));
             gruppenmaterial.setCellFactory(tablecell -> {
@@ -395,7 +389,6 @@ public class ProjektgruppenController {
                                     }
                                 }
                             }
-                            System.out.println(selectedStudentIds);
                         });
                     }
                     @Override
@@ -423,7 +416,6 @@ public class ProjektgruppenController {
 
     // anklicken von "Projektgruppe erstellen"-Button auf der Seite zur Erstellung einer neuen Projektgruppe
     public void erstellenPressedButton(ActionEvent actionEvent) {
-        System.out.println("student id     "+selectedStudentIds);
         actionEvent.consume();
         String pgTitel = pgTitel_txtfield.getText().trim();
         if (pgTitel.equals("")) {
@@ -637,15 +629,13 @@ public class ProjektgruppenController {
             ((GruppenUploadController) layout.getController()).setLayout(layout);
             ((GruppenUploadController) layout.getController()).setNutzerInstanz(nutzer);
             ((GruppenUploadController) layout.getController()).setProjektgruppe(projektgruppe);
-
         }
-
-
     }
 
     public void memberPressedButton(ActionEvent actionEvent) throws IOException, InterruptedException {
         layout.instanceLayout("gruppenmitglieder.fxml");
         ((GruppenmitgliederController) layout.getController()).setLayout(layout);
+        ((GruppenmitgliederController) layout.getController()).setNutzerId(nutzer);
         ((GruppenmitgliederController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
         ((GruppenmitgliederController) layout.getController()).setProjektgruppe(projektgruppe);
         ((GruppenmitgliederController) layout.getController()).populateTableView();
@@ -663,7 +653,6 @@ public class ProjektgruppenController {
 
             ObjectMapper mapper = new ObjectMapper();
             JSONArray allegruppenmaterialien = new JSONArray(response.body());
-            System.out.println("PRojekt gruppen JSON MATERIAL" + allegruppenmaterialien);
             //List<Lehrmaterial> lehrmaterial = mapper.readValue(response.body(), new TypeReference<List<Lehrmaterial>>() {});
             gruppenmaterial.setCellValueFactory(new PropertyValueFactory<>("titel"));
             gruppenmaterial.setCellFactory(tablecell -> {
@@ -716,7 +705,6 @@ public class ProjektgruppenController {
             e.printStackTrace();
         }
     }
-
 
     public void zurueckPressedButton(ActionEvent actionEvent) {
         actionEvent.consume();
