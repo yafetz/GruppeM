@@ -646,6 +646,7 @@ public class ProjektgruppenController {
     public void memberPressedButton(ActionEvent actionEvent) throws IOException, InterruptedException {
         layout.instanceLayout("gruppenmitglieder.fxml");
         ((GruppenmitgliederController) layout.getController()).setLayout(layout);
+        ((GruppenmitgliederController) layout.getController()).setNutzerId(nutzer);
         ((GruppenmitgliederController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
         ((GruppenmitgliederController) layout.getController()).setProjektgruppe(projektgruppe);
         ((GruppenmitgliederController) layout.getController()).populateTableView();
