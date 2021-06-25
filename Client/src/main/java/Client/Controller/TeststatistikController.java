@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Side;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
@@ -123,11 +124,17 @@ public class TeststatistikController {
 
             ObservableList<PieChart.Data> pieChartData =
                     FXCollections.observableArrayList(
-                            new PieChart.Data("Bestanden", bestanden),
-                            new PieChart.Data("Durchgefallen", durchgefallen)
+                            new PieChart.Data("Bestanden",36),
+                            new PieChart.Data("Durchgefallen", 64)
                     );
+
+
+
             passed.setData(pieChartData);
             passed.setTitle("Bestehensquote");
+            passed.getData().get(0).getNode().setStyle("-fx-pie-color: green");
+            passed.getData().get(1).getNode().setStyle("-fx-pie-color: red");
+
 
 
 
