@@ -1,19 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="569.0" prefWidth="744.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.CreateQuizController">
+<AnchorPane prefHeight="569.0" prefWidth="744.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.CreateQuizController">
    <children>
-      <Button fx:id="newQuestion" layoutX="163.0" layoutY="322.0" mnemonicParsing="false" onAction="#pressedNewQuestion" text="Neue Frage hinzufügen" />
-      <Button fx:id="create" layoutX="158.0" layoutY="462.0" mnemonicParsing="false" onAction="#pressedCreate" text="Erstellen" />
-      <Label layoutX="164.0" layoutY="137.0" text="Frage" />
-      <TextField fx:id="questionField" layoutX="167.0" layoutY="155.0" prefHeight="26.0" prefWidth="179.0" text="Bitte Geben Sie eine Fragen ein" />
-      <TextField fx:id="answerField" layoutX="167.0" layoutY="227.0" text="Antwort" />
-      <Label layoutX="164.0" layoutY="205.0" text="Antwortmöglichkeit" />
-      <Button fx:id="newAnswer" layoutX="163.0" layoutY="285.0" mnemonicParsing="false" onAction="#pressedNewAnswer" text="Neue Antwort hinzufügen" />
-      <CheckBox fx:id="correct" layoutX="327.0" layoutY="231.0" mnemonicParsing="false" onAction="#isCorrect" text="Korrekt" />
-      <TextField fx:id="quiz_titel" layoutX="166.0" layoutY="104.0" text="Quiztitel" />
-      <Label layoutX="165.0" layoutY="79.0" text="Titel" />
+      <Button fx:id="create" layoutX="517.0" layoutY="458.0" mnemonicParsing="false" onAction="#pressedCreate" prefHeight="25.0" prefWidth="183.0" text="Quiz erstellen" />
+      <CheckBox fx:id="correct" layoutX="517.0" layoutY="291.0" mnemonicParsing="false" onAction="#isCorrect" text="Antwortmöglichkeit ist korrekt" />
+      <Label layoutX="46.0" layoutY="28.0" text="Quiz erstellen">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="quiz_LvTitel_Label" layoutX="46.0" layoutY="70.0" text="Lehrveranstaltung XYZ">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <VBox layoutX="45.0" layoutY="126.0" prefHeight="357.0" prefWidth="459.0">
+         <children>
+            <Label text="Titel" />
+            <TextField fx:id="quiz_titel" promptText="Quiztitel eingeben">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </TextField>
+            <Label text="Frage">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Label>
+            <TextArea fx:id="questionTextArea" prefHeight="200.0" prefWidth="200.0" promptText="Frage eingeben" />
+            <Label text="Antwortmöglichkeit">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Label>
+            <TextArea fx:id="answerTextArea" prefHeight="200.0" prefWidth="200.0" promptText="Antwortmöglichkeit eingeben">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </TextArea>
+            <Button fx:id="newAnswer" mnemonicParsing="false" onAction="#pressedNewAnswer" prefHeight="25.0" prefWidth="478.0" text="Neue Antwort hinzufügen">
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="newQuestion" mnemonicParsing="false" onAction="#pressedNewQuestion" prefHeight="25.0" prefWidth="523.0" text="Neue Frage hinzufügen">
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

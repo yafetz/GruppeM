@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="836.0" prefWidth="1213.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.TeststatistikController">
+<AnchorPane prefHeight="836.0" prefWidth="1213.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.TeststatistikController">
    <children>
       <PieChart fx:id="passed" layoutX="478.0" layoutY="46.0" prefHeight="261.0" prefWidth="340.0" title="Bestehensquote">
       </PieChart>
@@ -21,7 +24,7 @@
          </font>
       </Label>
       <Label fx:id="beteiligung" layoutX="105.0" layoutY="131.0" prefHeight="167.0" prefWidth="357.0" text="beteiligung" />
-      <TableView fx:id="table_versuch" layoutX="64.0" layoutY="380.0" prefHeight="200.0" prefWidth="309.0">
+      <TableView fx:id="table_versuch" layoutX="105.0" layoutY="370.0" prefHeight="200.0" prefWidth="309.0">
         <columns>
           <TableColumn fx:id="student" prefWidth="154.20001220703125" text="Student" />
           <TableColumn fx:id="versuch" prefWidth="154.60000610351562" text="Versuche" />

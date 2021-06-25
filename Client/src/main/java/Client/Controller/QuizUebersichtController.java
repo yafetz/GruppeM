@@ -46,11 +46,9 @@ public class QuizUebersichtController {
         this.nutzer = nutzer;
         this.lehrveranstaltung = lehrveranstaltung;
 
-
         if (nutzer != null) {
             if (nutzer instanceof Lehrender) {
                 title.setText(((Lehrveranstaltung) lehrveranstaltung).getTitel());
-
 
             } else if (nutzer instanceof Student) {
                 title.setText(((Lehrveranstaltung) lehrveranstaltung).getTitel());
@@ -123,6 +121,7 @@ public class QuizUebersichtController {
         layout.instanceLayout("createQuiz.fxml");
         ((CreateQuizController) layout.getController()).setLayout(layout);
         ((CreateQuizController) layout.getController()).setNutzer(nutzer,lehrveranstaltung);
+        ((CreateQuizController) layout.getController()).quiz_LvTitel_Label.setText("Lehrveranstaltung " + lehrveranstaltung.getTitel());
     }
 
     public void setLayout(Layout layout) {

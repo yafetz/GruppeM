@@ -31,6 +31,12 @@ import java.util.Map;
 
 public class CreateQuizController {
     @FXML
+    public Label quiz_LvTitel_Label;
+    @FXML
+    public TextArea questionTextArea;
+    @FXML
+    public TextArea answerTextArea;
+    @FXML
     private Button newQuestion;
     @FXML
     private Button create;
@@ -68,20 +74,20 @@ public class CreateQuizController {
 
     public void pressedNewQuestion(ActionEvent actionEvent) {
         if(answers.size() > 0) {
-            if (questionField.getText() != ""
-                    && !questionField.getText().contains(",")
-                    && !questionField.getText().contains(":")
-                    && !questionField.getText().contains("{")
-                    && !questionField.getText().contains("}")) {
-                if (answerField.getText() != "") {
-                    answers.put(answerField.getText(), correct.isSelected());
+            if (questionTextArea.getText() != ""
+                    && !questionTextArea.getText().contains(",")
+                    && !questionTextArea.getText().contains(":")
+                    && !questionTextArea.getText().contains("{")
+                    && !questionTextArea.getText().contains("}")) {
+                if (answerTextArea.getText() != "") {
+                    answers.put(answerTextArea.getText(), correct.isSelected());
                     correct.setSelected(false);
                 }
-                answerField.setText("");
+                answerTextArea.setText("");
                 correct.setSelected(false);
-                questions.put(questionField.getText(), answers);
+                questions.put(questionTextArea.getText(), answers);
 
-                questionField.setText("");
+                questionTextArea.setText("");
                 answers = new HashMap<>();
             } else {
                 Alert fehler = new Alert(Alert.AlertType.ERROR);
@@ -95,7 +101,6 @@ public class CreateQuizController {
             fehler.setContentText("Sie müssen Antworten eingeben bevor Sie eine Neue Frage hinzufügen können! ");
             fehler.showAndWait();
         }
-
     }
 
     public void pressedCreate(ActionEvent actionEvent) {
@@ -168,13 +173,14 @@ public class CreateQuizController {
     }
 
     public void pressedNewAnswer(ActionEvent actionEvent) {
-        if (answerField.getText() != ""
-                && !questionField.getText().contains(",")
-                && !questionField.getText().contains(":")
-                && !questionField.getText().contains("{")
-                && !questionField.getText().contains("}")) {
-            answers.put(answerField.getText(), correct.isSelected());
-            answerField.setText("");
+//        System.out.println("Eingegebene Antwortmöglichkeit: " + answerTextArea.getText());
+        if (answerTextArea.getText() != ""
+                    && !questionTextArea.getText().contains(",")
+                    && !questionTextArea.getText().contains(":")
+                    && !questionTextArea.getText().contains("{")
+                    && !questionTextArea.getText().contains("}")) {
+            answers.put(answerTextArea.getText(), correct.isSelected());
+            answerTextArea.setText("");
             correct.setSelected(false);
         }else{
             Alert fehler = new Alert(Alert.AlertType.ERROR);
