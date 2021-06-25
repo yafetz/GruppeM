@@ -107,6 +107,7 @@ public class GruppenUploadController {
                             ((ProjektgruppenController) layout.getController()).setLehrveranstaltung(projektgruppe.getLehrveranstaltung());
                             ((ProjektgruppenController) layout.getController()).setPGUebersichtLvTitel(projektgruppe.getLehrveranstaltung().getTitel());
                             ((ProjektgruppenController) layout.getController()).setPGUebersichtPGTitel(projektgruppe.getTitel());
+                            ((ProjektgruppenController) layout.getController()).setLayout(layout);
                             ((ProjektgruppenController) layout.getController()).populateMaterialTable();
                         }
                     }

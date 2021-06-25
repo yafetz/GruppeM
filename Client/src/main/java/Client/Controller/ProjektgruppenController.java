@@ -233,12 +233,15 @@ public class ProjektgruppenController {
                     layout.instanceLayout("projektgruppeUebersicht.fxml");
                     ((ProjektgruppenController) layout.getController()).setLayout(layout);
                     ((ProjektgruppenController) layout.getController()).setNutzer(nutzer);
+
+
                     if (layout.getController() instanceof ProjektgruppenController) {
                         ((ProjektgruppenController) layout.getController()).setProjektgruppe(projektgruppe);
                         ((ProjektgruppenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
                         ((ProjektgruppenController) layout.getController()).setPGUebersichtLvTitel(lehrveranstaltung.getTitel());
                         ((ProjektgruppenController) layout.getController()).setPGUebersichtPGTitel(projektgruppe.getTitel());
                         ((ProjektgruppenController) layout.getController()).setChautraumId((int) projektgruppe.getChat().getId());
+                        ((ProjektgruppenController) layout.getController()).populateMaterialTable();
                     }
                 } else {        //Student ist noch nicht Mitglied -> Beitrittsseite
                     layout.instanceLayout("projektgruppenbeitritt.fxml");
