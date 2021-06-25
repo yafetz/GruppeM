@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -113,13 +114,12 @@ public class QuizBearbeitenController {
 
     private void addAnswer(String answer) {
         CheckBox check = new CheckBox();
-        check.setPrefHeight(90.0);
-        check.setPrefWidth(444.0);
-        check.setStyle("-fx-padding: 25 25 25 25; -fx-background-color: white; -fx-background-radius: 10.0;");
+        check.setStyle("-fx-padding: 10 0 0 10; -fx-background-radius: 10.0;");
         check.setWrapText(true);
+        check.setAlignment(Pos.CENTER_LEFT);
         check.setText(answer);
-        check.setFont(new Font(24.0));
-        answers.setPadding(new Insets(20,0,20,0));
+        check.setFont(new Font(18.0));
+        answers.setPadding(new Insets(10,0,10,0));
         answers.getChildren().add(check);
         checkboxanswers.add(check);
     }
@@ -183,7 +183,7 @@ public class QuizBearbeitenController {
                 Feedback.add("Die " + (quizIndex + 1) + ". Frage wurde richtig beantwortet");
                 korrekteFragen++;
             } else {
-                Feedback.add("Die " + (quizIndex + 1) + ". Frage wurde falsch beantwortet");
+                Feedback.add("     Die " + (quizIndex + 1) + ". Frage wurde falsch beantwortet");
             }
             try (CloseableHttpClient client1 = HttpClients.createDefault()) {
 
@@ -232,7 +232,8 @@ public class QuizBearbeitenController {
                                 for (int h = 0; h < Feedback.size(); h++) {
                                     Text FeedbackText = new Text();
                                     FeedbackText.setText(Feedback.get(h));
-                                    FeedbackText.setFont(new Font(40.0));
+                                    FeedbackText.setFont(new Font(18.0));
+                                    FeedbackText.setStyle("-fx-padding: 10 0 0 10; -fx-background-radius: 10.0;");
                                     questionVbox.getChildren().add(FeedbackText);
                                 }
                                 double quote = (double) korrekteFragen/fragen.size();

@@ -117,18 +117,6 @@ public class CalenderController {
         timer.play();
     }
 
-    public boolean checkIfTerminInAlleTermine(Termin termin){
-        boolean output = false;
-
-        for(int i = 0; i < alleTermine.size(); i++){
-            if(alleTermine.get(i).getId().equals(termin.getId())){
-                output = true;
-                break;
-            }
-        }
-
-        return output;
-    }
 
     private void LadeAlleTermine() {
         HttpClient client = HttpClient.newHttpClient();

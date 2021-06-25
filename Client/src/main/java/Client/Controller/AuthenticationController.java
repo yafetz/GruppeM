@@ -31,8 +31,8 @@ public class AuthenticationController {
     private Object nutzerInstanz;
     private Layout layout;
 
-    String code=null;
-    String user_code= null;
+    private String code = null;
+    private String user_code = null;
 
     public void sendMail(){
 
