@@ -370,6 +370,7 @@ public class ProjektgruppenController {
                 return cell;
             });
             ObservableList<Gruppenmaterial> obsLv = FXCollections.observableList(gruppenmaterials);
+            System.out.println("GRUPPENMATERIAL LISTE:  " +obsLv);
             MaterialListe.setItems(obsLv);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();

@@ -7,11 +7,14 @@ import Server.Modell.Nutzer;
 import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.event.annotation.AfterTestClass;
 import org.springframework.test.context.event.annotation.BeforeTestClass;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -19,6 +22,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -34,20 +38,23 @@ public class ChatControllerTest {
     private MockMvc mockMvc;
 
 
-    @Autowired
-    private ChatController chatController;
 
-    @Autowired
-    private Gruppenmitglieder gruppenmitglieder;
-
-
+        String content;
+        String afterContent;
+        int before;
+        int after;
 
     @BeforeEach
     public void setUp() throws Exception{
 
 
+    MvcResult result = this.mockMvc.perform(get("http://localhost:8080/chat/alleNachrichten/1")).andDo(print()).andExpect(status().isOk()).andReturn();
 
-    this.mockMvc.perform(get("http://localhost:8080/chat/alleNachrichten/1")).andDo(print()).andExpect(status().isOk());
+
+     content = result.getResponse().getContentAsString();
+
+
+
 
     }
 
@@ -60,15 +67,29 @@ public class ChatControllerTest {
 
 
 
-        this.mockMvc.perform(post("http://localhost:8080/chat/neueNachricht").param("chat_id", "1").param("nachricht", "Test Nachricht").param("datum",dtf.format(now)).param("nutzer_id", "2")).andDo(print()).andExpect(status().isOk()).andExpect(content().string("OK"));
+        this.mockMvc.perform(post("http://localhost:8080/chat/neueNachricht").param("chat_id", "1").param("nachricht", "UNITttttt").param("datum",dtf.format(now)).param("nutzer_id", "2")).andDo(print()).andExpect(status().isOk()).andExpect(content().string("OK"));
+
+
+
+
+
+
+
+
 
     }
 
 
 
+
+
     @AfterEach
     void alleNachrichten() throws Exception {
-        this.mockMvc.perform(get("http://localhost:8080/chat/alleNachrichten/1")).andDo(print()).andExpect(status().isOk());
+        MvcResult result = this.mockMvc.perform(get("http://localhost:8080/chat/alleNachrichten/1")).andDo(print()).andExpect(status().isOk()).andReturn();
+        afterContent = result.getResponse().getContentAsString();
+
+
+
 
     }
 
