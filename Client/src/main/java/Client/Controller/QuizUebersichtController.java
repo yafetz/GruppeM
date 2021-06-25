@@ -125,6 +125,7 @@ public class QuizUebersichtController {
         public void pressedCreateQuizButton (ActionEvent actionEvent) {
             actionEvent.consume();
             layout.instanceLayout("createQuiz.fxml");
+            ((CreateQuizController) layout.getController()).setLayout(layout);
             ((CreateQuizController) layout.getController()).setNutzer(nutzer,lehrveranstaltung);
         }
 

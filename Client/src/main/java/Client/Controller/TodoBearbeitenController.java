@@ -28,7 +28,9 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.text.DateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -70,7 +72,8 @@ public class TodoBearbeitenController {
         todo_titel.setText(toDoItem.getTitel());
         zustaendigkeitLabel.setText("Zuständigkeit (aktuell: " + toDoItem.getVerantwortliche() + ")");
         deadlineLabel.setText("Deadline (aktuell: " + toDoItem.getDeadline() + ")");
-        System.out.println(toDoItem.getId());
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        deadline.setValue(LocalDate.parse(toDoItem.getDeadline(),dtf));
 
 
     }
@@ -112,11 +115,16 @@ public class TodoBearbeitenController {
             List<Gruppenmitglied> mitglied = mapper.readValue(response.body(), new TypeReference<List<Gruppenmitglied>>() {});
             ObservableList<Gruppenmitglied> obsLv = FXCollections.observableList(mitglied);
             gruppenmitglieder.setItems(obsLv);
+            for(int i = 0; i < gruppenmitglieder.getItems().size(); i++){
+                if(gruppenmitglieder.getItems().get(i).getStudent().getNutzer().getVorname().equals(toDoItem.getVerantwortliche())){
+                    gruppenmitglieder.setValue(gruppenmitglieder.getItems().get(i));
+                }
+            }
             gruppenmitglieder.setConverter(new StringConverter() {
                 @Override
                 public String toString(Object object) {
                     if(object != null) {
-                        return ((Gruppenmitglied) object).getStudent().getVorname();
+                        return ((Gruppenmitglied) object).getStudent().getNutzer().getVorname();
                     }else{
                         return "";
                     }
@@ -125,7 +133,7 @@ public class TodoBearbeitenController {
                 @Override
                 public Object fromString(String string) {
                     return gruppenmitglieder.getItems().stream().filter(ap ->
-                            ((Gruppenmitglied)ap).getStudent().getVorname().equals(string)).findFirst().orElse(null);
+                            ((Gruppenmitglied)ap).getStudent().getNutzer().getVorname().equals(string)).findFirst().orElse(null);
                 }
             });
             gruppenmitglieder.valueProperty().addListener(new ChangeListener() {
@@ -133,7 +141,6 @@ public class TodoBearbeitenController {
                 public void changed(ObservableValue observable, Object oldValue, Object newValue) {
                     if(newValue != null){
                         selectedGruppenmitglied = ((Gruppenmitglied) newValue).getId();
-                        System.out.println(selectedGruppenmitglied);
                     }
                 }
             });
@@ -174,7 +181,6 @@ public class TodoBearbeitenController {
                     toDoItem.setTitel(todo_titel.getText());
                     toDoItem.setDeadline(deadline.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
                     toDoItem.setVerantwortliche( String.valueOf(gruppenmitglieder.getSelectionModel().getSelectedItem().getStudent().getVorname()));
-
                     layout.instanceLayout("toDoListe.fxml");
                     ((ToDoListeController) layout.getController()).setLayout(layout);
                     ((ToDoListeController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
