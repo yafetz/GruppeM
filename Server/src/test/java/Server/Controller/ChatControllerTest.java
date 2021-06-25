@@ -67,7 +67,7 @@ public class ChatControllerTest {
 
 
 
-        this.mockMvc.perform(post("http://localhost:8080/chat/neueNachricht").param("chat_id", "1").param("nachricht", "UNITttttt").param("datum",dtf.format(now)).param("nutzer_id", "2")).andDo(print()).andExpect(status().isOk()).andExpect(content().string("OK"));
+        this.mockMvc.perform(post("http://localhost:8080/chat/neueNachricht").param("chat_id", "1").param("nachricht", "UNIT Test").param("datum",dtf.format(now)).param("nutzer_id", "2")).andDo(print()).andExpect(status().isOk()).andExpect(content().string("OK"));
 
 
 
