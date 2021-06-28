@@ -5,15 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class QuizAnswer {
 
     private Long id;
-
-
     private String answer;
-
-
     private boolean isCorrect;
-
-
     private QuizQuestion question;
+
 
     public Long getId() {
         return id;
