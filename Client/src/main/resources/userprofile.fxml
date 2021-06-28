@@ -50,11 +50,6 @@
                   <Insets top="100.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="Freundschaftsliste" mnemonicParsing="false" onAction="#FreundeslisteWeiterleitung" prefWidth="173.0" text="Meine Freunde">
-               <VBox.margin>
-                  <Insets top="25.0" />
-               </VBox.margin>
-            </Button>
             <Button fx:id="meineAnfragen" mnemonicParsing="false" onAction="#freundschaftsAnfrageWeiterleitung" prefWidth="173.0" text="Meine Freundschaftsanfragen">
                <VBox.margin>
                   <Insets top="25.0" />

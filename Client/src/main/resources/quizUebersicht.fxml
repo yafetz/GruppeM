@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="581.0" prefWidth="753.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.QuizUebersichtController">
+<AnchorPane prefHeight="581.0" prefWidth="753.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.QuizUebersichtController">
    <children>
       <Label fx:id="title" layoutX="51.0" layoutY="29.0" text="Quizliste" wrapText="true">
          <font>
@@ -18,8 +15,8 @@
           <TableColumn fx:id="quizTitel" prefWidth="485.99997838338214" text="Quizname" />
         </columns>
       </TableView>
-       <Button fx:id="XMLQuizButton" layoutX="505.0" layoutY="88.0" mnemonicParsing="false" onAction="#pressedXMLQuiz" text="Quiz erstellen via XML" />
-      <Button fx:id="createQuizButton" layoutX="449.0" layoutY="97.0" mnemonicParsing="false" onAction="#pressedCreateQuizButton" text="Quiz erstellen" />
+       <Button fx:id="XMLQuizButton" layoutX="404.0" layoutY="85.0" mnemonicParsing="false" onAction="#pressedXMLQuiz" text="Quiz erstellen via XML" />
+      <Button fx:id="createQuizButton" layoutX="295.0" layoutY="85.0" mnemonicParsing="false" onAction="#pressedCreateQuizButton" text="Quiz erstellen" />
       <Label fx:id="quizerstellen_LvTitel_Label" layoutX="51.0" layoutY="80.0" text="Lehrveranstaltung XYZ" />
    </children>
 </AnchorPane>

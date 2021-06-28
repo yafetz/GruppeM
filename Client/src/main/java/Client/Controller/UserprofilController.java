@@ -77,8 +77,6 @@ public class UserprofilController {
     @FXML
     private Label lehrstuhlOderMatrNrTextLabel;
     @FXML
-    private Button Freundschaftsliste;
-    @FXML
     private Button meineAnfragen;
     @FXML
     private Label forschungsgebietOderStudienfachTextLabel;
@@ -136,7 +134,7 @@ public class UserprofilController {
             //Diese If-Bedingung tritt ein, wenn der Nutzer sich selbst aufruft
             anfrage.setVisible(false);
             meineAnfragen.setVisible(true);
-            Freundschaftsliste.setVisible(true);
+            //Freundschaftsliste.setVisible(true);
             // Sicht eines Lehrenden auf sein eigenes Profil
             if (eigenerNutzer instanceof Lehrender) {
                 username.setText(((Lehrender) eigenerNutzer).getNutzerId().getVorname() +" "+ ((Lehrender) eigenerNutzer).getNutzerId().getNachname());
@@ -173,7 +171,7 @@ public class UserprofilController {
 
         // Diese else If tritt ein, wenn der Nutzer auf einen anderen Nutzer klickt
         else if (eigenerNutzer != vergleichNutzer) {
-            Freundschaftsliste.setVisible(false);
+            //Freundschaftsliste.setVisible(false);
             meineAnfragen.setVisible(false);
             long nutzer_id =0;
             long profil_id =0;
@@ -195,7 +193,7 @@ public class UserprofilController {
                     lehrstuhlOderMatrNrTextLabel.setText("Lehrstuhl");
                     forschungsgebietOderStudienfachTextLabel.setText("Forschungsgebiet");
                     anfrage.setVisible(false);
-                    Freundschaftsliste.setVisible(false);
+                    //Freundschaftsliste.setVisible(false);
                 }
 
                 //Sicht eines Lehrenden auf das Profil eines Studenten
@@ -214,7 +212,7 @@ public class UserprofilController {
                     lehrstuhlOderMatrNrTextLabel.setText("Matrikelnummer");
                     forschungsgebietOderStudienfachTextLabel.setText("Studienfach");
                     anfrage.setVisible(false);
-                    Freundschaftsliste.setVisible(false);
+                    //Freundschaftsliste.setVisible(false);
                 }
             }
 

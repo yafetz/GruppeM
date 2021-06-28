@@ -15,7 +15,7 @@ public class QuizBearbeitetQuestion {
     private Long id;
 
     @JsonProperty("korrekt")
-    private Boolean korrekt;
+    private boolean korrekt;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name= "question_id", nullable = false)
@@ -25,6 +25,30 @@ public class QuizBearbeitetQuestion {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name= "nutzer_Id", nullable = false)
     private Nutzer nutzer;
+
+    public boolean getKorrekt() {
+        return korrekt;
+    }
+
+    public void setKorrekt(Boolean korrekt) {
+        this.korrekt = korrekt;
+    }
+
+    public QuizQuestion getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(QuizQuestion question) {
+        this.question = question;
+    }
+
+    public Nutzer getNutzer() {
+        return nutzer;
+    }
+
+    public void setNutzer(Nutzer nutzer) {
+        this.nutzer = nutzer;
+    }
 
     @Override
     public String toString() {

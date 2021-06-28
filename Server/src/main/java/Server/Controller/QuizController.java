@@ -21,6 +21,7 @@ public class QuizController {
 
     private LehrveranstaltungRepository lehrveranstaltungRepository;
     private LehrenderRepository lehrenderRepository;
+    private NutzerRepository nutzerRepository;
     private QuizRepository quizRepository;
     private QuizQuestionRepository quizQuestionRepository;
     private QuizAnswerRepository quizAnswerRepository;
@@ -29,7 +30,7 @@ public class QuizController {
     private TeilnehmerListeRepository teilnehmerListeRepository;
 
     @Autowired
-    public QuizController(LehrveranstaltungRepository lehrveranstaltungRepository, LehrenderRepository lehrenderRepository, QuizRepository quizRepository, QuizQuestionRepository quizQuestionRepository, QuizAnswerRepository quizAnswerRepository, QuizBearbeitetRepository quizBearbeitet, QuizBearbeitetQuestionRepository quizBearbeitetQuestionRepository, TeilnehmerListeRepository teilnehmerListeRepository){
+    public QuizController(NutzerRepository nutzerRepository,LehrveranstaltungRepository lehrveranstaltungRepository, LehrenderRepository lehrenderRepository, QuizRepository quizRepository, QuizQuestionRepository quizQuestionRepository, QuizAnswerRepository quizAnswerRepository, QuizBearbeitetRepository quizBearbeitet, QuizBearbeitetQuestionRepository quizBearbeitetQuestionRepository, TeilnehmerListeRepository teilnehmerListeRepository){
         this.lehrveranstaltungRepository = lehrveranstaltungRepository;
         this.lehrenderRepository = lehrenderRepository;
         this.quizRepository = quizRepository;
@@ -38,6 +39,7 @@ public class QuizController {
         this.quizBearbeitet = quizBearbeitet;
         this.quizBearbeitetQuestionRepository = quizBearbeitetQuestionRepository;
         this.teilnehmerListeRepository=teilnehmerListeRepository;
+        this.nutzerRepository = nutzerRepository;
     }
 
     @GetMapping("alleStudenten/{quizId}")
@@ -193,4 +195,24 @@ public List<QuizQuestion> getAlleFragen(@PathVariable("quizId") long quizId){
 public List<QuizAnswer> getAlleAntworten(@PathVariable("quizQuestionId") long quizQuestionId){
         return quizAnswerRepository.findAllByQuestion(quizQuestionRepository.findById(quizQuestionId));
 }
+
+@PostMapping("bearbeitetQuiz")
+public String addBearbeitetQuiz(@RequestParam("nutzerId") long nutzerId, @RequestParam("quizId") long quizId, @RequestParam("bestanden") boolean bestanden){
+    QuizBearbeitet qb = new QuizBearbeitet();
+    qb.setBestanden(bestanden);
+    qb.setQuiz(quizRepository.findById(quizId));
+    qb.setNutzer( nutzerRepository.findNutzerById(nutzerId));
+        quizBearbeitet.save(qb);
+return "OK";
+}
+    @PostMapping("bearbeitetQuizQuestion")
+    public String addBearbeitetQuizQuestion(@RequestParam("nutzerId") long nutzerId, @RequestParam("questionId") long questionId, @RequestParam("korrekt") boolean korrekt){
+        QuizBearbeitetQuestion qbq = new QuizBearbeitetQuestion();
+        qbq.setKorrekt(korrekt);
+        qbq.setQuestion(quizQuestionRepository.findById(questionId));
+        qbq.setNutzer(nutzerRepository.findNutzerById(nutzerId));
+        quizBearbeitetQuestionRepository.save(qbq);
+        return "OK";
+    }
+
 }

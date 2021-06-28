@@ -91,6 +91,7 @@ public class QuizUebersichtController {
                                     if(nutzer instanceof Student) {
                                         layout.instanceLayout("quizBearbeiten.fxml");
                                         ((QuizBearbeitenController) layout.getController()).setQuiz(cell.getTableRow().getItem());
+                                        ((QuizBearbeitenController) layout.getController()).setNutzer(nutzer);
                                         ((QuizBearbeitenController) layout.getController()).setUpQuiz();
                                     }
                                     else if(nutzer instanceof Lehrender) {

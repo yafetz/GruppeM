@@ -1,10 +1,7 @@
 package Client.Controller;
 
 import Client.Layouts.Layout;
-import Client.Modell.Lehrveranstaltung;
-import Client.Modell.Quiz;
-import Client.Modell.QuizAnswer;
-import Client.Modell.QuizQuestion;
+import Client.Modell.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,14 +18,20 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class QuizBearbeitenController {
     @FXML
@@ -55,6 +58,7 @@ public class QuizBearbeitenController {
     private List<QuizAnswer> antworten;
     private List<CheckBox> checkboxanswers;
     private List<String> Feedback = new ArrayList<>();
+    private int korrekteFragen = 0;
 
     public void setUpQuiz(){
         quizTitel.setText("Quiz: "+ quiz.getTitel());
@@ -176,9 +180,32 @@ public class QuizBearbeitenController {
                 }
             }
             if (correct) {
-                Feedback.add("     Die " + (quizIndex + 1) + ". Frage wurde richtig beantwortet");
+                Feedback.add("Die " + (quizIndex + 1) + ". Frage wurde richtig beantwortet");
+                korrekteFragen++;
             } else {
                 Feedback.add("     Die " + (quizIndex + 1) + ". Frage wurde falsch beantwortet");
+            }
+            try (CloseableHttpClient client1 = HttpClients.createDefault()) {
+
+                String url1 = "http://localhost:8080/quiz/bearbeitetQuizQuestion";
+                HttpPost post1 = new HttpPost(url1);
+                MultipartEntityBuilder entity1 = MultipartEntityBuilder.create();
+                entity1.addTextBody("nutzerId", String.valueOf(((Student) nutzer).getId()));
+                entity1.addTextBody("questionId", String.valueOf(fragen.get(quizIndex).getId()) );
+                if(correct){
+                    entity1.addTextBody("korrekt","true" );
+                }else{
+                    entity1.addTextBody("korrekt","false" );
+                }
+                HttpEntity requestEntity1 = entity1.build();
+                post1.setEntity(requestEntity1);
+
+                try (CloseableHttpResponse response1 = client1.execute(post1)) {
+                    HttpEntity responseEntity1 = response1.getEntity();
+                    String result1 = EntityUtils.toString(responseEntity1);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
         return true;
@@ -209,6 +236,30 @@ public class QuizBearbeitenController {
                                     FeedbackText.setStyle("-fx-padding: 10 0 0 10; -fx-background-radius: 10.0;");
                                     questionVbox.getChildren().add(FeedbackText);
                                 }
+                                double quote = (double) korrekteFragen/fragen.size();
+
+                                            try (CloseableHttpClient client1 = HttpClients.createDefault()) {
+
+                                                String url1 = "http://localhost:8080/quiz/bearbeitetQuiz";
+                                                HttpPost post1 = new HttpPost(url1);
+                                                MultipartEntityBuilder entity1 = MultipartEntityBuilder.create();
+                                                entity1.addTextBody("nutzerId", String.valueOf(((Student) nutzer).getId()));
+                                                entity1.addTextBody("quizId", String.valueOf(quiz.getId()) );
+                                                if(quote >= 0.5){
+                                                    entity1.addTextBody("bestanden","true" );
+                                                }else{
+                                                    entity1.addTextBody("bestanden","false" );
+                                                }
+                                                HttpEntity requestEntity1 = entity1.build();
+                                                post1.setEntity(requestEntity1);
+
+                                                try (CloseableHttpResponse response1 = client1.execute(post1)) {
+                                                    HttpEntity responseEntity1 = response1.getEntity();
+                                                    String result1 = EntityUtils.toString(responseEntity1);
+                                                }
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
                                 panel.getChildren().add(questionVbox);
                             }
                         });
