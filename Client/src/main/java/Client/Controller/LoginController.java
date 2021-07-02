@@ -33,7 +33,7 @@ public class LoginController {
 
     private Layout layout;
     //If 0 then deactivate 2 Faktor, if 1 activate
-    private int auth = 0;
+    private int auth = 1;
 
     public Layout getLayout() {
         return layout;
