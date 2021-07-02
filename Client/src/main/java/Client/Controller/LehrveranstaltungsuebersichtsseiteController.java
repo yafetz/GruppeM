@@ -31,12 +31,10 @@ public class LehrveranstaltungsuebersichtsseiteController {
     private TableColumn<Lehrmaterial, String> teachMat;
     @FXML
     private TableView<Lehrmaterial> material;
-
     @FXML
     private Button teilnehmerListe;
     private Lehrveranstaltung lehrveranstaltung;
     private Object nutzer;
-
     @FXML
     private Button studentenliste;
 
@@ -147,7 +145,6 @@ public class LehrveranstaltungsuebersichtsseiteController {
         this.nutzer = nutzer;
         this.lehrveranstaltung= lehrveranstaltung;
 
-
         if (nutzer != null) {
             if (nutzer instanceof Lehrender) {
                 title.setText(((Lehrveranstaltung) lehrveranstaltung).getTitel());
@@ -162,11 +159,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
                 studentenliste.setVisible(false);
                 getMaterial((Lehrveranstaltung) lehrveranstaltung);
             }
-
         }
-
-
-
     }
 
     public void projektgruppePressedButton(ActionEvent actionEvent) {
@@ -184,5 +177,6 @@ public class LehrveranstaltungsuebersichtsseiteController {
         layout.instanceLayout("quizUebersicht.fxml");
         ((QuizUebersichtController) layout.getController()).setLayout(layout);
         ((QuizUebersichtController) layout.getController()).quizSeiteAufrufen(nutzer,lehrveranstaltung);
+        ((QuizUebersichtController) layout.getController()).quizerstellen_LvTitel_Label.setText("Lehrveranstaltung " + lehrveranstaltung.getTitel() );
     }
 }

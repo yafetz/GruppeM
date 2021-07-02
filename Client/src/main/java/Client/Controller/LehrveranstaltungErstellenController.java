@@ -40,13 +40,10 @@ import java.util.HashMap;
 public class LehrveranstaltungErstellenController {
     @FXML
     private TextField titels;
-
     @FXML
     private TextField semesters;
-
     @FXML
     private Button erstellen;
-
     @FXML
     private Button addCSV;
     @FXML
@@ -68,15 +65,11 @@ public class LehrveranstaltungErstellenController {
     }
 
     public void initialize() {
-
     }
+
     public void uebersichtsseiteAufrufen(Object nutzer) {
         this.nutzerInstanz = nutzer;
-
-
     }
-
-
 
     @FXML
     private void erstellenPressedButton(ActionEvent event) {
@@ -120,12 +113,8 @@ public class LehrveranstaltungErstellenController {
             }
         }
         else {
-            System.out.println("Falsches Semester");
+//            System.out.println("Falsches Semester");
         }
-
-
-
-
     }
 
         public Object getNutzerInstanz () {
@@ -135,8 +124,7 @@ public class LehrveranstaltungErstellenController {
 
         this.nutzerInstanz = nutzerInstanz;
         typVorlesung.setItems(options);
-
-        }
+    }
 
     public void AddCsv(ActionEvent actionEvent) {
         layout.instanceLayout("lehrmaterialUpload.fxml");

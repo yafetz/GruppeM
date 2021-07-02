@@ -63,13 +63,12 @@ public class HomescreenController {
         populateMeineKurseTableview();
         populateFreundeslisteTableView();
         if (nutzerInstanz instanceof Student) {
-            System.out.println("nutzerInstanz ist Instanz von Student");
+//            System.out.println("nutzerInstanz ist Instanz von Student");
             addCourseBtn.setVisible(false);
         } else if (nutzerInstanz instanceof Lehrender) {
-            System.out.println("nutzerInstanz ist Instanz von Lehrender");
+//            System.out.println("nutzerInstanz ist Instanz von Lehrender");
         }
     }
-
 
     public void populateMeineKurseTableview() {
         HttpClient client = HttpClient.newHttpClient();
@@ -117,7 +116,6 @@ public class HomescreenController {
                 cell.setOnMouseClicked(e -> {
                             if (!cell.isEmpty()) {
                                 redirectToCourseOverview(cell.getTableRow().getItem().getId());
-
                             }
                         }
                 );
@@ -259,7 +257,6 @@ public class HomescreenController {
         }
     }
 
-
     public void addCourse(ActionEvent actionEvent) {
         layout.instanceLayout("lehrveranstaltungErstellen.fxml");
         ((LehrveranstaltungErstellenController) layout.getController()).setLayout(layout);
@@ -353,7 +350,6 @@ public class HomescreenController {
         }
     }
 
-
     private void addButtonToTable(String methode) {
         TableColumn<Freundschaft, Void> colBtn = new TableColumn(methode);
 
@@ -389,13 +385,9 @@ public class HomescreenController {
                 return cell;
             }
         };
-
         colBtn.setCellFactory(cellFactory);
-
         freundeTabelle.getColumns().add(colBtn);
-
     }
-
 
     public void redirectToUserprofile(Integer teilnehmerId) {
         HttpClient client = HttpClient.newHttpClient();

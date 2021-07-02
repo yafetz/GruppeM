@@ -1,15 +1,19 @@
 package Client.Controller;
 
+import Client.Controller.LehrveranstaltungsuebersichtsseiteController;
+import Client.Controller.MeineKurseController;
+import Client.Controller.QuizUebersichtController;
 import Client.Layouts.Layout;
 import Client.Modell.Lehrender;
 import Client.Modell.Lehrveranstaltung;
-import Client.Modell.Projektgruppe;
-import Client.Modell.Student;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.commons.io.FilenameUtils;
@@ -21,12 +25,12 @@ import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class GruppenUploadController {
-
+public class QuizXMLUploadController {
     @FXML
     public Label uploadSeiteLabel;
     @FXML
@@ -40,7 +44,7 @@ public class GruppenUploadController {
 
     private List<File> fileList;
     private ObservableList<File> obsFileList;
-    private Projektgruppe projektgruppe;
+    private Lehrveranstaltung lehrveranstaltung;
     private Object nutzerInstanz;
     private String modus;
 
@@ -52,9 +56,11 @@ public class GruppenUploadController {
 
     public void setLayout(Layout layout) {
         this.layout = layout;
+        setNutzerInstanz(layout.getNutzer());
     }
 
     public void initialize() {
+
     }
 
     public void durchsuchenPressedButton(ActionEvent actionEvent) {
@@ -69,44 +75,39 @@ public class GruppenUploadController {
         } catch (Exception e) {
 //            System.out.println("Dateiauswahl wurde abgebrochen.");
         }
+
     }
 
     public void hochladenPressedButton(ActionEvent actionEvent) {
         actionEvent.consume();
-        long id = ((Student) nutzerInstanz).getNutzer().getId();
-
+        long id = ((Lehrender) nutzerInstanz).getId();
             if (fileList != null) {
                 try (CloseableHttpClient client = HttpClients.createDefault()) {
 
-                    String url = "http://localhost:8080/gruppenmaterial/upload";
+                    String url = "http://localhost:8080/quiz/xmlQuiz";
                     HttpPost post = new HttpPost(url);
                     MultipartEntityBuilder entity = MultipartEntityBuilder.create();
 
                     for (File file : fileList) {
                         entity.addPart("files", new FileBody(file));
                     }
-
-                    entity.addTextBody("gruppenId", String.valueOf(((Projektgruppe) projektgruppe).getId()));
+                    entity.addTextBody("lehrenderId", String.valueOf(id));
+                    entity.addTextBody("lehrveranstaltungsId", String.valueOf(((Lehrveranstaltung) lehrveranstaltung).getId()));
                     HttpEntity requestEntity = entity.build();
                     post.setEntity(requestEntity);
 
                     try (CloseableHttpResponse response = client.execute(post)) {
                         HttpEntity responseEntity = response.getEntity();
                         String result = EntityUtils.toString(responseEntity);
-                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                        alert.setTitle("Erfolgreich hochgeladen!");
-                        alert.setHeaderText("Ihre Lehrmaterialien wurden erfolgreich zum Server hochgeladen!");
-                        alert.setContentText("Sie werden nun zur Übersichtsseite weitergeleitet.");
-                        alert.showAndWait();
-                        layout.instanceLayout("projektgruppeUebersicht.fxml");
-                        if (layout.getController() instanceof ProjektgruppenController) {
-                            ((ProjektgruppenController) layout.getController()).setNutzer(nutzerInstanz);
-                            ((ProjektgruppenController) layout.getController()).setProjektgruppe(projektgruppe);
-                            ((ProjektgruppenController) layout.getController()).setLehrveranstaltung(projektgruppe.getLehrveranstaltung());
-                            ((ProjektgruppenController) layout.getController()).setPGUebersichtLvTitel(projektgruppe.getLehrveranstaltung().getTitel());
-                            ((ProjektgruppenController) layout.getController()).setPGUebersichtPGTitel(projektgruppe.getTitel());
-                            ((ProjektgruppenController) layout.getController()).setLayout(layout);
-                            ((ProjektgruppenController) layout.getController()).populateMaterialTable();
+                        if(result.equals("OK")) {
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setTitle("Erfolgreich hochgeladen!");
+                            alert.setHeaderText("Ihre XML Datei wurde erfolgreich zum Server hochgeladen!");
+                            alert.setContentText("Sie werden nun zur Quiz Übersichtsseite weitergeleitet.");
+                            alert.showAndWait();
+                            layout.instanceLayout("quizUebersicht.fxml");
+                            ((QuizUebersichtController) layout.getController()).setLayout(layout);
+                            ((QuizUebersichtController) layout.getController()).quizSeiteAufrufen(nutzerInstanz, lehrveranstaltung);
                         }
                     }
                 } catch (IOException e) {
@@ -118,18 +119,17 @@ public class GruppenUploadController {
     }
 
     public void abbrechenPressedButton(ActionEvent actionEvent) {
-        actionEvent.consume();
-        Stage stage = (Stage) btn_abbrechen.getScene().getWindow();
-        Layout homeScreen = null;
-
+            layout.instanceLayout("lehrveranstaltungsuebersichtsseite.fxml");
+            ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).setLayout(layout);
+            ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).uebersichtsseiteAufrufen(nutzerInstanz,lehrveranstaltung);
     }
 
-    public Object getProjektgruppe() {
-        return projektgruppe;
+    public Object getLehrveranstaltung() {
+        return lehrveranstaltung;
     }
 
-    public void setProjektgruppe(Projektgruppe projektgruppe) {
-        this.projektgruppe = projektgruppe;
+    public void setLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) {
+        this.lehrveranstaltung = lehrveranstaltung;
     }
 
     public Object getNutzerInstanz() {
@@ -138,18 +138,5 @@ public class GruppenUploadController {
 
     public void setNutzerInstanz(Object nutzerInstanz) {
         this.nutzerInstanz = nutzerInstanz;
-    }
-
-    public String getModus() {
-        return modus;
-    }
-
-    public void setModus(String modus) {
-        this.modus = modus;
-        if (modus.equals("Lehrmaterial")) {
-            this.uploadSeiteLabel.setText("Lehrmaterial hochladen");
-        } else if (modus.equals("CSV")) {
-            this.uploadSeiteLabel.setText("CSV-Datei hochladen");
-        }
     }
 }

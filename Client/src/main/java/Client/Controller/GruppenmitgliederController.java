@@ -45,6 +45,14 @@ public class GruppenmitgliederController {
         this.lehrveranstaltung = lehrveranstaltung;
     }
 
+    public Object getNutzerId() {
+        return nutzerId;
+    }
+
+    public void setNutzerId(Object nutzerId) {
+        this.nutzerId = nutzerId;
+    }
+
     @JsonIgnoreProperties(ignoreUnknown = true)
     public void zeigeMitglieder(){
 
@@ -123,13 +131,14 @@ public class GruppenmitgliederController {
                 layout.instanceLayout("userprofile.fxml");
                 ((UserprofilController) layout.getController()).setLayout(layout);
                 if (layout.getController() instanceof UserprofilController) {
+
                     if(nutzerId instanceof  Student){
-                        if(((Student) nutzerId).getId() == vergleichNutzer.getId()){
+                        if ( ((Student) nutzerId).getId() == vergleichNutzer.getId() ) {
                             ((UserprofilController) layout.getController()).nutzerprofilAufrufen(nutzerId, nutzerId);
-                        }else{
+                        } else {
                             ((UserprofilController) layout.getController()).nutzerprofilAufrufen(nutzerId, vergleichNutzer);
                         }
-                    }else{
+                    } else {
                         ((UserprofilController) layout.getController()).nutzerprofilAufrufen(nutzerId, vergleichNutzer);
                     }
                 }
@@ -228,7 +237,6 @@ public class GruppenmitgliederController {
                 cell.setOnMouseClicked(e -> {
                             if (!cell.isEmpty()) {
                                 redirectToUserprofile(cell.getTableRow().getItem().getId());
-//                                System.out.println("id vom angeklickten nutzer aus tabelle: " + cell.getTableRow().getItem().getId());
                             }
                         }
                 );

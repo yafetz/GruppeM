@@ -28,17 +28,10 @@ import java.util.List;
 public class FreundschaftsAnfragenController {
     @FXML
     private TableView<Nutzer> anfragen_tabelle;
-
     @FXML
     private TableColumn<String, String> vornamen_column;
-
     @FXML
     private TableColumn<String, String> nachnamen_column;
-
-
-
-
-
 
     private Object nutzerInstanz;
 
@@ -69,8 +62,8 @@ public class FreundschaftsAnfragenController {
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
             JSONArray jsonObject = new JSONArray(response.body());
-            System.out.println("Freundschaftsanfrage Controller json       "+response.body());
-            System.out.println("JSONObject länge     " +jsonObject.length());
+//            System.out.println("Freundschaftsanfrage Controller json       "+response.body());
+//            System.out.println("JSONObject länge     " +jsonObject.length());
             vornamen_column.setCellValueFactory(new PropertyValueFactory<>("vorname"));
             nachnamen_column.setCellValueFactory(new PropertyValueFactory<>("nachname"));
 
@@ -80,27 +73,11 @@ public class FreundschaftsAnfragenController {
                 nutzer1.setVorname(nutzer.getString("vorname"));
                 nutzer1.setNachname(nutzer.getString("nachname"));
                 nutzer1.setId(nutzer.getInt("id"));
-
-
-
-
-
                 anfragen_tabelle.getItems().add(nutzer1);
 
             }
             addButtonToTable("Akzeptieren");
             addButtonToTable("Ablehnen");
-
-
-
-
-
-
-
-
-
-
-
 
         } catch (IOException e) {
             System.out.println("Error 1");
@@ -109,9 +86,8 @@ public class FreundschaftsAnfragenController {
             System.out.println("Error 1");
             e.printStackTrace();
         }
-
-
     }
+
     private void addButtonToTable(String methode) {
         TableColumn<Nutzer, Void> colBtn = new TableColumn(methode);
 
@@ -127,7 +103,7 @@ public class FreundschaftsAnfragenController {
                             Object data = getTableView().getItems().get(getIndex());
                           if(btn.getText().equals("Akzeptieren")){
 
-                              System.out.println("Akzeptieren gedrückt");
+//                              System.out.println("Akzeptieren gedrückt");
 
                               long id =0;
                               if(nutzerInstanz instanceof Lehrender){
@@ -148,7 +124,7 @@ public class FreundschaftsAnfragenController {
                               try {
                                   response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-                                  System.out.println("Akzeptieren response:    "+response.body());
+//                                  System.out.println("Akzeptieren response:    "+response.body());
 
 
                                   Stage stage = (Stage) anfragen_tabelle.getScene().getWindow();
@@ -157,21 +133,17 @@ public class FreundschaftsAnfragenController {
                                   if (layout.getController() instanceof FreundschaftsAnfragenController) {
                                       ((FreundschaftsAnfragenController) layout.getController()).setLayout(layout);
                                       ((FreundschaftsAnfragenController) layout.getController()).setNutzerInstanz(nutzerInstanz);
-
                                   }
-
 
                               } catch (IOException e) {
                                   e.printStackTrace();
                               } catch (InterruptedException e) {
                                   e.printStackTrace();
                               }
-
-
                           }
                             if(btn.getText().equals("Ablehnen")){
 
-                                System.out.println("Ablehnen gedrückt");
+//                                System.out.println("Ablehnen gedrückt");
                                 long id =0;
                                 if(nutzerInstanz instanceof Lehrender){
                                     id=((Lehrender)nutzerInstanz).getId();
@@ -190,7 +162,7 @@ public class FreundschaftsAnfragenController {
                                 try {
                                     response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-                                    System.out.println("Ablehnen response:    "+response.body());
+//                                    System.out.println("Ablehnen response:    "+response.body());
 
                                     Stage stage = (Stage) anfragen_tabelle.getScene().getWindow();
 
@@ -206,14 +178,11 @@ public class FreundschaftsAnfragenController {
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
-
-
                             }
 
-                            System.out.println("selectedData2: " + btn);
-
-                            System.out.println(getTableRow().getItem().getVorname());
-                            System.out.println("DATA type " +getTableRow().getItem().getId());
+//                            System.out.println("selectedData2: " + btn);
+//                            System.out.println(getTableRow().getItem().getVorname());
+//                            System.out.println("DATA type " +getTableRow().getItem().getId());
                         });
                     }
 
@@ -232,19 +201,12 @@ public class FreundschaftsAnfragenController {
         };
 
         colBtn.setCellFactory(cellFactory);
-
         anfragen_tabelle.getColumns().add(colBtn);
-
     }
-
-
-
 
     public void setNutzerInstanz (Object nutzerInstanz){
             this.nutzerInstanz = nutzerInstanz;
             populateTableView();
-
         }
-
     }
 

@@ -64,7 +64,6 @@ public class UserprofilController {
     private TableView<Lehrveranstaltung> courseCol;
     @FXML
     public TableColumn<Lehrveranstaltung, String> myCourses;
-
     @FXML
     public Label strasseLabel;
     @FXML
@@ -77,8 +76,6 @@ public class UserprofilController {
     private Button anfrage;
     @FXML
     private Label lehrstuhlOderMatrNrTextLabel;
-    @FXML
-    private Button Freundschaftsliste;
     @FXML
     private Button meineAnfragen;
     @FXML
@@ -105,7 +102,6 @@ public class UserprofilController {
 
     public void initialize() {
         profil.setVisible(false);
-
     }
 
     public void nutzerprofilAufrufen (Object eigenerNutzer, Object vergleichNutzer) {
@@ -138,7 +134,7 @@ public class UserprofilController {
             //Diese If-Bedingung tritt ein, wenn der Nutzer sich selbst aufruft
             anfrage.setVisible(false);
             meineAnfragen.setVisible(true);
-            Freundschaftsliste.setVisible(true);
+            //Freundschaftsliste.setVisible(true);
             // Sicht eines Lehrenden auf sein eigenes Profil
             if (eigenerNutzer instanceof Lehrender) {
                 username.setText(((Lehrender) eigenerNutzer).getNutzerId().getVorname() +" "+ ((Lehrender) eigenerNutzer).getNutzerId().getNachname());
@@ -151,13 +147,9 @@ public class UserprofilController {
                 profil.setVisible(true);
                 KurseAufrufen(eigenerNutzer);
 
-
-
                 number.setText( "" + ((Lehrender) eigenerNutzer).getNutzerId().getHausnummer());
                 lehrstuhlOderMatrNrTextLabel.setText("Lehrstuhl");
                 forschungsgebietOderStudienfachTextLabel.setText("Forschungsgebiet");
-
-
             }
             // Sicht eines Studenten auf sein eigenes Profil
             else if(eigenerNutzer instanceof Student) {
@@ -171,8 +163,6 @@ public class UserprofilController {
                 profil.setVisible(true);
                 KurseAufrufen(eigenerNutzer);
 
-
-
                 number.setText( "" + ((Student) eigenerNutzer).getNutzer().getHausnummer());
                 lehrstuhlOderMatrNrTextLabel.setText("Matrikelnummer");
                 forschungsgebietOderStudienfachTextLabel.setText("Studienfach");
@@ -181,13 +171,10 @@ public class UserprofilController {
 
         // Diese else If tritt ein, wenn der Nutzer auf einen anderen Nutzer klickt
         else if (eigenerNutzer != vergleichNutzer) {
-            Freundschaftsliste.setVisible(false);
+            //Freundschaftsliste.setVisible(false);
             meineAnfragen.setVisible(false);
             long nutzer_id =0;
             long profil_id =0;
-
-
-
 
             if (eigenerNutzer instanceof Lehrender) {
                 // Sicht eines Lehrenden auf anderen Lehrenden
@@ -206,7 +193,7 @@ public class UserprofilController {
                     lehrstuhlOderMatrNrTextLabel.setText("Lehrstuhl");
                     forschungsgebietOderStudienfachTextLabel.setText("Forschungsgebiet");
                     anfrage.setVisible(false);
-                    Freundschaftsliste.setVisible(false);
+                    //Freundschaftsliste.setVisible(false);
                 }
 
                 //Sicht eines Lehrenden auf das Profil eines Studenten
@@ -225,7 +212,7 @@ public class UserprofilController {
                     lehrstuhlOderMatrNrTextLabel.setText("Matrikelnummer");
                     forschungsgebietOderStudienfachTextLabel.setText("Studienfach");
                     anfrage.setVisible(false);
-                    Freundschaftsliste.setVisible(false);
+                    //Freundschaftsliste.setVisible(false);
                 }
             }
 
@@ -261,13 +248,13 @@ public class UserprofilController {
                     try {
                         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-                        System.out.println(response.body());
+//                        System.out.println(response.body());
                         if(response.body().equals("true")){
-                            System.out.println("If statement");
+//                            System.out.println("If statement");
                             anfrage.setVisible(false);
                         }
                         else {
-                            System.out.println("Else Statement");
+//                            System.out.println("Else Statement");
                             anfrage.setVisible(true);
                         }
 
@@ -276,7 +263,6 @@ public class UserprofilController {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-
 
                     username.setText(((Student) vergleichNutzer).getNutzer().getVorname() +" "+ ((Student) vergleichNutzer).getNutzer().getNachname());
                     mailadresse.setText(((Student) vergleichNutzer).getNutzer().getEmail());
@@ -296,10 +282,8 @@ public class UserprofilController {
                     forschungsgebietOderStudienfachTextLabel.setText("Studienfach");
                     forschungsgebiet_studienfach.setText(((Student) vergleichNutzer).getStudienfach());
                 }
-
             }
         }
-
     }
 
     public void profilBearbeiten(ActionEvent actionEvent) {
@@ -309,7 +293,6 @@ public class UserprofilController {
         ((EditierenController) layout.getController()).setLayout(layout);
     }
 
-
     public void freundschaftsAnfrageWeiterleitung(ActionEvent actionEvent){
         Stage stage = (Stage) profil.getScene().getWindow();
         Layout anfragen = null;
@@ -317,11 +300,9 @@ public class UserprofilController {
         if (layout.getController() instanceof FreundschaftsAnfragenController) {
             ((FreundschaftsAnfragenController) layout.getController()).setLayout(layout);
             ((FreundschaftsAnfragenController) layout.getController()).setNutzerInstanz(eigenerNutzer);
-
         }
-
-
     }
+
     public void FreundeslisteWeiterleitung(ActionEvent actionEvent){
         Stage stage = (Stage) profil.getScene().getWindow();
         Layout freunde = null;
@@ -329,11 +310,7 @@ public class UserprofilController {
         if (layout.getController() instanceof FreundesListeController) {
             ((FreundesListeController) layout.getController()).setLayout(layout);
             ((FreundesListeController) layout.getController()).setNutzerInstanz(eigenerNutzer);
-
         }
-
-
-
     }
 
 
@@ -412,7 +389,7 @@ public class UserprofilController {
                     ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).setLayout(layout);
                 }
                 else {
-                    System.out.println("LehrveranstaltungsId   "+lehrveranstaltungId);
+//                    System.out.println("LehrveranstaltungsId   "+lehrveranstaltungId);
                     layout.instanceLayout("lehrveranstaltungBeitreten.fxml");
                     ((LehrveranstaltungBeitretenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
                     ((LehrveranstaltungBeitretenController) layout.getController()).setLayout(layout);
@@ -466,13 +443,13 @@ public class UserprofilController {
             CloseableHttpResponse response = client.execute(post);
             HttpEntity responseEntity = response.getEntity();
             String result = EntityUtils.toString(responseEntity);
-            System.out.println(result);
+//            System.out.println(result);
             layout.instanceLayout("userprofile.fxml");
             ((UserprofilController) layout.getController()).setLayout(layout);
             ((UserprofilController) layout.getController()).nutzerprofilAufrufen(eigenerNutzer,vergleichNutzer);
 
         } catch (IOException e) {
-            System.out.println("Freundschaftsanfrage fehlgeschlagen");
+//            System.out.println("Freundschaftsanfrage fehlgeschlagen");
             e.printStackTrace();
         }
 

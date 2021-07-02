@@ -31,5 +31,6 @@ public interface TeilnehmerListeRepository extends JpaRepository<TeilnehmerListe
     @Query("SELECT COUNT(student) FROM Student student JOIN TeilnehmerListe teilnehmerliste ON teilnehmerliste.nutzerId = student.nutzerId AND teilnehmerliste.lehrveranstaltung.id = ?1")
    int getAllStudents(long id);
 
+
 }
 

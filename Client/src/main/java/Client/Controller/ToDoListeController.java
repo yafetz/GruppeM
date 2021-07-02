@@ -64,11 +64,9 @@ public class ToDoListeController {
 
     private ToDoItem item;
 
-
     public void setLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) {
         this.lehrveranstaltung= lehrveranstaltung;
     }
-
 
     public void setLayout(Layout layout) {
         this.layout = layout;
@@ -79,7 +77,6 @@ public class ToDoListeController {
     }
 
 
-
     public void pressedCreateTodo(ActionEvent actionEvent) {
         layout.instanceLayout("toDoErstellen.fxml");
         ((ErstelleToDoController) layout.getController()).setLayout(layout);
@@ -87,9 +84,7 @@ public class ToDoListeController {
         ((ErstelleToDoController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
         ((ErstelleToDoController) layout.getController()).setProjektgruppe(projektgruppe);
         ((ErstelleToDoController) layout.getController()).ladeGruppenmitglieder();
-
     }
-
 
     public void populateTableView() {
 

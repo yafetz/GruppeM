@@ -28,16 +28,18 @@ import java.util.List;
 
 public class QuizUebersichtController {
     @FXML
+    public Button XMLQuizButton;
+    @FXML
+    public Label quizerstellen_LvTitel_Label;
+    @FXML
     private Label title;
     @FXML
     private Button createQuizButton;
     private Object nutzer;
-
     @FXML
     private TableView<Quiz> quizTable;
     @FXML
     public TableColumn<Quiz, String> quizTitel;
-
 
     private Lehrveranstaltung lehrveranstaltung;
     private Layout layout;
@@ -48,11 +50,9 @@ public class QuizUebersichtController {
         this.nutzer = nutzer;
         this.lehrveranstaltung = lehrveranstaltung;
 
-
         if (nutzer != null) {
             if (nutzer instanceof Lehrender) {
                 title.setText(((Lehrveranstaltung) lehrveranstaltung).getTitel());
-
 
             } else if (nutzer instanceof Student) {
                 title.setText(((Lehrveranstaltung) lehrveranstaltung).getTitel());
@@ -62,6 +62,7 @@ public class QuizUebersichtController {
         }
         quizzeAufrufen();
     }
+
     public void quizzeAufrufen() {
 
         HttpClient client = HttpClient.newHttpClient();
@@ -90,20 +91,20 @@ public class QuizUebersichtController {
                                     if(nutzer instanceof Student) {
                                         layout.instanceLayout("quizBearbeiten.fxml");
                                         ((QuizBearbeitenController) layout.getController()).setQuiz(cell.getTableRow().getItem());
+                                        ((QuizBearbeitenController) layout.getController()).setNutzer(nutzer);
                                         ((QuizBearbeitenController) layout.getController()).setUpQuiz();
                                     }
                                     else if(nutzer instanceof Lehrender) {
                                         layout.instanceLayout("statistik.fxml");
                                         ((TeststatistikController) layout.getController()).setQuiz(cell.getTableRow().getItem());
                                         ((TeststatistikController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
+                                        ((TeststatistikController) layout.getController()).quizname_Label.setText("\"" + cell.getTableRow().getItem().getTitel() + "\"");
                                         ((TeststatistikController) layout.getController()).setNutzer(nutzer);
                                         ((TeststatistikController) layout.getController()).setLayout(layout);
                                         ((TeststatistikController) layout.getController()).teilnahme();
                                         ((TeststatistikController) layout.getController()).showPieChart();
                                         ((TeststatistikController) layout.getController()).populateTableviewVersuch();
                                         ((TeststatistikController) layout.getController()).populateTableviewKorrekt();
-
-
                                     }
                                 }
                             });
@@ -118,18 +119,25 @@ public class QuizUebersichtController {
         }
     }
 
+    public void setNutzer (Object nutzer){
+    }
 
-        public void setNutzer (Object nutzer){
-        }
-
-        public void pressedCreateQuizButton (ActionEvent actionEvent) {
-            actionEvent.consume();
-            layout.instanceLayout("createQuiz.fxml");
-            ((CreateQuizController) layout.getController()).setLayout(layout);
-            ((CreateQuizController) layout.getController()).setNutzer(nutzer,lehrveranstaltung);
-        }
+    public void pressedCreateQuizButton (ActionEvent actionEvent) {
+        actionEvent.consume();
+        layout.instanceLayout("createQuiz.fxml");
+        ((CreateQuizController) layout.getController()).setLayout(layout);
+        ((CreateQuizController) layout.getController()).setNutzer(nutzer,lehrveranstaltung);
+        ((CreateQuizController) layout.getController()).quiz_LvTitel_Label.setText("Lehrveranstaltung " + lehrveranstaltung.getTitel());
+    }
 
     public void setLayout(Layout layout) {
         this.layout = layout;
+    }
+
+    public void pressedXMLQuiz(ActionEvent actionEvent) {
+        layout.instanceLayout("quizXMLUpload.fxml");
+        ((QuizXMLUploadController) layout.getController()).setLayout(layout);
+        ((QuizXMLUploadController) layout.getController()).setNutzerInstanz(nutzer);
+        ((QuizXMLUploadController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
     }
 }

@@ -31,13 +31,15 @@ import java.util.Map;
 
 public class CreateQuizController {
     @FXML
+    public Label quiz_LvTitel_Label;
+    @FXML
+    public TextArea questionTextArea;
+    @FXML
+    public TextArea answerTextArea;
+    @FXML
     private Button newQuestion;
     @FXML
     private Button create;
-    @FXML
-    private TextField questionField;
-    @FXML
-    private TextField answerField;
     @FXML
     private Button newAnswer;
     @FXML
@@ -68,20 +70,20 @@ public class CreateQuizController {
 
     public void pressedNewQuestion(ActionEvent actionEvent) {
         if(answers.size() > 0) {
-            if (questionField.getText() != ""
-                    && !questionField.getText().contains(",")
-                    && !questionField.getText().contains(":")
-                    && !questionField.getText().contains("{")
-                    && !questionField.getText().contains("}")) {
-                if (answerField.getText() != "") {
-                    answers.put(answerField.getText(), correct.isSelected());
+            if (questionTextArea.getText() != ""
+                    && !questionTextArea.getText().contains(",")
+                    && !questionTextArea.getText().contains(":")
+                    && !questionTextArea.getText().contains("{")
+                    && !questionTextArea.getText().contains("}")) {
+                if (answerTextArea.getText() != "") {
+                    answers.put(answerTextArea.getText(), correct.isSelected());
                     correct.setSelected(false);
                 }
-                answerField.setText("");
+                answerTextArea.setText("");
                 correct.setSelected(false);
-                questions.put(questionField.getText(), answers);
+                questions.put(questionTextArea.getText(), answers);
 
-                questionField.setText("");
+                questionTextArea.setText("");
                 answers = new HashMap<>();
             } else {
                 Alert fehler = new Alert(Alert.AlertType.ERROR);
@@ -95,7 +97,6 @@ public class CreateQuizController {
             fehler.setContentText("Sie müssen Antworten eingeben bevor Sie eine Neue Frage hinzufügen können! ");
             fehler.showAndWait();
         }
-
     }
 
     public void pressedCreate(ActionEvent actionEvent) {
@@ -117,7 +118,7 @@ public class CreateQuizController {
                 try (CloseableHttpResponse response = client.execute(post)) {
                     HttpEntity responseEntity = response.getEntity();
                     String result = EntityUtils.toString(responseEntity);
-                    System.out.println(result);
+//                    System.out.println(result);
                     if(result.contains("OK:")) {
                         try (CloseableHttpClient client1 = HttpClients.createDefault()) {
 
@@ -125,13 +126,13 @@ public class CreateQuizController {
                             HttpPost post1 = new HttpPost(url1);
                             MultipartEntityBuilder entity1 = MultipartEntityBuilder.create();
                             entity1.addTextBody("quiz", result.split(":")[1]);
-
+                            int index = 0;
                             for(Map.Entry<String, HashMap<String, Boolean>> entry : questions.entrySet()) {
                                 String question = entry.getKey();
                                 HashMap<String, Boolean> answers = entry.getValue();
                                 String frage = question+";";
                                 for(Map.Entry<String, Boolean> entry1 : answers.entrySet()){
-                                    frage += entry1.getKey()+";"+entry1.getValue();
+                                    frage += entry1.getKey()+";"+entry1.getValue()+";";
                                 }
                                 entity1.addTextBody("question", frage);
                             }
@@ -142,12 +143,13 @@ public class CreateQuizController {
                             try (CloseableHttpResponse response1 = client1.execute(post1)) {
                                 HttpEntity responseEntity1 = response1.getEntity();
                                 String result1 = EntityUtils.toString(responseEntity1);
-                                System.out.println("Fragen gesendet!");
+//                                System.out.println("Fragen gesendet!");
                                 if(result1.contains("OK")) {
 
                                     layout.instanceLayout("quizUebersicht.fxml");
                                     ((QuizUebersichtController) layout.getController()).setLayout(layout);
                                     ((QuizUebersichtController) layout.getController()).quizSeiteAufrufen(nutzer, lehrveranstaltung);
+                                    ((QuizUebersichtController) layout.getController()).quizerstellen_LvTitel_Label.setText("Lehrveranstaltung " + lehrveranstaltung.getTitel() );
 
                                 }
                             }
@@ -168,13 +170,14 @@ public class CreateQuizController {
     }
 
     public void pressedNewAnswer(ActionEvent actionEvent) {
-        if (answerField.getText() != ""
-                && !questionField.getText().contains(",")
-                && !questionField.getText().contains(":")
-                && !questionField.getText().contains("{")
-                && !questionField.getText().contains("}")) {
-            answers.put(answerField.getText(), correct.isSelected());
-            answerField.setText("");
+//        System.out.println("Eingegebene Antwortmöglichkeit: " + answerTextArea.getText());
+        if (answerTextArea.getText() != ""
+                    && !questionTextArea.getText().contains(",")
+                    && !questionTextArea.getText().contains(":")
+                    && !questionTextArea.getText().contains("{")
+                    && !questionTextArea.getText().contains("}")) {
+            answers.put(answerTextArea.getText(), correct.isSelected());
+            answerTextArea.setText("");
             correct.setSelected(false);
         }else{
             Alert fehler = new Alert(Alert.AlertType.ERROR);

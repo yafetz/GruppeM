@@ -13,7 +13,7 @@
 <?import javafx.scene.image.Image?>
 <AnchorPane layoutX="200.0" layoutY="100.0" prefHeight="453.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.RegistrierenController">
    <children>
-      <ImageView fx:id="profilbild" fitHeight="200.0" fitWidth="200.0" layoutX="532.0" layoutY="185.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="profilbild" fitHeight="200.0" fitWidth="200.0" layoutX="732.0" layoutY="220.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="/images/profilbild_hochladen_standard.png" />
          </image>

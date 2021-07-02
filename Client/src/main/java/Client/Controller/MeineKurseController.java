@@ -208,7 +208,7 @@ public class MeineKurseController {
                 request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/beitreten/check/"+ lehrveranstaltungId + "&"+lehrId)).build();
                 memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-                System.out.println("Instanz Lehrender "+memberResponse.body());
+//                System.out.println("Instanz Lehrender "+memberResponse.body());
 
                 if(memberResponse.body().equals("true")) {
                         layout.instanceLayout("lehrveranstaltungsuebersichtsseite.fxml");
@@ -228,7 +228,7 @@ public class MeineKurseController {
                 request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/beitreten/check/" + lehrveranstaltungId +"&"+ id)).build();
                 memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-               System.out.println("Student Instanz "+memberResponse.body());
+//               System.out.println("Student Instanz "+memberResponse.body());
 
                 if(memberResponse.body().equals("true")){
                     layout.instanceLayout("lehrveranstaltungsuebersichtsseite.fxml");
@@ -259,7 +259,6 @@ public class MeineKurseController {
             if(this.nutzerInstanz instanceof Student) {
                 addCourse.setVisible(false);
             }
-
         }
     }
 
