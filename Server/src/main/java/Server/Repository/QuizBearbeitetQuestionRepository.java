@@ -16,4 +16,5 @@ public interface QuizBearbeitetQuestionRepository extends JpaRepository<QuizBear
     List<Object[]> getAllStudentRichtigeAntwort(long quizId);
 
 
+
 }

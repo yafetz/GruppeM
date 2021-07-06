@@ -22,5 +22,6 @@
       <Button fx:id="studentenliste" layoutX="55.0" layoutY="137.0" mnemonicParsing="false" onAction="#Studenliste" text="Studentenliste" />
       <Button fx:id="projektgruppe_btn" layoutX="434.0" layoutY="137.0" mnemonicParsing="false" onAction="#projektgruppePressedButton" text="Projektgruppen" />
       <Button fx:id="quizButtonUE" layoutX="555.0" layoutY="137.0" mnemonicParsing="false" onAction="#quizPressed" text="Quiz" />
+      <Button fx:id="reviewButton" layoutX="620.0" layoutY="137.0" mnemonicParsing="false" text="Review" onAction="#reviewPressed" />
     </children>
 </AnchorPane>

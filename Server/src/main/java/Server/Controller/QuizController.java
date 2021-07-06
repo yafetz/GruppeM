@@ -29,6 +29,7 @@ public class QuizController {
     private QuizBearbeitetQuestionRepository quizBearbeitetQuestionRepository;
     private TeilnehmerListeRepository teilnehmerListeRepository;
 
+
     @Autowired
     public QuizController(NutzerRepository nutzerRepository,LehrveranstaltungRepository lehrveranstaltungRepository, LehrenderRepository lehrenderRepository, QuizRepository quizRepository, QuizQuestionRepository quizQuestionRepository, QuizAnswerRepository quizAnswerRepository, QuizBearbeitetRepository quizBearbeitet, QuizBearbeitetQuestionRepository quizBearbeitetQuestionRepository, TeilnehmerListeRepository teilnehmerListeRepository){
         this.lehrveranstaltungRepository = lehrveranstaltungRepository;
@@ -70,6 +71,7 @@ public class QuizController {
     public List<Integer> alleKorrekteFragens(@PathVariable long quiz_Id){
         return quizBearbeitetQuestionRepository.getAllStudentRichtigeAntworten(quiz_Id);
     }
+
 
     @PostMapping("createQuiz")
     public String createQuiz(@RequestParam("titel") String titel ,@RequestParam("lehrenderId") long lehrenderId, @RequestParam("lehrveranstaltungsId") long lehrveranstaltungsId) throws JsonProcessingException {
