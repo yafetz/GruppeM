@@ -275,7 +275,6 @@ public class ReviewBearbeitenController {
                         }
                     });
                 }
-                System.out.println("hier");
             }
         }
     }

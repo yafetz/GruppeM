@@ -18,6 +18,8 @@ public interface QuizBearbeitetRepository extends JpaRepository<QuizBearbeitet,L
 
     @Query("SELECT qb.nutzer,  COUNT( qb.nutzer) as Anzahl FROM QuizBearbeitet qb WHERE qb.quiz.id LIKE ?1  GROUP BY qb.nutzer.id ")
     List<Object[]> getAllStudentVersuche(long quiz_id);
+    @Query("SELECT qb FROM QuizBearbeitet qb WHERE qb.nutzer.id LIKE ?1 AND qb.bestanden=true" )
+    List<Object[]> getNutzerquiz(long nutzerid);
 
 
 }
