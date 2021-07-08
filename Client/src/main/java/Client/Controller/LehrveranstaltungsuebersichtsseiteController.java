@@ -22,7 +22,13 @@ import java.sql.*;
 public class LehrveranstaltungsuebersichtsseiteController {
 
     @FXML
-    public Button projektgruppe_btn;
+    private Button projektgruppe_btn;
+    @FXML
+    private Button reviewErstellenBtn;
+    @FXML
+    private Button reviewStatistikBtn;
+    @FXML
+    private Button reviewBtn;
     @FXML
     private Label title;
     @FXML
@@ -178,5 +184,14 @@ public class LehrveranstaltungsuebersichtsseiteController {
         ((QuizUebersichtController) layout.getController()).setLayout(layout);
         ((QuizUebersichtController) layout.getController()).quizSeiteAufrufen(nutzer,lehrveranstaltung);
         ((QuizUebersichtController) layout.getController()).quizerstellen_LvTitel_Label.setText("Lehrveranstaltung " + lehrveranstaltung.getTitel() );
+    }
+
+    public void reviewErstellenPressedButton(ActionEvent actionEvent) {
+    }
+
+    public void reviewStatistikPressedBtn(ActionEvent actionEvent) {
+    }
+
+    public void reviewPressedButton(ActionEvent actionEvent) {
     }
 }
