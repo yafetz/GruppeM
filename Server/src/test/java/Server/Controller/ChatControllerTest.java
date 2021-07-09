@@ -37,8 +37,6 @@ public class ChatControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-
-
         String content;
         String afterContent;
         int before;
@@ -47,14 +45,8 @@ public class ChatControllerTest {
     @BeforeEach
     public void setUp() throws Exception{
 
-
     MvcResult result = this.mockMvc.perform(get("http://localhost:8080/chat/alleNachrichten/1")).andDo(print()).andExpect(status().isOk()).andReturn();
-
-
      content = result.getResponse().getContentAsString();
-
-
-
 
     }
 
@@ -65,35 +57,15 @@ public class ChatControllerTest {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
 
-
-
-        this.mockMvc.perform(post("http://localhost:8080/chat/neueNachricht").param("chat_id", "1").param("nachricht", "UNIT Test").param("datum",dtf.format(now)).param("nutzer_id", "2")).andDo(print()).andExpect(status().isOk()).andExpect(content().string("OK"));
-
-
-
-
-
-
-
+        this.mockMvc.perform(post("http://localhost:8080/chat/neueNachricht").param("chat_id", "1").param("nachricht", "SEP Abnahme").param("datum",dtf.format(now)).param("nutzer_id", "2")).andDo(print()).andExpect(status().isOk()).andExpect(content().string("OK"));
 
 
     }
-
-
-
-
 
     @AfterEach
     void alleNachrichten() throws Exception {
         MvcResult result = this.mockMvc.perform(get("http://localhost:8080/chat/alleNachrichten/1")).andDo(print()).andExpect(status().isOk()).andReturn();
         afterContent = result.getResponse().getContentAsString();
-
-
-
-
     }
-
-
-
 
 }

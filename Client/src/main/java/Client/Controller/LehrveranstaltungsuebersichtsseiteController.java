@@ -1,6 +1,7 @@
 package Client.Controller;
 
 import Client.Layouts.Layout;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.fxml.FXML;
 import Client.Modell.*;
@@ -19,6 +20,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.sql.*;
+import java.util.List;
+
 public class LehrveranstaltungsuebersichtsseiteController {
 
     @FXML
@@ -43,6 +46,8 @@ public class LehrveranstaltungsuebersichtsseiteController {
     private Object nutzer;
     @FXML
     private Button studentenliste;
+    @FXML
+    private Button reviewButton;
 
     private Layout layout;
 
@@ -52,12 +57,39 @@ public class LehrveranstaltungsuebersichtsseiteController {
 
     public void setLayout(Layout layout) {
         this.layout = layout;
+        //getReview();
     }
+
+    private Review review;
 
     public void Studenliste(ActionEvent actionEvent) {
         layout.instanceLayout("studentenListe.fxml");
         ((StudentenListeController) layout.getController()).setLayout(layout);
         ((StudentenListeController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
+    }
+
+    public void checkThreshold(Lehrveranstaltung lehrveranstaltung1, long nutzerid){
+        long lehrid = lehrveranstaltung1.getId();
+        //long nutzerid = nutzer.getId();
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/review/threshold/" +nutzerid+"&"+lehrid)).build();
+        HttpResponse<String> response;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println("Threshold "+ response.body());
+            if (response.body().equals("true")){
+                reviewButton.setVisible(true);
+            }
+            else {
+                reviewButton.setVisible(false);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     @FXML
@@ -67,6 +99,28 @@ public class LehrveranstaltungsuebersichtsseiteController {
             ((TeilnehmerListeController) layout.getController()).setId(veranstaltungId);
             ((TeilnehmerListeController) layout.getController()).setLayout(layout);
             ((TeilnehmerListeController) layout.getController()).setLehrveranstaltung(((Lehrveranstaltung) lehrveranstaltung));
+    }
+
+    public void getReview( Lehrveranstaltung lehrveranstaltungsid){
+
+        long Lehrid = lehrveranstaltungsid.getId();
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/review/" +Lehrid)).build();
+        HttpResponse<String> response;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            ObjectMapper mapper = new ObjectMapper();
+            review =  mapper.readValue(response.body(), new TypeReference<Review>() {});
+
+            System.out.println("REVIEW TITEL   " + review.getTitel());
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void getMaterial(Lehrveranstaltung lehrkurs) {
@@ -164,6 +218,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
                 materialUpload.setVisible(false);
                 studentenliste.setVisible(false);
                 getMaterial((Lehrveranstaltung) lehrveranstaltung);
+                checkThreshold(lehrveranstaltung, ((Student)nutzer).getNutzer().getId());
             }
         }
     }
@@ -186,12 +241,47 @@ public class LehrveranstaltungsuebersichtsseiteController {
         ((QuizUebersichtController) layout.getController()).quizerstellen_LvTitel_Label.setText("Lehrveranstaltung " + lehrveranstaltung.getTitel() );
     }
 
-    public void reviewErstellenPressedButton(ActionEvent actionEvent) {
+    public void reviewPressed(ActionEvent actionEvent) {
+        if (nutzer instanceof Lehrender) {
+
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/review/check/" +lehrveranstaltung.getId())).build();
+            HttpResponse<String> response;
+            try {
+                response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                System.out.println("RESPONSEBODY     "+response.body());
+                if(response.body().equals("true")){
+                    layout.instanceLayout("reviewStatistik.fxml");
+                    ((ReviewStatistikController) layout.getController()).setLayout(layout);
+                    ((ReviewStatistikController) layout.getController()).setNutzer(nutzer);
+                    ((ReviewStatistikController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
+
+
+                }
+                else {
+                    layout.instanceLayout("reviewCreate.fxml");
+                    ((CreateReviewController) layout.getController()).setLayout(layout);
+                    ((CreateReviewController) layout.getController()).reviewSeiteAufrufen(nutzer, lehrveranstaltung);
+                    ((CreateReviewController) layout.getController()).review_LvTitel_Label.setText("Lehrveranstaltung " + lehrveranstaltung.getTitel());
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+        else if (nutzer instanceof Student){
+            layout.instanceLayout("reviewBearbeiten.fxml");
+            ((ReviewBearbeitenController) layout.getController()).setLayout(layout);
+            ((ReviewBearbeitenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
+            ((ReviewBearbeitenController) layout.getController()).setNutzer(nutzer);
+            ((ReviewBearbeitenController) layout.getController()).reviewTitel.setText("Lehrveranstaltung " + lehrveranstaltung.getTitel());
+            ((ReviewBearbeitenController) layout.getController()).setReview(review);
+
+        }
     }
 
-    public void reviewStatistikPressedBtn(ActionEvent actionEvent) {
-    }
-
-    public void reviewPressedButton(ActionEvent actionEvent) {
-    }
 }

@@ -26,8 +26,6 @@
          <children>
             <Button fx:id="studentenliste" mnemonicParsing="false" onAction="#Studenliste" prefWidth="140.0" text="Studentenliste" />
               <Button fx:id="materialUpload" mnemonicParsing="false" onAction="#materialUploadPressedButton" prefWidth="140.0" text="Materialien hochladen" />
-            <Button fx:id="reviewErstellenBtn" mnemonicParsing="false" onAction="#reviewErstellenPressedButton" prefWidth="140.0" text="Bewertung erstellen" />
-            <Button fx:id="reviewStatistikBtn" mnemonicParsing="false" onAction="#reviewStatistikPressedBtn" prefWidth="140.0" text="Bewertungsstatistik" />
          </children>
       </HBox>
       <HBox fx:id="hboxStudent" layoutX="63.0" layoutY="105.0" prefHeight="25.0" prefWidth="612.0">
@@ -35,7 +33,7 @@
               <Button fx:id="teilnehmerListe" mnemonicParsing="false" onAction="#teilnehmerListe" prefWidth="140.0" text="Teilnehmerliste" />
             <Button fx:id="projektgruppe_btn" mnemonicParsing="false" onAction="#projektgruppePressedButton" prefWidth="140.0" text="Projektgruppen" />
             <Button fx:id="quizButtonUE" mnemonicParsing="false" onAction="#quizPressed" prefWidth="140.0" text="Quiz" />
-            <Button fx:id="reviewBtn" mnemonicParsing="false" onAction="#reviewPressedButton" prefWidth="140.0" text="Kursbewertung" />
+            <Button fx:id="reviewBtn" mnemonicParsing="false" onAction="#reviewPressed" prefWidth="140.0" text="Kursbewertung" />
          </children>
       </HBox>
     </children>
