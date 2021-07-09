@@ -40,6 +40,8 @@ public class LehrveranstaltungsuebersichtsseiteController {
     private Object nutzer;
     @FXML
     private Button studentenliste;
+    @FXML
+    private Button reviewButton;
 
     private Layout layout;
 
@@ -58,6 +60,30 @@ public class LehrveranstaltungsuebersichtsseiteController {
         layout.instanceLayout("studentenListe.fxml");
         ((StudentenListeController) layout.getController()).setLayout(layout);
         ((StudentenListeController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
+    }
+
+    public void checkThreshold(Lehrveranstaltung lehrveranstaltung1, long nutzerid){
+        long lehrid = lehrveranstaltung1.getId();
+        //long nutzerid = nutzer.getId();
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/review/threshold/" +nutzerid+"&"+lehrid)).build();
+        HttpResponse<String> response;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println("Threshold "+ response.body());
+            if (response.body().equals("true")){
+                reviewButton.setVisible(true);
+            }
+            else {
+                reviewButton.setVisible(false);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     @FXML
@@ -171,6 +197,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
 
     public void uebersichtsseiteAufrufen(Object nutzer, Lehrveranstaltung lehrveranstaltung) {
         this.nutzer = nutzer;
+
         this.lehrveranstaltung= lehrveranstaltung;
         System.out.println("LEHRVERANSTALTUNG   "+ lehrveranstaltung);
         getReview(lehrveranstaltung);
@@ -188,8 +215,10 @@ public class LehrveranstaltungsuebersichtsseiteController {
                 materialUpload.setVisible(false);
                 studentenliste.setVisible(false);
                 getMaterial((Lehrveranstaltung) lehrveranstaltung);
+                checkThreshold(lehrveranstaltung, ((Student)nutzer).getNutzer().getId());
             }
         }
+
     }
 
     public void projektgruppePressedButton(ActionEvent actionEvent) {

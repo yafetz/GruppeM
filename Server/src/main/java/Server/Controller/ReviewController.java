@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,7 @@ public class ReviewController {
     private ReviewBearbeitetRepository reviewBearbeitetRepository;
     private QuizRepository quizRepository;
     private QuizBearbeitetRepository quizBearbeitetRepository;
-    private Object JSONObject;
+    
 
     @Autowired
     public ReviewController(ReviewService reviewService,QuizBearbeitetRepository quizBearbeitetRepository ,QuizRepository quizRepository ,LehrenderRepository lehrenderRepository, LehrveranstaltungRepository lehrveranstaltungRepository, ReviewRepository reviewRepository, ReviewQuestionRepository reviewQuestionRepository, ReviewAnswerRepository reviewAnswerRepository, NutzerRepository nutzerRepository, ReviewBearbeitetRepository reviewBearbeitetRepository, ReviewBearbeitetQuestionRepository reviewBearbeitetQuestionRepository) {
@@ -123,12 +124,20 @@ public class ReviewController {
         return false;
     }
     @GetMapping("/threshold/{nutzerid}&{lehrveranstaltungsid}")
-    public List<Object[]> checkThreshold(@PathVariable("nutzerid") long nutzerid, @PathVariable("lehrveranstaltungsid") long lehrveranstaltungsid){
+    public boolean checkThreshold(@PathVariable("nutzerid") long nutzerid, @PathVariable("lehrveranstaltungsid") long lehrveranstaltungsid){
         float anzahl = quizRepository.getQuizCount(lehrveranstaltungsid);
-        List<Object[]> list = quizBearbeitetRepository.getNutzerquiz(nutzerid);
 
+        float bestanden = quizBearbeitetRepository.getNutzerquiz(nutzerid, lehrveranstaltungsid);
 
-        return list;
+    if(bestanden>0.0 && anzahl>0.0){
+        if(anzahl/bestanden >=0.5){
+            return true;
+        }
+        }
+        else{
+            return false;
+        }
+            return false;
     }
 
 
