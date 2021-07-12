@@ -7,7 +7,6 @@ public class ReviewAnswer {
     private String answer;
 
 
-    private boolean isCorrect;
 
 
     private ReviewQuestion question;
@@ -36,12 +35,5 @@ public class ReviewAnswer {
         this.question = question;
     }
 
-    public boolean getisCorrect() {
-        return isCorrect;
-    }
-
-    public void setCorrect(boolean correct) {
-        isCorrect = correct;
-    }
 
 }

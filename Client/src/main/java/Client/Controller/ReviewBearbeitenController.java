@@ -192,11 +192,20 @@ public class ReviewBearbeitenController {
             }*/
             try (CloseableHttpClient client1 = HttpClients.createDefault()) {
 
+
                 String url1 = "http://localhost:8080/review/bearbeitetReviewQuestion";
                 HttpPost post1 = new HttpPost(url1);
                 MultipartEntityBuilder entity1 = MultipartEntityBuilder.create();
                 entity1.addTextBody("nutzerId", String.valueOf(((Student) nutzer).getId()));
                 entity1.addTextBody("questionId", String.valueOf(fragen.get(reviewIndex).getId()) );
+                for (int j = 0; j < antworten.size(); j++) {
+                    if (checkboxanswers.get(j).isSelected()) {
+                        entity1.addTextBody("answer",String.valueOf(antworten.get(j).getAnswer()));
+
+                        break;
+                    }
+                }
+
                /* if(correct){
                     entity1.addTextBody("korrekt","true" );
                 }else{
