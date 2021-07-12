@@ -58,7 +58,6 @@ public class ReviewController {
         review.setLehrveranstaltung(lehrveranstaltungRepository.findLehrveranstaltungById(lehrveranstaltungsId));
         reviewRepository.save(review);
         return "OK: " + review.getId();
-
     }
 
     @PostMapping("createQuestion")
@@ -124,6 +123,7 @@ public class ReviewController {
 
         return false;
     }
+
     @GetMapping("/threshold/{nutzerid}&{lehrveranstaltungsid}")
     public boolean checkThreshold(@PathVariable("nutzerid") long nutzerid, @PathVariable("lehrveranstaltungsid") long lehrveranstaltungsid){
         float anzahl = quizRepository.getQuizCount(lehrveranstaltungsid);
@@ -134,11 +134,11 @@ public class ReviewController {
         if(anzahl/bestanden >=0.5){
             return true;
         }
-        }
-        else{
-            return false;
-        }
-            return false;
+    }
+    else{
+        return false;
+    }
+        return false;
     }
 
 
@@ -160,7 +160,45 @@ public class ReviewController {
     @GetMapping("{lehrveranstaltungsid}")
     public Review getReview(@PathVariable("lehrveranstaltungsid") long lehrveranstaltungsid){
         return reviewRepository.findByLehrveranstaltung(lehrveranstaltungRepository.findLehrveranstaltungById(lehrveranstaltungsid));
-
     }
 
+    @GetMapping("teilnehmerAlle/frageId={frageId}")
+    public Integer getAnzahlAllerTeilnehmerAnFrage(@PathVariable("frageId") long frageId) {
+        List<Nutzer> nutzerliste = reviewBearbeitetQuestionRepository.findAllByQuestionId(frageId);
+        int count = 0;
+        for(Nutzer nutzer : nutzerliste) {
+            count += 1;
+        }
+        return count;
+    }
+    @GetMapping("teilnehmerBestanden/frageId={frageId}")
+    public Integer getAnzahlTeilnehmerBestandenAnFrage(@PathVariable("frageId") long frageId) {
+        ReviewQuestion frage = reviewQuestionRepository.findById(frageId);
+        List<Nutzer> nutzerliste = reviewBearbeitetQuestionRepository.findAllByQuestionId(frageId);
+        int count = 0;
+        for(Nutzer nutzer : nutzerliste) {
+            if(checkThreshold(nutzer.getId(), frage.getReview().getLehrveranstaltung().getId())) {
+                count += 1;
+            }
+        }
+        return count;
+    }
+    @GetMapping("teilnehmerNichtBestanden/frageId={frageId}")
+    public Integer getAnzahlTeilnehmerNichtBestandenAnFrage(@PathVariable("frageId") long frageId) {
+        return (getAnzahlAllerTeilnehmerAnFrage(frageId) - getAnzahlTeilnehmerBestandenAnFrage(frageId));
+    }
+
+
+    @GetMapping("teilnehmerAlle/antwortId={antwortId}")
+    public Integer getAnzahlAllerTeilnehmerAntwort(@PathVariable("antwortId") long antwortId) {
+        return 0;
+    }
+    @GetMapping("teilnehmerBestanden/antwortId={antwortId}")
+    public Integer getAnzahlTeilnehmerBestandenAntwort(@PathVariable("antwortId") long antwortId) {
+        return 0;
+    }
+    @GetMapping("teilnehmerNichtBestanden/antwortId={antwortId}")
+    public Integer getAnzahlTeilnehmerNichtBestandenAntwort(@PathVariable("antwortId") long antwortId) {
+        return 0;
+    }
 }

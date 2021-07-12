@@ -156,16 +156,31 @@ public class ReviewStatistikController {
                 //TODO hier anfragen wie oft die Antwort gewählt wurde
 
 //                if (teilnehmerLabel.getText().contentEquals("Alle Teilnehmer")) {
-//                    request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/review/alleAntworten/" + frageId)).build();
+//                    request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/review/teilnehmerAlle/antwortId=" + antwortId)).build();
 //                }
 //                else if (teilnehmerLabel.getText().contentEquals("Nur Teilnehmer, die bestanden haben")) {
-//                    request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/review/alleAntworten/" + frageId)).build();
+//                    request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/review/teilnehmerBestanden/antwortId=" + antwortId)).build();
 //                }
 //                else if (teilnehmerLabel.getText().contentEquals("Nur Teilnehmer, die nicht bestanden haben")) {
-//                    request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/review/alleAntworten/" + frageId)).build();
+//                    request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/review/teilnehmerNichtBestanden/antwortId=" + antwortId)).build();
 //                }
 //                response = client.send(request, HttpResponse.BodyHandlers.ofString());
 //                int anzahl = Integer.valueOf(response.body());
+
+                //TODO hier anfragen wie oft die Frage insgesamt beantwortet wurde, je nachdem welche Teilnehmer betrachtet werden
+//                if (teilnehmerLabel.getText().contentEquals("Alle Teilnehmer")) {
+//                    request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/review/teilnehmerAlle/frageId=" + frageId)).build();
+//                }
+//                else if (teilnehmerLabel.getText().contentEquals("Nur Teilnehmer, die bestanden haben")) {
+//                    request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/review/teilnehmerBestanden/frageId=" + frageId)).build();
+//                }
+//                else if (teilnehmerLabel.getText().contentEquals("Nur Teilnehmer, die nicht bestanden haben")) {
+//                    request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/review/teilnehmerNichtBestanden/frageId=" + frageId)).build();
+//                }
+//                response = client.send(request, HttpResponse.BodyHandlers.ofString());
+//                int anzahlInsgesamt = Integer.valueOf(response.body());
+
+//                double prozent = ( ((double) anzahl)/anzahlInsgesamt )*100;
 
                 int anzahl = 0;
                 double prozent = (1.0/antwortenliste.size())*100;
