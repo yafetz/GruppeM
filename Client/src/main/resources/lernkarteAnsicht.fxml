@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LernkarteAnsicht">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.LernkartenController">
    <children>
       <Text layoutX="52.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Projektgruppe - Lernkarte Ansicht" wrappingWidth="205.94464111328125" />
-      <Text layoutX="41.0" layoutY="92.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+      <Label fx:id="frage" layoutX="22.0" layoutY="99.0" prefHeight="70.0" prefWidth="574.0" text="Label" />
+      <Button fx:id="back" layoutX="14.0" layoutY="48.0" mnemonicParsing="false" onAction="#ActionBack" text="Zurück" />
+      <Button fx:id="create" layoutX="507.0" layoutY="48.0" mnemonicParsing="false" onAction="#ActionCreate" text="Lernkarte erstellen" />
+      <Label fx:id="antwort" layoutX="22.0" layoutY="189.0" prefHeight="70.0" prefWidth="574.0" text="Label" />
+      <Button fx:id="previous" layoutX="14.0" layoutY="337.0" mnemonicParsing="false" onAction="#ActionPrevious" text="Previous" />
+      <Button fx:id="next" layoutX="554.0" layoutY="337.0" mnemonicParsing="false" onAction="#ActionNext" text="Next" />
+      <Button fx:id="lösung" layoutX="282.0" layoutY="337.0" mnemonicParsing="false" onAction="#ActionLösung" text="Lösung" />
+      <Button fx:id="kartenmischen" layoutX="384.0" layoutY="48.0" mnemonicParsing="false" onAction="#ActionKartenmischen" prefHeight="25.0" prefWidth="114.0" text="Karten mischen" />
    </children>
 </AnchorPane>
