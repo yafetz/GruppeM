@@ -63,9 +63,9 @@ public class ReviewController {
 
     @PostMapping("createQuestion")
     public String createReviewQuestionAndAnswers(@RequestParam("review") long review, @RequestParam("question") List<String> question) throws JsonProcessingException {
-        for (int j = 0; j < question.size(); j++) {
-            System.out.println(question.get(j));
-        }
+//        for (int j = 0; j < question.size(); j++) {
+//            System.out.println(question.get(j));
+//        }
         for (int i = 0; i < question.size(); i++) {
             ReviewQuestion rq = new ReviewQuestion();
             rq.setReview(reviewRepository.findById(review));
@@ -91,9 +91,10 @@ public class ReviewController {
         return "OK";
     }
 
-    @GetMapping("alleFragen/{reviewId}")
-    public List<ReviewQuestion> getAlleFragen(@PathVariable("reviewId") long reviewId) {
-        return reviewQuestionRepository.findAllByReview(reviewRepository.findById(reviewId));
+    @GetMapping("alleFragen/{lvId}")
+    public List<ReviewQuestion> getAlleFragen(@PathVariable("lvId") long lehrveranstaltungId) {
+        Lehrveranstaltung lv = lehrveranstaltungRepository.findLehrveranstaltungById(lehrveranstaltungId);
+        return reviewQuestionRepository.findAllByReview(reviewRepository.findByLehrveranstaltung(lv));
     }
 
     @GetMapping("check/{lehrveranstaltungsid}")
@@ -146,6 +147,7 @@ public class ReviewController {
     public List<ReviewAnswer> getAlleAntworten(@PathVariable("reviewQuestionId") long reviewQuestionId){
         return reviewAnswerRepository.findAllByQuestion(reviewQuestionRepository.findById(reviewQuestionId));
     }
+
     @PostMapping("bearbeitetReviewQuestion")
     public String addBearbeitetReviewQuestion(@RequestParam("nutzerId") long nutzerId, @RequestParam("questionId") long questionId){
         ReviewBearbeitetQuestion rbq = new ReviewBearbeitetQuestion();

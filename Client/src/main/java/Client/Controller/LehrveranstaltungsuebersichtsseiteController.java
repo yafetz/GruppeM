@@ -46,8 +46,6 @@ public class LehrveranstaltungsuebersichtsseiteController {
     private Object nutzer;
     @FXML
     private Button studentenliste;
-    @FXML
-    private Button reviewButton;
 
     private Layout layout;
 
@@ -78,10 +76,10 @@ public class LehrveranstaltungsuebersichtsseiteController {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
             System.out.println("Threshold "+ response.body());
             if (response.body().equals("true")){
-                reviewButton.setVisible(true);
+                reviewBtn.setVisible(true);
             }
             else {
-                reviewButton.setVisible(false);
+                reviewBtn.setVisible(false);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -251,11 +249,11 @@ public class LehrveranstaltungsuebersichtsseiteController {
                 response = client.send(request, HttpResponse.BodyHandlers.ofString());
                 System.out.println("RESPONSEBODY     "+response.body());
                 if(response.body().equals("true")){
-                    layout.instanceLayout("reviewStatistik.fxml");
+                    layout.instanceLayout("reviewStatistikAlle.fxml");
                     ((ReviewStatistikController) layout.getController()).setLayout(layout);
                     ((ReviewStatistikController) layout.getController()).setNutzer(nutzer);
                     ((ReviewStatistikController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
-
+                    ((ReviewStatistikController) layout.getController()).populateFragenTableView();
 
                 }
                 else {
