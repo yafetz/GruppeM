@@ -81,6 +81,7 @@ public class AuthenticationController {
     public void cancelPressedButton(ActionEvent actionEvent) {
         actionEvent.consume();
         layout.instanceAuth("login.fxml");
+        ((LoginController) layout.getController()).setLayout(layout);
     }
 
     public Layout getLayout() {

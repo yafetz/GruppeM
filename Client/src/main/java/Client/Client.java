@@ -14,6 +14,7 @@ public class Client extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         try {
+
             stage.setTitle("SEP");
             FXMLLoader loader = new FXMLLoader();
             Layout layout = new Layout();

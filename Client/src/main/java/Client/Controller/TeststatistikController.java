@@ -251,14 +251,9 @@ public class TeststatistikController {
 
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/quiz/anzahlKorrekt/" + quiz.getId())).build();
         HttpResponse<String> response2 = null;
-
-        ObjectMapper mapper = new ObjectMapper();
         List<String> RichtigeListe = null;
         try {
             response2 = client.send(request, HttpResponse.BodyHandlers.ofString());
-            java.util.List<Object[]> objekt = mapper.readValue(response2.body(), new TypeReference<List<Object[]>>() {
-            });
-            List<QuizQuestion> liste = new ArrayList<>();
             JSONArray neu = new JSONArray(response2.body());
             String[] answerArray = new String[neu.length()];
             for (int j = 0; j < neu.length(); j++) {

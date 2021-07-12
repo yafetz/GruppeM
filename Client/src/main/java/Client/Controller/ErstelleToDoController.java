@@ -88,6 +88,7 @@ public class ErstelleToDoController {
             ObjectMapper mapper = new ObjectMapper();
 
             entity.addTextBody("datum", deadline.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+            System.out.println(deadline.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
             entity.addTextBody("titel", todo_titel.getText());
             entity.addTextBody("verantwortliche", String.valueOf(gruppenmitglieder.getSelectionModel().getSelectedItem().getStudent().getVorname()));
 
