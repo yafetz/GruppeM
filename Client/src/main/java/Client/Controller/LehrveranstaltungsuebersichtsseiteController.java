@@ -240,6 +240,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
     }
 
     public void reviewPressed(ActionEvent actionEvent) {
+        getReview(lehrveranstaltung);
         if (nutzer instanceof Lehrender) {
 
             HttpClient client = HttpClient.newHttpClient();
@@ -268,15 +269,14 @@ public class LehrveranstaltungsuebersichtsseiteController {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-
         }
+
         else if (nutzer instanceof Student){
             layout.instanceLayout("reviewBearbeiten.fxml");
             ((ReviewBearbeitenController) layout.getController()).setLayout(layout);
             ((ReviewBearbeitenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
             ((ReviewBearbeitenController) layout.getController()).setNutzer(nutzer);
-            ((ReviewBearbeitenController) layout.getController()).reviewTitel.setText("Lehrveranstaltung " + lehrveranstaltung.getTitel());
+            System.out.println("lvübersichtsseitecontroller review: " + review.getTitel());
             ((ReviewBearbeitenController) layout.getController()).setReview(review);
 
         }

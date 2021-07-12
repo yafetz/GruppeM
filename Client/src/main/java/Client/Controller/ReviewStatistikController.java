@@ -23,10 +23,10 @@ import java.util.List;
 
 public class ReviewStatistikController {
 
-    @FXML private TableColumn<ReviewAnswer, Integer> antwortNrCol;
-    @FXML private TableColumn<ReviewAnswer, String> antwortCol;
-    @FXML private TableColumn<ReviewAnswer, Integer> anzahlCol;
-    @FXML private TableColumn<ReviewAnswer, String> prozentCol;
+    @FXML private TableColumn<AntwortTableData, Integer> antwortNrCol;
+    @FXML private TableColumn<AntwortTableData, String> antwortCol;
+    @FXML private TableColumn<AntwortTableData, Integer> anzahlCol;
+    @FXML private TableColumn<AntwortTableData, Double> prozentCol;
     @FXML private TableColumn<ReviewQuestion, Long> frageIdCol;
     @FXML private TableColumn<ReviewQuestion, String> frageCol;
     @FXML private TableView<ReviewQuestion> reviewFragenTableView;
@@ -42,6 +42,7 @@ public class ReviewStatistikController {
     private Object nutzer;
     private Lehrveranstaltung lehrveranstaltung;
     private Review review;
+    private Long angeklickteFrageId = (long) -1;
 
     public Layout getLayout() {
         return layout;
@@ -79,19 +80,25 @@ public class ReviewStatistikController {
     public void allePressedButton(ActionEvent actionEvent) {
         actionEvent.consume();
         teilnehmerLabel.setText("Alle Teilnehmer");
-
+        if (angeklickteFrageId != -1) {
+            populateAntwortenTableView(angeklickteFrageId);
+        }
     }
 
     public void bestandenPressedButton(ActionEvent actionEvent) {
         actionEvent.consume();
         teilnehmerLabel.setText("Nur Teilnehmer, die bestanden haben");
-
+        if (angeklickteFrageId != -1) {
+            populateAntwortenTableView(angeklickteFrageId);
+        }
     }
 
     public void durchgefallenPressedButton(ActionEvent actionEvent) {
         actionEvent.consume();
         teilnehmerLabel.setText("Nur Teilnehmer, die nicht bestanden haben");
-
+        if (angeklickteFrageId != -1) {
+            populateAntwortenTableView(angeklickteFrageId);
+        }
     }
 
     public void populateFragenTableView() {
@@ -118,7 +125,9 @@ public class ReviewStatistikController {
                 cell.setCursor(Cursor.HAND);
                 cell.setOnMouseClicked(e -> {
                             if (!cell.isEmpty()) {
-                                populateAntwortenTableView(cell.getTableRow().getItem().getId());
+                                angeklickteFrageId = cell.getTableRow().getItem().getId();
+                                populateAntwortenTableView(angeklickteFrageId);
+
                             }
                         }
                 );
@@ -144,19 +153,45 @@ public class ReviewStatistikController {
             List<AntwortTableData> tableData = new ArrayList<>();
             for (int i = 0; i < antwortenliste.size(); i++) {
                 long antwortId = antwortenliste.get(i).getId();
+                //TODO hier anfragen wie oft die Antwort gewählt wurde
 
+//                if (teilnehmerLabel.getText().contentEquals("Alle Teilnehmer")) {
+//                    request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/review/alleAntworten/" + frageId)).build();
+//                }
+//                else if (teilnehmerLabel.getText().contentEquals("Nur Teilnehmer, die bestanden haben")) {
+//                    request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/review/alleAntworten/" + frageId)).build();
+//                }
+//                else if (teilnehmerLabel.getText().contentEquals("Nur Teilnehmer, die nicht bestanden haben")) {
+//                    request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/review/alleAntworten/" + frageId)).build();
+//                }
+//                response = client.send(request, HttpResponse.BodyHandlers.ofString());
+//                int anzahl = Integer.valueOf(response.body());
 
                 int anzahl = 0;
-                String prozent = "";
-                AntwortTableData eintrag = new AntwortTableData(i, antwortenliste.get(i).getAnswer(), anzahl, prozent);
+                double prozent = (1.0/antwortenliste.size())*100;
+                AntwortTableData eintrag = new AntwortTableData(i+1, antwortenliste.get(i).getAnswer(), anzahl, prozent);
                 tableData.add(eintrag);
             };
 
+//            for(AntwortTableData data : tableData) {
+//                System.out.println("data: " + data.getNumber() + ", " + data.getAnswer() + ", " + data.getAnzahl() + ", " + data.getProzent());
+//            }
 
+            antwortNrCol.setCellValueFactory(new PropertyValueFactory<AntwortTableData,Integer>("number"));
+            antwortCol.setCellValueFactory(new PropertyValueFactory<AntwortTableData,String>("antwort"));
+            anzahlCol.setCellValueFactory(new PropertyValueFactory<AntwortTableData,Integer>("anzahl"));
+            prozentCol.setCellValueFactory(new PropertyValueFactory<AntwortTableData,Double>("prozent"));
 
             ObservableList<AntwortTableData> obsList = FXCollections.observableList(tableData);
             reviewAntwortenTableView.setItems(obsList);
 
+            ObservableList<PieChart.Data> piechartdata = FXCollections.observableArrayList();
+            for(int i = 0; i < tableData.size(); i++) {
+                piechartdata.add(new PieChart.Data(tableData.get(i).getAntwort(), tableData.get(i).getProzent()));
+            }
+            antwortenPieChart.setData(piechartdata);
+            antwortenPieChart.setLabelsVisible(true);
+            antwortenPieChart.setLabelLineLength(10);
 
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -165,13 +200,13 @@ public class ReviewStatistikController {
 
     public class AntwortTableData {
         private int number;
-        private String answer;
+        private String antwort;
         private int anzahl;
-        private String prozent;
+        private double prozent;
 
-        public AntwortTableData(int number, String answer, int anzahl, String prozent) {
+        public AntwortTableData(int number, String antwort, int anzahl, double prozent) {
             this.number = number;
-            this.answer = answer;
+            this.antwort = antwort;
             this.anzahl = anzahl;
             this.prozent = prozent;
         }
@@ -184,12 +219,12 @@ public class ReviewStatistikController {
             this.number = number;
         }
 
-        public String getAnswer() {
-            return answer;
+        public String getAntwort() {
+            return antwort;
         }
 
-        public void setAnswer(String answer) {
-            this.answer = answer;
+        public void setAntwort(String antwort) {
+            this.antwort = antwort;
         }
 
         public int getAnzahl() {
@@ -200,11 +235,11 @@ public class ReviewStatistikController {
             this.anzahl = anzahl;
         }
 
-        public String getProzent() {
+        public double getProzent() {
             return prozent;
         }
 
-        public void setProzent(String prozent) {
+        public void setProzent(double prozent) {
             this.prozent = prozent;
         }
     }
