@@ -243,7 +243,7 @@ public class QuizBearbeitenController {
                                                 String url1 = "http://localhost:8080/quiz/bearbeitetQuiz";
                                                 HttpPost post1 = new HttpPost(url1);
                                                 MultipartEntityBuilder entity1 = MultipartEntityBuilder.create();
-                                                entity1.addTextBody("nutzerId", String.valueOf(((Student) nutzer).getId()));
+                                                entity1.addTextBody("nutzerId", String.valueOf(((Student) nutzer).getNutzer().getId()));
                                                 entity1.addTextBody("quizId", String.valueOf(quiz.getId()) );
                                                 if(quote >= 0.5){
                                                     entity1.addTextBody("bestanden","true" );
