@@ -9,10 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -29,6 +26,8 @@ import java.util.List;
 
 public class HomescreenController {
 
+    @FXML private ScrollPane freundelistescrollpane;
+    @FXML private Label meineFreundeLabel;
     @FXML private TableView<Lehrveranstaltung> meineLv;
     @FXML private TableColumn<Lehrveranstaltung, Long> col_LvId;
     @FXML private TableColumn<Lehrveranstaltung, String> col_LvTitel;
@@ -61,7 +60,13 @@ public class HomescreenController {
     public void setNutzerInstanz(Object nutzerInstanz) {
         this.nutzerInstanz = nutzerInstanz;
         populateMeineKurseTableview();
-        populateFreundeslisteTableView();
+        if (nutzerInstanz instanceof Student) {
+            populateFreundeslisteTableView();
+        } else if (nutzerInstanz instanceof  Lehrender) {
+            freundeTabelle.setVisible(false);
+            meineFreundeLabel.setVisible(false);
+            freundelistescrollpane.setVisible(false);
+        }
         if (nutzerInstanz instanceof Student) {
 //            System.out.println("nutzerInstanz ist Instanz von Student");
             addCourseBtn.setVisible(false);
