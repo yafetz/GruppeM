@@ -10,6 +10,7 @@ public class QuizBearbeitetQuestion {
     private QuizQuestion question;
     private Nutzer nutzer;
 
+
     public Long getId() {
         return id;
     }

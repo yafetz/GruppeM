@@ -149,10 +149,11 @@ public class ReviewController {
     }
 
     @PostMapping("bearbeitetReviewQuestion")
-    public String addBearbeitetReviewQuestion(@RequestParam("nutzerId") long nutzerId, @RequestParam("questionId") long questionId){
+    public String addBearbeitetReviewQuestion(@RequestParam("nutzerId") long nutzerId, @RequestParam("questionId") long questionId, @RequestParam("answer") String answer){
         ReviewBearbeitetQuestion rbq = new ReviewBearbeitetQuestion();
         rbq.setQuestion(reviewQuestionRepository.findById(questionId));
         rbq.setNutzer(nutzerRepository.findNutzerById(nutzerId));
+        rbq.setReviewAnswer(answer);
         reviewBearbeitetQuestionRepository.save(rbq);
         return "OK";
     }
