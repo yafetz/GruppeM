@@ -6,7 +6,7 @@ public class ReviewBearbeitetQuestion {
     private Boolean korrekt;
     private ReviewQuestion question;
     private Nutzer nutzer;
-    private String reviewAnswer;
+    private ReviewAnswer reviewAnswer;
 
 
 
@@ -34,11 +34,11 @@ public class ReviewBearbeitetQuestion {
         this.nutzer = nutzer;
     }
 
-    public String getReviewAnswer() {
+    public ReviewAnswer getReviewAnswer() {
         return reviewAnswer;
     }
 
-    public void setReviewAnswer(String reviewAnswer) {
+    public void setReviewAnswer(ReviewAnswer reviewAnswer) {
         this.reviewAnswer = reviewAnswer;
     }
 }

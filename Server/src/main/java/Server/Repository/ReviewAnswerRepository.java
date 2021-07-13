@@ -11,5 +11,6 @@ import java.util.List;
 @Repository
 public interface ReviewAnswerRepository extends JpaRepository<ReviewAnswer, Long> {
     List<ReviewAnswer> findAllByQuestion(ReviewQuestion question);
+    ReviewAnswer findById(long id);
 
 }
