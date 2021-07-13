@@ -18,8 +18,10 @@ public interface QuizBearbeitetRepository extends JpaRepository<QuizBearbeitet,L
 
     @Query("SELECT qb.nutzer,  COUNT( qb.nutzer) as Anzahl FROM QuizBearbeitet qb WHERE qb.quiz.id = ?1  GROUP BY qb.nutzer.id ")
     List<Object[]> getAllStudentVersuche(long quiz_id);
-    @Query("SELECT COUNT( DISTINCT qb) FROM QuizBearbeitet qb WHERE qb.nutzer.id = ?1 AND qb.bestanden=true AND qb.quiz.lehrveranstaltung.id = ?2" )
+    @Query("SELECT COUNT( DISTINCT qb.quiz.id) FROM QuizBearbeitet qb WHERE qb.nutzer.id = ?1 AND qb.quiz.lehrveranstaltung.id = ?2" )
     float getNutzerquiz(long nutzerid, long lehrveranstaltungsid);
 
+    @Query("SELECT COUNT(DISTINCT qb.quiz.id) FROM QuizBearbeitet qb WHERE qb.nutzer.id = ?1 AND qb.bestanden=true AND qb.quiz.lehrveranstaltung.id = ?2" )
+    float getAnzahlQuizBestanden(long nutzerid, long lehrveranstaltungsid);
 
 }

@@ -248,7 +248,7 @@ public class ReviewBearbeitenController {
                             CheckAntwort();
                             panel.getChildren().clear();
                             panel.getChildren().add(reviewTitel);
-                            Question.setText("Feedback zu Ihren Abgaben");
+                            Question.setText("Vielen Dank für Ihre Teilnahme!");
                             for (int h = 0; h < Feedback.size(); h++) {
                                 Text FeedbackText = new Text();
                                 FeedbackText.setText(Feedback.get(h));
