@@ -25,8 +25,9 @@ public class ReviewBearbeitetQuestion {
     @JoinColumn(name= "nutzer_Id", nullable = false)
     private Nutzer nutzer;
 
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name= "answer_id", nullable = false)
-    private String reviewAnswer;
+    private ReviewAnswer reviewAnswer;
 
 
 
@@ -46,11 +47,19 @@ public class ReviewBearbeitetQuestion {
         this.nutzer = nutzer;
     }
 
-    public String getReviewAnswer() {
+    public ReviewAnswer getReviewAnswer() {
         return reviewAnswer;
     }
 
-    public void setReviewAnswer(String reviewAnswer) {
+    public void setReviewAnswer(ReviewAnswer reviewAnswer) {
         this.reviewAnswer = reviewAnswer;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
