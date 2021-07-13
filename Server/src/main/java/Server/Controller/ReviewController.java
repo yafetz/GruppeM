@@ -149,12 +149,19 @@ public class ReviewController {
     }
 
     @PostMapping("bearbeitetReviewQuestion")
-    public String addBearbeitetReviewQuestion(@RequestParam("nutzerId") long nutzerId, @RequestParam("questionId") long questionId, @RequestParam("answer") long answer){
-        ReviewBearbeitetQuestion rbq = new ReviewBearbeitetQuestion();
-        rbq.setQuestion(reviewQuestionRepository.findById(questionId));
-        rbq.setNutzer(nutzerRepository.findNutzerById(nutzerId));
-        rbq.setReviewAnswer(reviewAnswerRepository.findById(answer));
-        reviewBearbeitetQuestionRepository.save(rbq);
+    public String addBearbeitetReviewQuestion(@RequestParam("nutzerId") long nutzerId, @RequestParam("questionId") long questionId, @RequestParam("answer") List<Long> answer){
+
+        long id =0;
+        System.out.println("Answer List "+ answer.toString());
+        for(int i=0; i<answer.size();i++) {
+            ReviewBearbeitetQuestion rbq = new ReviewBearbeitetQuestion();
+            rbq.setQuestion(reviewQuestionRepository.findById(questionId));
+            rbq.setNutzer(nutzerRepository.findNutzerById(nutzerId));
+            id=answer.get(i);
+            rbq.setReviewAnswer(reviewAnswerRepository.findById(id));
+            reviewBearbeitetQuestionRepository.save(rbq);
+            System.out.println("Answer gespeichert " + id);
+        }
         return "OK";
     }
 

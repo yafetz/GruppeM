@@ -202,7 +202,7 @@ public class ReviewBearbeitenController {
                     if (checkboxanswers.get(j).isSelected()) {
                         entity1.addTextBody("answer",String.valueOf(antworten.get(j).getId()));
 
-                        break;
+
                     }
                 }
 
