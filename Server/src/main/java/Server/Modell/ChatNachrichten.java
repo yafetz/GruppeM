@@ -12,15 +12,19 @@ public class ChatNachrichten {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name= "chat_id", nullable = false)
     private ChatRaum chat;
+
     @Column(nullable = false)
     @JsonProperty("nachricht")
     private String nachricht;
+
     @Column(nullable = false)
     @JsonProperty("datum")
     private LocalDateTime datum;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name= "nutzer_Id", nullable = false)
     private Nutzer nutzer;

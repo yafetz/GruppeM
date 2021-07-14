@@ -23,14 +23,17 @@ public class FreundschaftService {
         this.freundschaftRepository = freundschaftRepository;
         this.nutzerRepository = nutzerRepository;
     }
+
     public List<Freundschaft> meineAnfragen(long id){
 
        return freundschaftRepository.getAllFreundschaftsAnfragen(nutzerRepository.findNutzerById(id));
 
     }
+
     public List<Freundschaft>meineFreundschaften(long id){
         return freundschaftRepository.getFreundschaften(nutzerRepository.findNutzerById(id));
     }
+
     public Freundschaft getAnfrage(long id1, long id2){
         Nutzer angefragter_id = nutzerRepository.findNutzerById(id1);
         Nutzer anfragender_id = nutzerRepository.findNutzerById(id2);

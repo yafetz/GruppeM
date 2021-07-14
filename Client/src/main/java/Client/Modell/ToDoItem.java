@@ -2,11 +2,22 @@ package Client.Modell;
 
 public class ToDoItem {
 
-
-
     private Long id;
-
     private String titel;
+    private String deadline;
+    private String verantwortliche;
+    private String erledigt;
+    private Long nutzerId;
+    private Long projektgruppeId;
+
+    public ToDoItem(){}
+    public ToDoItem(String titel, String deadline, String verantwortliche) {
+
+        this.titel= titel;
+        this.deadline = deadline;
+
+        this.verantwortliche=verantwortliche;
+    }
 
     public String getDeadline() {
         return deadline;
@@ -16,10 +27,6 @@ public class ToDoItem {
         this.deadline = deadline;
     }
 
-    private String deadline;
-
-    private String verantwortliche;
-
     public String getErledigt() {
         return erledigt;
     }
@@ -27,10 +34,6 @@ public class ToDoItem {
     public void setErledigt(String erledigt) {
         this.erledigt = erledigt;
     }
-
-    private String erledigt;
-    private Long nutzerId;
-    private Long projektgruppeId;
 
     public Long getNutzerId() {
         return nutzerId;
@@ -48,9 +51,6 @@ public class ToDoItem {
         this.projektgruppeId = projektgruppeId;
     }
 
-
-
-
     public Long getId() {
         return id;
     }
@@ -67,8 +67,6 @@ public class ToDoItem {
         this.titel = titel;
     }
 
-
-
     public String getVerantwortliche() {
         return verantwortliche;
     }
@@ -76,23 +74,5 @@ public class ToDoItem {
     public void setVerantwortliche(String verantwortliche) {
         this.verantwortliche = verantwortliche;
     }
-
-
-
-
-
-    public ToDoItem(){}
-    public ToDoItem(String titel, String deadline, String verantwortliche) {
-
-        this.titel= titel;
-        this.deadline = deadline;
-
-        this.verantwortliche=verantwortliche;
-    }
-
-
-
-
-
 
 }

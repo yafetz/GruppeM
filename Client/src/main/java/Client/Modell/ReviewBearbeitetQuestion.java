@@ -1,14 +1,13 @@
 package Client.Modell;
 
-import Client.Modell.Nutzer;
-import Client.Modell.QuizQuestion;
-import com.fasterxml.jackson.annotation.JsonProperty;
+public class ReviewBearbeitetQuestion {
 
-public class QuizBearbeitetQuestion {
     private Long id;
     private Boolean korrekt;
-    private QuizQuestion question;
+    private ReviewQuestion question;
     private Nutzer nutzer;
+    private ReviewAnswer reviewAnswer;
+
 
 
     public Long getId() {
@@ -19,19 +18,11 @@ public class QuizBearbeitetQuestion {
         this.id = id;
     }
 
-    public Boolean getKorrekt() {
-        return korrekt;
-    }
-
-    public void setKorrekt(Boolean korrekt) {
-        this.korrekt = korrekt;
-    }
-
-    public QuizQuestion getQuestion() {
+    public ReviewQuestion getQuestion() {
         return question;
     }
 
-    public void setQuestion(QuizQuestion question) {
+    public void setQuestion(ReviewQuestion question) {
         this.question = question;
     }
 
@@ -43,6 +34,11 @@ public class QuizBearbeitetQuestion {
         this.nutzer = nutzer;
     }
 
-
-
+    public ReviewAnswer getReviewAnswer() {
+        return reviewAnswer;
     }
+
+    public void setReviewAnswer(ReviewAnswer reviewAnswer) {
+        this.reviewAnswer = reviewAnswer;
+    }
+}

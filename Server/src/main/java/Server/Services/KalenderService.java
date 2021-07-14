@@ -11,6 +11,7 @@ public class KalenderService {
 
     @Autowired
     private JavaMailSender mailSender;
+    
     public void sendEmail(String email, String Reminder){
         SimpleMailMessage mailMessage= new SimpleMailMessage();
         mailMessage.setFrom("projektsep@gmail.com");

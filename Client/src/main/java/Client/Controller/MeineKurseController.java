@@ -290,8 +290,9 @@ public class MeineKurseController {
 
                 if(memberResponse.body().equals("true")){
                     layout.instanceLayout("lehrveranstaltungsuebersichtsseite.fxml");
-                    ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).setLayout(layout);
                     ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).uebersichtsseiteAufrufen(nutzerInstanz,lehrveranstaltung);
+                    ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).setLayout(layout);
+                    ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).getReview(lehrveranstaltung);
 
                 }
                 else{
