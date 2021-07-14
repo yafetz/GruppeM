@@ -70,6 +70,7 @@ public class MeineKurseController {
         }
         if (nutzerInstanz instanceof Student) {
             request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/meine/nutzerId=" + ((Student) nutzerInstanz).getNutzer().getId())).build();
+            col_LvArt.setVisible(false);
         }
         HttpResponse<String> response = null;
         try {
@@ -86,46 +87,65 @@ public class MeineKurseController {
             for(TeilnehmerListe teilnehmerListe1 : teilnehmerListe) {
                 lehrveranstaltungen.add(teilnehmerListe1.getLehrveranstaltung());
             }
+
+            List<Lehrveranstaltung> neueListe = new ArrayList<>();
             List<Integer> jahrSommer = new ArrayList<>();
             List<Integer> jahrWinter = new ArrayList<>();
             List<Lehrveranstaltung> sommer = new ArrayList<>();
             List<Lehrveranstaltung> winter = new ArrayList<>();
-            for (int i =0; i<lehrveranstaltungen.size(); i++) {
-                String semester = lehrveranstaltungen.get(i).getSemester();
-                if (semester.contains("/")) {
-                    semester.replace("WiSe ", "");
-                    String[] zweiteKomponente = semester.split("/");
-                    jahrWinter.add(Integer.valueOf(zweiteKomponente[1]));
-                    winter.add(lehrveranstaltungen.get(i));
+            if(!lehrveranstaltungen.isEmpty()) {
+
+                for (int i = 0; i < lehrveranstaltungen.size(); i++) {
+                    String semester = lehrveranstaltungen.get(i).getSemester();
+                    if (semester.contains("/")) {
+                        semester.replace("WiSe ", "");
+                        String[] zweiteKomponente = semester.split("/");
+                        jahrWinter.add(Integer.valueOf(zweiteKomponente[1]));
+                        winter.add(lehrveranstaltungen.get(i));
+                    } else {
+                        String lol = semester.replace("SoSe ", "");
+                        jahrSommer.add(Integer.valueOf(lol));
+                        sommer.add(lehrveranstaltungen.get(i));
+                    }
                 }
-                else {
-                    String lol = semester.replace("SoSe ", "");
-                    jahrSommer.add(Integer.valueOf(lol));
-                    sommer.add(lehrveranstaltungen.get(i));
+
+
+
+                if (winter != null && sommer != null) {
+                    for (int i = 0; i < winter.size(); i++) {
+                        winter.get(i).setJahr(jahrWinter.get(i));
+                    }
+                    winter.sort(Comparator.comparing(Lehrveranstaltung::getJahr).reversed());
+
+                    for (int i = 0; i < sommer.size(); i++) {
+                        sommer.get(i).setJahr(jahrSommer.get(i));
+                    }
+                    sommer.sort(Comparator.comparing(Lehrveranstaltung::getJahr).reversed());
+
+                    neueListe = mergeAndSort(winter, sommer.get(0));
+
+                    for (int i = 1; i < sommer.size(); i++) {
+                        neueListe = mergeAndSort(neueListe, sommer.get(i));
+                    }
+                }
+                else if (winter != null && sommer == null) {
+                    for (int i = 0; i < winter.size(); i++) {
+                        winter.get(i).setJahr(jahrWinter.get(i));
+                    }
+                    winter.sort(Comparator.comparing(Lehrveranstaltung::getJahr).reversed());
+                    neueListe = winter;
+                }
+                else if (winter == null && sommer != null) {
+                    for (int i = 0; i < sommer.size(); i++) {
+                        sommer.get(i).setJahr(jahrSommer.get(i));
+                    }
+                    sommer.sort(Comparator.comparing(Lehrveranstaltung::getJahr).reversed());
+                    neueListe = sommer;
+                } else {
+                    neueListe = null;
                 }
             }
-            if(winter!=null) {
-                for (int i = 0; i < winter.size(); i++) {
-                    winter.get(i).setJahr(jahrWinter.get(i));
-                }
-                winter.sort(Comparator.comparing(Lehrveranstaltung::getJahr).reversed());
-            }
 
-            if(sommer!=null) {
-                for (int i = 0; i < sommer.size(); i++) {
-                    sommer.get(i).setJahr(jahrSommer.get(i));
-                }
-                sommer.sort(Comparator.comparing(Lehrveranstaltung::getJahr).reversed());
-            }
-
-
-            List<Lehrveranstaltung> neueListe = new ArrayList<>();
-
-            neueListe =mergeAndSort(winter,sommer.get(0));
-
-            for (int i=1; i< sommer.size();i++) {
-                neueListe =mergeAndSort(neueListe,sommer.get(i));
-            }
 
 //            set property of each column of the tableview
             col_LvId.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,Long>("id"));
@@ -133,6 +153,7 @@ public class MeineKurseController {
             col_LvSemester.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("Semester"));
             col_LvArt.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("Art"));
             col_LvLehrende.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,String>("lehrenderName"));
+
 
 //            Angelehnt an: https://stackoverflow.com/questions/35562037/how-to-set-click-event-for-a-cell-of-a-table-column-in-a-tableview
             col_LvTitel.setCellFactory(tablecell -> {
