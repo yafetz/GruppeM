@@ -5,6 +5,7 @@ import Client.Layouts.Layout;
 import Client.Modell.Lehrender;
 import Client.Modell.Lehrveranstaltung;
 import Client.Modell.Student;
+import Client.Modell.ToDoItem;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.collections.FXCollections;
@@ -380,5 +381,7 @@ public class AlleKurseController{
         this.nutzerInstanz = nutzerInstanz;
         populateTableView();
     }
+
+
 
 }

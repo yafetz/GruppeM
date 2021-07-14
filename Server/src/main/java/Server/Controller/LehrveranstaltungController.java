@@ -90,11 +90,11 @@ public class LehrveranstaltungController {
     }
 
     @PostMapping("/update/lehrveranstaltung/")
-    public void updateCourse(@RequestParam("titel") String titel, @RequestParam("lehrenderd") Nutzer lehrenderd, @RequestParam("art") String art, @RequestParam("semester") String semester){
+    public void updateCourse(@RequestParam("titel") String titel, @RequestParam("lehrenderd") Nutzer lehrenderd, @RequestParam("art") String art, @RequestParam("semester") String semester,@RequestParam("id") long id){
 
         Lehrender lehrender = lehrenderRepository.findLehrenderByNutzerId(lehrenderd);
         long lehrenderId=  lehrender.getId();
-        lehrveranstaltungService.createNewLehrveranstaltung(titel,lehrenderId,art,semester);
+        lehrveranstaltungService.updateLehrveranstaltung(titel,lehrenderId,art,semester, id);
     }
 
 }

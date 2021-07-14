@@ -234,7 +234,7 @@ public class HomescreenController {
                 cell.setCursor(Cursor.HAND);
                 cell.setOnMouseClicked(e -> {
                             if (!cell.isEmpty()) {
-                                redirectToCourseOverview(cell.getTableRow().getItem().getId());
+                                bearbeiten(cell.getTableRow().getItem());
 
                             }
                         }
@@ -250,6 +250,13 @@ public class HomescreenController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+    public void bearbeiten(Lehrveranstaltung lehrveranstaltung) {
+        layout.instanceLayout("lehrveranstaltungBearbeiten.fxml");
+        ((LehrveranstaltungBearbeitenController) layout.getController()).setLayout(layout);
+        ((LehrveranstaltungBearbeitenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
+        ((LehrveranstaltungBearbeitenController) layout.getController()).setNutzer(nutzerInstanz);
+
     }
     public List<Lehrveranstaltung> mergeAndSort(List<Lehrveranstaltung> list, Lehrveranstaltung var) {
         List<Lehrveranstaltung> listSecond = new ArrayList<Lehrveranstaltung>(list.size() + 1);
