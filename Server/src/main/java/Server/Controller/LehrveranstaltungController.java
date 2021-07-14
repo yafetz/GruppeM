@@ -89,6 +89,14 @@ public class LehrveranstaltungController {
         return new ResponseEntity<>("Servernachricht: CSV-Datei erfolgreich hochgeladen!", null, HttpStatus.OK);
     }
 
+    @PostMapping("/update/lehrveranstaltung/")
+    public void updateCourse(@RequestParam("titel") String titel, @RequestParam("lehrenderd") Nutzer lehrenderd, @RequestParam("art") String art, @RequestParam("semester") String semester){
+
+        Lehrender lehrender = lehrenderRepository.findLehrenderByNutzerId(lehrenderd);
+        long lehrenderId=  lehrender.getId();
+        lehrveranstaltungService.createNewLehrveranstaltung(titel,lehrenderId,art,semester);
+    }
+
 }
 
 

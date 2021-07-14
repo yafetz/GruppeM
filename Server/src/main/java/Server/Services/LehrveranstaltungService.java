@@ -59,6 +59,22 @@ public class LehrveranstaltungService {
         teilnehmerListeRepository.save(teilnehmerListe);
 
     }
+    public void updateLehrveranstaltung(String titel, long lehrenderId, String art, String semester, long id){
+        Lehrveranstaltung lehrveranstaltung = lehrveranstaltungRepository.findLehrveranstaltungById(id);
+        lehrveranstaltung.setTitel(titel);
+        lehrveranstaltung.setLehrender(lehrenderRepository.findLehrenderById(lehrenderId));
+        lehrveranstaltung.setArt(art);
+        lehrveranstaltung.setSemester(semester);
+        lehrveranstaltungRepository.save(lehrveranstaltung);
+        TeilnehmerListe teilnehmerListe = new TeilnehmerListe();
+        //Lehrender lehrender = lehrenderRepository.findLehrenderById(lehrenderId);
+        teilnehmerListeRepository.deleteById(lehrenderId);
+        Lehrender lehrender = lehrenderRepository.findLehrenderById(lehrenderId);
+        teilnehmerListe.setNutzerId(lehrender.getNutzerId());
+        teilnehmerListe.setLehrveranstaltung(lehrveranstaltung);
+        teilnehmerListeRepository.save(teilnehmerListe);
+
+    }
 
 
     public void extractData(List<MultipartFile> multipartFiles, Long nutzerId ) throws IOException {

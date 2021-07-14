@@ -24,6 +24,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -94,6 +96,47 @@ public class HomescreenController {
 
             for(TeilnehmerListe teilnehmerListe1 : teilnehmerListe) {
                 lehrveranstaltungen.add(teilnehmerListe1.getLehrveranstaltung());
+            }
+            List<Integer> jahrSommer = new ArrayList<>();
+            List<Integer> jahrWinter = new ArrayList<>();
+            List<Lehrveranstaltung> sommer = new ArrayList<>();
+            List<Lehrveranstaltung> winter = new ArrayList<>();
+            for (int i =0; i<lehrveranstaltungen.size(); i++) {
+                String semester = lehrveranstaltungen.get(i).getSemester();
+                if (semester.contains("/")) {
+                    semester.replace("WiSe ", "");
+                    String[] zweiteKomponente = semester.split("/");
+                    jahrWinter.add(Integer.valueOf(zweiteKomponente[1]));
+                    winter.add(lehrveranstaltungen.get(i));
+                }
+                else {
+                    String lol = semester.replace("SoSe ", "");
+                    jahrSommer.add(Integer.valueOf(lol));
+                    sommer.add(lehrveranstaltungen.get(i));
+                }
+            }
+            if(winter!=null) {
+                for (int i = 0; i < winter.size(); i++) {
+                    winter.get(i).setJahr(jahrWinter.get(i));
+                }
+                winter.sort(Comparator.comparing(Lehrveranstaltung::getJahr).reversed());
+            }
+            System.out.println(winter);
+
+            if(sommer!=null) {
+                for (int i = 0; i < sommer.size(); i++) {
+                    sommer.get(i).setJahr(jahrSommer.get(i));
+                }
+                sommer.sort(Comparator.comparing(Lehrveranstaltung::getJahr).reversed());
+            }
+
+
+            List<Lehrveranstaltung> neueListe = new ArrayList<>();
+
+            neueListe =mergeAndSort(winter,sommer.get(0));
+
+            for (int i=1; i< sommer.size();i++) {
+                neueListe =mergeAndSort(neueListe,sommer.get(i));
             }
 
 //            set property of each column of the tableview
@@ -194,7 +237,7 @@ public class HomescreenController {
                 return cell;
             });
             // ObservableList is required to populate the table meineLv using .setItems()
-            ObservableList<Lehrveranstaltung> obsLv = FXCollections.observableList(lehrveranstaltungen);
+            ObservableList<Lehrveranstaltung> obsLv = FXCollections.observableList(neueListe);
             meineLv.setItems(obsLv);
 
         } catch (IOException e) {
@@ -202,6 +245,20 @@ public class HomescreenController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+    public List<Lehrveranstaltung> mergeAndSort(List<Lehrveranstaltung> list, Lehrveranstaltung var) {
+        List<Lehrveranstaltung> listSecond = new ArrayList<Lehrveranstaltung>(list.size() + 1);
+        int i = 0;
+        while ((i < list.size()) && (list.get(i).getJahr() > var.getJahr())) {
+            listSecond.add(list.get(i));
+            i++;
+        }
+        listSecond.add(var);
+        while (i < list.size()) {
+            listSecond.add(list.get(i));
+            i++;
+        }
+        return listSecond;
     }
 
     public void redirectToCourseOverview(Integer lehrveranstaltungId) {
