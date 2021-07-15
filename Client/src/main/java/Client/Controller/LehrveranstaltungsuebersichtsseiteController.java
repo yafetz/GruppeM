@@ -240,6 +240,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
                 studentenliste.setVisible(false);
                 getMaterial((Lehrveranstaltung) lehrveranstaltung);
                 checkThreshold(lehrveranstaltung, ((Student)nutzer).getNutzer().getId());
+                checkIfReviewed(lehrveranstaltung, ((Student)nutzer).getNutzer().getId());
             }
         }
 
