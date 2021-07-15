@@ -3,6 +3,8 @@ package Client.Controller;
 import Client.Layouts.Layout;
 import Client.Modell.Lehrender;
 import Client.Modell.Lehrveranstaltung;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -35,6 +37,7 @@ public class LehrveranstaltungBearbeitenController {
     @FXML
     private ChoiceBox<String> typVorlesung;
     private Object nutzer;
+    ObservableList<String> options = FXCollections.observableArrayList("Vorlesung","Seminar");
 
     private Layout layout;
     private Lehrveranstaltung lehrveranstaltung;
@@ -48,6 +51,7 @@ public class LehrveranstaltungBearbeitenController {
         titel.setText(lehrveranstaltung.getTitel());
         semesters.setText(lehrveranstaltung.getSemester());
         typVorlesung.setValue(lehrveranstaltung.getArt());
+        typVorlesung.setItems(options);
     }
 
     public Layout getLayout() {

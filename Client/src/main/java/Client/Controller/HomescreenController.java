@@ -118,8 +118,8 @@ public class HomescreenController {
                         jahrWinter.add(Integer.valueOf(zweiteKomponente[1]));
                         winter.add(lehrveranstaltungen.get(i));
                     } else {
-                        String lol = semester.replace("SoSe ", "");
-                        jahrSommer.add(Integer.valueOf(lol));
+                        String som = semester.replace("SoSe ", "");
+                        jahrSommer.add(Integer.valueOf(som));
                         sommer.add(lehrveranstaltungen.get(i));
                     }
                 }
@@ -137,11 +137,10 @@ public class HomescreenController {
                     }
                     sommer.sort(Comparator.comparing(Lehrveranstaltung::getJahr).reversed());
 
-                    neueListe = sort(winter, sommer.get(0));
-
-                    for (int i = 1; i < sommer.size(); i++) {
-                        neueListe = sort(neueListe, sommer.get(i));
+                    for (int i = 0; i < sommer.size(); i++) {
+                        winter = sort(winter, sommer.get(i));
                     }
+                    neueListe=winter;
                 }
                 else if (winter != null && sommer == null) {
                     for (int i = 0; i < winter.size(); i++) {
