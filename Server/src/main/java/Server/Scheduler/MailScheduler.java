@@ -47,7 +47,7 @@ public class MailScheduler {
     public void sendeBewertung() {
         LocalDateTime datum;
         List<DatumUndUhrzeit> listdatum = datumUhrzeitRepository.findAll();
-        System.out.println(listdatum+"hi");
+
         if (listdatum.isEmpty()) {
             datum = LocalDateTime.now();
             System.out.println(datum);
