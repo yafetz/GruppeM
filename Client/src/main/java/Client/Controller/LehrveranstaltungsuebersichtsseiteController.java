@@ -62,9 +62,33 @@ public class LehrveranstaltungsuebersichtsseiteController {
         ((StudentenListeController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
     }
 
+    public void checkIfReviewed(Lehrveranstaltung lehrveranstaltungid, long nutzerid){
+        long lehrid = lehrveranstaltungid.getId();
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/review/check/user/"+nutzerid+"&"+lehrid)).build();
+        HttpResponse<String> response;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.body().equals("true")){
+                reviewButton.setVisible(true);
+            }
+            else {
+                reviewButton.setVisible(false);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
     public void checkThreshold(Lehrveranstaltung lehrveranstaltung1, long nutzerid){
         long lehrid = lehrveranstaltung1.getId();
-        //long nutzerid = nutzer.getId();
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/review/threshold/" +nutzerid+"&"+lehrid)).build();
         HttpResponse<String> response;

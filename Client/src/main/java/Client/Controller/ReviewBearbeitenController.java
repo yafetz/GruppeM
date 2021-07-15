@@ -176,20 +176,7 @@ public class ReviewBearbeitenController {
             fehler.showAndWait();
             return false;
         } else {
-            //Check ob Aufgabe richtig gelöst wurde
-          /*  boolean correct = true;
-            for (int j = 0; j < antworten.size(); j++) {
-                if (antworten.get(j).getisCorrect() != checkboxanswers.get(j).isSelected()) {
-                    correct = false;
-                    break;
-                }
-            }
-            if (correct) {
-                Feedback.add("Die " + (reviewIndex + 1) + ". Frage wurde richtig beantwortet");
-                korrekteFragen++;
-            } else {
-                Feedback.add("     Die " + (reviewIndex + 1) + ". Frage wurde falsch beantwortet");
-            }*/
+
             try (CloseableHttpClient client1 = HttpClients.createDefault()) {
 
 
@@ -206,11 +193,6 @@ public class ReviewBearbeitenController {
                     }
                 }
 
-               /* if(correct){
-                    entity1.addTextBody("korrekt","true" );
-                }else{
-                    entity1.addTextBody("korrekt","false" );
-                }*/
                 HttpEntity requestEntity1 = entity1.build();
                 post1.setEntity(requestEntity1);
 
@@ -256,7 +238,6 @@ public class ReviewBearbeitenController {
                                 FeedbackText.setStyle("-fx-padding: 10 0 0 10; -fx-background-radius: 10.0;");
                                 questionVbox.getChildren().add(FeedbackText);
                             }
-                           // double quote = (double) korrekteFragen/fragen.size();
 
                             try (CloseableHttpClient client1 = HttpClients.createDefault()) {
 
@@ -265,11 +246,7 @@ public class ReviewBearbeitenController {
                                 MultipartEntityBuilder entity1 = MultipartEntityBuilder.create();
                                 entity1.addTextBody("nutzerId", String.valueOf(((Student) nutzer).getNutzer().getId()));
                                 entity1.addTextBody("reviewId", String.valueOf(review.getId()) );
-                               /* if(quote >= 0.5){
-                                    entity1.addTextBody("bestanden","true" );
-                                }else{
-                                    entity1.addTextBody("bestanden","false" );
-                                }*/
+
                                 HttpEntity requestEntity1 = entity1.build();
                                 post1.setEntity(requestEntity1);
 
