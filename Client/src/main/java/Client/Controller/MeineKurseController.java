@@ -70,7 +70,7 @@ public class MeineKurseController {
         }
         if (nutzerInstanz instanceof Student) {
             request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/meine/nutzerId=" + ((Student) nutzerInstanz).getNutzer().getId())).build();
-            col_LvArt.setVisible(false);
+
         }
         HttpResponse<String> response = null;
         try {
@@ -98,8 +98,8 @@ public class MeineKurseController {
                 for (int i = 0; i < lehrveranstaltungen.size(); i++) {
                     String semester = lehrveranstaltungen.get(i).getSemester();
                     if (semester.contains("/")) {
-                        semester.replace("WiSe ", "");
-                        String[] zweiteKomponente = semester.split("/");
+                        String win=semester.replace("WiSe ", "");
+                        String[] zweiteKomponente = win.split("/");
                         jahrWinter.add(Integer.valueOf(zweiteKomponente[1]));
                         winter.add(lehrveranstaltungen.get(i));
                     } else {
@@ -122,10 +122,10 @@ public class MeineKurseController {
                     }
                     sommer.sort(Comparator.comparing(Lehrveranstaltung::getJahr).reversed());
 
-                    neueListe = mergeAndSort(winter, sommer.get(0));
+                    neueListe = sort(winter, sommer.get(0));
 
                     for (int i = 1; i < sommer.size(); i++) {
-                        neueListe = mergeAndSort(neueListe, sommer.get(i));
+                        neueListe = sort(neueListe, sommer.get(i));
                     }
                 }
                 else if (winter != null && sommer == null) {
@@ -145,6 +145,7 @@ public class MeineKurseController {
                     neueListe = null;
                 }
             }
+
 
 
 //            set property of each column of the tableview
@@ -258,19 +259,19 @@ public class MeineKurseController {
     }
 
 
-    public List<Lehrveranstaltung> mergeAndSort(List<Lehrveranstaltung> list, Lehrveranstaltung var) {
-        List<Lehrveranstaltung> listSecond = new ArrayList<Lehrveranstaltung>(list.size() + 1);
+    public List<Lehrveranstaltung> sort(List<Lehrveranstaltung> list, Lehrveranstaltung var) {
+        List<Lehrveranstaltung> neu = new ArrayList<Lehrveranstaltung>(list.size() + 1);
         int i = 0;
         while ((i < list.size()) && (list.get(i).getJahr() > var.getJahr())) {
-            listSecond.add(list.get(i));
+            neu.add(list.get(i));
             i++;
         }
-        listSecond.add(var);
+        neu.add(var);
         while (i < list.size()) {
-            listSecond.add(list.get(i));
+            neu.add(list.get(i));
             i++;
         }
-        return listSecond;
+        return neu;
     }
 
     public void redirectToCourseOverview(Integer lehrveranstaltungId) {
