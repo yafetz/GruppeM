@@ -72,10 +72,10 @@ public class LehrveranstaltungsuebersichtsseiteController {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.body().equals("true")){
-                reviewButton.setVisible(true);
+                reviewButton.setVisible(false);
             }
             else {
-                reviewButton.setVisible(false);
+                reviewButton.setVisible(true);
             }
 
         } catch (IOException e) {
