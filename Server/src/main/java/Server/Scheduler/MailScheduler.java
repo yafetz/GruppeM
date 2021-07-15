@@ -43,11 +43,12 @@ public class MailScheduler {
     }
 
 
-    @Scheduled(fixedRate = 60 * 60 * 1000)
+    @Scheduled(fixedRate = 60 * 1000)
     public void sendeBewertung() {
         LocalDateTime datum;
         List<DatumUndUhrzeit> listdatum = datumUhrzeitRepository.findAll();
-        if (listdatum == null) {
+        System.out.println(listdatum+"hi");
+        if (listdatum.isEmpty()) {
             datum = LocalDateTime.now();
             System.out.println(datum);
         } else {

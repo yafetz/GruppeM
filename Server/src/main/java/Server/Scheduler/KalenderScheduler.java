@@ -34,9 +34,15 @@ public class KalenderScheduler {
     public void reportCurrentTime() {
 
         List<DatumUndUhrzeit> listdatum = datumUhrzeitRepository.findAll();
-        LocalDateTime datum = listdatum.get(0).getDatum();
-        reminder = kalenderRepository.findAll();
-        LocalDateTime jetzt = datum;
+        LocalDateTime jetzt;
+        if(!listdatum.isEmpty()) {
+            LocalDateTime datum = listdatum.get(0).getDatum();
+            reminder = kalenderRepository.findAll();
+            jetzt = datum;
+        }
+        else {
+            jetzt = LocalDateTime.now();
+        }
 
         for(int i = 0; i < reminder.size(); i++) {
             if (reminder.get(i).getReminderShow().equals("Email")) {
