@@ -242,7 +242,7 @@ public class MeineKurseController {
                 cell.setCursor(Cursor.HAND);
                 cell.setOnMouseClicked(e -> {
                             if (!cell.isEmpty()) {
-                                bearbeiten(cell.getTableRow().getItem());
+                                redirectToCourseOverview(cell.getTableRow().getItem().getId());
 
                             }
                         }
@@ -350,11 +350,4 @@ public class MeineKurseController {
         ((LehrveranstaltungErstellenController) layout.getController()).setLayout(layout);
     }
 
-    public void bearbeiten(Lehrveranstaltung lehrveranstaltung) {
-        layout.instanceLayout("lehrveranstaltungBearbeiten.fxml");
-        ((LehrveranstaltungBearbeitenController) layout.getController()).setLayout(layout);
-        ((LehrveranstaltungBearbeitenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
-        ((LehrveranstaltungBearbeitenController) layout.getController()).setNutzer(nutzerInstanz);
-
-    }
 }

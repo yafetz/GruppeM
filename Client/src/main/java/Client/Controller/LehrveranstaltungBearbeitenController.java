@@ -136,10 +136,10 @@ public class LehrveranstaltungBearbeitenController {
                 try (CloseableHttpResponse response1 = client1.execute(post)) {
                     HttpEntity responseEntity = response1.getEntity();
                     String result = EntityUtils.toString(responseEntity);
-                    layout.instanceLayout("meineKurse.fxml");
-                    ((MeineKurseController) layout.getController()).setLayout(layout);
-                    ((MeineKurseController) layout.getController()).populateTableView();
-                }
+                    layout.instanceLayout("lehrveranstaltunguebersichtsseite.fxml");
+                    ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).setLayout(layout);
+                    ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).uebersichtsseiteAufrufen(nutzer,lehrveranstaltung);
+                }((LehrveranstaltungsuebersichtsseiteController) layout.getController()).getReview(lehrveranstaltung);
 
             } catch (IOException e) {
                 e.printStackTrace();
