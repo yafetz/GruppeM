@@ -8,14 +8,6 @@ public class ToDoItem {
 
     private String titel;
 
-    public String getDeadline() {
-        return deadline;
-    }
-
-    public void setDeadline(String deadline) {
-        this.deadline = deadline;
-    }
-
     private String deadline;
 
     private String verantwortliche;
@@ -31,6 +23,14 @@ public class ToDoItem {
     private String erledigt;
     private Long nutzerId;
     private Long projektgruppeId;
+
+    public String getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(String deadline) {
+        this.deadline = deadline;
+    }
 
     public Long getNutzerId() {
         return nutzerId;

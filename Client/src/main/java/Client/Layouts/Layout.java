@@ -1,11 +1,15 @@
 package Client.Layouts;
 
 import Client.Controller.*;
+import Client.Controller.Chat.ChatController;
+import Client.Controller.Kalender.CalenderController;
+import Client.Controller.Kurse.AlleKurseController;
+import Client.Controller.Kurse.MeineKurseController;
+import Client.Controller.NutzerProfil.UserprofilController;
 import Client.Modell.Lehrender;
 import Client.Modell.Student;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -23,9 +27,6 @@ import javafx.util.Duration;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Layout {
 

@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="562.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.ChatController">
+<AnchorPane prefHeight="562.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.Chat.ChatController">
    <Button fx:id="senden" layoutX="909.0" layoutY="488.0" mnemonicParsing="false" onAction="#sendeNachricht" prefHeight="51.0" prefWidth="98.0" text="Senden" />
    <TextField fx:id="nachricht" layoutX="14.0" layoutY="488.0" prefHeight="51.0" prefWidth="871.0" promptText="Nachricht eingeben" />
    <ScrollPane prefHeight="470.0" prefWidth="1020.0" hbarPolicy="NEVER" style="-fx-background-color: white; ">

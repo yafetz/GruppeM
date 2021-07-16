@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="638.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.Thema.LiteraturHinzufügenController">
+    <children>
+        <Label layoutX="40.0" layoutY="29.0" text="Literatur Hinzufügen">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+        <Label fx:id="thema_titel" layoutX="40.0" layoutY="82.0" text="Thema">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <ScrollPane layoutX="41.0" layoutY="161.0" prefHeight="457.0" prefWidth="469.0">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="449.0" prefWidth="466.0">
+                    <children>
+                        <TableView fx:id="Literatur_noch_vorhanden_table" prefHeight="457.0" prefWidth="469.0">
+                            <columns>
+                                <TableColumn fx:id="literatur_noch_vorhanden_titel_column" prefWidth="290.66667687892914" text="Literatur Titel" />
+                            </columns>
+                        </TableView>
+                    </children>
+                </AnchorPane>
+            </content>
+        </ScrollPane>
+        <Label layoutX="41.0" layoutY="128.0" text="Noch Vorhandene Literatur:" />
+        <Label layoutX="556.0" layoutY="128.0" text="Literatur Hinzufügen:" />
+        <Button fx:id="addLiteratur" layoutX="1105.0" layoutY="161.0" mnemonicParsing="false" onAction="#LiteraturHinzufügen" text="Hinzufügen" />
+        <ScrollPane layoutX="556.0" layoutY="161.0" prefHeight="457.0" prefWidth="469.0">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="449.0" prefWidth="466.0">
+                    <children>
+                        <TableView fx:id="literatur_jetzt_table" prefHeight="457.0" prefWidth="469.0">
+                            <columns>
+                                <TableColumn fx:id="literatur_jetzt_titel_column" prefWidth="352.66663110256195" text="Literatur Titel" />
+                            </columns>
+                        </TableView>
+                    </children>
+                </AnchorPane>
+            </content>
+        </ScrollPane>
+      <Button fx:id="bibtex_button" onAction="#BibtexFileUpload" layoutX="399.0" layoutY="124.0" mnemonicParsing="false" text="Bibtex File Upload" />
+    </children>
+</AnchorPane>
