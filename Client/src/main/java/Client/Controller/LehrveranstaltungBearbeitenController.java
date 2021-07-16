@@ -139,7 +139,7 @@ public class LehrveranstaltungBearbeitenController {
                     layout.instanceLayout("lehrveranstaltungsuebersichtsseite.fxml");
                     ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).setLayout(layout);
                     ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).uebersichtsseiteAufrufen(nutzer,lehrveranstaltung);
-                }((LehrveranstaltungsuebersichtsseiteController) layout.getController()).getReview(lehrveranstaltung);
+                }
 
             } catch (IOException e) {
                 e.printStackTrace();

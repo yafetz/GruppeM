@@ -87,9 +87,6 @@ public class MeineKurseController {
             for(TeilnehmerListe teilnehmerListe1 : teilnehmerListe) {
                 lehrveranstaltungen.add(teilnehmerListe1.getLehrveranstaltung());
             }
-            for (int i=0; i< lehrveranstaltungen.size(); i++) {
-                System.out.println(lehrveranstaltungen.get(i).getId());
-            }
 
             List<Lehrveranstaltung> neueListe = new ArrayList<>();
             List<Integer> jahrSommer = new ArrayList<>();
