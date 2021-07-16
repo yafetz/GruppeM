@@ -138,6 +138,7 @@ public class LehrveranstaltungBearbeitenController {
                     String result = EntityUtils.toString(responseEntity);
                     layout.instanceLayout("meineKurse.fxml");
                     ((MeineKurseController) layout.getController()).setLayout(layout);
+                    ((MeineKurseController) layout.getController()).populateTableView();
                 }
 
             } catch (IOException e) {

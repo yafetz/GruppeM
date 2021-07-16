@@ -94,7 +94,7 @@ public class LehrveranstaltungController {
 
         Lehrender lehrender = lehrenderRepository.findLehrenderByNutzerId(lehrenderd);
         long lehrenderId=  lehrender.getId();
-        lehrveranstaltungService.updateLehrveranstaltung(titel,lehrenderId,art,semester, id);
+        lehrveranstaltungService.updateLehrveranstaltung(titel,lehrenderId,art,semester, id, lehrenderd);
     }
 
 }

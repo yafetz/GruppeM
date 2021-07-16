@@ -59,18 +59,19 @@ public class LehrveranstaltungService {
         teilnehmerListeRepository.save(teilnehmerListe);
 
     }
-    public void updateLehrveranstaltung(String titel, long lehrenderId, String art, String semester, long id){
+    public void updateLehrveranstaltung(String titel, long lehrenderId, String art, String semester, long id, Nutzer nutzer){
         Lehrveranstaltung lehrveranstaltung = lehrveranstaltungRepository.findLehrveranstaltungById(id);
+        System.out.println(lehrveranstaltung);
         lehrveranstaltung.setTitel(titel);
         lehrveranstaltung.setLehrender(lehrenderRepository.findLehrenderById(lehrenderId));
         lehrveranstaltung.setArt(art);
         lehrveranstaltung.setSemester(semester);
         lehrveranstaltungRepository.save(lehrveranstaltung);
-        TeilnehmerListe teilnehmerListe = new TeilnehmerListe();
+        TeilnehmerListe teilnehmerListe = teilnehmerListeRepository.findTeilnehmerListeByLehrveranstaltungAndNutzerId(lehrveranstaltung,nutzer);
         //Lehrender lehrender = lehrenderRepository.findLehrenderById(lehrenderId);
-        teilnehmerListeRepository.deleteById(lehrenderId);
-        Lehrender lehrender = lehrenderRepository.findLehrenderById(lehrenderId);
-        teilnehmerListe.setNutzerId(lehrender.getNutzerId());
+        //teilnehmerListeRepository.deleteById(lehrenderId);
+        //Lehrender lehrender = lehrenderRepository.findLehrenderById(lehrenderId);
+        teilnehmerListe.setNutzerId(nutzer);
         teilnehmerListe.setLehrveranstaltung(lehrveranstaltung);
         teilnehmerListeRepository.save(teilnehmerListe);
 
