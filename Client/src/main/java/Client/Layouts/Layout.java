@@ -62,8 +62,8 @@ public class Layout {
     private void show(){
         Scene scene = new Scene(container);
         stage.setScene(scene);
-        stage.setMaximized(true);
-        stage.setFullScreen(true);
+        stage.setMaximized(false);
+        stage.setFullScreen(false);
         stage.setFullScreenExitHint("");
         stage.show();
     }

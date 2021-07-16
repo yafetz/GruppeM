@@ -13,22 +13,30 @@ public class Termin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     private String titel;
+
     @Column(nullable = false)
     private LocalDateTime von;
+
     @Column(nullable = false)
     private LocalDateTime bis;
+
     @Column(nullable = false)
     private int reminderValue;
+
     @Column(nullable = false)
     private String reminderArt;
+
     @Column(nullable = false)
     private String reminderShow;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name= "lehrveranstaltungs_Id", nullable = false)
     @JsonProperty("lehrveranstaltung")
     private Lehrveranstaltung lehrveranstaltung;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="nutzer_Id", nullable=true)
     @JsonProperty("nutzer_Id")
