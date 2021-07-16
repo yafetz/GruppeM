@@ -188,6 +188,8 @@ public class LehrmaterialController {
             this.uploadSeiteLabel.setText("Lehrmaterial hochladen");
         } else if (modus.equals("CSV")) {
             this.uploadSeiteLabel.setText("CSV-Datei hochladen");
+        } else if (modus.equals("projektgruppe")) {
+            this.uploadSeiteLabel.setText("Datei hochladen");
         }
     }
 }

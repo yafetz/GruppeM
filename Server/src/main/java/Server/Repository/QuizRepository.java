@@ -12,6 +12,6 @@ import java.util.List;
 public interface QuizRepository extends JpaRepository<Quiz, Long> {
     List<Quiz> findAllByLehrveranstaltung(Lehrveranstaltung lehrveranstaltungsId);
     Quiz findById(long id);
-    @Query("SELECT COUNT(quiz.id) FROM Quiz quiz WHERE quiz.lehrveranstaltung.id LIKE ?1")
+    @Query("SELECT COUNT(quiz.id) FROM Quiz quiz WHERE quiz.lehrveranstaltung.id = ?1")
     int getQuizCount(long lehrveranstaltungsid);
 }

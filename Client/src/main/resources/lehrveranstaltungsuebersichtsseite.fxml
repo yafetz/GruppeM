@@ -1,27 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="616.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.LehrveranstaltungsuebersichtsseiteController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="616.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.LehrveranstaltungsuebersichtsseiteController">
     <children>
-        <Label fx:id="title" layoutX="158.0" layoutY="80.0" prefHeight="57.0" text="Titel">
+        <Label fx:id="title" layoutX="63.0" layoutY="48.0" prefHeight="57.0" text="Titel">
             <font>
                 <Font size="33.0" />
             </font>
         </Label>
         <Accordion layoutX="146.0" layoutY="376.0" />
-        <Button fx:id="materialUpload" layoutX="265.0" layoutY="137.0" mnemonicParsing="false" onAction="#materialUploadPressedButton" text="Lehrmaterialien hochladen" />
-        <TableView fx:id="material" layoutX="158.0" layoutY="362.0" prefHeight="252.0" prefWidth="390.0">
+        <TableView fx:id="material" layoutX="63.0" layoutY="249.0" prefHeight="259.0" prefWidth="475.0">
             <columns>
-                <TableColumn fx:id="teachMat" prefWidth="388.60003662109375" text="Lehrmaterialien" />
+                <TableColumn fx:id="teachMat" prefWidth="473.9999821980794" text="Lehrmaterialien" />
             </columns>
         </TableView>
-        <Button fx:id="teilnehmerListe" layoutX="158.0" layoutY="137.0" mnemonicParsing="false" onAction="#teilnehmerListe" text="Teilnehmerliste" />
-      <Button fx:id="studentenliste" layoutX="55.0" layoutY="137.0" mnemonicParsing="false" onAction="#Studenliste" text="Studentenliste" />
-      <Button fx:id="projektgruppe_btn" layoutX="434.0" layoutY="137.0" mnemonicParsing="false" onAction="#projektgruppePressedButton" text="Projektgruppen" />
-      <Button fx:id="quizButtonUE" layoutX="555.0" layoutY="137.0" mnemonicParsing="false" onAction="#quizPressed" text="Quiz" />
-      <Button fx:id="reviewButton" layoutX="620.0" layoutY="137.0" mnemonicParsing="false" text="Review" onAction="#reviewPressed" />
+      <HBox fx:id="hboxTeacher" layoutX="63.0" layoutY="148.0" prefHeight="25.0" prefWidth="695.0">
+         <children>
+            <Button fx:id="studentenliste" mnemonicParsing="false" onAction="#Studenliste" prefWidth="140.0" text="Studentenliste" />
+              <Button fx:id="materialUpload" mnemonicParsing="false" onAction="#materialUploadPressedButton" prefWidth="140.0" text="Materialien hochladen" />
+         </children>
+      </HBox>
+      <HBox fx:id="hboxStudent" layoutX="63.0" layoutY="105.0" prefHeight="25.0" prefWidth="612.0">
+         <children>
+              <Button fx:id="teilnehmerListe" mnemonicParsing="false" onAction="#teilnehmerListe" prefWidth="140.0" text="Teilnehmerliste" />
+            <Button fx:id="projektgruppe_btn" mnemonicParsing="false" onAction="#projektgruppePressedButton" prefWidth="140.0" text="Projektgruppen" />
+            <Button fx:id="quizButtonUE" mnemonicParsing="false" onAction="#quizPressed" prefWidth="140.0" text="Quiz" />
+            <Button fx:id="reviewBtn" mnemonicParsing="false" onAction="#reviewPressed" prefWidth="140.0" text="Kursbewertung" />
+         </children>
+      </HBox>
     </children>
 </AnchorPane>

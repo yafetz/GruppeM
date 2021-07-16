@@ -73,7 +73,7 @@ public class ReviewBearbeitenController {
 
             ObjectMapper mapper = new ObjectMapper();
             fragen =  mapper.readValue(response.body(), new TypeReference<List<ReviewQuestion>>() {});
-            System.out.println("FRAGEN       " +fragen);
+//            System.out.println("FRAGEN       " +fragen);
             LoadAnswers();
 
         } catch (JsonMappingException e) {
@@ -95,13 +95,13 @@ public class ReviewBearbeitenController {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/review/alleAntworten/"+ fragen.get(reviewIndex).getId())).build();
         HttpResponse<String> response = null;
-        System.out.println("Load Answers vorher  " +fragen.get(reviewIndex).getId());
+//        System.out.println("Load Answers vorher  " +fragen.get(reviewIndex).getId());
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
             ObjectMapper mapper = new ObjectMapper();
             antworten =  mapper.readValue(response.body(), new TypeReference<List<ReviewAnswer>>() {});
-            System.out.println("ANTWORTEN    " +antworten);
+//            System.out.println("ANTWORTEN    " +antworten);
             for(int i = 0; i < antworten.size(); i++){
                 addAnswer(antworten.get(i).getAnswer());
             }
@@ -222,7 +222,7 @@ public class ReviewBearbeitenController {
 
 
                 if (nextQuestIndex +1 == fragen.size()) {
-                    System.out.println("Review ende");
+//                    System.out.println("Review ende");
                     nextQuestion.setText("Review beenden");
                     nextQuestion.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
@@ -230,7 +230,7 @@ public class ReviewBearbeitenController {
                             CheckAntwort();
                             panel.getChildren().clear();
                             panel.getChildren().add(reviewTitel);
-                            Question.setText("Feedback zu Ihren Abgaben");
+                            Question.setText("Vielen Dank für Ihre Teilnahme!");
                             for (int h = 0; h < Feedback.size(); h++) {
                                 Text FeedbackText = new Text();
                                 FeedbackText.setText(Feedback.get(h));

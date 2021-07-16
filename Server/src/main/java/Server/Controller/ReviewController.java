@@ -4,11 +4,7 @@ import Server.Modell.*;
 import Server.Repository.*;
 import Server.Services.ReviewService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONArray;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,10 +24,11 @@ public class ReviewController {
     private ReviewBearbeitetRepository reviewBearbeitetRepository;
     private QuizRepository quizRepository;
     private QuizBearbeitetRepository quizBearbeitetRepository;
+    private TeilnehmerListeRepository teilnehmerListeRepository;
     
 
     @Autowired
-    public ReviewController(ReviewService reviewService,QuizBearbeitetRepository quizBearbeitetRepository ,QuizRepository quizRepository ,LehrenderRepository lehrenderRepository, LehrveranstaltungRepository lehrveranstaltungRepository, ReviewRepository reviewRepository, ReviewQuestionRepository reviewQuestionRepository, ReviewAnswerRepository reviewAnswerRepository, NutzerRepository nutzerRepository, ReviewBearbeitetRepository reviewBearbeitetRepository, ReviewBearbeitetQuestionRepository reviewBearbeitetQuestionRepository) {
+    public ReviewController(ReviewService reviewService, QuizBearbeitetRepository quizBearbeitetRepository, QuizRepository quizRepository, LehrenderRepository lehrenderRepository, LehrveranstaltungRepository lehrveranstaltungRepository, ReviewRepository reviewRepository, ReviewQuestionRepository reviewQuestionRepository, ReviewAnswerRepository reviewAnswerRepository, NutzerRepository nutzerRepository, ReviewBearbeitetRepository reviewBearbeitetRepository, ReviewBearbeitetQuestionRepository reviewBearbeitetQuestionRepository, TeilnehmerListeRepository teilnehmerListeRepository) {
         this.reviewService = reviewService;
         this.lehrenderRepository = lehrenderRepository;
         this.lehrveranstaltungRepository = lehrveranstaltungRepository;
@@ -43,6 +40,7 @@ public class ReviewController {
         this.reviewBearbeitetRepository = reviewBearbeitetRepository;
         this.quizRepository = quizRepository;
         this.quizBearbeitetRepository = quizBearbeitetRepository;
+        this.teilnehmerListeRepository = teilnehmerListeRepository;
     }
 
     @GetMapping("count/{lehrveranstaltungsid}")
@@ -58,14 +56,13 @@ public class ReviewController {
         review.setLehrveranstaltung(lehrveranstaltungRepository.findLehrveranstaltungById(lehrveranstaltungsId));
         reviewRepository.save(review);
         return "OK: " + review.getId();
-
     }
 
     @PostMapping("createQuestion")
     public String createReviewQuestionAndAnswers(@RequestParam("review") long review, @RequestParam("question") List<String> question) throws JsonProcessingException {
-        for (int j = 0; j < question.size(); j++) {
-            System.out.println(question.get(j));
-        }
+//        for (int j = 0; j < question.size(); j++) {
+//            System.out.println(question.get(j));
+//        }
         for (int i = 0; i < question.size(); i++) {
             ReviewQuestion rq = new ReviewQuestion();
             rq.setReview(reviewRepository.findById(review));
@@ -91,9 +88,10 @@ public class ReviewController {
         return "OK";
     }
 
-    @GetMapping("alleFragen/{reviewId}")
-    public List<ReviewQuestion> getAlleFragen(@PathVariable("reviewId") long reviewId) {
-        return reviewQuestionRepository.findAllByReview(reviewRepository.findById(reviewId));
+    @GetMapping("alleFragen/{lvId}")
+    public List<ReviewQuestion> getAlleFragen(@PathVariable("lvId") long lehrveranstaltungId) {
+        Lehrveranstaltung lv = lehrveranstaltungRepository.findLehrveranstaltungById(lehrveranstaltungId);
+        return reviewQuestionRepository.findAllByReview(reviewRepository.findByLehrveranstaltung(lv));
     }
 
     @GetMapping("check/{lehrveranstaltungsid}")
@@ -123,21 +121,22 @@ public class ReviewController {
 
         return false;
     }
+
     @GetMapping("/threshold/{nutzerid}&{lehrveranstaltungsid}")
     public boolean checkThreshold(@PathVariable("nutzerid") long nutzerid, @PathVariable("lehrveranstaltungsid") long lehrveranstaltungsid){
         float anzahl = quizRepository.getQuizCount(lehrveranstaltungsid);
 
-        float bestanden = quizBearbeitetRepository.getNutzerquiz(nutzerid, lehrveranstaltungsid);
+        float bearbeitet = quizBearbeitetRepository.getNutzerquiz(nutzerid, lehrveranstaltungsid);
 
-    if(bestanden>0.0 && anzahl>0.0){
-        if(anzahl/bestanden >=0.5){
+    if(bearbeitet>0.0 && anzahl>0.0){
+        if(bearbeitet/anzahl >=0.5){
             return true;
         }
-        }
-        else{
-            return false;
-        }
-            return false;
+    }
+    else{
+        return false;
+    }
+        return false;
     }
 
 
@@ -146,6 +145,7 @@ public class ReviewController {
     public List<ReviewAnswer> getAlleAntworten(@PathVariable("reviewQuestionId") long reviewQuestionId){
         return reviewAnswerRepository.findAllByQuestion(reviewQuestionRepository.findById(reviewQuestionId));
     }
+
     @PostMapping("bearbeitetReviewQuestion")
     public String addBearbeitetReviewQuestion(@RequestParam("nutzerId") long nutzerId, @RequestParam("questionId") long questionId, @RequestParam("answer") List<Long> answer){
 
@@ -166,7 +166,84 @@ public class ReviewController {
     @GetMapping("{lehrveranstaltungsid}")
     public Review getReview(@PathVariable("lehrveranstaltungsid") long lehrveranstaltungsid){
         return reviewRepository.findByLehrveranstaltung(lehrveranstaltungRepository.findLehrveranstaltungById(lehrveranstaltungsid));
-
     }
 
+
+
+    @GetMapping("hatLvBestanden/{nutzerId}&{lehrveranstaltungsId}")
+    public boolean hatLehrveranstaltungBestanden(@PathVariable("nutzerId") long nutzerId, @PathVariable("lehrveranstaltungsId") long lehrveranstaltungsId) {
+        float anzahlInsgesamt = quizRepository.getQuizCount(lehrveranstaltungsId);
+        float anzahlBestanden = quizBearbeitetRepository.getAnzahlQuizBestanden(nutzerId, lehrveranstaltungsId);
+
+        if ( (anzahlBestanden > 0.0) && (anzahlInsgesamt > 0.0) ) {
+            if( (anzahlBestanden/anzahlInsgesamt) >= 0.5){
+                return true;
+            }
+        } else {
+            return false;
+        }
+        return false;
+    }
+
+    @GetMapping("teilnehmerAlle/frageId={frageId}")
+    public Integer getAnzahlAntwortenAlleTeilnehmerFuerFrage(@PathVariable("frageId") long frageId) {
+        Lehrveranstaltung lv = reviewQuestionRepository.findById(frageId).getReview().getLehrveranstaltung();
+        List<Student> students = teilnehmerListeRepository.getAllStudByLehrveranstaltungId(lv.getId());
+
+        int count = 0;
+        for(Student student : students) {
+            count += reviewBearbeitetQuestionRepository.getAntwortenCountByQuestionIdAndNutzerId(frageId, student.getNutzerId().getId());
+        }
+        return count;
+    }
+
+    @GetMapping("teilnehmerBestanden/frageId={frageId}")
+    public Integer getAnzahlAntwortenBestandenTeilnehmerFuerFrage(@PathVariable("frageId") long frageId) {
+        Lehrveranstaltung lv = reviewQuestionRepository.findById(frageId).getReview().getLehrveranstaltung();
+        List<Student> students = teilnehmerListeRepository.getAllStudByLehrveranstaltungId(lv.getId());
+
+        int count = 0;
+        for(Student student : students) {
+            if(hatLehrveranstaltungBestanden(student.getNutzerId().getId(), lv.getId())) {
+                count += reviewBearbeitetQuestionRepository.getAntwortenCountByQuestionIdAndNutzerId(frageId, student.getNutzerId().getId());
+            }
+        }
+        return count;
+    }
+
+    @GetMapping("teilnehmerNichtBestanden/frageId={frageId}")
+    public Integer getAnzahlAntwortenNichtBestandenTeilnehmerFuerFrage(@PathVariable("frageId") long frageId) {
+        return (getAnzahlAntwortenAlleTeilnehmerFuerFrage(frageId) - getAnzahlAntwortenBestandenTeilnehmerFuerFrage(frageId));
+    }
+
+
+    @GetMapping("teilnehmerAlle/antwortId={antwortId}")
+    public Integer getAnzahlAuswahlenFuerAntwortAlleTeilnehmer(@PathVariable("antwortId") long antwortId) {
+        Lehrveranstaltung lv = reviewAnswerRepository.findById(antwortId).getQuestion().getReview().getLehrveranstaltung();
+        List<Student> students = teilnehmerListeRepository.getAllStudByLehrveranstaltungId(lv.getId());
+
+        int count = 0;
+        for(Student student : students) {
+           count += reviewBearbeitetQuestionRepository.getEineAntwortCountByAnswerIdAndNutzerId(antwortId, student.getNutzerId().getId());
+        }
+        return count;
+    }
+
+    @GetMapping("teilnehmerBestanden/antwortId={antwortId}")
+    public Integer getAnzahlAuswahlenFuerAntwortBestandenTeilnehmer(@PathVariable("antwortId") long antwortId) {
+        Lehrveranstaltung lv = reviewAnswerRepository.findById(antwortId).getQuestion().getReview().getLehrveranstaltung();
+        List<Student> students = teilnehmerListeRepository.getAllStudByLehrveranstaltungId(lv.getId());
+
+        int count = 0;
+        for(Student student : students) {
+            if(hatLehrveranstaltungBestanden(student.getNutzerId().getId(), lv.getId())) {
+                count += reviewBearbeitetQuestionRepository.getEineAntwortCountByAnswerIdAndNutzerId(antwortId, student.getNutzerId().getId());
+            }
+        }
+        return count;
+    }
+    @GetMapping("teilnehmerNichtBestanden/antwortId={antwortId}")
+    public Integer getAnzahlAuswahlenFuerAntwortNichtBestandenTeilnehmer(@PathVariable("antwortId") long antwortId) {
+        return (getAnzahlAuswahlenFuerAntwortAlleTeilnehmer(antwortId) - getAnzahlAuswahlenFuerAntwortBestandenTeilnehmer(antwortId));
+    }
 }

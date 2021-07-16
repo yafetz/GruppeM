@@ -37,12 +37,10 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class ProjektgruppenController {
+
     @FXML private Button mitgliederZurueckButton;
     @FXML private Label MitgliederPGTitel_label;
     @FXML private Label MitgliederLvTitel_label;
@@ -76,6 +74,7 @@ public class ProjektgruppenController {
     @FXML private TableColumn<Student, String> studentenname_col;
     @FXML private TableColumn<Student, Integer> matrnr_col;
     @FXML private Button erstellen_btn;
+    @FXML private Button lernkarten;
 
     @FXML
     private TableView<Gruppenmaterial> MaterialListe;
@@ -717,5 +716,16 @@ public class ProjektgruppenController {
             ((ProjektgruppenController) layout.getController()).populateTableView();
             ((ProjektgruppenController) layout.getController()).setPGListeSeitentitel(lehrveranstaltung.getTitel());
         }
+    }
+
+    public void lernkartenPressedButton(ActionEvent actionEvent) {
+        actionEvent.consume();
+
+        layout.instanceLayout("lernkarteAnsicht.fxml");
+        ((LernkartenController) layout.getController()).setLayout(layout);
+        ((LernkartenController) layout.getController()).setProjektgruppe(projektgruppe);
+        ((LernkartenController) layout.getController()).setNutzer(nutzer);
+        ((LernkartenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
+        ((LernkartenController) layout.getController()).initLernkartenController();
     }
 }

@@ -26,6 +26,7 @@
             <Button fx:id="todoButton" mnemonicParsing="false" onAction="#todoPressedButton" prefHeight="74.0" prefWidth="97.0" text="ToDo" />
             <Button fx:id="filesButton" mnemonicParsing="false" onAction="#filesPressedButton" prefHeight="74.0" prefWidth="97.0" text="Upload" />
             <Button fx:id="memberButton" mnemonicParsing="false" onAction="#memberPressedButton" prefHeight="74.0" prefWidth="97.0" text="Mitglieder" />
+            <Button fx:id="lernkarten" mnemonicParsing="false" onAction="#lernkartenPressedButton" prefHeight="74.0" prefWidth="97.0" text="Lernkarten" />
          </children>
       </HBox>
       <TableView fx:id="MaterialListe" layoutX="41.0" layoutY="200.0" prefHeight="198.0" prefWidth="390.0">
