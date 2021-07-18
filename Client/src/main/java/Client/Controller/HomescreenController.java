@@ -1,5 +1,10 @@
 package Client.Controller;
 
+import Client.Controller.Chat.ChatController;
+import Client.Controller.Lehrveranstaltung.LehrveranstaltungBeitretenController;
+import Client.Controller.Lehrveranstaltung.LehrveranstaltungErstellenController;
+import Client.Controller.Lehrveranstaltung.LehrveranstaltungsuebersichtsseiteController;
+import Client.Controller.NutzerProfil.UserprofilController;
 import Client.Layouts.Layout;
 import Client.Modell.*;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -11,10 +16,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 import javafx.util.Callback;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URI;

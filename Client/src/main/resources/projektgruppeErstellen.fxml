@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="635.0" prefWidth="891.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.ProjektgruppenController">
+<AnchorPane prefHeight="635.0" prefWidth="891.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.ProjektGruppe.ProjektgruppenController">
     <children>
         <Label layoutX="40.0" layoutY="29.0" text="Neue Projektgruppe erstellen">
             <font>

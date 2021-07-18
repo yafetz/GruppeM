@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="581.0" prefWidth="753.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.QuizUebersichtController">
+<AnchorPane prefHeight="581.0" prefWidth="753.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.Quiz.QuizUebersichtController">
    <children>
       <Label fx:id="title" layoutX="51.0" layoutY="29.0" text="Quizliste" wrapText="true">
          <font>

@@ -68,9 +68,6 @@ public class LehrveranstaltungService {
         lehrveranstaltung.setSemester(semester);
         lehrveranstaltungRepository.save(lehrveranstaltung);
         TeilnehmerListe teilnehmerListe = teilnehmerListeRepository.findTeilnehmerListeByLehrveranstaltungAndNutzerId(lehrveranstaltung,nutzer);
-        //Lehrender lehrender = lehrenderRepository.findLehrenderById(lehrenderId);
-        //teilnehmerListeRepository.deleteById(lehrenderId);
-        //Lehrender lehrender = lehrenderRepository.findLehrenderById(lehrenderId);
         teilnehmerListe.setNutzerId(nutzer);
         teilnehmerListe.setLehrveranstaltung(lehrveranstaltung);
         teilnehmerListeRepository.save(teilnehmerListe);
