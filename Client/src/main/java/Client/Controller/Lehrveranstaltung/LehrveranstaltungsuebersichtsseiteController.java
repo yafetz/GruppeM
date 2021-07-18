@@ -1,6 +1,7 @@
 package Client.Controller.Lehrveranstaltung;
 
 import Client.Controller.CreateReviewController;
+import Client.Controller.LehrveranstaltungBearbeitenController;
 import Client.Controller.Liste.StudentenListeController;
 import Client.Controller.Liste.TeilnehmerListeController;
 import Client.Controller.ProjektGruppe.ProjektgruppenController;
