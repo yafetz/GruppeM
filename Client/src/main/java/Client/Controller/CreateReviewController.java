@@ -2,6 +2,7 @@
 package Client.Controller;
 
 
+import Client.Controller.Lehrveranstaltung.LehrveranstaltungsuebersichtsseiteController;
 import Client.Layouts.Layout;
 import Client.Modell.Lehrender;
 import Client.Modell.Lehrveranstaltung;

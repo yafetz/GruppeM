@@ -1,9 +1,12 @@
 package Client.Controller.Lehrveranstaltung;
 
+import Client.Controller.CreateReviewController;
 import Client.Controller.Liste.StudentenListeController;
 import Client.Controller.Liste.TeilnehmerListeController;
 import Client.Controller.ProjektGruppe.ProjektgruppenController;
 import Client.Controller.Quiz.QuizUebersichtController;
+import Client.Controller.ReviewBearbeitenController;
+import Client.Controller.ReviewStatistikController;
 import Client.Layouts.Layout;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
