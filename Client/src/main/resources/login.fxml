@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.Auth.LoginController">
    <children>
@@ -23,5 +20,8 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
+      <DatePicker fx:id="date" layoutX="723.0" layoutY="590.0" />
+      <TextField fx:id="Stunde" layoutX="723.0" layoutY="623.0" text="Stunde" />
+      <TextField fx:id="Minute" layoutX="723.0" layoutY="655.0" text="Minute" />
    </children>
 </AnchorPane>

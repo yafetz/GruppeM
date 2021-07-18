@@ -53,12 +53,33 @@ public class CalenderController {
     private List<Termin> alleTermine;
     private List<Termin> reminder = new ArrayList<>();
     private Timeline timer;
+    private LocalDateTime datum;
 
     public void setNutzer(Object nutzer){
         this.nutzer = nutzer;
     }
 
     public void Initilaize(){
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/login/getDate/")).build();
+        HttpResponse<String> response2 = null;
+        try {
+            response2 = client.send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println(response2.body());
+
+            String str = response2.body().replace("T", " ").replace("\"", "");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            datum = LocalDateTime.parse(str, formatter);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+        cv.getDayPage().getYearMonthView().setDate(LocalDate.of(datum.getYear(), datum.getMonth(), datum.getDayOfMonth()));
         LadeAlleTermine();
         ChangeEreignisPopUp();
         ReminderPopUp();
@@ -71,7 +92,7 @@ public class CalenderController {
                         new EventHandler<ActionEvent>() {
                             @Override
                             public void handle(ActionEvent event) {
-                                LocalDateTime jetzt = LocalDateTime.now();
+                                LocalDateTime jetzt = datum;
                                 for(int i = 0; i < reminder.size(); i++) {
                                     if (reminder.get(i).getReminderShow().equals("PopUp")) {
                                         if (reminder.get(i).getReminderArt().equalsIgnoreCase("Minuten")) {

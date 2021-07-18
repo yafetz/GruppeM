@@ -1,13 +1,15 @@
 package Server.Scheduler;
 
+import Server.Modell.DatumUndUhrzeit;
 import Server.Modell.Termin;
-import Server.Repository.KalenderRepository;
+import Server.Repository.*;
 import Server.Services.KalenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -16,18 +18,32 @@ import java.util.List;
 public class KalenderScheduler {
     private final KalenderRepository kalenderRepository;
     private final KalenderService kalenderService;
+    private final DatumUhrzeitRepository datumUhrzeitRepository;
     List<Termin> reminder;
+
     @Autowired
-    public KalenderScheduler(KalenderRepository kalenderRepository, KalenderService kalenderService) {
+    public KalenderScheduler(KalenderRepository kalenderRepository, KalenderService kalenderService, DatumUhrzeitRepository datumUhrzeitRepository) {
         this.kalenderRepository = kalenderRepository;
         this.kalenderService = kalenderService;
         reminder = kalenderRepository.findAll();
+
+        this.datumUhrzeitRepository = datumUhrzeitRepository;
     }
 
     @Scheduled(fixedRate = 5000)
     public void reportCurrentTime() {
-        reminder = kalenderRepository.findAll();
-        LocalDateTime jetzt = LocalDateTime.now();
+
+        List<DatumUndUhrzeit> listdatum = datumUhrzeitRepository.findAll();
+        LocalDateTime jetzt;
+        if(!listdatum.isEmpty()) {
+            LocalDateTime datum = listdatum.get(0).getDatum();
+            reminder = kalenderRepository.findAll();
+            jetzt = datum;
+        }
+        else {
+            jetzt = LocalDateTime.now();
+        }
+
         for(int i = 0; i < reminder.size(); i++) {
             if (reminder.get(i).getReminderShow().equals("Email")) {
                 if (reminder.get(i).getReminderArt().equalsIgnoreCase("Minuten")) {
@@ -68,4 +84,12 @@ public class KalenderScheduler {
             }
         }
     }
+
+
+
+
+
+
+
+
 }

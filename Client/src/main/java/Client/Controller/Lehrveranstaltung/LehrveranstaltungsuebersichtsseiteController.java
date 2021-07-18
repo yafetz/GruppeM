@@ -29,7 +29,8 @@ import java.sql.*;
 import java.util.List;
 
 public class LehrveranstaltungsuebersichtsseiteController {
-
+    @FXML
+    private Button bearbeiten;
     @FXML
     private Button projektgruppe_btn;
     @FXML
@@ -221,6 +222,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
 
                 materialUpload.setVisible(false);
                 studentenliste.setVisible(false);
+                bearbeiten.setVisible(false);
                 getMaterial((Lehrveranstaltung) lehrveranstaltung);
                 checkThreshold(lehrveranstaltung, ((Student)nutzer).getNutzer().getId());
             }
@@ -288,4 +290,10 @@ public class LehrveranstaltungsuebersichtsseiteController {
         }
     }
 
+    public void bearbeitenPressedButton(ActionEvent actionEvent) {
+        layout.instanceLayout("lehrveranstaltungBearbeiten.fxml");
+        ((LehrveranstaltungBearbeitenController) layout.getController()).setLayout(layout);
+        ((LehrveranstaltungBearbeitenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
+        ((LehrveranstaltungBearbeitenController) layout.getController()).setNutzer(nutzer);
+    }
 }
