@@ -166,43 +166,43 @@ edition.setText(literatur.getEdition());
             File.setVisible(false);
         }
         if (literatur.getInstitution() != null) {
-institution.setText(literatur.getInstitution());
+            institution.setText(literatur.getInstitution());
         } else {
             institution.setVisible(false);
             Institution.setVisible(false);
         }
         if (literatur.getIsbn() != null) {
-isbn.setText(literatur.getIsbn());
+            isbn.setText(literatur.getIsbn());
         } else {
             isbn.setVisible(false);
             iSBN.setVisible(false);
         }
         if (literatur.getIssn() != null) {
-issn.setText(literatur.getIssn());
+            issn.setText(literatur.getIssn());
         } else {
             issn.setVisible(false);
             ISSN.setVisible(false);
         }
         if (literatur.getJournal() != null) {
-journal.setText(literatur.getJournal());
+            journal.setText(literatur.getJournal());
         } else {
             journal.setVisible(false);
             Journal.setVisible(false);
         }
         if (literatur.getKeywords() != null) {
-keywords.setText(literatur.getKeywords());
+            keywords.setText(literatur.getKeywords());
         } else {
             keywords.setVisible(false);
             Keywords.setVisible(false);
         }
         if (literatur.getNumber() != null) {
-number.setText(literatur.getNumber());
+            number.setText(literatur.getNumber());
         } else {
             number.setVisible(false);
             Nummer.setVisible(false);
         }
         if (literatur.getPages() != null) {
-pages.setText(literatur.getPages());
+            pages.setText(literatur.getPages());
         } else {
             pages.setVisible(false);
             Seiten.setVisible(false);
@@ -215,52 +215,55 @@ pages.setText(literatur.getPages());
 
         }
         if (literatur.getPublisher() != null) {
-pub.setText(literatur.getPublisher());
+            pub.setText(literatur.getPublisher());
         } else {
             pub.setVisible(false);
             Herausgeber.setVisible(false);
         }
         if (literatur.getSeries() != null) {
-series.setText(literatur.getSeries());
+            series.setText(literatur.getSeries());
         } else {
             series.setVisible(false);
             Serie.setVisible(false);
         }
         if (literatur.getTitle() != null) {
+            title.setText(literatur.getTitle());
 
         } else {
-            address.setVisible(false);
-            Address.setVisible(false);
+            title.setVisible(false);
         }
         if (literatur.getType() != null) {
+            art.setText(literatur.getType());
 
         } else {
-            address.setVisible(false);
-            Address.setVisible(false);
+            art.setVisible(false);
         }
         if (literatur.getUrl() != null) {
+            url.setText(literatur.getUrl());
 
         } else {
-            address.setVisible(false);
-            Address.setVisible(false);
+            url.setVisible(false);
+            URL.setVisible(false);
         }
         if (literatur.getUrldate() != null) {
+
 
         } else {
             address.setVisible(false);
             Address.setVisible(false);
         }
         if (literatur.getVolume() != null) {
-
+            volume.setText(literatur.getVolume());
         } else {
-            address.setVisible(false);
-            Address.setVisible(false);
+            volume.setVisible(false);
+            Volume.setVisible(false);
         }
         if (literatur.getYear() != null) {
+            year.setText(literatur.getYear());
 
         } else {
-            address.setVisible(false);
-            Address.setVisible(false);
+            year.setVisible(false);
+            Jahr.setVisible(false);
         }
 
 
