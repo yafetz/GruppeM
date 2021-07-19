@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<AnchorPane prefHeight="564.0" prefWidth="831.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.Thema.LiteraturUploadController">
+    <children>
+        <Label layoutX="37.0" layoutY="49.0" text="Literatur Bibtex Hochladen">
+            <font>
+                <Font size="36.0" />
+            </font>
+        </Label>
+        <Button fx:id="btn_durchsuchen" layoutX="37.0" layoutY="190.0" mnemonicParsing="false" onAction="#durchsuchenPressedButton" text="Durchsuchen">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <Button fx:id="btn_upload" layoutX="42.0" layoutY="449.0" mnemonicParsing="false" onAction="#hochladenPressedButton" text="Hochladen">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <ListView fx:id="listview_upload" layoutX="197.0" layoutY="190.0" prefHeight="230.0" prefWidth="481.0" />
+        <Button fx:id="btn_abbrechen" layoutX="604.0" layoutY="449.0" mnemonicParsing="false" onAction="#abbrechenPressedButton" text="Abbrechen">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor></Button>
+    </children>
+</AnchorPane>
+

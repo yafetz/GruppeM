@@ -16,7 +16,15 @@ public class Lehrveranstaltung {
     private String semester;
     @JsonProperty("lehrender")
     private Lehrender lehrender;
+    private int jahr;
 
+    public int getJahr() {
+        return jahr;
+    }
+
+    public void setJahr(int jahr) {
+        this.jahr = jahr;
+    }
 
     public int getId() {
         return id;

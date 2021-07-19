@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="564.0" prefWidth="831.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.LehrmaterialController">
+<AnchorPane prefHeight="564.0" prefWidth="831.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.Lehrveranstaltung.LehrmaterialController">
    <children>
             <Label fx:id="uploadSeiteLabel" layoutX="37.0" layoutY="49.0" text="Lehrmaterial hochladen">
                <font>

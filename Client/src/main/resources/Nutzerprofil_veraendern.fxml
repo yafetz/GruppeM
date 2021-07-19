@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Text?>
 
 <?import javafx.scene.image.Image?>
-<AnchorPane prefHeight="497.0" prefWidth="652.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.EditierenController">
+<AnchorPane prefHeight="497.0" prefWidth="652.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.NutzerProfil.EditierenController">
    <children>
       <Text layoutX="21.0" layoutY="69.0" lineSpacing="10.0" strokeType="OUTSIDE" strokeWidth="10.0" text="Profilbearbeitung">
          <font>
