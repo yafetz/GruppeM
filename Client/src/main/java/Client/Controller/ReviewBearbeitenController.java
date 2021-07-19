@@ -66,14 +66,14 @@ public class ReviewBearbeitenController {
         checkboxanswers = new ArrayList<>();
         //Fragen herunterladen
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/review/alleFragen/"+ review.getId())).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/review/alleFragen/"+ lehrveranstaltung.getId())).build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
             ObjectMapper mapper = new ObjectMapper();
             fragen =  mapper.readValue(response.body(), new TypeReference<List<ReviewQuestion>>() {});
-//            System.out.println("FRAGEN       " +fragen);
+          System.out.println("FRAGEN       " +fragen);
             LoadAnswers();
 
         } catch (JsonMappingException e) {
@@ -84,6 +84,7 @@ public class ReviewBearbeitenController {
             e.printStackTrace();
         }
     }
+
 
     private void LoadAnswers() {
         Question.setText(fragen.get(reviewIndex).getQuestion());
