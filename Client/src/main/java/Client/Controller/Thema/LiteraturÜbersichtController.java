@@ -79,7 +79,7 @@ public class LiteraturÜbersichtController {
     @FXML
     public Label ISSN;
     @FXML
-    public Label iSBN;
+    public Label ISBN;
     @FXML
     public Label Journal;
     @FXML
@@ -179,7 +179,7 @@ public class LiteraturÜbersichtController {
             isbn.setText(literatur.getIsbn());
         } else {
             isbn.setVisible(false);
-            iSBN.setVisible(false);
+            ISBN.setVisible(false);
         }
         if (literatur.getIssn() != null) {
             issn.setText(literatur.getIssn());

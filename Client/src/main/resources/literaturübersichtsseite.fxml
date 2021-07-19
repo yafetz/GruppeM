@@ -16,7 +16,7 @@
          <font>
             <Font size="27.0" />
          </font></Label>
-      <VBox layoutX="76.0" layoutY="120.0" prefHeight="387.0" prefWidth="188.0">
+      <VBox layoutX="76.0" layoutY="120.0" prefHeight="402.0" prefWidth="188.0">
          <children>
             <Label fx:id="Autor" text="Autor" />
             <Label fx:id="Jahr" text="Jahr" />
@@ -29,7 +29,7 @@
             <Label fx:id="Edition" text="Edition" />
             <Label fx:id="Editor" text="Editor" />
             <Label fx:id="Preis" text="Preis" />
-            <Label fx:id="iSBN" text="iSBN" />
+            <Label fx:id="ISBN" text="ISBN" />
             <Label fx:id="DOI" text="DOI" />
             <Label fx:id="File" text="File" />
             <Label fx:id="Institution" text="Institution" />
@@ -39,11 +39,12 @@
             <Label fx:id="Booktitle" text="Booktitle" />
             <Label fx:id="Abstrakt" text="Abstract" />
             <Label fx:id="Adresse" text="Adresse" />
+            <Label fx:id="Urldate" text="Urldate" />
          </children>
       </VBox>
-      <VBox layoutX="280.0" layoutY="120.0" prefHeight="402.0" prefWidth="278.0">
+      <VBox layoutX="279.0" layoutY="120.0" prefHeight="402.0" prefWidth="278.0">
          <children>
-            <Label fx:id="author" prefHeight="18.0" prefWidth="276.0" text="author">
+            <Label fx:id="author" prefHeight="18.0" prefWidth="122.0" text="author">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
@@ -68,6 +69,7 @@
             <Label fx:id="booktitle" prefHeight="18.0" prefWidth="324.0" text="booktitle" />
             <Label fx:id="abstrakt" prefHeight="18.0" prefWidth="327.0" text="abstract" />
             <Label fx:id="address" prefHeight="18.0" prefWidth="348.0" text="address" />
+            <Label fx:id="urldate" text="urldate" />
          </children>
       </VBox>
    </children>
