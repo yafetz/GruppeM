@@ -154,12 +154,14 @@ public class LernkartenController {
 
     public void ActionBack() {
         layout.instanceLayout("projektgruppeUebersicht.fxml");
-        ((ProjektgruppenController) layout.getController()).setProjektgruppe(projektgruppe);
         ((ProjektgruppenController) layout.getController()).setLayout(layout);
         ((ProjektgruppenController) layout.getController()).setNutzer(nutzer);
+        ((ProjektgruppenController) layout.getController()).setProjektgruppe(projektgruppe);
         ((ProjektgruppenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
-        ((ProjektgruppenController) layout.getController()).populateTableView();
-        ((ProjektgruppenController) layout.getController()).setPGListeSeitentitel(lehrveranstaltung.getTitel());
+        ((ProjektgruppenController) layout.getController()).setPGUebersichtLvTitel(lehrveranstaltung.getTitel());
+        ((ProjektgruppenController) layout.getController()).setPGUebersichtPGTitel(projektgruppe.getTitel());
+        ((ProjektgruppenController) layout.getController()).setChautraumId((int) projektgruppe.getChat().getId());
+        ((ProjektgruppenController) layout.getController()).populateMaterialTable();
     }
 
     public void initLernKarte(Lernkarte lernkarte) {
