@@ -76,10 +76,10 @@ public class LehrveranstaltungsuebersichtsseiteController {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.body().equals("true")){
-                reviewButton.setVisible(false);
+                reviewBtn.setVisible(false);
             }
             else {
-                reviewButton.setVisible(true);
+                reviewBtn.setVisible(true);
             }
 
         } catch (IOException e) {
@@ -98,12 +98,13 @@ public class LehrveranstaltungsuebersichtsseiteController {
         HttpResponse<String> response;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println("Threshold "+ response.body());
+            System.out.println("checkThreshold "+ response.body());
             if (response.body().equals("true")){
                 reviewBtn.setVisible(true);
             }
             else {
                 reviewBtn.setVisible(false);
+
             }
         } catch (IOException e) {
             e.printStackTrace();
