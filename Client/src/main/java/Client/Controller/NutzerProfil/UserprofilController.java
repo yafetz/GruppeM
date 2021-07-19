@@ -93,8 +93,8 @@ public class UserprofilController {
     private Object eigenerNutzer;
     private Object user;
 
-    //@FXML
-    //public Button abmeldenButton;
+    @FXML
+    public Button abmeldenButton;
     @FXML
     private AnchorPane pane;
 
