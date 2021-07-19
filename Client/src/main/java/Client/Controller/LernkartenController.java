@@ -34,17 +34,24 @@ public class LernkartenController {
     private Button next;
     @FXML
     private Button create;
+    @FXML
+    public Label lernkartenanzahl;
+
 
     private Layout layout;
     private Object nutzer;
     private Lehrveranstaltung lehrveranstaltung;
     private Projektgruppe projektgruppe;
 
+
     private List<Lernkarte> lernkartenList;
+
     private Lernkarte currentLernkarte;
 
     int currentPositionInLernkartenList;
+
     boolean showLösung;
+
 
     public void initLernkartenController() {
 
@@ -52,16 +59,20 @@ public class LernkartenController {
         showLösung = false;
         frage.setText("");
         antwort.setText("");
-        antwort.setVisible(true);
+        lernkartenanzahl.setText("");
+        antwort.setVisible(false);
+        frage.setWrapText(true);
+        antwort.setWrapText(true);
 
+        lernkartenList = new ArrayList<>();
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lernkarten/getlernkarten/" + projektgruppe.getId())).build();
         HttpResponse<String> response;
 
-        lernkartenList = new ArrayList<>();
 
         try {
+
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
             ObjectMapper mapper = new ObjectMapper();
             lernkartenList = mapper.readValue(response.body(), new TypeReference<List<Lernkarte>>() {});
@@ -70,23 +81,27 @@ public class LernkartenController {
             e.printStackTrace();
         }
 
-        if(lernkartenList != null && lernkartenList.size() >= 1){
+        if(lernkartenList != null && lernkartenList.size() >= 1) {
+
             currentLernkarte = lernkartenList.get(0);
             frage.setText("Frage: " + currentLernkarte.getFrage());
+            lernkartenanzahl.setText("Anzahl Lernkarten: " + lernkartenList.size());
         } else {
             frage.setText("Es existieren keine Lernkarten");
             antwort.setText("");
+            lernkartenanzahl.setText("Anzahl Lernkarten: 0");
         }
     }
 
     public void ActionLösung() {
         if(currentLernkarte == null)
             return;
-
         showLösung = !showLösung;
+
         if(showLösung) {
             antwort.setText("Antwort: " + currentLernkarte.getAntwort());
             antwort.setVisible(true);
+
         } else {
             antwort.setText("");
             antwort.setVisible(false);
@@ -100,16 +115,9 @@ public class LernkartenController {
         if(currentPositionInLernkartenList - 1 < 0)
             return;
 
-        if(currentPositionInLernkartenList - 1 >= 0) {
-            currentLernkarte = lernkartenList.get(currentPositionInLernkartenList - 1);
-            currentPositionInLernkartenList--;
-            initLernKarte(currentLernkarte);
-            next.setCancelButton(false);
-
-            if(currentPositionInLernkartenList - 1 < 0) {
-                previous.setCancelButton(true);
-            }
-        }
+        currentLernkarte = lernkartenList.get(currentPositionInLernkartenList - 1);
+        currentPositionInLernkartenList--;
+        initLernKarte(currentLernkarte);
     }
 
     public void ActionNext() {
@@ -119,16 +127,9 @@ public class LernkartenController {
         if(currentPositionInLernkartenList + 1 >= lernkartenList.size())
             return;
 
-        if(currentPositionInLernkartenList + 1 < lernkartenList.size()) {
-            currentLernkarte = lernkartenList.get(currentPositionInLernkartenList + 1);
-            currentPositionInLernkartenList++;
-            initLernKarte(currentLernkarte);
-            previous.setCancelButton(false);
-
-            if(currentPositionInLernkartenList + 1 >= lernkartenList.size()) {
-                next.setCancelButton(true);
-            }
-        }
+        currentLernkarte = lernkartenList.get(currentPositionInLernkartenList + 1);
+        currentPositionInLernkartenList++;
+        initLernKarte(currentLernkarte);
     }
 
     public void ActionKartenmischen() {
@@ -137,7 +138,7 @@ public class LernkartenController {
 
         Collections.shuffle(lernkartenList);
         currentPositionInLernkartenList = 0;
-        currentLernkarte = lernkartenList.get(currentPositionInLernkartenList);
+        currentLernkarte = lernkartenList.get(0);
         initLernKarte(currentLernkarte);
     }
 
@@ -162,9 +163,11 @@ public class LernkartenController {
 
     public void initLernKarte(Lernkarte lernkarte) {
         frage.setText("Frage: " + lernkarte.getFrage());
+        showLösung = false;
         antwort.setText("");
         antwort.setVisible(false);
     }
+
 
     public Layout getLayout() {
         return layout;

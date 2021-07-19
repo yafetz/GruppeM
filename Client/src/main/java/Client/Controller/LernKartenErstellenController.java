@@ -39,18 +39,23 @@ public class LernKartenErstellenController {
     private Projektgruppe projektgruppe;
 
     public void ActionNeuekarte() {
+
         if(frage_textfield.getText().length() == 0) {
             info.setText("Fehler: Du musst eine Frage eingeben.");
             return;
         }
+
         if(antwort_textfield.getText().length() == 0) {
             info.setText("Fehler: Du musst eine Antwort eingeben.");
             return;
         }
+
         CloseableHttpClient client = HttpClients.createDefault();
         HttpPost post = new HttpPost("http://localhost:8080/lernkarten/create");
         HttpEntity entity = MultipartEntityBuilder.create()
+
                 .setCharset(StandardCharsets.UTF_8)
+
                 .addTextBody("projektgruppen_id", String.valueOf(projektgruppe.getId()), ContentType.create("text/plain", MIME.UTF8_CHARSET))
                 .addTextBody("frage", frage_textfield.getText(), ContentType.create("text/plain", MIME.UTF8_CHARSET))
                 .addTextBody("antwort", antwort_textfield.getText(), ContentType.create("text/plain", MIME.UTF8_CHARSET))
@@ -58,6 +63,7 @@ public class LernKartenErstellenController {
         post.setEntity(entity);
 
         try {
+
             CloseableHttpResponse response = client.execute(post);
             HttpEntity responseEntity = response.getEntity();
             String responseBody = EntityUtils.toString(responseEntity);
@@ -65,6 +71,7 @@ public class LernKartenErstellenController {
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
+
         frage_textfield.setText("");
         antwort_textfield.setText("");
     }
@@ -79,10 +86,12 @@ public class LernKartenErstellenController {
     }
 
     public void initLernKartenErstellen() {
+
         frage_textfield.setText("");
         antwort_textfield.setText("");
         info.setText("");
     }
+
 
     public Layout getLayout() {
         return layout;

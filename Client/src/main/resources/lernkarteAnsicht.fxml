@@ -16,5 +16,6 @@
       <Button fx:id="next" layoutX="554.0" layoutY="337.0" mnemonicParsing="false" onAction="#ActionNext" text="Next" />
       <Button fx:id="lösung" layoutX="282.0" layoutY="337.0" mnemonicParsing="false" onAction="#ActionLösung" text="Lösung" />
       <Button fx:id="kartenmischen" layoutX="384.0" layoutY="48.0" mnemonicParsing="false" onAction="#ActionKartenmischen" prefHeight="25.0" prefWidth="114.0" text="Karten mischen" />
+      <Label fx:id="lernkartenanzahl" layoutX="235.0" layoutY="52.0" prefHeight="17.0" prefWidth="139.0" text="Anzahl Lernkarten: " />
    </children>
 </AnchorPane>
