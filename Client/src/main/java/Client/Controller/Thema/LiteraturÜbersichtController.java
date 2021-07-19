@@ -58,10 +58,14 @@ public class LiteraturÜbersichtController {
     public Label address;
     @FXML
     public Label number;
+    @FXML
+    public Label urldate;
 
 
     @FXML
     public Label Jahr;
+    @FXML
+    public Label Urldate;
     @FXML
     public Label Author;
     @FXML
@@ -130,25 +134,25 @@ public class LiteraturÜbersichtController {
             Abstrakt.setVisible(false);
         }
         if (literatur.getAuthor() != null) {
-author.setText(literatur.getAuthor());
+            author.setText(literatur.getAuthor());
         } else {
             author.setVisible(false);
             Author.setVisible(false);
         }
         if (literatur.getBooktitle() != null) {
-booktitle.setText(literatur.getBooktitle());
+            booktitle.setText(literatur.getBooktitle());
         } else {
             booktitle.setVisible(false);
             Booktitle.setVisible(false);
         }
         if (literatur.getDoi() != null) {
-doi.setText(literatur.getDoi());
+            doi.setText(literatur.getDoi());
         } else {
             doi.setVisible(false);
             DOI.setVisible(false);
         }
         if (literatur.getEdition() != null) {
-edition.setText(literatur.getEdition());
+            edition.setText(literatur.getEdition());
         } else {
             edition.setVisible(false);
             Edition.setVisible(false);
@@ -246,11 +250,10 @@ edition.setText(literatur.getEdition());
             URL.setVisible(false);
         }
         if (literatur.getUrldate() != null) {
-
-
+            urldate.setText(literatur.getUrldate());
         } else {
-            address.setVisible(false);
-            Address.setVisible(false);
+            urldate.setVisible(false);
+            Urldate.setVisible(false);
         }
         if (literatur.getVolume() != null) {
             volume.setText(literatur.getVolume());
