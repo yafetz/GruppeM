@@ -13,6 +13,7 @@ import java.util.List;
 @Repository
 public interface TeilnehmerListeRepository extends JpaRepository<TeilnehmerListe,Long> {
     List<TeilnehmerListe> findAllByLehrveranstaltung(Lehrveranstaltung lehrveranstaltung);
+    TeilnehmerListe findById(long id);
     List<TeilnehmerListe> findDistinctByLehrveranstaltung(Lehrveranstaltung lehrveranstaltung);
     List<TeilnehmerListe> getDistinctByLehrveranstaltung(Lehrveranstaltung lehrveranstaltung);
     List<TeilnehmerListe> findAllByNutzerId(Nutzer nutzer);
@@ -31,6 +32,8 @@ public interface TeilnehmerListeRepository extends JpaRepository<TeilnehmerListe
     @Query("SELECT COUNT(student) FROM Student student JOIN TeilnehmerListe teilnehmerliste ON teilnehmerliste.nutzerId = student.nutzerId AND teilnehmerliste.lehrveranstaltung.id = ?1")
    int getAllStudents(long id);
 
+
+    TeilnehmerListe findTeilnehmerListeByLehrveranstaltungAndNutzerId(Lehrveranstaltung lehrveranstaltung,Nutzer nutzer);
 
 }
 

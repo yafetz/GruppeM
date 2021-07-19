@@ -1,5 +1,6 @@
 package Client.Controller;
 
+import Client.Controller.ProjektGruppe.ProjektgruppenController;
 import Client.Layouts.Layout;
 import Client.Modell.Lehrveranstaltung;
 import Client.Modell.Lernkarte;

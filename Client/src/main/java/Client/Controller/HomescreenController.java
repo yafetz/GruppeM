@@ -1,5 +1,10 @@
 package Client.Controller;
 
+import Client.Controller.Chat.ChatController;
+import Client.Controller.Lehrveranstaltung.LehrveranstaltungBeitretenController;
+import Client.Controller.Lehrveranstaltung.LehrveranstaltungErstellenController;
+import Client.Controller.Lehrveranstaltung.LehrveranstaltungsuebersichtsseiteController;
+import Client.Controller.NutzerProfil.UserprofilController;
 import Client.Layouts.Layout;
 import Client.Modell.*;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -11,16 +16,15 @@ import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 import javafx.util.Callback;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -100,6 +104,68 @@ public class HomescreenController {
             for(TeilnehmerListe teilnehmerListe1 : teilnehmerListe) {
                 lehrveranstaltungen.add(teilnehmerListe1.getLehrveranstaltung());
             }
+
+            List<Lehrveranstaltung> neueListe = new ArrayList<>();
+            List<Integer> jahrSommer = new ArrayList<>();
+            List<Integer> jahrWinter = new ArrayList<>();
+            List<Lehrveranstaltung> sommer = new ArrayList<>();
+            List<Lehrveranstaltung> winter = new ArrayList<>();
+            if(!lehrveranstaltungen.isEmpty()) {
+
+                for (int i = 0; i < lehrveranstaltungen.size(); i++) {
+                    String semester = lehrveranstaltungen.get(i).getSemester();
+                    if (semester.contains("/")) {
+                        String win=semester.replace("WiSe ", "");
+                        String[] zweiteKomponente = win.split("/");
+                        jahrWinter.add(Integer.valueOf(zweiteKomponente[1]));
+                        winter.add(lehrveranstaltungen.get(i));
+                    } else {
+                        String som = semester.replace("SoSe ", "");
+                        jahrSommer.add(Integer.valueOf(som));
+                        sommer.add(lehrveranstaltungen.get(i));
+                    }
+                }
+
+
+
+                if (winter != null && sommer != null) {
+                    for (int i = 0; i < winter.size(); i++) {
+                        winter.get(i).setJahr(jahrWinter.get(i));
+                    }
+                    winter.sort(Comparator.comparing(Lehrveranstaltung::getJahr).reversed());
+
+                    for (int i = 0; i < sommer.size(); i++) {
+                        sommer.get(i).setJahr(jahrSommer.get(i));
+                    }
+                    sommer.sort(Comparator.comparing(Lehrveranstaltung::getJahr).reversed());
+
+                    for (int i = 0; i < sommer.size(); i++) {
+                        winter = sort(winter, sommer.get(i));
+                    }
+                    neueListe=winter;
+                }
+                else if (winter != null && sommer == null) {
+                    for (int i = 0; i < winter.size(); i++) {
+                        winter.get(i).setJahr(jahrWinter.get(i));
+                    }
+                    winter.sort(Comparator.comparing(Lehrveranstaltung::getJahr).reversed());
+                    neueListe = winter;
+                }
+                else if (winter == null && sommer != null) {
+                    for (int i = 0; i < sommer.size(); i++) {
+                        sommer.get(i).setJahr(jahrSommer.get(i));
+                    }
+                    sommer.sort(Comparator.comparing(Lehrveranstaltung::getJahr).reversed());
+                    neueListe = sommer;
+                } else {
+                    neueListe = null;
+                }
+            }
+
+
+
+
+
 
 //            set property of each column of the tableview
             col_LvId.setCellValueFactory(new PropertyValueFactory<Lehrveranstaltung,Long>("id"));
@@ -199,7 +265,7 @@ public class HomescreenController {
                 return cell;
             });
             // ObservableList is required to populate the table meineLv using .setItems()
-            ObservableList<Lehrveranstaltung> obsLv = FXCollections.observableList(lehrveranstaltungen);
+            ObservableList<Lehrveranstaltung> obsLv = FXCollections.observableList(neueListe);
             meineLv.setItems(obsLv);
 
         } catch (IOException e) {
@@ -207,6 +273,20 @@ public class HomescreenController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+    public List<Lehrveranstaltung> sort(List<Lehrveranstaltung> list, Lehrveranstaltung var) {
+        List<Lehrveranstaltung> neu = new ArrayList<Lehrveranstaltung>(list.size() + 1);
+        int i = 0;
+        while ((i < list.size()) && (list.get(i).getJahr() > var.getJahr())) {
+            neu.add(list.get(i));
+            i++;
+        }
+        neu.add(var);
+        while (i < list.size()) {
+            neu.add(list.get(i));
+            i++;
+        }
+        return neu;
     }
 
     public void redirectToCourseOverview(Integer lehrveranstaltungId) {

@@ -16,4 +16,9 @@ public interface LehrveranstaltungRepository extends JpaRepository<Lehrveranstal
     boolean existsIfTitelAndArtAndSemester(String titel, String art,String semester);
     @Query("SELECT lehrveranstaltung FROM Lehrveranstaltung lehrveranstaltung WHERE lehrveranstaltung.titel LIKE %?1%")
     List<Lehrveranstaltung> getAllLehrveranstaltungByKeyword(String keyword);
+
+
+    @Query("SELECT lehrveranstaltung.id FROM Lehrveranstaltung lehrveranstaltung WHERE lehrveranstaltung.semester LIKE %?1%")
+    List<Integer> getAllLehrveranstaltungBySemester(String keyword);
+
 }

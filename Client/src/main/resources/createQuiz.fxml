@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="569.0" prefWidth="744.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.CreateQuizController">
+<AnchorPane prefHeight="569.0" prefWidth="744.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.Quiz.CreateQuizController">
    <children>
       <Button fx:id="create" layoutX="517.0" layoutY="458.0" mnemonicParsing="false" onAction="#pressedCreate" prefHeight="25.0" prefWidth="183.0" text="Quiz erstellen" />
       <CheckBox fx:id="correct" layoutX="517.0" layoutY="291.0" mnemonicParsing="false" onAction="#isCorrect" text="Antwortmöglichkeit ist korrekt" />
