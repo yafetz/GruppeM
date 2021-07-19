@@ -1,13 +1,12 @@
 package Client.Controller.Lehrveranstaltung;
 
-import Client.Controller.CreateReviewController;
-import Client.Controller.LehrveranstaltungBearbeitenController;
+import Client.Controller.Review.CreateReviewController;
 import Client.Controller.Liste.StudentenListeController;
 import Client.Controller.Liste.TeilnehmerListeController;
 import Client.Controller.ProjektGruppe.ProjektgruppenController;
 import Client.Controller.Quiz.QuizUebersichtController;
-import Client.Controller.ReviewBearbeitenController;
-import Client.Controller.ReviewStatistikController;
+import Client.Controller.Review.ReviewBearbeitenController;
+import Client.Controller.Review.ReviewStatistikController;
 import Client.Layouts.Layout;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,7 +26,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.sql.*;
-import java.util.List;
 
 public class LehrveranstaltungsuebersichtsseiteController {
     @FXML
@@ -84,10 +82,10 @@ public class LehrveranstaltungsuebersichtsseiteController {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.body().equals("true")){
-                reviewButton.setVisible(false);
+                reviewBtn.setVisible(false);
             }
             else {
-                reviewButton.setVisible(true);
+                reviewBtn.setVisible(true);
             }
 
         } catch (IOException e) {

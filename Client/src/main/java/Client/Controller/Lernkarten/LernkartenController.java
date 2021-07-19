@@ -1,4 +1,4 @@
-package Client.Controller;
+package Client.Controller.Lernkarten;
 
 import Client.Controller.ProjektGruppe.ProjektgruppenController;
 import Client.Layouts.Layout;
@@ -18,7 +18,6 @@ import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class LernkartenController {
     @FXML
