@@ -35,8 +35,8 @@ public class ThemenController {
 
 
     @GetMapping("alle/{lehrender_nutzer_id}")
-    public List<Thema> alleThemenLehrenderSicht(@PathVariable long lehrender_nutzer_id){
-        return themenRepository.findAllByNutzer(nutzerRepository.findNutzerById(lehrender_nutzer_id));
+    public List<Thema> alleThemen(@PathVariable long lehrender_nutzer_id){
+        return themenRepository.findAllByNutzerWhereNotTeilnehmer(nutzerRepository.findNutzerById(lehrender_nutzer_id));
     }
 
     @GetMapping("alleNochVorhanden/{thema_id}")
