@@ -7,12 +7,12 @@
 
 <AnchorPane prefHeight="583.0" prefWidth="759.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.Thema.LiteraturÜbersichtController">
    <children>
-      <Label fx:id="art" layoutX="122.0" layoutY="81.0" prefHeight="18.0" prefWidth="62.0" text="Art">
+      <Label fx:id="art" layoutX="54.0" layoutY="45.0" prefHeight="30.0" prefWidth="150.0" text="Art">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="title" layoutX="239.0" layoutY="41.0" prefHeight="18.0" prefWidth="179.0" text="Titel">
+      <Label fx:id="title" layoutX="239.0" layoutY="41.0" prefHeight="39.0" prefWidth="485.0" text="Titel">
          <font>
             <Font size="27.0" />
          </font></Label>

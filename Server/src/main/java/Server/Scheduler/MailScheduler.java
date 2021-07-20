@@ -1,6 +1,7 @@
 package Server.Scheduler;
 
 import Server.Modell.DatumUndUhrzeit;
+import Server.Modell.ErgebnisVersendet;
 import Server.Modell.Nutzer;
 import Server.Repository.*;
 import Server.Services.MailService;
@@ -29,10 +30,11 @@ public class MailScheduler {
 
     private final DatumUhrzeitRepository datumUhrzeitRepository;
     private final MailService mailService;
+    private final ErgebnisVersendetRepository ergebnisVersendetRepository;
 
 
     @Autowired
-    public MailScheduler(LehrveranstaltungRepository lehrveranstaltungRepository, QuizRepository quizRepository, QuizBearbeitetRepository quizBearbeitetRepository, StudentRepository studentRepository, DatumUhrzeitRepository datumUhrzeitRepository, MailService mailService) {
+    public MailScheduler(LehrveranstaltungRepository lehrveranstaltungRepository, QuizRepository quizRepository, QuizBearbeitetRepository quizBearbeitetRepository, StudentRepository studentRepository, DatumUhrzeitRepository datumUhrzeitRepository, MailService mailService, ErgebnisVersendetRepository ergebnisVersendetRepository) {
         this.lehrveranstaltungRepository = lehrveranstaltungRepository;
         this.quizRepository = quizRepository;
         this.quizBearbeitetRepository = quizBearbeitetRepository;
@@ -40,10 +42,11 @@ public class MailScheduler {
 
         this.datumUhrzeitRepository = datumUhrzeitRepository;
         this.mailService = mailService;
+        this.ergebnisVersendetRepository = ergebnisVersendetRepository;
     }
 
 
-    @Scheduled(fixedRate = 60 * 1000)
+    @Scheduled(fixedRate = 5 * 1000)
     public void sendeBewertung() {
         LocalDateTime datum;
         List<DatumUndUhrzeit> listdatum = datumUhrzeitRepository.findAll();
@@ -76,12 +79,12 @@ public class MailScheduler {
         String jahr = String.valueOf(aktuelle.getYear());
 
         //Liste mit allen Kursen vom Sommersemester des Jahres in "jahr"
-        List<Integer> kurse_id = lehrveranstaltungRepository.getAllLehrveranstaltungBySemester("SoSe " + jahr);
+        List<Long> kurse_id = lehrveranstaltungRepository.getAllLehrveranstaltungBySemester("SoSe " + jahr);
 
 
         //Liste mit Anzahl an Quizze pro Lehrveranstaltung
         List<Integer> amountQuiz = new ArrayList<>();
-        List<Integer> neuKurse_id = new ArrayList<>();
+        List<Long> neuKurse_id = new ArrayList<>();
         List<Integer> quiz = new ArrayList<>();
         for (int i = 0; i < kurse_id.size(); i++) {
             if (quizRepository.getAllAmountOfQuizOfCourse(kurse_id.get(i)) != 0) {
@@ -116,26 +119,52 @@ public class MailScheduler {
 
                 }
                 int bestehensGrenze;
-                if (amountQuiz.get(i) % 2 == 1) {
-                    bestehensGrenze = (amountQuiz.get(i) / 2) + 1;
+                if(ergebnisVersendetRepository.findAllNutzerBySemesterCoursePassed(idlistvor.get(l).getId(), neuKurse_id.get(i),lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)).getSemester()).size()==0) {
+                    if (amountQuiz.get(i) % 2 == 1) {
+                        bestehensGrenze = (amountQuiz.get(i) / 2) + 1;
 
-                    if (counter >= bestehensGrenze) {
-                        mailService.sendEmail(idlistvor.get(l).getEmail(), "Sie haben den Kurs " + lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)).getTitel() + " bestanden");
-                        System.out.println("jemand hat im sommer bestanden");
+                        if (counter >= bestehensGrenze) {
+                            mailService.sendEmail(idlistvor.get(l).getEmail(), "Sie haben den Kurs " + lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)).getTitel() + " bestanden");
+                            ErgebnisVersendet ergebnisVersendet = new ErgebnisVersendet();
+                            ergebnisVersendet.setNutzer(idlistvor.get(l));
+                            ergebnisVersendet.setLehrveranstaltung(lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)));
+                            ergebnisVersendet.setSemester(lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)).getSemester());
+                            ergebnisVersendet.setBestanden(true);
+                            ergebnisVersendetRepository.save(ergebnisVersendet);
+                            System.out.println("jemand hat im sommer bestanden");
+                        } else {
+                            mailService.sendEmail(idlistvor.get(l).getEmail(), "Sie haben den Kurs " + lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)).getTitel() + " nicht bestanden");
+                            System.out.println("jemand hat im sommer  nicht bestanden");
+                            ErgebnisVersendet ergebnisVersendet = new ErgebnisVersendet();
+                            ergebnisVersendet.setNutzer(idlistvor.get(l));
+                            ergebnisVersendet.setLehrveranstaltung(lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)));
+                            ergebnisVersendet.setSemester(lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)).getSemester());
+                            ergebnisVersendet.setBestanden(false);
+                            ergebnisVersendetRepository.save(ergebnisVersendet);
+                        }
+
+
                     } else {
-                        mailService.sendEmail(idlistvor.get(l).getEmail(), "Sie haben den Kurs " + lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)).getTitel() + " nicht bestanden");
-                        System.out.println("jemand hat im sommer  nicht bestanden");
+                        int bestehensgrenze = amountQuiz.get(i) / 2;
+                        if (counter >= bestehensgrenze) {
+                            mailService.sendEmail(idlistvor.get(l).getEmail(), "Sie haben den Kurs " + lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)).getTitel() + " bestanden");
+                            ErgebnisVersendet ergebnisVersendet = new ErgebnisVersendet();
+                            ergebnisVersendet.setNutzer(idlistvor.get(l));
+                            ergebnisVersendet.setLehrveranstaltung(lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)));
+                            ergebnisVersendet.setSemester(lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)).getSemester());
+                            ergebnisVersendet.setBestanden(true);
+                            ergebnisVersendetRepository.save(ergebnisVersendet);
+                        } else {
+                            mailService.sendEmail(idlistvor.get(l).getEmail(), "Sie haben den Kurs " + lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)).getTitel() + " nicht bestanden");
+                            ErgebnisVersendet ergebnisVersendet = new ErgebnisVersendet();
+                            ergebnisVersendet.setNutzer(idlistvor.get(l));
+                            ergebnisVersendet.setLehrveranstaltung(lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)));
+                            ergebnisVersendet.setSemester(lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)).getSemester());
+                            ergebnisVersendet.setBestanden(false);
+                            ergebnisVersendetRepository.save(ergebnisVersendet);
+                        }
+
                     }
-
-
-                } else {
-                    int bestehensgrenze = amountQuiz.get(i) / 2;
-                    if (counter >= bestehensgrenze) {
-                        mailService.sendEmail(idlistvor.get(l).getEmail(), "Sie haben den Kurs " + lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)).getTitel() + " bestanden");
-                    } else {
-                        mailService.sendEmail(idlistvor.get(l).getEmail(), "Sie haben den Kurs " + lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)).getTitel() + " nicht bestanden");
-                    }
-
                 }
 
             }
@@ -162,11 +191,11 @@ public class MailScheduler {
         int jahrdavor = aktuelle.getYear() - 1;
 
         //Liste mit allen Kursen vom Sommersemester des Jahres in "jahr"
-        List<Integer> kurse_id = lehrveranstaltungRepository.getAllLehrveranstaltungBySemester("WiSe " + jahrdavor + "/" + jahr);
+        List<Long> kurse_id = lehrveranstaltungRepository.getAllLehrveranstaltungBySemester("WiSe " + jahrdavor + "/" + jahr);
 
         //Liste mit Anzahl an Quizze pro Lehrveranstaltung
         List<Integer> amountQuiz = new ArrayList<>();
-        List<Integer> neuKurse_id = new ArrayList<>();
+        List<Long> neuKurse_id = new ArrayList<>();
         List<Integer> quiz = new ArrayList<>();
         for (int i = 0; i < kurse_id.size(); i++) {
             if (quizRepository.getAllAmountOfQuizOfCourse(kurse_id.get(i)) != 0) {
@@ -201,26 +230,52 @@ public class MailScheduler {
 
                 }
                 int bestehensGrenze;
-                if (amountQuiz.get(i) % 2 == 1) {
-                    bestehensGrenze = (amountQuiz.get(i) / 2) + 1;
+                if(ergebnisVersendetRepository.findAllNutzerBySemesterCoursePassed(idlistvor.get(l).getId(), neuKurse_id.get(i),lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)).getSemester()).size()==0) {
+                    if (amountQuiz.get(i) % 2 == 1) {
+                        bestehensGrenze = (amountQuiz.get(i) / 2) + 1;
 
-                    if (counter >= bestehensGrenze) {
-                        mailService.sendEmail(idlistvor.get(l).getEmail(), "Sie haben den Kurs " + lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)).getTitel() + " bestanden");
-                        System.out.println("jemand hat im sommer bestanden");
+                        if (counter >= bestehensGrenze) {
+                            mailService.sendEmail(idlistvor.get(l).getEmail(), "Sie haben den Kurs " + lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)).getTitel() + " bestanden");
+                            System.out.println("jemand hat im sommer bestanden");
+                            ErgebnisVersendet ergebnisVersendet = new ErgebnisVersendet();
+                            ergebnisVersendet.setNutzer(idlistvor.get(l));
+                            ergebnisVersendet.setLehrveranstaltung(lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)));
+                            ergebnisVersendet.setSemester(lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)).getSemester());
+                            ergebnisVersendet.setBestanden(true);
+                            ergebnisVersendetRepository.save(ergebnisVersendet);
+                        } else {
+                            mailService.sendEmail(idlistvor.get(l).getEmail(), "Sie haben den Kurs " + lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)).getTitel() + " nicht bestanden");
+                            System.out.println("jemand hat im sommer  nicht bestanden");
+                            ErgebnisVersendet ergebnisVersendet = new ErgebnisVersendet();
+                            ergebnisVersendet.setNutzer(idlistvor.get(l));
+                            ergebnisVersendet.setLehrveranstaltung(lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)));
+                            ergebnisVersendet.setSemester(lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)).getSemester());
+                            ergebnisVersendet.setBestanden(false);
+                            ergebnisVersendetRepository.save(ergebnisVersendet);
+                        }
+
+
                     } else {
-                        mailService.sendEmail(idlistvor.get(l).getEmail(), "Sie haben den Kurs " + lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)).getTitel() + " nicht bestanden");
-                        System.out.println("jemand hat im sommer  nicht bestanden");
+                        int bestehensgrenze = amountQuiz.get(i) / 2;
+                        if (counter >= bestehensgrenze) {
+                            mailService.sendEmail(idlistvor.get(l).getEmail(), "Sie haben den Kurs " + lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)).getTitel() + " bestanden");
+                            ErgebnisVersendet ergebnisVersendet = new ErgebnisVersendet();
+                            ergebnisVersendet.setNutzer(idlistvor.get(l));
+                            ergebnisVersendet.setLehrveranstaltung(lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)));
+                            ergebnisVersendet.setSemester(lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)).getSemester());
+                            ergebnisVersendet.setBestanden(true);
+                            ergebnisVersendetRepository.save(ergebnisVersendet);
+                        } else {
+                            mailService.sendEmail(idlistvor.get(l).getEmail(), "Sie haben den Kurs " + lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)).getTitel() + " nicht bestanden");
+                            ErgebnisVersendet ergebnisVersendet = new ErgebnisVersendet();
+                            ergebnisVersendet.setNutzer(idlistvor.get(l));
+                            ergebnisVersendet.setLehrveranstaltung(lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)));
+                            ergebnisVersendet.setSemester(lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)).getSemester());
+                            ergebnisVersendet.setBestanden(false);
+                            ergebnisVersendetRepository.save(ergebnisVersendet);
+                        }
+
                     }
-
-
-                } else {
-                    int bestehensgrenze = amountQuiz.get(i) / 2;
-                    if (counter >= bestehensgrenze) {
-                        mailService.sendEmail(idlistvor.get(l).getEmail(), "Sie haben den Kurs " + lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)).getTitel() + " bestanden");
-                    } else {
-                        mailService.sendEmail(idlistvor.get(l).getEmail(), "Sie haben den Kurs " + lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)).getTitel() + " nicht bestanden");
-                    }
-
                 }
 
             }

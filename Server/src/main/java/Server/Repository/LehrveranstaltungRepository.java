@@ -19,6 +19,6 @@ public interface LehrveranstaltungRepository extends JpaRepository<Lehrveranstal
 
 
     @Query("SELECT lehrveranstaltung.id FROM Lehrveranstaltung lehrveranstaltung WHERE lehrveranstaltung.semester LIKE %?1%")
-    List<Integer> getAllLehrveranstaltungBySemester(String keyword);
+    List<Long> getAllLehrveranstaltungBySemester(String keyword);
 
 }
