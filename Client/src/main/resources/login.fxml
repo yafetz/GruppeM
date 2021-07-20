@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.Auth.LoginController">
+<AnchorPane prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.Auth.LoginController">
    <children>
       <PasswordField fx:id="password" layoutX="280.0" layoutY="266.0" prefHeight="38.0" prefWidth="459.0" promptText="Passwort" />
       <TextField fx:id="matrikelnummer" layoutX="280.0" layoutY="223.0" prefHeight="37.0" prefWidth="459.0" promptText="Matrikelnummer/Email" />
@@ -20,6 +23,6 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="setting" layoutX="813.0" layoutY="628.0" mnemonicParsing="false" onAction="#settingPressedButton" text="Einstellung" />
+      <Button fx:id="setting" layoutX="660.0" layoutY="186.0" mnemonicParsing="false" onAction="#settingPressedButton" prefHeight="25.0" prefWidth="79.0" text="Einstellung" />
    </children>
 </AnchorPane>

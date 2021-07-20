@@ -219,7 +219,6 @@ public class LernkartenController {
         antwort.setVisible(false);
     }
 
-
     public void populateLernkartensets() {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = null;
