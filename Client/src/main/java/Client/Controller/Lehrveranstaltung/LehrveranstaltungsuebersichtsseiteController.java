@@ -106,9 +106,11 @@ public class LehrveranstaltungsuebersichtsseiteController {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
             System.out.println("Threshold "+ response.body());
             if (response.body().equals("true")){
+                System.out.println("Threshold erreicht");
                 reviewBtn.setVisible(true);
             }
             else {
+                System.out.println("Threshold nicht erreicht");
                 reviewBtn.setVisible(false);
             }
         } catch (IOException e) {

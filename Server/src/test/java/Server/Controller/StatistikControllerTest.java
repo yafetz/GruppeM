@@ -30,7 +30,7 @@ public class StatistikControllerTest {
     public void setUp() throws UnsupportedEncodingException {
         MvcResult result = null;
         try {
-            result = this.mockMvc.perform(get("http://localhost:8080/review/teilnehmerAlle/frageId=2")).andDo(print()).andReturn();
+            result = this.mockMvc.perform(get("http://localhost:8080/review/teilnehmerAlle/frageId=4")).andDo(print()).andReturn();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -42,7 +42,7 @@ public class StatistikControllerTest {
     void test(){
 
         try {
-            MvcResult result = this.mockMvc.perform(get("http://localhost:8080/review/teilnehmerBestanden/frageId=2")).andDo(print()).andReturn();
+            MvcResult result = this.mockMvc.perform(get("http://localhost:8080/review/teilnehmerBestanden/frageId=4")).andDo(print()).andReturn();
 
 
         } catch (Exception e) {
