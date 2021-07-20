@@ -1,13 +1,12 @@
 package Client.Controller.Lehrveranstaltung;
 
-import Client.Controller.CreateReviewController;
-import Client.Controller.LehrveranstaltungBearbeitenController;
 import Client.Controller.Liste.StudentenListeController;
 import Client.Controller.Liste.TeilnehmerListeController;
 import Client.Controller.ProjektGruppe.ProjektgruppenController;
 import Client.Controller.Quiz.QuizUebersichtController;
-import Client.Controller.ReviewBearbeitenController;
-import Client.Controller.ReviewStatistikController;
+import Client.Controller.Review.CreateReviewController;
+import Client.Controller.Review.ReviewBearbeitenController;
+import Client.Controller.Review.ReviewStatistikController;
 import Client.Layouts.Layout;
 import Client.Modell.*;
 import com.fasterxml.jackson.core.type.TypeReference;
