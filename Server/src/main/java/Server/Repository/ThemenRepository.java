@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface ThemenRepository extends JpaRepository<Thema,Long> {
     List<Thema> findAllByNutzer(Nutzer nutzer);
+    Thema findThemaById(Long id);
 }

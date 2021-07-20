@@ -5,6 +5,7 @@ import Client.Controller.Liste.StudentenListeController;
 import Client.Controller.Liste.TeilnehmerListeController;
 import Client.Controller.ProjektGruppe.ProjektgruppenController;
 import Client.Controller.Quiz.QuizUebersichtController;
+import Client.Controller.Review.CreateReviewController;
 import Client.Controller.Review.ReviewBearbeitenController;
 import Client.Controller.Review.ReviewStatistikController;
 import Client.Layouts.Layout;
@@ -32,6 +33,9 @@ public class LehrveranstaltungsuebersichtsseiteController {
     private Button bearbeiten;
     @FXML
     private Button projektgruppe_btn;
+
+    @FXML
+    private Button reviewStatistikBtn;
     @FXML
     private Button reviewBtn;
     @FXML
@@ -57,7 +61,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
 
     public void setLayout(Layout layout) {
         this.layout = layout;
-        //getReview();
+
     }
 
     private Review review;
@@ -257,9 +261,8 @@ public class LehrveranstaltungsuebersichtsseiteController {
                 bearbeiten.setVisible(false);
                 reviewBtn.setVisible(false);
                 getMaterial((Lehrveranstaltung) lehrveranstaltung);
-                checkThreshold(lehrveranstaltung, ((Student)nutzer).getNutzer().getId());
                 checkIfReviewed(lehrveranstaltung, ((Student)nutzer).getNutzer().getId());
-
+                checkThreshold(lehrveranstaltung, ((Student)nutzer).getNutzer().getId());
             }
         }
     }
@@ -303,6 +306,8 @@ public class LehrveranstaltungsuebersichtsseiteController {
             System.out.println("RESPONSEBODY     "+response.body());
             if(response.body().equals("false")){
                 reviewBtn.setVisible(false);
+            }
+            else {
             }
         } catch (IOException e) {
             e.printStackTrace();

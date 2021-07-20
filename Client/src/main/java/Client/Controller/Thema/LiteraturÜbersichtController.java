@@ -1,5 +1,6 @@
 package Client.Controller.Thema;
 
+import Client.Layouts.Layout;
 import Client.Modell.Lehrveranstaltung;
 import Client.Modell.Literatur;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -109,6 +110,15 @@ public class LiteraturÜbersichtController {
 
 
     private Literatur literatur;
+    private Layout layout;
+
+    public Layout getLayout() {
+        return layout;
+    }
+
+    public void setLayout(Layout layout) {
+        this.layout = layout;
+    }
 
     public Literatur getLiteratur() {
         return literatur;
@@ -116,6 +126,7 @@ public class LiteraturÜbersichtController {
 
     public void setLiteratur(Literatur literatur) {
         this.literatur = literatur;
+        literaturAufrufen();
     }
 
     public void literaturAufrufen() {

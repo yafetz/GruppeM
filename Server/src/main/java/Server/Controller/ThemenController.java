@@ -1,9 +1,6 @@
 package Server.Controller;
 
-import Server.Modell.Literatur;
-import Server.Modell.QuizAnswer;
-import Server.Modell.QuizQuestion;
-import Server.Modell.Thema;
+import Server.Modell.*;
 import Server.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -47,6 +44,11 @@ public class ThemenController {
         return literaturThemaRepository.findAllLiteraturWhichAreNotSelected(thema_id);
     }
 
+    @GetMapping("jetzigeLiteratur/{thema_id}")
+    public List<Literatur> jetzigeLiteratur(@PathVariable long thema_id){
+        return literaturThemaRepository.findAllLiteraturByThema(thema_id);
+    }
+
     @PostMapping("neuesThema")
     public Thema neuesThema(@RequestParam("titel") String titel, @RequestParam("beschreibung") String beschreibung,@RequestParam("lehrveranstaltungId") long lehrveranstaltungId,@RequestParam("nutzerId") long nutzerId){
         Thema thema = new Thema();
@@ -56,6 +58,17 @@ public class ThemenController {
         thema.setNutzer(nutzerRepository.findNutzerById(nutzerId));
         themenRepository.save(thema);
         return thema;
+    }
+
+    @PostMapping("addLiteraturZuThema")
+    public String LiteraturZuThema(@RequestParam("thema_id") Long thema, @RequestParam("literaturliste") List<Long> literaturliste){
+        for(int i = 0; i < literaturliste.size(); i++){
+            LiteraturThema lt = new LiteraturThema();
+            lt.setThema(themenRepository.findThemaById(thema));
+            lt.setLiteratur(literaturRepository.findLiteraturById(literaturliste.get(i)));
+            literaturThemaRepository.save(lt);
+        }
+        return "OK";
     }
 
     @PostMapping("literatur/upload")
