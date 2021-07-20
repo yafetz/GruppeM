@@ -2,6 +2,7 @@ package Client.Controller.Lernkarten;
 
 import Client.Layouts.Layout;
 import Client.Modell.Lehrveranstaltung;
+import Client.Modell.Lernkartenset;
 import Client.Modell.Projektgruppe;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -37,6 +38,7 @@ public class LernKartenErstellenController {
     private Object nutzer;
     private Lehrveranstaltung lehrveranstaltung;
     private Projektgruppe projektgruppe;
+    private Lernkartenset lernkartenset;
 
     public void ActionNeuekarte() {
 
@@ -51,12 +53,12 @@ public class LernKartenErstellenController {
         }
 
         CloseableHttpClient client = HttpClients.createDefault();
-        HttpPost post = new HttpPost("http://localhost:8080/lernkarten/create");
+        HttpPost post = new HttpPost("http://localhost:8080/lernkarten/createLernkarte");
         HttpEntity entity = MultipartEntityBuilder.create()
 
                 .setCharset(StandardCharsets.UTF_8)
 
-                .addTextBody("projektgruppen_id", String.valueOf(projektgruppe.getId()), ContentType.create("text/plain", MIME.UTF8_CHARSET))
+                .addTextBody("lernkartenset_id", String.valueOf(lernkartenset.getId()), ContentType.create("text/plain", MIME.UTF8_CHARSET))
                 .addTextBody("frage", frage_textfield.getText(), ContentType.create("text/plain", MIME.UTF8_CHARSET))
                 .addTextBody("antwort", antwort_textfield.getText(), ContentType.create("text/plain", MIME.UTF8_CHARSET))
                 .build();
@@ -82,7 +84,8 @@ public class LernKartenErstellenController {
         ((LernkartenController) layout.getController()).setProjektgruppe(projektgruppe);
         ((LernkartenController) layout.getController()).setNutzer(nutzer);
         ((LernkartenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
-        ((LernkartenController) layout.getController()).initLernkartenController();
+        ((LernkartenController) layout.getController()).setLernkartenset(lernkartenset);
+        ((LernkartenController) layout.getController()).initLernkartenController(lernkartenset.getId());
     }
 
     public void initLernKartenErstellen() {
@@ -123,5 +126,13 @@ public class LernKartenErstellenController {
 
     public void setProjektgruppe(Projektgruppe projektgruppe) {
         this.projektgruppe = projektgruppe;
+    }
+
+    public Lernkartenset getLernkartenset() {
+        return lernkartenset;
+    }
+
+    public void setLernkartenset(Lernkartenset lernkartenset) {
+        this.lernkartenset = lernkartenset;
     }
 }

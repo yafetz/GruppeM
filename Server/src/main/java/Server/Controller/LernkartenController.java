@@ -62,8 +62,8 @@ public class LernkartenController {
     }
 
     @PostMapping("/createLernkartenset")
-    public ResponseEntity<String> addLernkartenset(@RequestParam("lernkartenset_id") long lernkartenset_id, @RequestParam("bezeichnung") String bezeichnung,
-                                                   @RequestParam("erstellerId") long erstellerId, @RequestParam("projektgruppenId") long projektgruppenId) {
+    public ResponseEntity<String> addLernkartenset(@RequestParam("bezeichnung") String bezeichnung, @RequestParam("erstellerId") long erstellerId,
+                                                   @RequestParam("projektgruppenId") long projektgruppenId) {
         Projektgruppe projektgruppe = projektgruppenRepository.findProjektgruppeById(projektgruppenId);
         if(lernkartensetRepository.findLernkartensetByBezeichnungAndProjektgruppe(bezeichnung, projektgruppe) != null) {
             return new ResponseEntity<>("Lernkartenset mit dieser Bezeichnung bereits vorhanden", null, HttpStatus.BAD_REQUEST);
@@ -89,4 +89,20 @@ public class LernkartenController {
         return lernkartensetRepository.getAllByProjektgruppeAndErsteller(projektgruppenRepository.findProjektgruppeById(projektgruppenId), nutzerRepository.findNutzerById(nutzerId));
     }
 
+    @GetMapping("/ungeteilteLernkartensets/{projektgruppenId}&{nutzerId}")
+    public List<Lernkartenset> getUngeteilteLernkartensetsInProjektgruppe(@PathVariable("projektgruppenId") long projektgruppenId, @PathVariable("nutzerId") long nutzerId) {
+        return lernkartensetRepository.getAllByProjektgruppeAndErstellerAndIstGeteilt(projektgruppenRepository.findProjektgruppeById(projektgruppenId),
+                nutzerRepository.findNutzerById(nutzerId), false);
+    }
+
+    @PostMapping("/teileLernkartensets")
+    public String teileLernkartensets(@RequestParam("projektgruppenId") long projektgruppenId, @RequestParam("lernkartensetId") List<Long> lernkartensetId) {
+        Projektgruppe projektgruppe = projektgruppenRepository.findProjektgruppeById(projektgruppenId);
+        for (int i = 0; i < lernkartensetId.size(); i++) {
+            Lernkartenset lernkartenset = lernkartensetRepository.findLernkartensetById(lernkartensetId.get(i));
+            lernkartenset.setIstGeteilt(true);
+            lernkartensetRepository.save(lernkartenset);
+        }
+        return "true";
+    }
 }

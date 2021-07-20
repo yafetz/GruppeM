@@ -315,6 +315,7 @@ public class ProjektgruppenController {
             e.printStackTrace();
         }
     }
+
     public void populateMaterialTable() {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/gruppenmaterial/" + projektgruppe.getId())).build();
@@ -722,13 +723,13 @@ public class ProjektgruppenController {
 
     public void lernkartenPressedButton(ActionEvent actionEvent) {
         actionEvent.consume();
-//        layout.instanceLayout("lernkarteAnsicht.fxml");
         layout.instanceLayout("lernkartensets.fxml");
         ((LernkartenController) layout.getController()).setLayout(layout);
         ((LernkartenController) layout.getController()).setProjektgruppe(projektgruppe);
         ((LernkartenController) layout.getController()).setNutzer(nutzer);
         ((LernkartenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
-//        ((LernkartenController) layout.getController()).initLernkartenController();
         ((LernkartenController) layout.getController()).populateLernkartensets();
+        ((LernkartenController) layout.getController()).lernkartensetsPgTitel.setText(projektgruppe.getTitel());
+        ((LernkartenController) layout.getController()).lernkartensetsLvTitel.setText(lehrveranstaltung.getTitel());
     }
 }

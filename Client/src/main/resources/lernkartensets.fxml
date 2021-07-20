@@ -21,7 +21,7 @@
             </font>
         </Label>
       <Label layoutX="40.0" layoutY="132.0" text="Meine Lernkartensets" />
-      <Button fx:id="neuerLernkartenset" layoutX="566.0" layoutY="128.0" mnemonicParsing="false" onAction="#neuenLernkartensetErstellen" text="Neuer Lernkartenset" />
+      <Button fx:id="neuerLernkartenset" layoutX="566.0" layoutY="128.0" mnemonicParsing="false" onAction="#neuenLernkartensetErstellenWeiterleitung" text="Neuer Lernkartenset" />
       <Label layoutX="40.0" layoutY="375.0" text="In der Gruppe geteilte Lernkartensets:" />
       <ScrollPane layoutX="39.0" layoutY="160.0" prefHeight="200.0" prefWidth="651.0">
         <content>

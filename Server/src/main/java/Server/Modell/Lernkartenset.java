@@ -68,6 +68,14 @@ public class Lernkartenset {
         this.projektgruppe = projektgruppe;
     }
 
+    public boolean isIstGeteilt() {
+        return istGeteilt;
+    }
+
+    public void setIstGeteilt(boolean istGeteilt) {
+        this.istGeteilt = istGeteilt;
+    }
+
     @Override
     public String toString() {
         return "Lernkartenset{" +
@@ -75,6 +83,7 @@ public class Lernkartenset {
                 ", bezeichnung='" + bezeichnung + '\'' +
                 ", ersteller=" + ersteller.getVorname() +
                 ", projektgruppe=" + projektgruppe.getTitel() +
+                ", istGeteilt=" + istGeteilt +
                 '}';
     }
 }

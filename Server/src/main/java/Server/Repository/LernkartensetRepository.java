@@ -14,5 +14,6 @@ public interface LernkartensetRepository extends JpaRepository<Lernkartenset, Lo
     List<Lernkartenset> getAllByProjektgruppe(Projektgruppe projektgruppe);
     List<Lernkartenset> getAllByProjektgruppeAndIstGeteilt(Projektgruppe projektgruppe, boolean istGeteilt);
     List<Lernkartenset> getAllByProjektgruppeAndErsteller(Projektgruppe projektgruppe, Nutzer ersteller);
+    List<Lernkartenset> getAllByProjektgruppeAndErstellerAndIstGeteilt(Projektgruppe projektgruppe, Nutzer ersteller, boolean istGeteilt);
 
 }
