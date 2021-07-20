@@ -34,8 +34,6 @@ public class LehrveranstaltungsuebersichtsseiteController {
     @FXML
     private Button projektgruppe_btn;
     @FXML
-    private Button reviewErstellenBtn;
-    @FXML
     private Button reviewStatistikBtn;
     @FXML
     private Button reviewBtn;
@@ -260,7 +258,6 @@ public class LehrveranstaltungsuebersichtsseiteController {
                 materialUpload.setVisible(false);
                 studentenliste.setVisible(false);
                 bearbeiten.setVisible(false);
-                reviewErstellenBtn.setVisible(false);
                 reviewBtn.setVisible(false);
                 getMaterial((Lehrveranstaltung) lehrveranstaltung);
                 checkThreshold(lehrveranstaltung, ((Student)nutzer).getNutzer().getId());
@@ -308,11 +305,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
             System.out.println("RESPONSEBODY     "+response.body());
             if(response.body().equals("false")){
-                reviewErstellenBtn.setVisible(true);
                 reviewBtn.setVisible(false);
-            }
-            else {
-               reviewErstellenBtn.setVisible(false);
             }
         } catch (IOException e) {
             e.printStackTrace();
