@@ -5,7 +5,6 @@ import Client.Controller.Liste.StudentenListeController;
 import Client.Controller.Liste.TeilnehmerListeController;
 import Client.Controller.ProjektGruppe.ProjektgruppenController;
 import Client.Controller.Quiz.QuizUebersichtController;
-import Client.Controller.Review.CreateReviewController;
 import Client.Controller.Review.ReviewBearbeitenController;
 import Client.Controller.Review.ReviewStatistikController;
 import Client.Layouts.Layout;
@@ -33,8 +32,6 @@ public class LehrveranstaltungsuebersichtsseiteController {
     private Button bearbeiten;
     @FXML
     private Button projektgruppe_btn;
-    @FXML
-    private Button reviewStatistikBtn;
     @FXML
     private Button reviewBtn;
     @FXML
