@@ -82,7 +82,6 @@ public class MeineKurseController {
 //            mapping data in response.body() to a list of teilnehmerliste-objects
             ObjectMapper mapper = new ObjectMapper();
 
-//            System.out.println(response.body());
 
             List<TeilnehmerListe> teilnehmerListe = mapper.readValue(response.body(), new TypeReference<List<TeilnehmerListe>>() {});
             List<Lehrveranstaltung> lehrveranstaltungen = new LinkedList<>();
@@ -290,7 +289,6 @@ public class MeineKurseController {
                 request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/beitreten/check/"+ lehrveranstaltungId + "&"+lehrId)).build();
                 memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-//                System.out.println("Instanz Lehrender "+memberResponse.body());
 
                 if(memberResponse.body().equals("true")) {
                         layout.instanceLayout("lehrveranstaltungsuebersichtsseite.fxml");
@@ -310,7 +308,6 @@ public class MeineKurseController {
                 request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lehrveranstaltung/beitreten/check/" + lehrveranstaltungId +"&"+ id)).build();
                 memberResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-//               System.out.println("Student Instanz "+memberResponse.body());
 
                 if(memberResponse.body().equals("true")){
                     layout.instanceLayout("lehrveranstaltungsuebersichtsseite.fxml");
