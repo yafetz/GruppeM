@@ -74,7 +74,6 @@ public class MailScheduler {
 
 
     public void sendMailPassedOrFailedSommer(LocalDateTime aktuelle) {
-        System.out.println("sendMailPassedOrFailedSommer");
         //finde das aktuelle Datum heraus und speicher sie ab
         String jahr = String.valueOf(aktuelle.getYear());
 
@@ -131,10 +130,8 @@ public class MailScheduler {
                             ergebnisVersendet.setSemester(lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)).getSemester());
                             ergebnisVersendet.setBestanden(true);
                             ergebnisVersendetRepository.save(ergebnisVersendet);
-                            System.out.println("jemand hat im sommer bestanden");
                         } else {
                             mailService.sendEmail(idlistvor.get(l).getEmail(), "Sie haben den Kurs " + lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)).getTitel() + " nicht bestanden");
-                            System.out.println("jemand hat im sommer  nicht bestanden");
                             ErgebnisVersendet ergebnisVersendet = new ErgebnisVersendet();
                             ergebnisVersendet.setNutzer(idlistvor.get(l));
                             ergebnisVersendet.setLehrveranstaltung(lehrveranstaltungRepository.findLehrveranstaltungById(neuKurse_id.get(i)));
