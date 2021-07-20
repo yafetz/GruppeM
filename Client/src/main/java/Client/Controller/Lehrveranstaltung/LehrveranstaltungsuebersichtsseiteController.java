@@ -109,6 +109,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
             System.out.println("Threshold "+ response.body());
             if (response.body().equals("true")){
                 System.out.println("Threshold erreicht");
+
                 reviewBtn.setVisible(true);
             }
             else {
@@ -267,7 +268,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
                 bearbeiten.setVisible(false);
                 reviewBtn.setVisible(false);
                 getMaterial((Lehrveranstaltung) lehrveranstaltung);
-                checkIfReviewed(lehrveranstaltung, ((Student)nutzer).getNutzer().getId());
+                checkForReview(lehrveranstaltung);
 
             }
         }
@@ -286,10 +287,21 @@ public class LehrveranstaltungsuebersichtsseiteController {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
             System.out.println("RESPONSEBODY     "+response.body());
             if(response.body().equals("false")){
-                reviewBtn.setVisible(true);
+                if (nutzer instanceof Lehrender) {
+                    reviewBtn.setVisible(true);
+                }
+                else {
+                    reviewBtn.setVisible(false);
+                }
+
+
 
             }
             else {
+                checkIfReviewed(lehrveranstaltung, ((Student)nutzer).getNutzer().getId());
+
+
+
             }
         } catch (IOException e) {
             e.printStackTrace();
