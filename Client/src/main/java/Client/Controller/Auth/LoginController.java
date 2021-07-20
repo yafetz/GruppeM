@@ -50,6 +50,14 @@ public class LoginController {
     private int auth = 0;
     private LocalDateTime jetzt;
 
+    public LocalDateTime getJetzt() {
+        return jetzt;
+    }
+
+    public void setJetzt(LocalDateTime jetzt) {
+        this.jetzt = jetzt;
+    }
+
     public Layout getLayout() {
         return layout;
     }
@@ -71,6 +79,14 @@ public class LoginController {
 
     @FXML
     private void loginPressedButton(ActionEvent event) {
+        if(jetzt==null) {
+            jetzt=LocalDateTime.now();
+            setTimeAndDate(jetzt);
+        }
+        else {
+            setTimeAndDate(jetzt);
+        }
+
         event.consume();
         String matr = matrikelnummer.getText().trim().replaceAll(" ","%20");
         String pass = password.getText().trim().replaceAll(" ","%20");
@@ -135,6 +151,9 @@ public class LoginController {
 
 
         public void setTimeAndDate(LocalDateTime aktuell) {
+
+
+
         try (CloseableHttpClient client = HttpClients.createDefault()) {
         String url = "http://localhost:8080/login/uploadDateAndTime";
         HttpPost post = new HttpPost(url);

@@ -117,7 +117,7 @@ public class SettingController {
 
         layout.instanceAuth("login.fxml");
         ((LoginController) layout.getController()).setLayout(layout);
-        ((LoginController) layout.getController()).setTimeAndDate(aktuell);
+        ((LoginController) layout.getController()).setJetzt(aktuell);
 
 
 

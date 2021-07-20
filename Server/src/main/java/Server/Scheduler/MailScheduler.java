@@ -53,7 +53,6 @@ public class MailScheduler {
 
         if (listdatum.isEmpty()) {
             datum = LocalDateTime.now();
-            System.out.println(datum);
         } else {
             datum = listdatum.get(0).getDatum();
         }
