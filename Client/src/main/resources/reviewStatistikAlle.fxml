@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="630.0" prefWidth="1061.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.ReviewStatistikController">
+<AnchorPane prefHeight="630.0" prefWidth="1061.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.Review.ReviewStatistikController">
    <children>
       <Label fx:id="statistikTitelLabel" layoutX="32.0" layoutY="25.0" text="Bewertungsstatistik zu dem Kurs XYZ">
          <font>

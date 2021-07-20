@@ -1,28 +1,26 @@
 package Client.Controller.Lehrveranstaltung;
 
-import Client.Controller.CreateReviewController;
-import Client.Controller.LehrveranstaltungBearbeitenController;
+import Client.Controller.Review.CreateReviewController;
 import Client.Controller.Liste.StudentenListeController;
 import Client.Controller.Liste.TeilnehmerListeController;
 import Client.Controller.ProjektGruppe.ProjektgruppenController;
 import Client.Controller.Quiz.QuizUebersichtController;
-import Client.Controller.ReviewBearbeitenController;
-import Client.Controller.ReviewStatistikController;
+import Client.Controller.Review.ReviewBearbeitenController;
+import Client.Controller.Review.ReviewStatistikController;
 import Client.Layouts.Layout;
-import Client.Modell.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import Client.Modell.*;
+import javafx.event.ActionEvent;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -63,7 +61,6 @@ public class LehrveranstaltungsuebersichtsseiteController {
 
     public void setLayout(Layout layout) {
         this.layout = layout;
-
         //getReview();
     }
 
@@ -83,15 +80,12 @@ public class LehrveranstaltungsuebersichtsseiteController {
         HttpResponse<String> response;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println("RESPONSE CHECKIFREVIEWED  "+response.body());
 
             if (response.body().equals("true")){
-                System.out.println("CHeck reviewed IF");
                 reviewBtn.setVisible(false);
-
             }
             else {
-                System.out.println("CHeck reviewed Else");
+                reviewBtn.setVisible(true);
             }
 
         } catch (IOException e) {
@@ -110,38 +104,18 @@ public class LehrveranstaltungsuebersichtsseiteController {
         HttpResponse<String> response;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println("checkThreshold "+ response.body());
-            boolean check = checkReviewBoolean(lehrveranstaltung1);
-            System.out.println("CHECK   " +check);
+            System.out.println("Threshold "+ response.body());
             if (response.body().equals("true")){
-
-                if(check==true) {
-                    reviewBtn.setVisible(true);
-                }
-                else {
-                    reviewBtn.setVisible(false);
-                }
+                reviewBtn.setVisible(true);
             }
             else {
                 reviewBtn.setVisible(false);
-
             }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-
-    }
-
-    public void createReview(){
-
-        layout.instanceLayout("reviewCreate.fxml");
-        ((CreateReviewController) layout.getController()).setLayout(layout);
-        ((CreateReviewController) layout.getController()).reviewSeiteAufrufen(nutzer, lehrveranstaltung);
-        ((CreateReviewController) layout.getController()).review_LvTitel_Label.setText("Lehrveranstaltung " + lehrveranstaltung.getTitel());
-
 
 
     }
@@ -264,7 +238,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
                 title.setText(((Lehrveranstaltung) lehrveranstaltung).getTitel());
                // materialUpload.setText("Lehrmaterial hochladen")
                 getMaterial((Lehrveranstaltung) lehrveranstaltung);
-                checkForReview(lehrveranstaltung);
+
             }
             else if(nutzer instanceof Student) {
                 title.setText(((Lehrveranstaltung) lehrveranstaltung).getTitel());
@@ -272,67 +246,11 @@ public class LehrveranstaltungsuebersichtsseiteController {
                 materialUpload.setVisible(false);
                 studentenliste.setVisible(false);
                 bearbeiten.setVisible(false);
-                reviewErstellenBtn.setVisible(false);
-                reviewBtn.setVisible(false);
                 getMaterial((Lehrveranstaltung) lehrveranstaltung);
                 checkThreshold(lehrveranstaltung, ((Student)nutzer).getNutzer().getId());
                 checkIfReviewed(lehrveranstaltung, ((Student)nutzer).getNutzer().getId());
-
             }
         }
-    }
-
-    public boolean checkReviewBoolean(Lehrveranstaltung lehrveranstaltung){
-        this.lehrveranstaltung=lehrveranstaltung;
-        HttpClient client = HttpClient.newHttpClient();
-
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/review/check/" +lehrveranstaltung.getId())).build();
-        HttpResponse<String> response;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            if(response.body().equals("false")){
-                return false;
-            }
-            else {
-                return true;
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        return false;
-
-    }
-
-    public void checkForReview(Lehrveranstaltung lehrveranstaltung1){
-
-        this.lehrveranstaltung=lehrveranstaltung1;
-        HttpClient client = HttpClient.newHttpClient();
-
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/review/check/" +lehrveranstaltung.getId())).build();
-        HttpResponse<String> response;
-
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println("RESPONSEBODY     "+response.body());
-            if(response.body().equals("false")){
-                reviewErstellenBtn.setVisible(true);
-                reviewBtn.setVisible(false);
-            }
-            else {
-               reviewErstellenBtn.setVisible(false);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-
     }
 
     public void projektgruppePressedButton(ActionEvent actionEvent) {
@@ -392,7 +310,6 @@ public class LehrveranstaltungsuebersichtsseiteController {
             ((ReviewBearbeitenController) layout.getController()).setNutzer(nutzer);
             System.out.println("lvübersichtsseitecontroller review: " + review.getTitel());
             ((ReviewBearbeitenController) layout.getController()).setReview(review);
-
 
         }
     }

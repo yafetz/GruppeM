@@ -1,4 +1,4 @@
-package Client.Controller;
+package Client.Controller.Review;
 
 import Client.Layouts.Layout;
 import Client.Modell.*;

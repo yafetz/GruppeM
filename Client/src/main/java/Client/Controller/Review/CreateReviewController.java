@@ -1,5 +1,5 @@
 
-package Client.Controller;
+package Client.Controller.Review;
 
 
 import Client.Controller.Lehrveranstaltung.LehrveranstaltungsuebersichtsseiteController;

@@ -3,7 +3,7 @@ package Client.Controller.ProjektGruppe;
 import Client.Controller.Chat.ChatController;
 import Client.Controller.Gruppenmitglieder.GruppenUploadController;
 import Client.Controller.Gruppenmitglieder.GruppenmitgliederController;
-import Client.Controller.LernkartenController;
+import Client.Controller.Lernkarten.LernkartenController;
 import Client.Controller.ToDo.ToDoListeController;
 import Client.Layouts.Layout;
 import Client.Modell.*;
