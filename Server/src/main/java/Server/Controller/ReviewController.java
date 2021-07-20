@@ -107,12 +107,16 @@ public class ReviewController {
     @GetMapping("check/user/{nutzerid}&{lehrveranstaltungsid}")
     public boolean checkIfReviewed(@PathVariable("nutzerid") long nutzerid, @PathVariable("lehrveranstaltungsid") long lehrveranstaltungsid) {
         Review review;
-        ReviewBearbeitet reviewBearbeitet;
+        List<ReviewBearbeitet> reviewBearbeitet;
         if (reviewRepository.findByLehrveranstaltung(lehrveranstaltungRepository.findLehrveranstaltungById(lehrveranstaltungsid)) != null && reviewBearbeitetRepository.findByNutzer(nutzerRepository.findNutzerById(nutzerid)) != null) {
             review = reviewRepository.findByLehrveranstaltung(lehrveranstaltungRepository.findLehrveranstaltungById(lehrveranstaltungsid));
+
             reviewBearbeitet = reviewBearbeitetRepository.findByNutzer(nutzerRepository.findNutzerById(nutzerid));
-            if (review.getId() == reviewBearbeitet.getReview().getId()) {
-                return true;
+            for(int i=0; i<reviewBearbeitet.size();i++) {
+                if (review.getId() == reviewBearbeitet.get(i).getReview().getId()) {
+                    return true;
+                    
+                }
             }
 
         } else {
