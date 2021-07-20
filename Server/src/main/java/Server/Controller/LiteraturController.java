@@ -21,6 +21,6 @@ public class LiteraturController {
 
     @GetMapping("{literatur_id}")
     public Literatur findeLiteratur(@PathVariable long literatur_id){
-        return literaturRepository.findById(literatur_id);
+        return literaturRepository.findLiteraturById(literatur_id);
     }
 }

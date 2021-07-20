@@ -1,9 +1,6 @@
 package Server.Controller;
 
-import Server.Modell.Literatur;
-import Server.Modell.QuizAnswer;
-import Server.Modell.QuizQuestion;
-import Server.Modell.Thema;
+import Server.Modell.*;
 import Server.Repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -61,6 +58,17 @@ public class ThemenController {
         thema.setNutzer(nutzerRepository.findNutzerById(nutzerId));
         themenRepository.save(thema);
         return thema;
+    }
+
+    @PostMapping("addLiteraturZuThema")
+    public String LiteraturZuThema(@RequestParam("thema_id") Long thema, @RequestParam("literaturliste") List<Long> literaturliste){
+        for(int i = 0; i < literaturliste.size(); i++){
+            LiteraturThema lt = new LiteraturThema();
+            lt.setThema(themenRepository.findThemaById(thema));
+            lt.setLiteratur(literaturRepository.findLiteraturById(literaturliste.get(i)));
+            literaturThemaRepository.save(lt);
+        }
+        return "OK";
     }
 
     @PostMapping("literatur/upload")

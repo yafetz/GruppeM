@@ -13,12 +13,23 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.FormBodyPart;
+import org.apache.http.entity.mime.MIME;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,6 +72,34 @@ public class LiteraturHinzufügenController {
     }
 
     public void LiteraturHinzufügen(ActionEvent actionEvent) {
+        //Sende Daten an den Server
+        try (CloseableHttpClient client1 = HttpClients.createDefault()) {
+
+            String url = "http://localhost:8080/themen/addLiteraturZuThema";
+            HttpPost post = new HttpPost(url);
+            MultipartEntityBuilder entity = MultipartEntityBuilder.create();
+            entity.setCharset(StandardCharsets.UTF_8);
+            entity.addTextBody("thema_id",String.valueOf(thema.getId()), ContentType.create("text/plain", MIME.UTF8_CHARSET));
+            for(int i = 0; i < SelectedLiteraturIds.size(); i++){
+                entity.addTextBody("literaturliste",String.valueOf(SelectedLiteraturIds.get(i)));
+            }
+            HttpEntity requestEntity = entity.build();
+            post.setEntity(requestEntity);
+
+            try (CloseableHttpResponse response1 = client1.execute(post)) {
+                HttpEntity responseEntity = response1.getEntity();
+                String result = EntityUtils.toString(responseEntity);
+                if(result != "") {
+                    //Seite neuladen
+                    layout.instanceLayout("LiteraturHinzufügen.fxml");
+                    ((LiteraturHinzufügenController) layout.getController()).setLayout(layout);
+                    ((LiteraturHinzufügenController) layout.getController()).setThema(thema);
+
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void BibtexFileUpload(ActionEvent actionEvent) {
