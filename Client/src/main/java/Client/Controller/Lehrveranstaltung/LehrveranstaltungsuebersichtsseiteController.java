@@ -298,9 +298,9 @@ public class LehrveranstaltungsuebersichtsseiteController {
 
             }
             else {
-                checkIfReviewed(lehrveranstaltung, ((Student)nutzer).getNutzer().getId());
-
-
+                if(nutzer instanceof Student) {
+                    checkIfReviewed(lehrveranstaltung, ((Student) nutzer).getNutzer().getId());
+                }
 
             }
         } catch (IOException e) {
