@@ -1,4 +1,4 @@
-package Client.Controller;
+package Client.Controller.Lernkarten;
 
 import Client.Layouts.Layout;
 import Client.Modell.Lehrveranstaltung;

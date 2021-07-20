@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.LernkartenController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.Lernkarten.LernkartenController">
    <children>
       <Text layoutX="52.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Projektgruppe - Lernkarte Ansicht" wrappingWidth="205.94464111328125" />
       <Label fx:id="frage" layoutX="22.0" layoutY="99.0" prefHeight="70.0" prefWidth="574.0" text="Label" />
