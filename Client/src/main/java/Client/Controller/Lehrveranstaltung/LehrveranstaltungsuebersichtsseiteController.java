@@ -257,8 +257,8 @@ public class LehrveranstaltungsuebersichtsseiteController {
                 bearbeiten.setVisible(false);
                 reviewBtn.setVisible(false);
                 getMaterial((Lehrveranstaltung) lehrveranstaltung);
-                checkThreshold(lehrveranstaltung, ((Student)nutzer).getNutzer().getId());
                 checkIfReviewed(lehrveranstaltung, ((Student)nutzer).getNutzer().getId());
+                checkThreshold(lehrveranstaltung, ((Student)nutzer).getNutzer().getId());
 
             }
         }
