@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Text?>
 
 <?import javafx.scene.image.Image?>
-<AnchorPane id="registrieren_lehrender" layoutX="200.0" layoutY="100.0" minHeight="0.0" minWidth="0.0" prefHeight="453.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.Auth.RegistrierenController">
+<AnchorPane id="registrieren_lehrender" layoutX="200.0" layoutY="100.0" minHeight="0.0" minWidth="0.0" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.Auth.RegistrierenController">
    <children>
       <Text fill="WHITE" layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Registrierung als Student">
          <font>
