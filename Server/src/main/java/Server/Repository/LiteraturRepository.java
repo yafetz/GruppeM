@@ -5,4 +5,5 @@ import Server.Modell.Thema;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface LiteraturRepository extends JpaRepository<Literatur,Long> {
+    Literatur findById(long id);
 }
