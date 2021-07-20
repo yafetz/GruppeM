@@ -47,6 +47,11 @@ public class ThemenController {
         return literaturThemaRepository.findAllLiteraturWhichAreNotSelected(thema_id);
     }
 
+    @GetMapping("jetzigeLiteratur/{thema_id}")
+    public List<Literatur> jetzigeLiteratur(@PathVariable long thema_id){
+        return literaturThemaRepository.findAllLiteraturByThema(thema_id);
+    }
+
     @PostMapping("neuesThema")
     public Thema neuesThema(@RequestParam("titel") String titel, @RequestParam("beschreibung") String beschreibung,@RequestParam("lehrveranstaltungId") long lehrveranstaltungId,@RequestParam("nutzerId") long nutzerId){
         Thema thema = new Thema();
