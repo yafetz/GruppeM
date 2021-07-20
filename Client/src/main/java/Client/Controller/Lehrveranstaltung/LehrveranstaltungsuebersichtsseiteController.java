@@ -61,7 +61,7 @@ public class LehrveranstaltungsuebersichtsseiteController {
 
     public void setLayout(Layout layout) {
         this.layout = layout;
-        //getReview();
+
     }
 
     private Review review;

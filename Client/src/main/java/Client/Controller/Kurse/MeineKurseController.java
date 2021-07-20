@@ -316,7 +316,7 @@ public class MeineKurseController {
                     layout.instanceLayout("lehrveranstaltungsuebersichtsseite.fxml");
                     ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).uebersichtsseiteAufrufen(nutzerInstanz,lehrveranstaltung);
                     ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).setLayout(layout);
-                    ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).getReview(lehrveranstaltung);
+                   // ((LehrveranstaltungsuebersichtsseiteController) layout.getController()).getReview(lehrveranstaltung);
 
                 }
                 else{
