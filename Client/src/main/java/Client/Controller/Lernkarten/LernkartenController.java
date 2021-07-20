@@ -1,16 +1,22 @@
 package Client.Controller.Lernkarten;
 
+import Client.Controller.ProjektGruppe.ProjektgruppeBeitretenController;
 import Client.Controller.ProjektGruppe.ProjektgruppenController;
 import Client.Layouts.Layout;
-import Client.Modell.Lehrveranstaltung;
-import Client.Modell.Lernkarte;
-import Client.Modell.Projektgruppe;
+import Client.Modell.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.Cursor;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -20,10 +26,38 @@ import java.util.Collections;
 import java.util.List;
 
 public class LernkartenController {
+
+    @FXML private Label lernkartensetsPgTitel;
+    @FXML private Label lernkartensetsLvTitel;
+    @FXML private Button neuerLernkartenset;
+    @FXML private TableView<Lernkartenset> eigeneLernkartensets;
+    @FXML private TableColumn<Lernkartenset, String> lernkartensetColumn;
+    @FXML private TableColumn<Lernkartenset, Integer> eigeneSetsId;
+    @FXML private TableView<Lernkartenset> geteilteLernkartensets;
+    @FXML private TableColumn<Lernkartenset, String> geteilteLernkartensetsColumn;
+    @FXML private TableColumn<Lernkartenset, String> erstellerColumn;
+    @FXML private TableColumn<Lernkartenset, Integer> geteilteSetsId;
+    @FXML private Button teilenButton;
+    @FXML private Label pgTitel;
+    @FXML private Label lvTitel;
+    @FXML private TableView<Lernkartenset> geteilteSets;
+    @FXML private TableColumn<Lernkartenset, String> geteilteSetsColumn;
+    @FXML private TableView<Lernkartenset> ungeteilteSets;
+    @FXML private TableColumn<Lernkartenset, String> ungeteilteSetsColumn;
+    @FXML private TableColumn<Lernkartenset, Integer> setId;
+    @FXML private Button setTeilenButton;
+    @FXML private Button teilenZurueckButton;
+    @FXML private Label setErstellenPgTitel;
+    @FXML private Label setErstellenLvTitel;
+    @FXML private TextField bezTextfield;
+    @FXML private Button abbrechenButton;
+    @FXML private Button erstellenButton;
+
+
     @FXML
-    public Label frage;
+    private Label frage;
     @FXML
-    public Label antwort;
+    private Label antwort;
     @FXML
     private Button back;
     @FXML
@@ -42,6 +76,7 @@ public class LernkartenController {
     private Object nutzer;
     private Lehrveranstaltung lehrveranstaltung;
     private Projektgruppe projektgruppe;
+    private Lernkartenset lernkartenset;
 
 
     private List<Lernkarte> lernkartenList;
@@ -171,6 +206,128 @@ public class LernkartenController {
     }
 
 
+    public void populateLernkartensets() {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = null;
+        if(nutzer instanceof Student) {
+            request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lernkarten/eigeneLernkartensets/" + projektgruppe.getId() + "&" + ((Student) nutzer).getId())).build();
+        }
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            ObjectMapper mapper = new ObjectMapper();
+            List<Lernkartenset> eigeneSets = mapper.readValue(response.body(), new TypeReference<List<Lernkartenset>>() {});
+
+            lernkartensetColumn.setCellValueFactory(new PropertyValueFactory<Lernkartenset,String>("bezeichnung"));
+            eigeneSetsId.setCellValueFactory(new PropertyValueFactory<Lernkartenset,Integer>("id"));
+
+            lernkartensetColumn.setCellFactory(tablecell -> {
+                TableCell<Lernkartenset, String> cell = new TableCell<Lernkartenset, String>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty) ;
+                        setText(empty ? null : item);
+                    }
+                };
+                cell.setCursor(Cursor.HAND);
+                cell.setOnMouseClicked(e -> {
+                            if (!cell.isEmpty()) {
+                                redirectToLernkartenset(cell.getTableRow().getItem().getId());
+                            }
+                        }
+                );
+                return cell;
+            });
+            ObservableList<Lernkartenset> obsEigeneSets = FXCollections.observableList(eigeneSets);
+            eigeneLernkartensets.setItems(obsEigeneSets);
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/lernkarten/geteilteLernkartensets/" + projektgruppe.getId())).build();
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            ObjectMapper mapper = new ObjectMapper();
+            List<Lernkartenset> geteilteSets = mapper.readValue(response.body(), new TypeReference<List<Lernkartenset>>() {});
+
+            geteilteLernkartensetsColumn.setCellValueFactory(new PropertyValueFactory<Lernkartenset,String>("bezeichnung"));
+            geteilteSetsId.setCellValueFactory(new PropertyValueFactory<Lernkartenset,Integer>("id"));
+            erstellerColumn.setCellValueFactory(new PropertyValueFactory<Lernkartenset,String>("erstellerVorname"));
+
+            geteilteLernkartensetsColumn.setCellFactory(tablecell -> {
+                TableCell<Lernkartenset, String> cell = new TableCell<Lernkartenset, String>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty) ;
+                        setText(empty ? null : item);
+                    }
+                };
+                cell.setCursor(Cursor.HAND);
+                cell.setOnMouseClicked(e -> {
+                            if (!cell.isEmpty()) {
+                                redirectToLernkartenset(cell.getTableRow().getItem().getId());
+                            }
+                        }
+                );
+                return cell;
+            });
+            erstellerColumn.setCellFactory(tablecell -> {
+                TableCell<Lernkartenset, String> cell = new TableCell<Lernkartenset, String>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty) ;
+                        setText(empty ? null : item);
+                    }
+                };
+                cell.setCursor(Cursor.HAND);
+                cell.setOnMouseClicked(e -> {
+                            if (!cell.isEmpty()) {
+                                redirectToLernkartenset(cell.getTableRow().getItem().getId());
+                            }
+                        }
+                );
+                return cell;
+            });
+
+            ObservableList<Lernkartenset> obsGeteilteSets = FXCollections.observableList(geteilteSets);
+            geteilteLernkartensets.setItems(obsGeteilteSets);
+
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void redirectToLernkartenset(long id) {
+    }
+
+    public void neuenLernkartensetErstellen(ActionEvent actionEvent) {
+        layout.instanceLayout("lernsetErstellen.fxml");
+        ((LernkartenController) layout.getController()).setLayout(layout);
+        ((LernkartenController) layout.getController()).setErstellenPgTitel.setText(projektgruppe.getTitel());
+        ((LernkartenController) layout.getController()).setErstellenLvTitel.setText(lehrveranstaltung.getTitel());
+    }
+
+    public void lernkartensetTeilenWeiterleitung(ActionEvent actionEvent) {
+        layout.instanceLayout("lernkartensetsTeilen.fxml");
+        ((LernkartenController) layout.getController()).setLayout(layout);
+        ((LernkartenController) layout.getController()).pgTitel.setText(projektgruppe.getTitel());
+        ((LernkartenController) layout.getController()).lvTitel.setText(lehrveranstaltung.getTitel());
+    }
+
+    public void lernkartensetsTeilen(ActionEvent actionEvent) {
+    }
+
+    public void teilenZurueckPressedButton(ActionEvent actionEvent) {
+    }
+
+    public void setErstellenAbbrechen(ActionEvent actionEvent) {
+    }
+
+    public void lernkartensetErstellen(ActionEvent actionEvent) {
+    }
+
+
+
     public Layout getLayout() {
         return layout;
     }
@@ -193,10 +350,15 @@ public class LernkartenController {
 
     public void setLehrveranstaltung(Lehrveranstaltung lehrveranstaltung) {
         this.lehrveranstaltung = lehrveranstaltung;
+        lernkartensetsLvTitel.setText("Lehrveranstaltung " + lehrveranstaltung.getTitel());
     }
 
     public void setProjektgruppe(Projektgruppe projektgruppe) {
         this.projektgruppe = projektgruppe;
+        lernkartensetsPgTitel.setText("Projektgruppe " + projektgruppe.getTitel());
     }
 
+
 }
+
+

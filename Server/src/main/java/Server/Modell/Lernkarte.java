@@ -15,9 +15,9 @@ public class Lernkarte {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="projektgruppe")
-    private Projektgruppe projektgruppe;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="lernkartenset_Id", nullable = false)
+    private Lernkartenset lernkartenset;
 
     @Column(nullable = false)
     @JsonProperty("frage")
@@ -27,12 +27,12 @@ public class Lernkarte {
     @JsonProperty("antwort")
     private String antwort;
 
-    public Projektgruppe getProjektgruppe() {
-        return projektgruppe;
+    public Lernkartenset getLernkartenset() {
+        return lernkartenset;
     }
 
-    public void setProjektgruppe(Projektgruppe projektgruppe) {
-        this.projektgruppe = projektgruppe;
+    public void setLernkartenset(Lernkartenset lernkartenset) {
+        this.lernkartenset = lernkartenset;
     }
 
     public String getFrage() {

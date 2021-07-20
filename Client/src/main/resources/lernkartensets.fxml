@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="635.0" prefWidth="891.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.Lernkarten.LernkartenController">
+    <children>
+        <Label fx:id="lernkartensetsPgTitel" layoutX="40.0" layoutY="29.0" text="Lernkartensets der Projektgruppe ABC">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+        <Label fx:id="lernkartensetsLvTitel" layoutX="40.0" layoutY="82.0" text="Lehrveranstaltung XYZ">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+      <Label layoutX="40.0" layoutY="132.0" text="Meine Lernkartensets" />
+      <Button fx:id="neuerLernkartenset" layoutX="566.0" layoutY="128.0" mnemonicParsing="false" onAction="#neuenLernkartensetErstellen" text="Neuer Lernkartenset" />
+      <Label layoutX="40.0" layoutY="375.0" text="In der Gruppe geteilte Lernkartensets:" />
+      <ScrollPane layoutX="39.0" layoutY="160.0" prefHeight="200.0" prefWidth="651.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="196.0" prefWidth="647.0">
+               <children>
+                    <TableView fx:id="eigeneLernkartensets" layoutY="-2.0" prefHeight="200.0" prefWidth="651.0">
+                        <columns>
+                            <TableColumn fx:id="lernkartensetColumn" prefWidth="650.6666883230209" text="Lernkartenset" />
+                        <TableColumn fx:id="eigeneSetsId" minWidth="0.0" prefWidth="0.0" text="setId" visible="false" />
+                        </columns>
+                    </TableView>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+      <ScrollPane layoutX="39.0" layoutY="403.0" prefHeight="200.0" prefWidth="651.0">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="196.0" prefWidth="648.0">
+               <children>
+                  <TableView fx:id="geteilteLernkartensets" layoutY="-2.0" prefHeight="200.0" prefWidth="651.0">
+                     <columns>
+                        <TableColumn fx:id="geteilteLernkartensetsColumn" prefWidth="525.3333142995834" text="Geteilte Lernkartensets" />
+                        <TableColumn fx:id="erstellerColumn" prefWidth="126.0" text="Ersteller" />
+                        <TableColumn fx:id="geteilteSetsId" minWidth="0.0" prefWidth="0.0" text="setId" visible="false" />
+                     </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+         </content>
+      </ScrollPane>
+      <Button fx:id="teilenButton" layoutX="569.0" layoutY="371.0" mnemonicParsing="false" onAction="#lernkartensetTeilenWeiterleitung" text="Lernkartenset teilen" />
+    </children>
+</AnchorPane>

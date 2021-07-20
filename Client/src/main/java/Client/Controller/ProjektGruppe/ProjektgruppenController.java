@@ -722,12 +722,13 @@ public class ProjektgruppenController {
 
     public void lernkartenPressedButton(ActionEvent actionEvent) {
         actionEvent.consume();
-
-        layout.instanceLayout("lernkarteAnsicht.fxml");
+//        layout.instanceLayout("lernkarteAnsicht.fxml");
+        layout.instanceLayout("lernkartensets.fxml");
         ((LernkartenController) layout.getController()).setLayout(layout);
         ((LernkartenController) layout.getController()).setProjektgruppe(projektgruppe);
         ((LernkartenController) layout.getController()).setNutzer(nutzer);
         ((LernkartenController) layout.getController()).setLehrveranstaltung(lehrveranstaltung);
-        ((LernkartenController) layout.getController()).initLernkartenController();
+//        ((LernkartenController) layout.getController()).initLernkartenController();
+        ((LernkartenController) layout.getController()).populateLernkartensets();
     }
 }

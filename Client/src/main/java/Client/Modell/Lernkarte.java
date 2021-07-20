@@ -7,8 +7,8 @@ public class Lernkarte {
     @JsonProperty("id")
     private Long id;
 
-    @JsonProperty("projektgruppe")
-    private Long projektgruppe_id;
+    @JsonProperty("lernkartenset")
+    private Lernkartenset lernkartenset;
 
     @JsonProperty("frage")
     private String frage;
@@ -24,12 +24,12 @@ public class Lernkarte {
         this.id = id;
     }
 
-    public Long getProjektgruppe_id() {
-        return projektgruppe_id;
+    public Lernkartenset getLernkartenset() {
+        return lernkartenset;
     }
 
-    public void setProjektgruppe_id(Long projektgruppe_id) {
-        this.projektgruppe_id = projektgruppe_id;
+    public void setLernkartenset(Lernkartenset lernkartenset) {
+        this.lernkartenset = lernkartenset;
     }
 
     public String getFrage() {

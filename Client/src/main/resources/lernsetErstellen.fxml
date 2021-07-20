@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="635.0" prefWidth="891.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.Lernkarten.LernkartenController">
+    <children>
+        <Label fx:id="setErstellenPgTitel" layoutX="40.0" layoutY="29.0" text="Projektgruppe ABC">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+        <Label fx:id="setErstellenLvTitel" layoutX="40.0" layoutY="82.0" text="Lehrveranstaltung XYZ">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+      <Label layoutX="40.0" layoutY="158.0" text="Bezeichnung des neuen Lernkartensets:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="bezTextfield" layoutX="301.0" layoutY="155.0" prefHeight="25.0" prefWidth="438.0" promptText="Bezeichnung eingeben" />
+      <Button fx:id="abbrechenButton" layoutX="40.0" layoutY="226.0" mnemonicParsing="false" onAction="#setErstellenAbbrechen" text="Abbrechen" />
+      <Button fx:id="erstellenButton" layoutX="603.0" layoutY="226.0" mnemonicParsing="false" onAction="#lernkartensetErstellen" text="Lernkartenset erstellen" />
+    </children>
+</AnchorPane>
