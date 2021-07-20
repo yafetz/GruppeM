@@ -154,7 +154,7 @@ public class UserprofilController {
                 city.setText(((Lehrender) eigenerNutzer).getNutzerId().getStadt());
                 profil.setVisible(true);
                 KurseAufrufen(eigenerNutzer);
-                ThemenAufrufen(vergleichNutzer);
+                ThemenAufrufen(vergleichNutzer,eigenerNutzer);
                 number.setText( "" + ((Lehrender) eigenerNutzer).getNutzerId().getHausnummer());
                 lehrstuhlOderMatrNrTextLabel.setText("Lehrstuhl");
                 forschungsgebietOderStudienfachTextLabel.setText("Forschungsgebiet");
@@ -198,7 +198,7 @@ public class UserprofilController {
                     adresse.setText(((Lehrender) vergleichNutzer).getNutzerId().getStrasse());
                     city.setText(((Lehrender) vergleichNutzer).getNutzerId().getStadt());
                     KurseAufrufen(vergleichNutzer);
-                    ThemenAufrufen(vergleichNutzer);
+                    ThemenAufrufen(vergleichNutzer,eigenerNutzer);
                     //abmeldenButton.setVisible(false);
                     number.setText( "" + ((Lehrender) vergleichNutzer).getNutzerId().getHausnummer());
                     lehrstuhlOderMatrNrTextLabel.setText("Lehrstuhl");
@@ -238,7 +238,7 @@ public class UserprofilController {
                     lehrstuhl_oder_matr.setText(((Lehrender) vergleichNutzer).getLehrstuhl());
                     forschungsgebiet_studienfach.setText(((Lehrender) vergleichNutzer).getForschungsgebiet());
                     KurseAufrufen(vergleichNutzer);
-                    ThemenAufrufen(vergleichNutzer);
+                    ThemenAufrufen(vergleichNutzer,eigenerNutzer);
                     stadtLabel.setVisible(false);
                     strasseLabel.setVisible(false);
                     hausnummerLabel.setVisible(false);
@@ -328,14 +328,20 @@ public class UserprofilController {
     }
 
 
-    public void ThemenAufrufen(Object user) {
+    public void ThemenAufrufen(Object user,Object anfragenderNutzer) {
         this.user = user;
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = null;
+        long nutzerId = 0;
+        if(anfragenderNutzer instanceof Lehrender){
+            nutzerId = ((Lehrender) anfragenderNutzer).getNutzerId().getId();
+        }else if(anfragenderNutzer instanceof Student){
+            nutzerId = ((Student) anfragenderNutzer).getNutzer().getId();
+        }
 
         if (user instanceof Lehrender) {
-            request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/themen/alle/" + ((Lehrender) user).getNutzerId().getId())).build();
+            request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/themen/alle/" + ((Lehrender) user).getNutzerId().getId()+"/"+nutzerId)).build();
         }
         HttpResponse<String> response = null;
         try {

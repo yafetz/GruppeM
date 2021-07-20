@@ -76,6 +76,46 @@ public class ReviewBearbeitenController {
           System.out.println("FRAGEN       " +fragen);
             LoadAnswers();
 
+            if (reviewIndex +1 == fragen.size()) {
+//                    System.out.println("Review ende");
+                nextQuestion.setText("Review beenden");
+                nextQuestion.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        CheckAntwort();
+                        panel.getChildren().clear();
+                        panel.getChildren().add(reviewTitel);
+                        Question.setText("Vielen Dank für Ihre Teilnahme!");
+                        for (int h = 0; h < Feedback.size(); h++) {
+                            Text FeedbackText = new Text();
+                            FeedbackText.setText(Feedback.get(h));
+                            FeedbackText.setFont(new Font(18.0));
+                            FeedbackText.setStyle("-fx-padding: 10 0 0 10; -fx-background-radius: 10.0;");
+                            questionVbox.getChildren().add(FeedbackText);
+                        }
+
+                        try (CloseableHttpClient client1 = HttpClients.createDefault()) {
+
+                            String url1 = "http://localhost:8080/review/bearbeitetReview";
+                            HttpPost post1 = new HttpPost(url1);
+                            MultipartEntityBuilder entity1 = MultipartEntityBuilder.create();
+                            entity1.addTextBody("nutzerId", String.valueOf(((Student) nutzer).getNutzer().getId()));
+                            entity1.addTextBody("reviewId", String.valueOf(review.getId()) );
+
+                            HttpEntity requestEntity1 = entity1.build();
+                            post1.setEntity(requestEntity1);
+
+                            try (CloseableHttpResponse response1 = client1.execute(post1)) {
+                                HttpEntity responseEntity1 = response1.getEntity();
+                                String result1 = EntityUtils.toString(responseEntity1);
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        panel.getChildren().add(questionVbox);
+                    }
+                });
+            }
         } catch (JsonMappingException e) {
             e.printStackTrace();
         } catch (IOException e) {

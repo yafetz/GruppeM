@@ -51,6 +51,7 @@ public class QuizUebersichtController {
             } else if (nutzer instanceof Student) {
                 title.setText(((Lehrveranstaltung) lehrveranstaltung).getTitel());
                 createQuizButton.setVisible(false);
+                XMLQuizButton.setVisible(false);
             }
 
         }
