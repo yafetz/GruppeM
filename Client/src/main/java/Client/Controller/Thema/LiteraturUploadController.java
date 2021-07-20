@@ -49,6 +49,9 @@ public class LiteraturUploadController {
     }
 
     public void abbrechenPressedButton(ActionEvent actionEvent) {
+        layout.instanceLayout("LiteraturHinzufügen.fxml");
+        ((LiteraturHinzufügenController) layout.getController()).setLayout(layout);
+        ((LiteraturHinzufügenController) layout.getController()).setThema(thema);
     }
 
     public void hochladenPressedButton(ActionEvent actionEvent) {

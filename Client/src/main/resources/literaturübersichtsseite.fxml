@@ -7,12 +7,12 @@
 
 <AnchorPane prefHeight="583.0" prefWidth="759.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.Thema.LiteraturÜbersichtController">
    <children>
-      <Label fx:id="art" layoutX="54.0" layoutY="45.0" prefHeight="30.0" prefWidth="150.0" text="Art">
+      <Label fx:id="art" layoutX="58.0" layoutY="54.0" prefHeight="30.0" prefWidth="150.0" text="Art">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="title" layoutX="239.0" layoutY="41.0" prefHeight="39.0" prefWidth="485.0" text="Titel">
+      <Label fx:id="title" layoutX="237.0" layoutY="17.0" prefHeight="104.0" prefWidth="486.0" text="Titel" wrapText="true">
          <font>
             <Font size="27.0" />
          </font></Label>
@@ -42,34 +42,34 @@
             <Label fx:id="Urldate" text="Urldate" />
          </children>
       </VBox>
-      <VBox layoutX="279.0" layoutY="120.0" prefHeight="402.0" prefWidth="278.0">
+      <VBox layoutX="279.0" layoutY="120.0" prefHeight="402.0" prefWidth="357.0">
          <children>
-            <Label fx:id="author" prefHeight="18.0" prefWidth="276.0" text="author">
+            <Label fx:id="author" prefHeight="18.0" prefWidth="364.0" text="author" wrapText="true">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </Label>
-            <Label fx:id="year" prefHeight="18.0" prefWidth="278.0" text="year" />
-            <Label fx:id="pub" prefHeight="18.0" prefWidth="289.0" text="publisher" />
-            <Label fx:id="pages" prefHeight="18.0" prefWidth="281.0" text="pages" />
-            <Label fx:id="volume" prefHeight="18.0" prefWidth="276.0" text="volume" />
-            <Label fx:id="number" prefHeight="18.0" prefWidth="272.0" text="number" />
-            <Label fx:id="issn" prefHeight="18.0" prefWidth="278.0" text="issn" />
-            <Label fx:id="journal" prefHeight="18.0" prefWidth="278.0" text="journal" />
-            <Label fx:id="edition" prefHeight="18.0" prefWidth="282.0" text="edition" />
-            <Label fx:id="editor" prefHeight="18.0" prefWidth="285.0" text="editor" />
-            <Label fx:id="price" prefHeight="18.0" prefWidth="278.0" text="price" />
-            <Label fx:id="isbn" prefHeight="18.0" prefWidth="312.0" text="isbn" />
-            <Label fx:id="doi" prefHeight="18.0" prefWidth="287.0" text="doi" />
-            <Label fx:id="file" prefHeight="18.0" prefWidth="287.0" text="file" />
-            <Label fx:id="institution" prefHeight="18.0" prefWidth="288.0" text="institution" />
-            <Label fx:id="keywords" prefHeight="18.0" prefWidth="291.0" text="keywords" />
-            <Label fx:id="series" prefHeight="18.0" prefWidth="282.0" text="series" />
-            <Label fx:id="url" prefHeight="18.0" prefWidth="398.0" text="url" />
-            <Label fx:id="booktitle" prefHeight="18.0" prefWidth="324.0" text="booktitle" />
-            <Label fx:id="abstrakt" prefHeight="18.0" prefWidth="327.0" text="abstract" />
-            <Label fx:id="address" prefHeight="18.0" prefWidth="348.0" text="address" />
-            <Label fx:id="urldate" text="urldate" />
+            <Label fx:id="year" prefHeight="18.0" prefWidth="382.0" text="year" wrapText="true" />
+            <Label fx:id="pub" prefHeight="18.0" prefWidth="384.0" text="publisher" wrapText="true" />
+            <Label fx:id="pages" prefHeight="18.0" prefWidth="406.0" text="pages" wrapText="true" />
+            <Label fx:id="volume" prefHeight="18.0" prefWidth="380.0" text="volume" wrapText="true" />
+            <Label fx:id="number" prefHeight="18.0" prefWidth="379.0" text="number" wrapText="true" />
+            <Label fx:id="issn" prefHeight="18.0" prefWidth="278.0" text="issn" wrapText="true" />
+            <Label fx:id="journal" prefHeight="18.0" prefWidth="278.0" text="journal" wrapText="true" />
+            <Label fx:id="edition" prefHeight="18.0" prefWidth="282.0" text="edition" wrapText="true" />
+            <Label fx:id="editor" prefHeight="18.0" prefWidth="285.0" text="editor" wrapText="true" />
+            <Label fx:id="price" prefHeight="18.0" prefWidth="278.0" text="price" wrapText="true" />
+            <Label fx:id="isbn" prefHeight="18.0" prefWidth="312.0" text="isbn" wrapText="true" />
+            <Label fx:id="doi" prefHeight="18.0" prefWidth="287.0" text="doi" wrapText="true" />
+            <Label fx:id="file" prefHeight="18.0" prefWidth="368.0" text="file" wrapText="true" />
+            <Label fx:id="institution" prefHeight="18.0" prefWidth="365.0" text="institution" wrapText="true" />
+            <Label fx:id="keywords" prefHeight="18.0" prefWidth="396.0" text="keywords" wrapText="true" />
+            <Label fx:id="series" prefHeight="18.0" prefWidth="401.0" text="series" wrapText="true" />
+            <Label fx:id="url" prefHeight="18.0" prefWidth="398.0" text="url" wrapText="true" />
+            <Label fx:id="booktitle" prefHeight="18.0" prefWidth="373.0" text="booktitle" wrapText="true" />
+            <Label fx:id="abstrakt" prefHeight="34.0" prefWidth="360.0" text="abstract" wrapText="true" />
+            <Label fx:id="address" prefHeight="18.0" prefWidth="348.0" text="address" wrapText="true" />
+            <Label fx:id="urldate" prefHeight="18.0" prefWidth="407.0" text="urldate" wrapText="true" />
          </children>
       </VBox>
    </children>

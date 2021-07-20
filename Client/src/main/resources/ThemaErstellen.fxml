@@ -6,7 +6,7 @@
 
 <AnchorPane prefHeight="1000" prefWidth="1200" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.Thema.ThemaErstellenController">
    <children>
-      <Label layoutX="46.0" layoutY="45.0" prefHeight="90.0" prefWidth="739.0" text="NEUES THEMA HINZUFÜGEN">
+      <Label layoutX="46.0" layoutY="45.0" prefHeight="90.0" prefWidth="739.0" text="Neues Thema Hinzufügen">
          <font>
             <Font name="System Bold" size="50.0" />
          </font></Label>
@@ -21,14 +21,14 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <TextArea fx:id="beschreibung" layoutX="250.0" layoutY="340.0" prefHeight="200.0" prefWidth="476.0" promptText="Geben Sie eine Beschreibung des Themas an" />
-      <Label layoutX="46.0" layoutY="619.0" prefHeight="66.0" prefWidth="164.0" text="Lehrveranstaltung:" wrapText="true">
+      <TextArea fx:id="beschreibung" layoutX="250.0" layoutY="340.0" prefHeight="99.0" prefWidth="476.0" promptText="Geben Sie eine Beschreibung des Themas an" />
+      <Label layoutX="46.0" layoutY="483.0" prefHeight="66.0" prefWidth="164.0" text="Lehrveranstaltung:" wrapText="true">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <ComboBox fx:id="lehrveranstaltungen" layoutX="250.0" layoutY="627.0" prefHeight="50.0" prefWidth="476.0" promptText="Wählen Sie eine Lehrveranstaltung aus" />
-      <Button fx:id="neuesThema" onAction="#NeuesThema" layoutX="488.0" layoutY="725.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="238.0" text="Neues Thema hinzufügen">
+      <ComboBox fx:id="lehrveranstaltungen" layoutX="250.0" layoutY="491.0" prefHeight="50.0" prefWidth="476.0" promptText="Wählen Sie eine Lehrveranstaltung aus" />
+      <Button fx:id="neuesThema" layoutX="488.0" layoutY="589.0" mnemonicParsing="false" onAction="#NeuesThema" prefHeight="50.0" prefWidth="238.0" text="Neues Thema hinzufügen">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>

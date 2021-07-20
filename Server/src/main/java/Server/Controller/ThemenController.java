@@ -83,7 +83,7 @@ public class ThemenController {
                 String line = br.readLine();
                 if(line.replaceAll(" ","").startsWith("@")){
                     String type = line.split("\\{")[0].replace("@","");
-                    System.out.println(type);
+                    //System.out.println(type);
                     if(l != null){
                     literaturRepository.save(l);
                     }
@@ -95,76 +95,76 @@ public class ThemenController {
                 if(l != null){
 
                     if(line.replaceAll(" ","").toLowerCase(Locale.ROOT).startsWith("author=")){
-                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}","");
+                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}\\,","");
                         l.setAuthor(value);
                     }else if(line.replaceAll(" ","").toLowerCase(Locale.ROOT).startsWith("year=")){
-                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}","");
+                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}\\,","");
                         l.setYear(value);
                     }else if(line.replaceAll(" ","").toLowerCase(Locale.ROOT).startsWith("title=")){
-                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}","");
+                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}\\,","");
                         l.setTitle(value);
                     }else if(line.replaceAll(" ","").toLowerCase(Locale.ROOT).startsWith("publisher=")){
-                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}","");
+                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}\\,","");
                         l.setPublisher(value);
                     }else if(line.replaceAll(" ","").toLowerCase(Locale.ROOT).startsWith("pages=")){
-                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}","");
+                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}\\,","");
                         l.setPages(value);
                     }else if(line.replaceAll(" ","").toLowerCase(Locale.ROOT).startsWith("volume=")){
-                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}","");
+                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}\\,","");
                         l.setVolume(value);
                     }else if(line.replaceAll(" ","").toLowerCase(Locale.ROOT).startsWith("number=")){
-                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}","");
+                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}\\,","");
                         l.setNumber(value);
                     }else if(line.replaceAll(" ","").toLowerCase(Locale.ROOT).startsWith("booktitle=")){
-                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}","");
+                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}\\,","");
                         l.setBooktitle(value);
                     }else if(line.replaceAll(" ","").toLowerCase(Locale.ROOT).startsWith("issn=")){
-                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}","");
+                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}\\,","");
                         l.setIssn(value);
                     }else if(line.replaceAll(" ","").toLowerCase(Locale.ROOT).startsWith("journal=")){
-                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}","");
+                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}\\,","");
                         l.setJournal(value);
                     }else if(line.replaceAll(" ","").toLowerCase(Locale.ROOT).startsWith("doi=")){
-                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}","");
+                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}\\,","");
                         l.setDoi(value);
                     }else if(line.replaceAll(" ","").toLowerCase(Locale.ROOT).startsWith("keywords=")){
-                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}","");
+                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}\\,","");
                         l.setKeywords(value);
                     }else if(line.replaceAll(" ","").toLowerCase(Locale.ROOT).startsWith("address=")){
-                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}","");
+                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}\\,","");
                         l.setAdress(value);
                     }else if(line.replaceAll(" ","").toLowerCase(Locale.ROOT).startsWith("series=")){
-                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}","");
+                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}\\,","");
                         l.setSeries(value);
                     }else if(line.replaceAll(" ","").toLowerCase(Locale.ROOT).startsWith("urldate=")){
-                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}","");
+                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}\\,","");
                         l.setUrldate(value);
                     }else if(line.replaceAll(" ","").toLowerCase(Locale.ROOT).startsWith("file=")){
-                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}","");
+                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}\\,","");
                         l.setFile(value);
                     }else if(line.replaceAll(" ","").toLowerCase(Locale.ROOT).startsWith("price=")){
-                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}","");
+                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}\\,","");
                         l.setPrice(value);
                     }else if(line.replaceAll(" ","").toLowerCase(Locale.ROOT).startsWith("isbn=")){
-                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}","");
+                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}\\,","");
                         l.setIsbn(value);
                     }else if(line.replaceAll(" ","").toLowerCase(Locale.ROOT).startsWith("editor=")){
-                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}","");
+                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}\\,","");
                         l.setEditor(value);
                     }else if(line.replaceAll(" ","").toLowerCase(Locale.ROOT).startsWith("institution=")){
-                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}","");
+                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}\\,","");
                         l.setInstitution(value);
                     }else if(line.replaceAll(" ","").toLowerCase(Locale.ROOT).startsWith("url=")){
-                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}","");
+                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}\\,","");
                         l.setUrl(value);
                     }else if(line.replaceAll(" ","").toLowerCase(Locale.ROOT).startsWith("abstract=")){
-                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}","");
+                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}\\,","");
                         l.setAbstract(value);
                     }else if(line.replaceAll(" ","").toLowerCase(Locale.ROOT).startsWith("date=")){
-                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}","");
+                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}\\,","");
                         l.setYear(value);
                     }else if(line.replaceAll(" ","").toLowerCase(Locale.ROOT).startsWith("edition=")){
-                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}","");
+                        String value = line.split("\\{")[1].replaceAll("\\{","").replaceAll("\\}\\,","");
                         l.setEdition(value);
                     }
                 }
