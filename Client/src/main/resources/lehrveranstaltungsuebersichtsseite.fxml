@@ -22,6 +22,7 @@
             <Button fx:id="studentenliste" mnemonicParsing="false" onAction="#Studenliste" prefWidth="140.0" text="Studentenliste" />
               <Button fx:id="materialUpload" mnemonicParsing="false" onAction="#materialUploadPressedButton" prefWidth="140.0" text="Materialien hochladen" />
             <Button fx:id="bearbeiten" mnemonicParsing="false" onAction="#bearbeitenPressedButton" prefHeight="26.0" prefWidth="179.0" text="Lehrveranstaltung bearbeiten" />
+            <Button fx:id="reviewErstellenBtn" mnemonicParsing="false" onAction="#createReview" text="Bewertung erstellen" />
          </children>
       </HBox>
       <HBox fx:id="hboxStudent" layoutX="63.0" layoutY="105.0" prefHeight="25.0" prefWidth="612.0">
