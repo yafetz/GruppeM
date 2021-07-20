@@ -20,8 +20,6 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <DatePicker fx:id="date" layoutX="749.0" layoutY="568.0" />
-      <TextField fx:id="Stunde" layoutX="749.0" layoutY="601.0" text="Stunde" />
-      <TextField fx:id="Minute" layoutX="749.0" layoutY="635.0" text="Minute" />
+      <Button fx:id="setting" layoutX="813.0" layoutY="628.0" mnemonicParsing="false" onAction="#settingPressedButton" text="Einstellung" />
    </children>
 </AnchorPane>

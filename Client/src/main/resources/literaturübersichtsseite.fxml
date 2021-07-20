@@ -44,7 +44,7 @@
       </VBox>
       <VBox layoutX="279.0" layoutY="120.0" prefHeight="402.0" prefWidth="278.0">
          <children>
-            <Label fx:id="author" prefHeight="18.0" prefWidth="122.0" text="author">
+            <Label fx:id="author" prefHeight="18.0" prefWidth="276.0" text="author">
                <VBox.margin>
                   <Insets />
                </VBox.margin>

@@ -1,6 +1,7 @@
 package Client.Controller.Auth;
 
 import Client.Controller.HomescreenController;
+import Client.Controller.SettingController;
 import Client.Layouts.Layout;
 import Client.Modell.*;
 import javafx.event.ActionEvent;
@@ -32,12 +33,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 public class LoginController {
-    @FXML
-    private TextField Stunde;
-    @FXML
-    private TextField Minute;
-    @FXML
-    private DatePicker date;
+
     @FXML
     private TextField matrikelnummer ;
     @FXML
@@ -46,6 +42,8 @@ public class LoginController {
     private Button login;
     @FXML
     private Button register;
+    @FXML
+    private Button setting;
 
     private Layout layout;
     //If 0 then deactivate 2 Faktor, if 1 activate
@@ -96,7 +94,6 @@ public class LoginController {
                         Student student = new Student();
 
                         student.addDataFromJson(jsonObject);
-                        setTimeAndDate();
                         //Change View
                         layout.setNutzer(student);
                         if(auth == 1) {
@@ -112,7 +109,6 @@ public class LoginController {
                     } else if (jsonObject.has("lehrstuhl")) {
                         Lehrender lehrender = new Lehrender();
                         lehrender.addDataFromJson(jsonObject);
-                        setTimeAndDate();
                         //Change View
                         layout.setNutzer(lehrender);
                         if(auth == 1) {
@@ -138,83 +134,7 @@ public class LoginController {
 
 
 
-        public void setTimeAndDate() {
-        String datum = "";
-        String monat = "";
-        if (date.getValue() == null) {
-
-            String jahr = String.valueOf(LocalDateTime.now().getYear());
-
-            if (LocalDateTime.now().getMonthValue()>= 0 &&LocalDateTime.now().getMonthValue() <= 9) {
-                monat = "0"+String.valueOf(LocalDateTime.now().getMonthValue());
-            }
-            else {
-                monat = String.valueOf(LocalDateTime.now().getMonthValue());
-            }
-            String tag = String.valueOf(LocalDateTime.now().getDayOfMonth());
-            datum = jahr + "-" + monat + "-" + tag;
-        }
-        else {
-            datum = date.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        }
-
-        String hour= "";
-        String minute= " ";
-
-
-        //Stunde der Uhrzeit richtig formatieren
-        if(Stunde.getText().equals("Stunde")) {
-            if (LocalDateTime.now().getHour()>=0 && LocalDateTime.now().getHour() <= 9) {
-                hour = "0"+ String.valueOf(LocalDateTime.now().getHour());
-            }
-            else {
-                hour = String.valueOf(LocalDateTime.now().getHour());
-            }
-        }
-        else {
-            if (Integer.valueOf(Stunde.getText()) >= 0 && Integer.valueOf(Stunde.getText()) <= 24) {
-                if (Integer.valueOf(Stunde.getText())>=0 && Integer.valueOf(Stunde.getText())<= 9) {
-                    hour = "0" +Stunde.getText();
-                }
-                else {
-                    hour = Stunde.getText();
-                }
-            } else {
-                //Alert
-            }
-        }
-
-//Minute der Uhrzeit richtig formatieren
-        if(Minute.getText().equals("Minute")) {
-            if (LocalDateTime.now().getMinute()>= 0 && LocalDateTime.now().getMinute()<= 9) {
-                minute ="0"+ String.valueOf(LocalDateTime.now().getMinute());
-            }
-            else {
-                minute = String.valueOf(LocalDateTime.now().getMinute());
-            }
-        }
-        else {
-            if (Integer.valueOf(Minute.getText()) >= 0 && Integer.valueOf(Minute.getText()) <= 59) {
-                if (Integer.valueOf(Minute.getText()) >= 0 && Integer.valueOf(Minute.getText())<= 9) {
-                    minute = "0"+ Minute.getText();
-                }
-                else {
-                    minute = Minute.getText();
-                }
-            } else {
-                //Alert
-            }
-        }
-
-
-
-        String datumunduhrzeit = datum + "T" + hour + ":" + minute + ":00Z" ; //"2021-12-22T10:15:30Z";
-        Clock clock = Clock.fixed(Instant.parse(datumunduhrzeit), ZoneId.of("UTC"));
-        LocalDateTime aktuell = LocalDateTime.now(clock);
-        System.out.println(aktuell);
-
-
-
+        public void setTimeAndDate(LocalDateTime aktuell) {
         try (CloseableHttpClient client = HttpClients.createDefault()) {
         String url = "http://localhost:8080/login/uploadDateAndTime";
         HttpPost post = new HttpPost(url);
@@ -237,4 +157,9 @@ public class LoginController {
 
     }
 
+    public void settingPressedButton(ActionEvent actionEvent) {
+        actionEvent.consume();
+        layout.instanceAuth("settings.fxml");
+        ((SettingController) layout.getController()).setLayout(layout);
+    }
 }

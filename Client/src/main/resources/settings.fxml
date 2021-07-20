@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="504.0" prefWidth="672.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.Controller.SettingController">
+   <children>
+      <Button fx:id="back" layoutX="534.0" layoutY="412.0" mnemonicParsing="false" onAction="#backPressedButton" text="Zurück" />
+      <TextField fx:id="Stunde" layoutX="200.0" layoutY="272.0" text="Stunde" />
+      <TextField fx:id="Minute" layoutX="200.0" layoutY="321.0" text="Minute" />
+      <DatePicker fx:id="date" layoutX="200.0" layoutY="226.0" />
+      <Button fx:id="einstellen" layoutX="200.0" layoutY="412.0" mnemonicParsing="false" onAction="#einstellenPressedButton" text="Einstellen" />
+      <Label fx:id="einstellung" layoutX="183.0" layoutY="73.0" text="Einstellung">
+         <font>
+            <Font size="43.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
