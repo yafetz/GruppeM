@@ -192,7 +192,7 @@ public class LernkartenController {
     }
 
     public void ActionCreate() {
-        layout.instanceLayout("LernkarteErstellen.fxml");
+        layout.instanceLayout("lernkarteErstellen.fxml");
         ((LernKartenErstellenController) layout.getController()).setLayout(layout);
         ((LernKartenErstellenController) layout.getController()).setProjektgruppe(projektgruppe);
         ((LernKartenErstellenController) layout.getController()).setNutzer(nutzer);
