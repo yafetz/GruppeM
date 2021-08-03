@@ -5,8 +5,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-// projektsep@gmail.com
-// Passwort: sep123456789
 
 @Service
 public class AuthenticationService {
