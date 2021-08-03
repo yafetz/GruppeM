@@ -1,3 +1,5 @@
+Detaillierte Anleitung folgt demnächst
+
 Für das lokale Testen:
 
 1. Laden Sie bitte Xampp herunter und installieren Sie es
